@@ -5,6 +5,6 @@ Johannes Breuer ([johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), 
 Thomas Ebel ([thomas.ebel@gesis.org](mailto:thomas.ebel@gesis.org))
 
 [![](https://licensebuttons.net/l/by/3.0/80x15.png)](https://creativecommons.org/licenses/by/4.0/) 
-Please link to the [workshop GitHub repository](https://github.com/crsh/psych-transparency-guide_workshop/)
+Please link to the [workshop GitHub repository](https://github.com/jobreu/tidyverse-workshop-gesis-2019/)
 
 ---
