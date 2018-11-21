@@ -1,0 +1,37 @@
+.title-slide .remark-slide-number {
+  display: none;
+}
+
+div.my-header {
+    background-color: #F77A00;
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffb76b), color-stop(0%,#ffa73d), color-stop(0%,#ffffff), color-stop(10%,#ffffff), color-stop(25%,#F77A00), color-stop(100%,#F77A00));
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 30px;
+    width: 100%;
+    text-align: left;
+}
+
+div.my-footer {
+    background-color: #272822;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+
+div.my-footer span {
+    font-size: 9pt;
+    color: #F7F8FA;
+    position: relative;
+    padding-left: 12px;
+    padding-right: 12px;
+    bottom: 3px;
+}
+
+.remark-slide-number {
+  display: none;
+}
