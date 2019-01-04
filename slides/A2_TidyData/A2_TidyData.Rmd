@@ -1,0 +1,307 @@
+---
+title: "Tidy Data"
+subtitle: "(according to Hadley Wickham/RStudio)"
+author: "Johannes Breuer<br />Thomas Ebel"
+date: "2018-05-15"
+location: "GESIS, Mannheim, Germany"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    nature:
+      highlightStyle: "github"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+layout: true
+
+```{r setup, include=FALSE}
+library("knitr")
+library("rmarkdown")
+
+options(htmltools.dir.version = FALSE)
+
+opts_chunk$set(echo = FALSE, fig.align = "center")
+```
+
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+</div>
+---
+```{r, include=FALSE, warning=FALSE, error=FALSE}
+library(tidyverse)
+# devtools::install_github("DavZim/colorTable")
+library(colorTable)
+# define some colors for later
+red   <- "#fc9272"
+green <- "#a6d96a"
+blue  <- "#74add1"
+```
+class: center, middle
+
+# What is tidy data?
+## How do we expect data sets to look like?
+
+---
+.smaller[
+Data can always be represented in various ways.
+]
+**But** some ways are more common and easy to understand than others.
+
+--
+
+Data analysis often requires to first clean up the data.
+
+Because
+- the data set doesn't fit our (or the methods's/tool's) expectation about structure.
+
+--
+
+- clean data with standardized structure enable others to replicate/re-run our scripts.
+
+--
+
+- If every data set is organized the same way it's much easier for you (and others) to use them.
+
+--
+
+- R-specific: R works with vectors. Highly advantagous to use vectors (i.e. 1 column = 1 variable).
+---
+class: center
+
+Let's experiment: four different ways of displaying/plotting the same data.
+Which one(s) make(s) sense?
+
+Data is country-level data on population and sampled cases.
+---
+
+class: center
+
+# 1. example
+```{r, echo=FALSE, warning=FALSE, error=FALSE, results='markup'}
+# knitr::kable(table2, format = 'html')
+color_table(head(table2, n = 8), body_bg = green, header_bg = blue)
+
+#   country    |  year| type      |      count
+#--------------|------|-----------|-----------
+# Afghanistan|  1999| cases     |        745
+# Afghanistan|  1999| population|   19987071
+# Afghanistan|  2000| cases     |       2666
+# Afghanistan|  2000| population|   20595360
+# Brazil     |  1999| cases     |      37737
+# Brazil     |  1999| population|  172006362
+# Brazil     |  2000| cases     |      80488
+# Brazil     |  2000| population|  174504898
+# China      |  1999| cases     |     212258
+# China      |  1999| population| 1272915272
+# China      |  2000| cases     |     213766
+# China      |  2000| population| 1280428583
+```
+
+What's the problem here?
+
+---
+
+```{r}
+color_mat <- matrix(c(
+  blue, blue, blue, blue,
+  green, green, green, "yellow",
+  green, green, green, green,
+  green, green, green, green ),
+  ncol = 4, byrow = TRUE)
+color_table(head(table2, n = 3), body_bg = color_mat)
+
+#    country    |  year| type      |      count
+# --------------|------|-----------|-----------
+#  Afghanistan|  1999| cases     |   <span style="background-color: yellow;">745</span>
+#  Afghanistan|  1999| population|   19987071
+#  Brazil     |  1999| population|  172006362
+```
+
+--
+
+.column-left-half[
+Problems
+1. Interpretation of cells depends on other cells.
+1. Hard to vectorize.
+1. 1 column for 2 variables.
+]
+
+.column-right-half[
+Details
+1. The interpretation of 745 depends on the value of "type".
+1. R uses vectors internally. Most functions expect a column to represent one cohesive selection of values (e.g. a variable or an observation). Both, "type" and "count" are not.
+1. "type" switches the meaning of "count". This is highly unintuitive and not what (most) scientists would expect.
+]
+
+--
+.bottom[
+Solution?
+
+1 column per Variable: column name = variable name, cell = value
+]
+---
+
+class: center, middle
+
+# 2. example
+
+
+```{r}
+color_table(table3, body_bg = green, header_bg = blue)
+```
+
+<br>
+
+
+---
+
+
+```{r}
+color_mat <- matrix(c(
+  blue, blue, blue,
+  green, green, "yellow",
+  green, green, green,
+  green, green, green ),
+  ncol = 3, byrow = TRUE)
+color_table(head(table3, n = 3), body_bg = color_mat)
+```
+
+--
+
+.column-left-half[
+Problems
+1. Cells contain several values.
+1. Cells are strings but contain numbers.
+]
+
+.column-right-half[
+Details
+1. It's hard to separate the values in a cell.
+1. String variables are not intended for numeric operations.
+]
+
+--
+
+.bottom[Solution?
+
+1 value per cell!
+<br>
+<br>
+<b>Either</b> keep variables "case" and "population" separate and "rate" only contains the numeric result <br><b>or</b> keep only the numeric result in "rate" (discard the information of "case" and "population").
+]
+
+---
+
+A small survey.<br>
+Do you know an immediate solution to actually calculating the rate variable (with base R)? <br>Without googling?<br>
+E.g. .highlight["745/19987071"]?
+
+<br>
+
+--
+
+<br>
+Would it look something like the following?
+<br>
+
+.smaller[
+```{r, echo=TRUE, results='markup'}
+rate <- c("745/19987071", "2666/20695360")
+as.numeric(gsub(rate, pattern = "([0-9]+)/[0-9]+",
+                replacement = "\\1")) /
+as.numeric(gsub(rate, pattern = "[0-9]+/([0-9]+)",
+                replacement = "\\1"))
+```
+]
+
+By the way - don't worry, you'll learn much nicer ways to handle string/regular expression operations during this course (stringr)!
+
+---
+
+There are three interrelated rules which make a dataset tidy:
+
+- Each variable must have its own column.
+- Each observation must have its own row.
+- Each value must have its own cell.
+
+<img src="../pictures/tidy_data.png" width="100%">
+Source: https://r4ds.had.co.nz/tidy-data.html
+---
+
+Filler Filler Filler
+
+table4a
+table4b
+
+spread
+gather
+
+remember remember the fifth of November. but also this: highlight.output=c(1, 3)
+and this
+```r
+* This is highlighted but not executed because asterisks.
+```
+
+```{r}
+{{4 * 12}}
+
+```
+
+---
+
+```{r, echo=FALSE, warning=FALSE, error=FALSE}
+
+
+table1 %>%
+  mutate(rate = cases / population * 10000)
+
+table1 %>%
+  count(year, wt = cases)
+
+library(ggplot2)
+ggplot(table1, aes(year, cases)) +
+  geom_line(aes(group = country), colour = "grey50") +
+  geom_point(aes(colour = country))
+
+table4a %>% gather(`1999`, `2000`, key = "year", value = "cases")
+
+table4b
+table4b %>%
+  gather(`1999`, `2000`, key = "year", value = "population")
+
+
+tidy4a <- table4a %>%
+  gather(`1999`, `2000`, key = "year", value = "cases")
+tidy4b <- table4b %>%
+  gather(`1999`, `2000`, key = "year", value = "population")
+left_join(tidy4a, tidy4b)
+
+table2
+table2 %>%
+  spread(key = type, value = count)
+
+table3
+table3 %>%
+  separate(rate, into = c("cases", "population"))
+table3 %>%
+  separate(rate, into = c("cases", "population"), sep = "/", convert = TRUE)
+
+table5
+table5 %>%
+  unite(new, century, year, sep = "")
+
+```
+
+
+---
+
+class: center, middle
+
+# Thanks!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tidy Data</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Johannes Breuer Thomas Ebel" />
+    <meta name="date" content="2018-05-15" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Tidy Data
+## (according to Hadley Wickham/RStudio)
+### Johannes Breuer<br />Thomas Ebel
+### 2018-05-15
+
+---
+
+layout: true
+
+
+
+&lt;div class="my-footer"&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-15&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="text-align: center;"&gt;&lt;span&gt;Tidy Data&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+---
+
+class: center, middle
+
+# What is tidy data?
+## How do we expect data sets to look like?
+
+---
+.smaller[
+Data can always be represented in various ways.
+]
+**But** some ways are more common and easy to understand than others.
+
+--
+
+Data analysis often requires to first clean up the data.
+
+Because
+- the data set doesn't fit our (or the methods's/tool's) expectation about structure.
+
+--
+
+- clean data with standardized structure enable others to replicate/re-run our scripts.
+
+--
+
+- If every data set is organized the same way it's much easier for you (and others) to use them.
+
+--
+
+- R-specific: R works with vectors. Highly advantagous to use vectors (i.e. 1 column = 1 variable).
+---
+class: center
+
+Let's experiment: four different ways of displaying/plotting the same data.
+Which one(s) make(s) sense?
+
+Data is country-level data on population and sampled cases.
+---
+
+class: center
+
+# 1. example
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; year &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; type &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; count &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 19987071 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2666 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 20595360 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Brazil &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 37737 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Brazil &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 172006362 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Brazil &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 80488 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Brazil &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 174504898 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+What's the problem here?
+
+---
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; year &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; type &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; count &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 19987071 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2666 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+.column-left-half[
+Problems
+1. Interpretation of cells depends on other cells.
+1. Hard to vectorize.
+1. 1 column for 2 variables.
+]
+
+.column-right-half[
+Details
+1. The interpretation of 745 depends on the value of "type".
+1. R uses vectors internally. Most functions expect a column to represent one cohesive selection of values (e.g. a variable or an observation). Both, "type" and "count" are not.
+1. "type" switches the meaning of "count". This is highly unintuitive and not what (most) scientists would expect.
+]
+
+--
+.bottom[
+Solution?
+
+1 column per Variable: column name = variable name, cell = value
+]
+---
+
+class: center, middle
+
+# 2. example
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; year &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; rate &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 745/19987071 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2666/20595360 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Brazil &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 37737/172006362 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Brazil &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 80488/174504898 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; China &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 212258/1272915272 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; China &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 213766/1280428583 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;br&gt;
+
+
+---
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; year &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; rate &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745/19987071 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2666/20595360 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Brazil &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 37737/172006362 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+.column-left-half[
+Problems
+1. Cells contain several values.
+1. Cells are strings but contain numbers.
+]
+
+.column-right-half[
+Details
+1. It's hard to separate the values in a cell.
+1. String variables are not intended for numeric operations.
+]
+
+--
+
+.bottom[Solution?
+
+1 value per cell!
+&lt;br&gt;
+&lt;br&gt;
+&lt;b&gt;Either&lt;/b&gt; keep variables "case" and "population" separate and "rate" only contains the numeric result &lt;br&gt;&lt;b&gt;or&lt;/b&gt; keep only the numeric result in "rate" (discard the information of "case" and "population").
+]
+
+---
+
+A small survey.&lt;br&gt;
+Do you know an immediate solution to actually calculating the rate variable (with base R)? &lt;br&gt;Without googling?&lt;br&gt;
+E.g. .highlight["745/19987071"]?
+
+&lt;br&gt;
+
+--
+
+&lt;br&gt;
+Would it look something like the following?
+&lt;br&gt;
+
+.smaller[
+
+```r
+rate &lt;- c("745/19987071", "2666/20695360")
+as.numeric(gsub(rate, pattern = "([0-9]+)/[0-9]+",
+                replacement = "\\1")) /
+as.numeric(gsub(rate, pattern = "[0-9]+/([0-9]+)",
+                replacement = "\\1"))
+```
+
+```
+## [1] 0.0000372741 0.0001288211
+```
+]
+
+By the way - don't worry, you'll learn much nicer ways to handle string/regular expression operations during this course (stringr)!
+
+---
+
+There are three interrelated rules which make a dataset tidy:
+
+- Each variable must have its own column.
+- Each observation must have its own row.
+- Each value must have its own cell.
+
+&lt;img src="../pictures/tidy_data.png" width="100%"&gt;
+Source: https://r4ds.had.co.nz/tidy-data.html
+---
+
+Filler Filler Filler
+
+table4a
+table4b
+
+spread
+gather
+
+remember remember the fifth of November. but also this: highlight.output=c(1, 3)
+and this
+```r
+* This is highlighted but not executed because asterisks.
+```
+
+
+```
+## [1] 48
+```
+
+---
+
+
+```
+## # A tibble: 6 x 5
+##   country      year  cases population  rate
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt; &lt;dbl&gt;
+## 1 Afghanistan  1999    745   19987071 0.373
+## 2 Afghanistan  2000   2666   20595360 1.29 
+## 3 Brazil       1999  37737  172006362 2.19 
+## 4 Brazil       2000  80488  174504898 4.61 
+## 5 China        1999 212258 1272915272 1.67 
+## 6 China        2000 213766 1280428583 1.67
+```
+
+```
+## # A tibble: 2 x 2
+##    year      n
+##   &lt;int&gt;  &lt;int&gt;
+## 1  1999 250740
+## 2  2000 296920
+```
+
+&lt;img src="A2_TidyData_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+```
+## # A tibble: 6 x 3
+##   country     year   cases
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
+## 1 Afghanistan 1999     745
+## 2 Brazil      1999   37737
+## 3 China       1999  212258
+## 4 Afghanistan 2000    2666
+## 5 Brazil      2000   80488
+## 6 China       2000  213766
+```
+
+```
+## # A tibble: 3 x 3
+##   country         `1999`     `2000`
+## * &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan   19987071   20595360
+## 2 Brazil       172006362  174504898
+## 3 China       1272915272 1280428583
+```
+
+```
+## # A tibble: 6 x 3
+##   country     year  population
+##   &lt;chr&gt;       &lt;chr&gt;      &lt;int&gt;
+## 1 Afghanistan 1999    19987071
+## 2 Brazil      1999   172006362
+## 3 China       1999  1272915272
+## 4 Afghanistan 2000    20595360
+## 5 Brazil      2000   174504898
+## 6 China       2000  1280428583
+```
+
+```
+## Joining, by = c("country", "year")
+```
+
+```
+## # A tibble: 6 x 4
+##   country     year   cases population
+##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan 1999     745   19987071
+## 2 Brazil      1999   37737  172006362
+## 3 China       1999  212258 1272915272
+## 4 Afghanistan 2000    2666   20595360
+## 5 Brazil      2000   80488  174504898
+## 6 China       2000  213766 1280428583
+```
+
+```
+## # A tibble: 12 x 4
+##    country      year type            count
+##    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;           &lt;int&gt;
+##  1 Afghanistan  1999 cases             745
+##  2 Afghanistan  1999 population   19987071
+##  3 Afghanistan  2000 cases            2666
+##  4 Afghanistan  2000 population   20595360
+##  5 Brazil       1999 cases           37737
+##  6 Brazil       1999 population  172006362
+##  7 Brazil       2000 cases           80488
+##  8 Brazil       2000 population  174504898
+##  9 China        1999 cases          212258
+## 10 China        1999 population 1272915272
+## 11 China        2000 cases          213766
+## 12 China        2000 population 1280428583
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+```
+## # A tibble: 6 x 3
+##   country      year rate             
+## * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
+## 1 Afghanistan  1999 745/19987071     
+## 2 Afghanistan  2000 2666/20595360    
+## 3 Brazil       1999 37737/172006362  
+## 4 Brazil       2000 80488/174504898  
+## 5 China        1999 212258/1272915272
+## 6 China        2000 213766/1280428583
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year cases  population
+## * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
+## 1 Afghanistan  1999 745    19987071  
+## 2 Afghanistan  2000 2666   20595360  
+## 3 Brazil       1999 37737  172006362 
+## 4 Brazil       2000 80488  174504898 
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year  cases population
+## * &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Afghanistan  2000   2666   20595360
+## 3 Brazil       1999  37737  172006362
+## 4 Brazil       2000  80488  174504898
+## 5 China        1999 212258 1272915272
+## 6 China        2000 213766 1280428583
+```
+
+```
+## # A tibble: 6 x 4
+##   country     century year  rate             
+## * &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            
+## 1 Afghanistan 19      99    745/19987071     
+## 2 Afghanistan 20      00    2666/20595360    
+## 3 Brazil      19      99    37737/172006362  
+## 4 Brazil      20      00    80488/174504898  
+## 5 China       19      99    212258/1272915272
+## 6 China       20      00    213766/1280428583
+```
+
+```
+## # A tibble: 6 x 3
+##   country     new   rate             
+##   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;            
+## 1 Afghanistan 1999  745/19987071     
+## 2 Afghanistan 2000  2666/20595360    
+## 3 Brazil      1999  37737/172006362  
+## 4 Brazil      2000  80488/174504898  
+## 5 China       1999  212258/1272915272
+## 6 China       2000  213766/1280428583
+```
+
+
+---
+
+class: center, middle
+
+# Thanks!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
