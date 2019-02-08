@@ -570,6 +570,7 @@ Before
 ---
 
 
+&lt;h2&gt;Separating intermingled values&lt;/h2&gt;
 Remember 745/19987071?  
 
 
@@ -605,10 +606,7 @@ table3 %&gt;%
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-
-
 The tidyverse verb 'separate' allows us to separate intermingled values easily. 
-
 
 .bottom[
 Before:
@@ -625,6 +623,121 @@ Before:
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745/19987071 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+
+But how does separte() know how to split 745/19987071?  
+
+By default, separate will split on any non-alphanumeric character, i.e. everything that's not a digit or a letter.
+
+--
+
+But you can also specific the splitting character yourself with the argument 'sep':  
+
+
+```r
+tibble(mingled = "80/100#1,6_3") %&gt;%
+  separate(mingled, into = c("value_1", "value_2"), sep = "#") %&gt;%
+  color_table()
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; value_1 &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; value_2 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 80/100 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1,6_3 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+--
+
+
+
+```r
+tibble(mingled = "80/100#1,6_3") %&gt;%
+  separate(mingled, into = c("value_1", "value_2")) %&gt;%
+  color_table()
+```
+
+```
+## Warning: Expected 2 pieces. Additional pieces discarded in 1 rows [1].
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; value_1 &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; value_2 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 80 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 100 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+
+&lt;h2&gt;'Uniting' values&lt;/h2&gt;
+
+Uniting values that got separated into multiple columns.  
+
+
+```r
+table5 %&gt;%
+  select(country, century, year) %&gt;%
+  head(n = 1) %&gt;%
+* unite(yyyy, century, year, sep = "") %&gt;%
+  color_table()
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; yyyy &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+The tidyverse verb unite let's us concatenate values that were spread over multiple columns.By default, without specifying 'sep', values are separated by an underscore, '_'.  
+
+.bottom[
+Before:
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; century &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; year &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 19 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 99 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -671,7 +784,7 @@ and this
 ## 2  2000 296920
 ```
 
-&lt;img src="A2_TidyData_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="A2_TidyData_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
 
 ```
 ## # A tibble: 6 x 3

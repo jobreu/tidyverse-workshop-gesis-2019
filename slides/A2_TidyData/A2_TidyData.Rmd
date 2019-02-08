@@ -357,6 +357,7 @@ color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 ---
 
 
+<h2>Separating intermingled values</h2>
 Remember 745/19987071?  
 
 ```{r echo=TRUE}
@@ -368,10 +369,7 @@ table3 %>%
 
 ```
 
-
-
 The tidyverse verb 'separate' allows us to separate intermingled values easily. 
-
 
 .bottom[
 Before:
@@ -381,6 +379,63 @@ color_mat <- matrix(c(
   ncol = 3, byrow = TRUE)
 
 table3 %>%
+  head(n = 1) %>%
+  color_table(body_bg = color_mat)
+```
+]
+
+---
+
+
+But how does separte() know how to split 745/19987071?  
+
+By default, separate will split on any non-alphanumeric character, i.e. everything that's not a digit or a letter.
+
+--
+
+But you can also specific the splitting character yourself with the argument 'sep':  
+
+```{r echo=TRUE}
+tibble(mingled = "80/100#1,6_3") %>%
+  separate(mingled, into = c("value_1", "value_2"), sep = "#") %>%
+  color_table()
+```
+
+--
+
+
+```{r echo=TRUE}
+tibble(mingled = "80/100#1,6_3") %>%
+  separate(mingled, into = c("value_1", "value_2")) %>%
+  color_table()
+```
+
+---
+
+
+<h2>'Uniting' values</h2>
+
+Uniting values that got separated into multiple columns.  
+
+```{r echo=TRUE}
+table5 %>%
+  select(country, century, year) %>%
+  head(n = 1) %>%
+  unite(yyyy, century, year, sep = "") %>% #<<
+  color_table()
+```
+
+The tidyverse verb unite let's us concatenate values that were spread over multiple columns.By default, without specifying 'sep', values are separated by an underscore, '_'.  
+
+.bottom[
+Before:
+```{r echo=FALSE}
+color_mat <- matrix(c(
+  green, "yellow", "yellow"),
+  ncol = 3, byrow = TRUE)
+
+table5 %>%
+  select(country, century, year) %>%
   head(n = 1) %>%
   color_table(body_bg = color_mat)
 ```
