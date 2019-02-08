@@ -353,6 +353,39 @@ color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 ```
 ]
 
+
+---
+
+
+Remember 745/19987071?  
+
+```{r echo=TRUE}
+
+table3 %>%
+  head(n = 2) %>%
+  separate(rate, into = c("cases", "population")) %>% #<<
+  color_table()
+
+```
+
+
+
+The tidyverse verb 'separate' allows us to separate intermingled values easily. 
+
+
+.bottom[
+Before:
+```{r echo=FALSE}
+color_mat <- matrix(c(
+  green, green, "yellow"),
+  ncol = 3, byrow = TRUE)
+
+table3 %>%
+  head(n = 1) %>%
+  color_table(body_bg = color_mat)
+```
+]
+
 ---
 table4a
 table4b

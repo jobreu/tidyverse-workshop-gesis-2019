@@ -335,7 +335,7 @@ Let's instead provide numeric variables as numbers - not strings!
 
 .bottom[
 By the way - don't worry - you'll learn much nicer ways to handle this situtation during this course either through 
-* a new tidyverse verb (unite) or - more generally - 
+* a new tidyverse verb (separate) or - more generally - 
 * string and regular expression operations (package stringr)!
 ]
 ---
@@ -566,6 +566,70 @@ Before
 &lt;/table&gt;
 ]
 
+
+---
+
+
+Remember 745/19987071?  
+
+
+```r
+table3 %&gt;%
+  head(n = 2) %&gt;%
+* separate(rate, into = c("cases", "population")) %&gt;%
+  color_table()
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; year &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; cases &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; population &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 19987071 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 2666 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 20595360 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+
+The tidyverse verb 'separate' allows us to separate intermingled values easily. 
+
+
+.bottom[
+Before:
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; year &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; rate &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745/19987071 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
 ---
 table4a
 table4b
@@ -607,7 +671,7 @@ and this
 ## 2  2000 296920
 ```
 
-&lt;img src="A2_TidyData_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="A2_TidyData_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
 
 ```
 ## # A tibble: 6 x 3
