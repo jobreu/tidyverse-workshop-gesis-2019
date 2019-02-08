@@ -226,7 +226,7 @@ Let's instead provide numeric variables as numbers - not strings!
 
 .bottom[
 By the way - don't worry - you'll learn much nicer ways to handle this situtation during this course either through 
-* a new tidyverse verb (unite) or - more generally - 
+* a new tidyverse verb (separate) or - more generally - 
 * string and regular expression operations (package stringr)!
 ]
 ---
@@ -288,7 +288,7 @@ But sometimes 'long' format is required (e.g. in survival analysis).
 ```{r echo=TRUE}
 table4a %>%
   head(n = 1) %>%
-  gather(`1999`, `2000`, key = "year", value = "cases") %>%
+  gather(`1999`, `2000`, key = "year", value = "cases") %>% #<<
   color_table()
 ```
 
@@ -332,7 +332,7 @@ By the way, this is **NOT** (an appropriate) long format because the columns are
 ```{r echo=TRUE}
 table2 %>%
   head(n = 2) %>%
-  spread(key = type, value = count) %>%
+  spread(key = type, value = count) %>%  #<<
   color_table()
 ```
 The tidyverse verb 'spread' converts the incohesive selection of values into cohesive vectors/variables.  
