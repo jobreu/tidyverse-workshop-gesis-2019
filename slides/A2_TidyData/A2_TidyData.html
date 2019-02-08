@@ -3,7 +3,7 @@
   <head>
     <title>Tidy Data</title>
     <meta charset="utf-8">
-    <meta name="author" content="Johannes Breuer Thomas Ebel" />
+    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
     <meta name="date" content="2018-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 
 # Tidy Data
 ## (according to Hadley Wickham/RStudio)
-### Johannes Breuer<br />Thomas Ebel
+### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
 ### 2018-05-15
 
 ---
@@ -26,7 +26,7 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Müller&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-15&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Tidy Data&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -38,17 +38,20 @@ class: center, middle
 ## How do we expect data sets to look like?
 
 ---
-.smaller[
-Data can always be represented in various ways.
-]
+
+&lt;h2&gt; The diversity of data &lt;/h2&gt;
+Data can always be represented in various ways.  
 **But** some ways are more common and easy to understand than others.
+
+One reason why data would be un-tidy might be that the focus was on data collection and easy of import instead of on data analysis.  
+
+In any case data analysis often requires to first clean up the data.
+
+Because...
 
 --
 
-Data analysis often requires to first clean up the data.
-
-Because
-- the data set doesn't fit our (or the methods's/tool's) expectation about structure.
+- the data set doesn't fit our (or the methods'/tools') expectation about structure.
 
 --
 
@@ -56,15 +59,16 @@ Because
 
 --
 
-- If every data set is organized the same way it's much easier for you (and others) to use them.
+- if every data set is organized the same way it's much easier for you to write code.
 
 --
 
-- R-specific: R works with vectors. Highly advantagous to use vectors (i.e. 1 column = 1 variable).
+- R-specific: R works with vectors. Highly advantageous to use vectors (i.e. 1 column = 1 variable, 1 row = 1 observation).
 ---
-class: center
+class: center, middle
+&lt;h2&gt;Let's see examples&lt;/h2&gt;
 
-Let's experiment: four different ways of displaying/plotting the same data.
+Let's experiment: four different ways of displaying the same data.
 Which one(s) make(s) sense?
 
 Data is country-level data on population and sampled cases.
@@ -72,7 +76,7 @@ Data is country-level data on population and sampled cases.
 
 class: center
 
-# 1. example
+&lt;h2&gt;1. example&lt;/h2&gt;
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
@@ -133,6 +137,7 @@ class: center
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+Source: tidyr::table2
 
 What's the problem here?
 
@@ -189,13 +194,13 @@ Details
 .bottom[
 Solution?
 
-1 column per Variable: column name = variable name, cell = value
+1 column per variable: column name = variable name, cell = value
 ]
 ---
 
 class: center, middle
 
-# 2. example
+&lt;h2&gt; 2. example&lt;/h2&gt;
 
 
 &lt;table&gt;
@@ -239,8 +244,7 @@ class: center, middle
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-
-&lt;br&gt;
+Source: tidyr::table3
 
 
 ---
@@ -278,20 +282,20 @@ class: center, middle
 .column-left-half[
 Problems
 1. Cells contain several values.
-1. Cells are strings but contain numbers.
+1. Cells are strings but represent a number (rate).
 ]
 
 .column-right-half[
 Details
 1. It's hard to separate the values in a cell.
-1. String variables are not intended for numeric operations.
+1. It's hard to run numeric operations on string variables.
 ]
 
 --
 
 .bottom[Solution?
 
-1 value per cell!
+1 value per cell! Correct type for cells!
 &lt;br&gt;
 &lt;br&gt;
 &lt;b&gt;Either&lt;/b&gt; keep variables "case" and "population" separate and "rate" only contains the numeric result &lt;br&gt;&lt;b&gt;or&lt;/b&gt; keep only the numeric result in "rate" (discard the information of "case" and "population").
@@ -299,19 +303,17 @@ Details
 
 ---
 
-A small survey.&lt;br&gt;
-Do you know an immediate solution to actually calculating the rate variable (with base R)? &lt;br&gt;Without googling?&lt;br&gt;
-E.g. .highlight["745/19987071"]?
-
-&lt;br&gt;
+&lt;h1&gt;A small survey&lt;/h1&gt;
+Would you actually know how to calculate the rate (with base R) in this case?  
+E.g. .highlight["745/19987071"]?  
+.smaller[
+(Without googling?)
+]
 
 --
 
-&lt;br&gt;
-Would it look something like the following?
-&lt;br&gt;
+Would it look something like the following?  
 
-.smaller[
 
 ```r
 rate &lt;- c("745/19987071", "2666/20695360")
@@ -324,11 +326,18 @@ as.numeric(gsub(rate, pattern = "[0-9]+/([0-9]+)",
 ```
 ## [1] 0.0000372741 0.0001288211
 ```
-]
-
-By the way - don't worry, you'll learn much nicer ways to handle string/regular expression operations during this course (stringr)!
 
 ---
+&lt;h2&gt; Seriously?&lt;/h2&gt;
+
+Would you really want to put yourself and others through this?  
+Let's instead provide numeric variables as numbers - not strings!  
+
+.bottom[
+By the way - don't worry, you'll learn much nicer ways to handle string/regular expression operations during this course (stringr)!
+]
+---
+&lt;h2&gt;Rules for tidy datasets&lt;/h2&gt;
 
 There are three interrelated rules which make a dataset tidy:
 
@@ -339,8 +348,30 @@ There are three interrelated rules which make a dataset tidy:
 &lt;img src="../pictures/tidy_data.png" width="100%"&gt;
 Source: https://r4ds.had.co.nz/tidy-data.html
 ---
+&lt;h2&gt; Short notes on tibbles &lt;/h2&gt;
 
-Filler Filler Filler
+In the tidyverse we put every dataset into a tibble.
+
+A tibble is an improved version of base R's dataframe.  
+They can be used instead of dataframes, in most cases **without** breaking existing code.
+
+Improved because...
+--
+
+* much nicer output in the console 
+--
+
+   * displaying only as many rows and columns as fit the screen
+--
+
+   * telling dimensions of the dataset
+--
+
+   * telling types of columns
+
+More on tibbles in session A4.
+
+---
 
 table4a
 table4b
