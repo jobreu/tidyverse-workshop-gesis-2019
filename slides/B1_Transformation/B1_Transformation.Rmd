@@ -1,0 +1,82 @@
+---
+title: "Data transformation"
+subtitle: "Verbs that came, saw, and conquered?"
+author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
+date: "2018-05-15"
+location: "GESIS, Mannheim, Germany"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    nature:
+      highlightStyle: "github"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+layout: true
+
+```{r setup, include=FALSE}
+if (!require(knitr)) install.packages("knitr")
+if (!require(rmarkdown)) install.packages("rmarkdown")
+if (!require(tidyverse)) install.packages("tidyverse")
+library("knitr")
+library("rmarkdown")
+library("tidyverse")
+options(htmltools.dir.version = FALSE)
+
+opts_chunk$set(echo = FALSE, fig.align = "center")
+```
+
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+</div>
+
+---
+
+```{r, include=FALSE, warning=FALSE, error=FALSE}
+# devtools::install_github("DavZim/colorTable")
+library(colorTable)
+
+# define some colors for later
+green <- "#a6d96a"
+blue  <- "#74add1"
+yellow <- "#f4e842"
+```
+class: center, middle
+
+<h1> The tidyverse verbs</h1>
+<h2> Or: How you never knew you couldn't live without them.</h2>
+
+---
+
+<h2>Verbs</h2>
+The tidyverse comes with a range of new functions, called verbs, that make data analysis easier.  
+
+These are especially:
+
+* filter (rows)
+* select (columns)
+* arrange (the order of rows)
+* mutate (i.e. create new columns)
+* group_by/summarize (create summary/aggregate values)
+
+
+.bottom[
+There are a handyful of variations, like  
+* mutate_if (create new variable dependend on some condition),
+* rename (an existing variable and select all),  
+and other functions, too.  
+We'll get to some but not even close to all of them.
+]
+
+---
+
+class: center, middle
+
+<h2> Thanks!</h2>
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
