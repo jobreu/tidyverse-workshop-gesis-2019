@@ -265,7 +265,75 @@ Improved because...
 More on tibbles in session A4.
 
 ---
+<h2>'Gather' a variable</h2>
 
+How to gather/collect a variable that had been spread over 2 columns?  
+
+```{r}
+color_mat <- matrix(c(
+  blue, blue, blue,
+  green, "yellow", "yellow",
+  green, green, green,
+  green, green, green ),
+  ncol = 3, byrow = TRUE)
+color_table(head(table4a, n = 3), body_bg = color_mat)
+```
+
+Here, a count variable was spread over 2 columns.  
+This is also known as 'wide' format. It's commonly used and there's nothing inherently wrong with it.  
+But sometimes 'long' format is required (e.g. in survival analysis).
+
+---
+
+```{r echo=TRUE}
+table4a %>%
+  head(n = 1) %>%
+  gather(`1999`, `2000`, key = "year", value = "cases")
+```
+
+The tidyverse verb 'gather' converts the wide format into long format.  
+
+Here, the two columns "1999" and "2000" are gathered into "year" and the counts into "cases".
+
+Before: 
+```{r}
+color_mat <- matrix(c(
+  green, "yellow", "yellow"),
+  ncol = 3, byrow = TRUE)
+color_table(head(table4a, n = 1), body_bg = color_mat)
+```
+
+---
+<h2>'Spread' a variable</h2>
+
+How to tidy up observations that were spread over two rows?  
+
+```{r}
+color_mat <- matrix(c(
+  green, green, "yellow", "yellow",
+  green, green, "yellow", "yellow"),
+  ncol = 4, byrow = TRUE)
+color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
+```
+
+Here, one observation was spread over 2 rows.  
+This is not ideal either. 
+
+--
+
+By the way, this is **NOT** (an appropriate) long format because the columns are still not cohesive selections of values:  
+745 and 19987071 have nothing to do with each other.
+
+---
+
+```{r echo=TRUE}
+table2 %>%
+  head(n = 2) %>%
+  spread(key = type, value = count)
+```
+Now this could be used for analyses that require long format!
+
+---
 table4a
 table4b
 

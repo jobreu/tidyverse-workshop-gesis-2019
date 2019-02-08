@@ -374,7 +374,136 @@ Improved because...
 More on tibbles in session A4.
 
 ---
+&lt;h2&gt;'Gather' a variable&lt;/h2&gt;
 
+How to gather/collect a variable that had been spread over 2 columns?  
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; 1999 &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; 2000 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 2666 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Brazil &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 37737 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 80488 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; China &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 212258 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 213766 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+Here, a count variable was spread over 2 columns.  
+This is also known as 'wide' format. It's commonly used and there's nothing inherently wrong with it.  
+But sometimes 'long' format is required (e.g. in survival analysis).
+
+---
+
+
+```r
+table4a %&gt;%
+  head(n = 1) %&gt;%
+  gather(`1999`, `2000`, key = "year", value = "cases")
+```
+
+```
+## # A tibble: 2 x 3
+##   country     year  cases
+##   &lt;chr&gt;       &lt;chr&gt; &lt;int&gt;
+## 1 Afghanistan 1999    745
+## 2 Afghanistan 2000   2666
+```
+
+The tidyverse verb 'gather' converts the wide format into long format.  
+
+Here, the two columns "1999" and "2000" are gathered into "year" and the counts into "cases".
+
+Before: 
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; 1999 &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; 2000 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 2666 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+&lt;h2&gt;'Spread' a variable&lt;/h2&gt;
+
+How to tidy up observations that were spread over two rows?  
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; country &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; year &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; type &lt;/th&gt;
+   &lt;th style=" font-weight: bold;    color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #74ADD1;width: 15px;text-align:center;"&gt; count &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 19987071 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+Here, one observation was spread over 2 rows.  
+This is not ideal either. 
+
+--
+
+By the way, this is **NOT** (an appropriate) long format because the columns are still not cohesive selections of values:  
+745 and 19987071 have nothing to do with each other.
+
+---
+
+
+```r
+table2 %&gt;%
+  head(n = 2) %&gt;%
+  spread(key = type, value = count)
+```
+
+```
+## # A tibble: 1 x 4
+##   country      year cases population
+##   &lt;chr&gt;       &lt;int&gt; &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999   745   19987071
+```
+Now this could be used for analyses that require long format!
+
+---
 table4a
 table4b
 
@@ -415,7 +544,7 @@ and this
 ## 2  2000 296920
 ```
 
-&lt;img src="A2_TidyData_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="A2_TidyData_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 ```
 ## # A tibble: 6 x 3
