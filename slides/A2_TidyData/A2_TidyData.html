@@ -34,8 +34,8 @@ layout: true
 
 class: center, middle
 
-# What is tidy data?
-## How do we expect data sets to look like?
+&lt;h1&gt; What is tidy data?&lt;/h1&gt;
+&lt;h2&gt; How do we expect data sets to look like?&lt;/h2&gt;
 
 ---
 
@@ -64,7 +64,10 @@ Because...
 --
 
 - R-specific: R works with vectors. Highly advantageous to use vectors (i.e. 1 column = 1 variable, 1 row = 1 observation).
+
 ---
+
+
 class: center, middle
 &lt;h2&gt;Let's see examples&lt;/h2&gt;
 
@@ -72,6 +75,7 @@ Let's experiment: four different ways of displaying the same data.
 Which one(s) make(s) sense?
 
 Data is country-level data on population and sampled cases.
+
 ---
 
 class: center
@@ -157,7 +161,7 @@ What's the problem here?
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
@@ -262,7 +266,7 @@ Source: tidyr::table3
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745/19987071 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 745/19987071 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
@@ -361,14 +365,8 @@ Improved because...
 --
 
 * much nicer output in the console 
---
-
    * displaying only as many rows and columns as fit the screen
---
-
    * telling dimensions of the dataset
---
-
    * telling types of columns
 
 More on tibbles in session A4.
@@ -389,8 +387,8 @@ How to gather/collect a variable that had been spread over 2 columns?
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 2666 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 2666 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Brazil &lt;/td&gt;
@@ -458,8 +456,8 @@ Before:
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 2666 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 2666 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -483,14 +481,14 @@ How to tidy up observations that were spread over two rows?
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 19987071 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 19987071 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -553,14 +551,14 @@ Before
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; cases &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 745 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 19987071 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; population &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 19987071 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -622,7 +620,7 @@ Before:
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; 1999 &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 745/19987071 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 745/19987071 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -736,201 +734,19 @@ Before:
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #A6D96A;width: 15px;text-align:center;"&gt; Afghanistan &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 19 &lt;/td&gt;
-   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #FFFF00;width: 15px;text-align:center;"&gt; 99 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 19 &lt;/td&gt;
+   &lt;td style="     color: #000000;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: #F4E842;width: 15px;text-align:center;"&gt; 99 &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 ]
 
 ---
-table4a
-table4b
 
-spread
-gather
-
-remember remember the fifth of November. but also this: highlight.output=c(1, 3)
-and this
-```r
-* This is highlighted but not executed because asterisks.
-```
-
-
-```
-## [1] 48
-```
-
----
-
-
-```
-## # A tibble: 6 x 5
-##   country      year  cases population  rate
-##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt; &lt;dbl&gt;
-## 1 Afghanistan  1999    745   19987071 0.373
-## 2 Afghanistan  2000   2666   20595360 1.29 
-## 3 Brazil       1999  37737  172006362 2.19 
-## 4 Brazil       2000  80488  174504898 4.61 
-## 5 China        1999 212258 1272915272 1.67 
-## 6 China        2000 213766 1280428583 1.67
-```
-
-```
-## # A tibble: 2 x 2
-##    year      n
-##   &lt;int&gt;  &lt;int&gt;
-## 1  1999 250740
-## 2  2000 296920
-```
-
-&lt;img src="A2_TidyData_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
-
-```
-## # A tibble: 6 x 3
-##   country     year   cases
-##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;
-## 1 Afghanistan 1999     745
-## 2 Brazil      1999   37737
-## 3 China       1999  212258
-## 4 Afghanistan 2000    2666
-## 5 Brazil      2000   80488
-## 6 China       2000  213766
-```
-
-```
-## # A tibble: 3 x 3
-##   country         `1999`     `2000`
-## * &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;
-## 1 Afghanistan   19987071   20595360
-## 2 Brazil       172006362  174504898
-## 3 China       1272915272 1280428583
-```
-
-```
-## # A tibble: 6 x 3
-##   country     year  population
-##   &lt;chr&gt;       &lt;chr&gt;      &lt;int&gt;
-## 1 Afghanistan 1999    19987071
-## 2 Brazil      1999   172006362
-## 3 China       1999  1272915272
-## 4 Afghanistan 2000    20595360
-## 5 Brazil      2000   174504898
-## 6 China       2000  1280428583
-```
-
-```
-## Joining, by = c("country", "year")
-```
-
-```
-## # A tibble: 6 x 4
-##   country     year   cases population
-##   &lt;chr&gt;       &lt;chr&gt;  &lt;int&gt;      &lt;int&gt;
-## 1 Afghanistan 1999     745   19987071
-## 2 Brazil      1999   37737  172006362
-## 3 China       1999  212258 1272915272
-## 4 Afghanistan 2000    2666   20595360
-## 5 Brazil      2000   80488  174504898
-## 6 China       2000  213766 1280428583
-```
-
-```
-## # A tibble: 12 x 4
-##    country      year type            count
-##    &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;           &lt;int&gt;
-##  1 Afghanistan  1999 cases             745
-##  2 Afghanistan  1999 population   19987071
-##  3 Afghanistan  2000 cases            2666
-##  4 Afghanistan  2000 population   20595360
-##  5 Brazil       1999 cases           37737
-##  6 Brazil       1999 population  172006362
-##  7 Brazil       2000 cases           80488
-##  8 Brazil       2000 population  174504898
-##  9 China        1999 cases          212258
-## 10 China        1999 population 1272915272
-## 11 China        2000 cases          213766
-## 12 China        2000 population 1280428583
-```
-
-```
-## # A tibble: 6 x 4
-##   country      year  cases population
-##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
-## 1 Afghanistan  1999    745   19987071
-## 2 Afghanistan  2000   2666   20595360
-## 3 Brazil       1999  37737  172006362
-## 4 Brazil       2000  80488  174504898
-## 5 China        1999 212258 1272915272
-## 6 China        2000 213766 1280428583
-```
-
-```
-## # A tibble: 6 x 3
-##   country      year rate             
-## * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;            
-## 1 Afghanistan  1999 745/19987071     
-## 2 Afghanistan  2000 2666/20595360    
-## 3 Brazil       1999 37737/172006362  
-## 4 Brazil       2000 80488/174504898  
-## 5 China        1999 212258/1272915272
-## 6 China        2000 213766/1280428583
-```
-
-```
-## # A tibble: 6 x 4
-##   country      year cases  population
-## * &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     
-## 1 Afghanistan  1999 745    19987071  
-## 2 Afghanistan  2000 2666   20595360  
-## 3 Brazil       1999 37737  172006362 
-## 4 Brazil       2000 80488  174504898 
-## 5 China        1999 212258 1272915272
-## 6 China        2000 213766 1280428583
-```
-
-```
-## # A tibble: 6 x 4
-##   country      year  cases population
-## * &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
-## 1 Afghanistan  1999    745   19987071
-## 2 Afghanistan  2000   2666   20595360
-## 3 Brazil       1999  37737  172006362
-## 4 Brazil       2000  80488  174504898
-## 5 China        1999 212258 1272915272
-## 6 China        2000 213766 1280428583
-```
-
-```
-## # A tibble: 6 x 4
-##   country     century year  rate             
-## * &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;            
-## 1 Afghanistan 19      99    745/19987071     
-## 2 Afghanistan 20      00    2666/20595360    
-## 3 Brazil      19      99    37737/172006362  
-## 4 Brazil      20      00    80488/174504898  
-## 5 China       19      99    212258/1272915272
-## 6 China       20      00    213766/1280428583
-```
-
-```
-## # A tibble: 6 x 3
-##   country     new   rate             
-##   &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;            
-## 1 Afghanistan 1999  745/19987071     
-## 2 Afghanistan 2000  2666/20595360    
-## 3 Brazil      1999  37737/172006362  
-## 4 Brazil      2000  80488/174504898  
-## 5 China       1999  212258/1272915272
-## 6 China       2000  213766/1280428583
-```
-
-
----
 
 class: center, middle
 
-# Thanks!
+&lt;h2&gt; Thanks!&lt;/h2&gt;
 
 Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
 
