@@ -288,13 +288,15 @@ But sometimes 'long' format is required (e.g. in survival analysis).
 ```{r echo=TRUE}
 table4a %>%
   head(n = 1) %>%
-  gather(`1999`, `2000`, key = "year", value = "cases")
+  gather(`1999`, `2000`, key = "year", value = "cases") %>%
+  color_table()
 ```
 
 The tidyverse verb 'gather' converts the wide format into long format.  
 
 Here, the two columns "1999" and "2000" are gathered into "year" and the counts into "cases".
 
+.bottom[
 Before: 
 ```{r}
 color_mat <- matrix(c(
@@ -302,6 +304,7 @@ color_mat <- matrix(c(
   ncol = 3, byrow = TRUE)
 color_table(head(table4a, n = 1), body_bg = color_mat)
 ```
+]
 
 ---
 <h2>'Spread' a variable</h2>
@@ -329,9 +332,26 @@ By the way, this is **NOT** (an appropriate) long format because the columns are
 ```{r echo=TRUE}
 table2 %>%
   head(n = 2) %>%
-  spread(key = type, value = count)
+  spread(key = type, value = count) %>%
+  color_table()
 ```
-Now this could be used for analyses that require long format!
+The tidyverse verb 'spread' converts the incohesive selection of values into cohesive vectors/variables.  
+
+Here, the values in "type" become column names of two vectors/variables and the respective values are stored in cells.  
+
+Now this could be used for analyses that require long format!  
+
+
+.bottom[
+Before
+```{r echo=FALSE}
+color_mat <- matrix(c(
+  green, green, "yellow", "yellow",
+  green, green, "yellow", "yellow"),
+  ncol = 4, byrow = TRUE)
+color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
+```
+]
 
 ---
 table4a
