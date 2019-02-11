@@ -4,7 +4,7 @@
     <title>Data transformation</title>
     <meta charset="utf-8">
     <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
-    <meta name="date" content="2018-05-15" />
+    <meta name="date" content="2018-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 # Data transformation
 ## Verbs that came, saw, and conquered?
 ### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
-### 2018-05-15
+### 2018-05-16
 
 ---
 
@@ -27,7 +27,7 @@ layout: true
 
 &lt;div class="my-footer"&gt;
   &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Müller&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-15&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-16&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Data transformation&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
@@ -43,24 +43,224 @@ class: center, middle
 
 &lt;h2&gt;Verbs&lt;/h2&gt;
 The tidyverse comes with a range of new functions, called verbs, that make data analysis easier.  
+These verbse are provided with the package dplyr.  
 
-These are especially:
+The most important verbs are:
 
 * filter (rows)
-* select (columns)
 * arrange (the order of rows)
+* select (columns)
 * mutate (i.e. create new columns)
 * group_by/summarize (create summary/aggregate values)
 
+--
 
 .bottom[
-There are a handyful of variations, like  
+There are a handful of variations, like  
 * mutate_if (create new variable dependend on some condition),
 * rename (an existing variable and select all),  
 and other functions, too.  
-We'll get to some but not even close to all of them.
 ]
 
+---
+
+&lt;h2&gt;The flow of things&lt;/h2&gt;
+All verbs follow the same logic:
+
+Input is a data frame/tibble - do something with it - output is a new data frame/tibble.
+
+--
+
+E.g. the verb "filter"
+
+
+```r
+table1 %&gt;%
+  filter(cases &lt; 800)
+```
+
+--
+
+1. Input is a tibble, table1
+1. Filter this tibble for all rows with "cases" smaller than 800
+1. Output is a new tibble
+
+.bottom[
+Note, that we are using Non-Standard-Evaluation (NSE) here. Instead of "table1$cases" or "table1[, "cases"] we just say 'cases' (without quotes!). More on that in A4.
+]
+
+---
+
+&lt;h2&gt;'filter'&lt;/h2&gt;
+We already saw 'filter' in action. Now, let's explore it in depth.  
+
+'filter' filters rows dependent on one or more conditions.  
+
+You can use the usual operators for 
+* comparisons: &lt;, &lt;=, ==, != (not equal), &gt;=, &gt;
+   * e.g. 'filter(year != 1999)' and
+   * logical operators: &amp;, |, ! (not), xor (either or, not both)
+
+.bottom[
+Note, that multiple conditions in filter are automatically added as '&amp;' ('and').
+]
+
+---
+
+&lt;h3&gt;Some examples for filter&lt;/h3&gt;
+
+&lt;h4&gt; Not equal &lt;/h4&gt;
+
+
+```r
+table1 %&gt;%
+  filter(year != 1999)
+```
+
+```
+## # A tibble: 3 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  2000   2666   20595360
+## 2 Brazil       2000  80488  174504898
+## 3 China        2000 213766 1280428583
+```
+
+Output is a tibble with all rows where year is not equal to 1999.
+
+---
+
+&lt;h4&gt;Multiple conditions&lt;/h4&gt;
+
+```r
+table1 %&gt;%
+  filter(year == 1999, cases &lt; 40000)
+```
+
+```
+## # A tibble: 2 x 4
+##   country      year cases population
+##   &lt;chr&gt;       &lt;int&gt; &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999   745   19987071
+## 2 Brazil       1999 37737  172006362
+```
+
+Output is a tibble with all rows where year is equal to 1999 and cases is smaller than 40.000.
+
+--
+
+An equivalent - but less canonic way - to express the same thing is 
+
+
+```r
+table1 %&gt;%
+  filter(year == 1999 &amp; cases &lt; 40000)
+```
+
+```
+## # A tibble: 2 x 4
+##   country      year cases population
+##   &lt;chr&gt;       &lt;int&gt; &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999   745   19987071
+## 2 Brazil       1999 37737  172006362
+```
+
+---
+
+&lt;h4&gt; Or &lt;/h4&gt;
+
+```r
+table1 %&gt;%
+  filter(year == 1999 | country == "Brazil")
+```
+
+```
+## # A tibble: 4 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Brazil       1999  37737  172006362
+## 3 Brazil       2000  80488  174504898
+## 4 China        1999 212258 1272915272
+```
+
+Output is a tibble with all rows where either country is Brazil or year is 1999. If both are true that's okay, too. See the seconds row in the output.
+
+---
+
+&lt;h4&gt; Xor &lt;/h4&gt;
+
+```r
+table1 %&gt;%
+  filter(xor(year == 1999, country == "Brazil"))
+```
+
+```
+## # A tibble: 3 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Brazil       2000  80488  174504898
+## 3 China        1999 212258 1272915272
+```
+
+Output very similar to the previous example but one row was dropped: The one that was true for both conditiones (year==1999, country=="Brazil"). That's the difference between '|' and 'xor'.
+
+.bottom[
+Never use base R's additional comparison operators '&amp;&amp;' and '||'. They only compare the first element of a vector!
+]
+---
+
+
+&lt;h2&gt;Verb 'arrange'&lt;/h2&gt;
+
+'arrange' changes the order of rows in the data set based.  
+
+
+```r
+table1 %&gt;%
+  arrange(desc(population))
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 China        2000 213766 1280428583
+## 2 China        1999 212258 1272915272
+## 3 Brazil       2000  80488  174504898
+## 4 Brazil       1999  37737  172006362
+## 5 Afghanistan  2000   2666   20595360
+## 6 Afghanistan  1999    745   19987071
+```
+
+Arrange cases by their population value, decreasing, from big to small.  
+
+---
+
+
+```r
+table1 %&gt;%
+  arrange(year, cases)
+```
+
+```
+## # A tibble: 6 x 4
+##   country      year  cases population
+##   &lt;chr&gt;       &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+## 1 Afghanistan  1999    745   19987071
+## 2 Brazil       1999  37737  172006362
+## 3 China        1999 212258 1272915272
+## 4 Afghanistan  2000   2666   20595360
+## 5 Brazil       2000  80488  174504898
+## 6 China        2000 213766 1280428583
+```
+
+Arrange cases by year, then cases
+
+.bottom[
+Missings are sorted at the end!
+]
 ---
 
 class: center, middle

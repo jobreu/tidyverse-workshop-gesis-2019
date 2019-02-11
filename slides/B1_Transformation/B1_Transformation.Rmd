@@ -2,7 +2,7 @@
 title: "Data transformation"
 subtitle: "Verbs that came, saw, and conquered?"
 author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
-date: "2018-05-15"
+date: "2018-05-16"
 location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
@@ -53,24 +53,148 @@ class: center, middle
 
 <h2>Verbs</h2>
 The tidyverse comes with a range of new functions, called verbs, that make data analysis easier.  
+These verbse are provided with the package dplyr.  
 
-These are especially:
+The most important verbs are:
 
 * filter (rows)
-* select (columns)
 * arrange (the order of rows)
+* select (columns)
 * mutate (i.e. create new columns)
 * group_by/summarize (create summary/aggregate values)
 
+--
 
 .bottom[
-There are a handyful of variations, like  
+There are a handful of variations, like  
 * mutate_if (create new variable dependend on some condition),
 * rename (an existing variable and select all),  
 and other functions, too.  
-We'll get to some but not even close to all of them.
 ]
 
+---
+
+<h2>The flow of things</h2>
+All verbs follow the same logic:
+
+Input is a data frame/tibble - do something with it - output is a new data frame/tibble.
+
+--
+
+E.g. the verb "filter"
+
+```{r echo=TRUE, results='hide'}
+table1 %>%
+  filter(cases < 800)
+```
+
+--
+
+1. Input is a tibble, table1
+1. Filter this tibble for all rows with "cases" smaller than 800
+1. Output is a new tibble
+
+.bottom[
+Note, that we are using Non-Standard-Evaluation (NSE) here. Instead of "table1$cases" or "table1[, "cases"] we just say 'cases' (without quotes!). More on that in A4.
+]
+
+---
+
+<h2>'filter'</h2>
+We already saw 'filter' in action. Now, let's explore it in depth.  
+
+'filter' filters rows dependent on one or more conditions.  
+
+You can use the usual operators for 
+* comparisons: <, <=, ==, != (not equal), >=, >
+   * e.g. 'filter(year != 1999)' and
+   * logical operators: &, |, ! (not), xor (either or, not both)
+
+.bottom[
+Note, that multiple conditions in filter are automatically added as '&' ('and').
+]
+
+---
+
+<h3>Some examples for filter</h3>
+
+<h4> Not equal </h4>
+
+```{r echo=TRUE}
+table1 %>%
+  filter(year != 1999)
+```
+
+Output is a tibble with all rows where year is not equal to 1999.
+
+---
+
+<h4>Multiple conditions</h4>
+```{r echo=TRUE}
+table1 %>%
+  filter(year == 1999, cases < 40000)
+```
+
+Output is a tibble with all rows where year is equal to 1999 and cases is smaller than 40.000.
+
+--
+
+An equivalent - but less canonic way - to express the same thing is 
+
+```{r echo=TRUE}
+table1 %>%
+  filter(year == 1999 & cases < 40000)
+```
+
+---
+
+<h4> Or </h4>
+```{r echo=TRUE}
+table1 %>%
+  filter(year == 1999 | country == "Brazil")
+```
+
+Output is a tibble with all rows where either country is Brazil or year is 1999. If both are true that's okay, too. See the seconds row in the output.
+
+---
+
+<h4> Xor </h4>
+```{r echo=TRUE}
+table1 %>%
+  filter(xor(year == 1999, country == "Brazil"))
+```
+
+Output very similar to the previous example but one row was dropped: The one that was true for both conditiones (year==1999, country=="Brazil"). That's the difference between '|' and 'xor'.
+
+.bottom[
+Never use base R's additional comparison operators '&&' and '||'. They only compare the first element of a vector!
+]
+---
+
+
+<h2>Verb 'arrange'</h2>
+
+'arrange' changes the order of rows in the data set based.  
+
+```{r echo=TRUE}
+table1 %>%
+  arrange(desc(population))
+```
+
+Arrange cases by their population value, in a decreasing order, from big to small.  
+
+---
+
+```{r echo=TRUE}
+table1 %>%
+  arrange(year, cases)
+```
+
+Arrange cases by year, then cases.
+
+.bottom[
+Note, that missings are always sorted at the end!
+]
 ---
 
 class: center, middle
