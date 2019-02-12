@@ -105,10 +105,13 @@ We already saw 'filter' in action. Now, let's explore it in depth.
 
 'filter' filters rows dependent on one or more conditions.  
 
+--
+
 You can use the usual operators for 
 * comparisons: <, <=, ==, != (not equal), >=, >
    * e.g. 'filter(year != 1999)' and
-   * logical operators: &, |, ! (not), xor (either or, not both)
+* logical operators: &, |, ! (not), xor (either or, not both)
+  * e.g. 'filter(year == 1999, cases < 3000)'
 
 .bottom[
 Note, that multiple conditions in filter are automatically added as '&' ('and').
@@ -166,15 +169,17 @@ table1 %>%
 
 Output very similar to the previous example but one row was dropped: The one that was true for both conditiones (year==1999, country=="Brazil"). That's the difference between '|' and 'xor'.
 
+--
+
 .bottom[
-Never use base R's additional comparison operators '&&' and '||'. They only compare the first element of a vector!
+.highlight[Attention:] Never use base R's additional comparison operators '&&' and '||'. They only compare the first element of a vector and do not work in the tidyverse pipes!
 ]
 ---
 
 
 <h2>Verb 'arrange'</h2>
 
-'arrange' changes the order of rows in the data set based.  
+'arrange' changes the order of rows in the data set.  
 
 ```{r echo=TRUE}
 table1 %>%
@@ -195,6 +200,74 @@ Arrange cases by year, then cases.
 .bottom[
 Note, that missings are always sorted at the end!
 ]
+
+---
+
+<h2>Verb 'select'</h2>
+
+We can use 'select' to select the columns/variables that we want to look at.
+
+--
+
+Often we do not want to deal with all variables in a data set because there could be easily hundreds of variables. It's too much to be printed nicely in the console.
+
+```{r echo=TRUE}
+table1 %>%
+  select(country, cases)
+```
+
+---
+
+There are nice helper functions/operators for 'select'.
+
+* colon --> 'select(table1, year.highlight[:]cases)' --> selects all variables **in the range** from year to cases
+
+--
+
+* minus --> 'select(table1, .highlight[-(]year:cases.highlight[)]' --> select all variables **besides** the mentioned ones/range.
+
+--
+
+* 'starts_with'/'ends_with' --> 'select(table1, .highlight[starts_with('c')]) --> select all variables that start/end with string.
+
+--
+
+```{r echo=FALSE}
+t_startswith <- tibble(
+  'id' = 1:10,
+  'w1_x' = sample(x = 1:10, replace = T),
+  'w1_y' = sample(x = 1:10, replace = T),
+  'w1_z' = sample(x = 1:10, replace = T),
+  'w2_x' = sample(x = 1:10, replace = T),
+  'w2_y' = sample(x = 1:10, replace = T),
+  'w2_z' = sample(x = 1:10, replace = T),
+  'w3_x' = sample(x = 1:10, replace = T),
+  'w3_y' = sample(x = 1:10, replace = T),
+  'w3_z' = sample(x = 1:10, replace = T)
+)
+glimpse(t_startswith)
+
+```
+
+---
+
+* 'contains' --> 'select(table1, .highlight[contains('u')])' --> select all variables that contain the string.
+
+--
+
+* 'matches' --> 'select(t_startswith, .highlight[matches("^w\\d_z")])' --> select all variables that match a regular expression.
+```{r echo=TRUE}
+select(t_startswith, matches("^w\\d_z"))
+```
+
+--
+
+* everything() --> 'select(table1, cases, .highlight[everything()])' --> used to rearrange the order of variables (here, put "cases" in front).
+
+---
+
+
+
 ---
 
 class: center, middle
