@@ -100,7 +100,7 @@ Note, that we are using Non-Standard-Evaluation (NSE) here. Instead of "table1$c
 
 ---
 
-<h2>'filter'</h2>
+<h2>Verb 'filter'</h2>
 We already saw 'filter' in action. Now, let's explore it in depth.  
 
 'filter' filters rows dependent on one or more conditions.  
@@ -255,7 +255,7 @@ glimpse(t_startswith)
 
 --
 
-* 'matches' --> 'select(t_startswith, .highlight[matches("^w\\d_z")])' --> select all variables that match a regular expression.
+* 'matches' --> 'select(t_startswith, .highlight[matches("^w\\\\d_z")])' --> select all variables that match a regular expression.
 ```{r echo=TRUE}
 select(t_startswith, matches("^w\\d_z"))
 ```
@@ -266,7 +266,163 @@ select(t_startswith, matches("^w\\d_z"))
 
 ---
 
+<h2>Verb 'mutate'</h2>
 
+With 'mutate', we create new variables based on existing ones.  
+
+--
+
+Creating the rate variable  
+
+```{r echo=TRUE}
+table1 %>%
+  mutate(
+    rate_in_perc = (cases / population) * 100
+  )
+```
+---
+
+You can already refer to newly created variables in 'mutate'
+
+```{r echo=TRUE}
+table1 %>%
+  mutate(
+    rate = cases / population,
+    rate_in_perc = rate * 100 #<<
+  )
+```
+
+---
+
+Again, there are many useful helper functions/operators.  
+
+* Of course, all arithmetic operators: +, -, /, *, ^, %% (modulo/remainder), %/% (integer devision)
+  * they work, as you would expect in R, vectorized, i.e. applied to every element in the vector.
+
+--
+
+* aggregate functions: sum, mean, max, min, ...
+
+--
+
+* logs: log(), log2(), log10()
+
+--
+
+* offsets: lead(), lag()
+
+--
+
+* cumulative aggregates: cumsum, cumprod, cummin, cummax, cummean
+
+--
+
+* logical comparisons: <=, <, ==, !=, >, >=
+
+--
+
+* ranks: min_rank, ntile(), ...
+
+--
+
+That's a lot.  
+But don't worry. We'll now go through some examples.
+
+---
+
+<h4> Arithmetic operators example</h4>
+
+```{r echo=TRUE}
+table1 %>%
+  mutate(
+    population_in_thousands = population / 1000
+  )
+```
+---
+
+--
+
+.bottom[
+Please note, that it is a deliberate choice of tibbles to not show 'insignificant' values behind the decimal point. https://github.com/r-lib/pillar/issues/40.
+]
+
+---
+
+<h4> Aggregate functions example</h4>
+
+--
+
+```{r echo=TRUE}
+table1 %>%
+  mutate(
+    prop_cases = cases / sum(cases),
+    max_cases = max(cases),
+    mean_population = mean(population)
+  ) %>%
+  select(-country, -year)
+```
+--
+
+  * 745 cases in Afghanistan are 0.136% of all cases (547660).
+  * The most cases were reported in China 2000.
+  * Mean population over all observations is 490072924.
+
+
+---
+
+
+<h4>offset example</h4>
+```{r echo=TRUE}
+offset_example <- tibble(
+  hour = 8:17,
+  productivity = c(80, 90, 120, 120, 50, 
+                   50, 70, 100, 110, 70)) # 100 is 'normal'/default
+```
+
+--
+
+```{r echo=TRUE}
+offset_example %>%
+  mutate(change_in_prod = productivity - lag(productivity))
+```
+
+---
+
+<h4> Cumulative agggregates example</h4>
+```{r echo=TRUE}
+table1 %>%
+  mutate(
+    cum_cases = cumsum(cases),
+    prop_cases_perc = (cum_cases / sum(cases)) * 100 ,
+    cum_mean_cases = cummean(cases)
+  ) %>%
+  select(contains("cases"))
+```
+
+---
+<h4> Logical comparisons example</h4>
+
+```{r echo=TRUE}
+offset_example %>%
+  mutate(
+    unproductive = productivity <= 70,
+    notable_deviations = 
+      (abs(productivity - mean(productivity))) >= sd(productivity)
+  ) %>%
+  select(contains("product"), notable_deviations)
+```
+
+---
+
+<h4> Rank example</h4>
+
+```{r echo=TRUE}
+offset_example %>%
+  mutate(
+    ranks = min_rank(productivity),
+    ranks_rev = min_rank(desc(productivity))
+  )
+```
 
 ---
 
