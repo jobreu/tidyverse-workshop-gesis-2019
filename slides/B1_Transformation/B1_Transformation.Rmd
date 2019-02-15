@@ -24,7 +24,8 @@ library("rmarkdown")
 library("tidyverse")
 options(htmltools.dir.version = FALSE)
 
-opts_chunk$set(echo = FALSE, fig.align = "center")
+opts_chunk$set(echo = FALSE, fig.align = "center")#
+set.seed(123)
 ```
 
 <div class="my-footer">
@@ -338,7 +339,6 @@ table1 %>%
     population_in_thousands = population / 1000
   )
 ```
----
 
 --
 
@@ -375,8 +375,8 @@ table1 %>%
 ```{r echo=TRUE}
 offset_example <- tibble(
   hour = 8:17,
-  productivity = c(80, 90, 120, 120, 50, 
-                   50, 70, 100, 110, 70)) # 100 is 'normal'/default
+  productivity = c(80, 110, 120, 120, 60, 
+                   70, 100, 100, 120, 80)) # index 100 is 'normal'/default
 ```
 
 --
@@ -417,10 +417,10 @@ offset_example %>%
 <h4> Rank example</h4>
 
 ```{r echo=TRUE}
-offset_example %>%
+table1 %>%
   mutate(
-    ranks = min_rank(productivity),
-    ranks_rev = min_rank(desc(productivity))
+    ranks = min_rank(cases),
+    ranks_rev = min_rank(desc(cases))
   )
 ```
 
