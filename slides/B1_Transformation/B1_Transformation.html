@@ -42,7 +42,7 @@ class: center, middle
 ---
 
 &lt;h2&gt;Verbs&lt;/h2&gt;
-The tidyverse comes with a range of new functions, called verbs, that make data analysis easier.  
+The tidyverse comes with a range of new functions, called verbs, that make data cleaning (and analyzing) easier.  
 These verbse are provided with the package dplyr.  
 
 The most important verbs are:
@@ -50,7 +50,7 @@ The most important verbs are:
 * filter (rows)
 * arrange (the order of rows)
 * select (columns)
-* mutate (i.e. create new columns)
+* mutate (create new columns)
 * group_by/summarize (create summary/aggregate values)
 
 --
@@ -316,15 +316,15 @@ There are nice helper functions/operators for 'select'.
 ## Observations: 10
 ## Variables: 10
 ## $ id   &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-## $ w1_x &lt;int&gt; 8, 9, 5, 10, 9, 6, 8, 10, 8, 2
-## $ w1_y &lt;int&gt; 3, 2, 1, 3, 10, 4, 9, 5, 1, 8
-## $ w1_z &lt;int&gt; 7, 4, 1, 8, 10, 4, 10, 3, 1, 5
-## $ w2_x &lt;int&gt; 5, 4, 7, 6, 8, 5, 4, 8, 1, 2
-## $ w2_y &lt;int&gt; 6, 6, 9, 9, 9, 10, 5, 10, 4, 10
-## $ w2_z &lt;int&gt; 4, 2, 3, 2, 2, 6, 4, 5, 3, 1
-## $ w3_x &lt;int&gt; 3, 3, 5, 8, 4, 7, 10, 3, 3, 8
-## $ w3_y &lt;int&gt; 6, 6, 9, 6, 5, 3, 6, 5, 4, 3
-## $ w3_z &lt;int&gt; 7, 1, 8, 8, 8, 1, 4, 2, 2, 7
+## $ w1_x &lt;int&gt; 3, 8, 5, 9, 10, 1, 6, 9, 6, 5
+## $ w1_y &lt;int&gt; 10, 5, 7, 6, 2, 9, 3, 1, 4, 10
+## $ w1_z &lt;int&gt; 9, 7, 7, 10, 7, 8, 6, 6, 3, 2
+## $ w2_x &lt;int&gt; 10, 10, 7, 8, 1, 5, 8, 3, 4, 3
+## $ w2_y &lt;int&gt; 2, 5, 5, 4, 2, 2, 3, 5, 3, 9
+## $ w2_z &lt;int&gt; 1, 5, 8, 2, 6, 3, 2, 8, 9, 4
+## $ w3_x &lt;int&gt; 7, 1, 4, 3, 9, 5, 9, 9, 8, 5
+## $ w3_y &lt;int&gt; 8, 7, 8, 1, 5, 3, 4, 7, 4, 2
+## $ w3_z &lt;int&gt; 3, 7, 5, 8, 2, 5, 10, 9, 9, 2
 ```
 
 ---
@@ -343,16 +343,16 @@ select(t_startswith, matches("^w\\d_z"))
 ## # A tibble: 10 x 3
 ##     w1_z  w2_z  w3_z
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;
-##  1     7     4     7
-##  2     4     2     1
-##  3     1     3     8
-##  4     8     2     8
-##  5    10     2     8
-##  6     4     6     1
-##  7    10     4     4
-##  8     3     5     2
-##  9     1     3     2
-## 10     5     1     7
+##  1     9     1     3
+##  2     7     5     7
+##  3     7     8     5
+##  4    10     2     8
+##  5     7     6     2
+##  6     8     3     5
+##  7     6     2    10
+##  8     6     8     9
+##  9     3     9     9
+## 10     2     4     2
 ```
 
 --
@@ -483,8 +483,6 @@ Please note, that it is a deliberate choice of tibbles to not show 'insignifican
 
 &lt;h4&gt; Aggregate functions example&lt;/h4&gt;
 
---
-
 
 ```r
 table1 %&gt;%
@@ -513,6 +511,9 @@ table1 %&gt;%
   * The most cases were reported in China 2000.
   * Mean population over all observations is 490072924.
 
+.bottom[
+Aggregate functions are not too useful on individual data. We'll get to grouping later.
+]
 
 ---
 
@@ -522,8 +523,8 @@ table1 %&gt;%
 ```r
 offset_example &lt;- tibble(
   hour = 8:17,
-  productivity = c(80, 110, 120, 120, 60, 
-                   70, 100, 100, 120, 80)) # 100 is 'normal'/default
+  productivity = c(80, 80, 120, 120, 60, 
+                   70, 100, 100, 120, 80)) # index 100 is 'normal'
 ```
 
 --
@@ -539,8 +540,8 @@ offset_example %&gt;%
 ##     hour productivity change_in_prod
 ##    &lt;int&gt;        &lt;dbl&gt;          &lt;dbl&gt;
 ##  1     8           80             NA
-##  2     9          110             30
-##  3    10          120             10
+##  2     9           80              0
+##  3    10          120             40
 ##  4    11          120              0
 ##  5    12           60            -60
 ##  6    13           70             10
@@ -595,7 +596,7 @@ offset_example %&gt;%
 ##    productivity unproductive notable_deviations
 ##           &lt;dbl&gt; &lt;lgl&gt;        &lt;lgl&gt;             
 ##  1           80 FALSE        FALSE             
-##  2          110 FALSE        FALSE             
+##  2           80 FALSE        FALSE             
 ##  3          120 FALSE        TRUE              
 ##  4          120 FALSE        TRUE              
 ##  5           60 TRUE         TRUE              
@@ -630,6 +631,59 @@ table1 %&gt;%
 ## 5 China        1999 212258 1272915272     5         2
 ## 6 China        2000 213766 1280428583     6         1
 ```
+
+---
+
+&lt;h2&gt;Grouping and summarizing&lt;/h2&gt;
+
+We can group data by columns and then compute summary statistics/values.  
+
+--
+
+```r
+table1 %&gt;% 
+  group_by(year) %&gt;%
+  summarise(
+    nr_cases = n(), min_cases = min(cases), max_cases = max(cases),
+    mean_cases = mean(cases), sum_cases = sum(cases)
+  )
+```
+
+```
+## # A tibble: 2 x 6
+##    year nr_cases min_cases max_cases mean_cases sum_cases
+##   &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;     &lt;int&gt;
+## 1  1999        3       745    212258     83580     250740
+## 2  2000        3      2666    213766     98973.    296920
+```
+--
+Note that 
+* there are only 2 observations (because year = [1999, 2000]).
+* only the grouping variable and the newly created variables remain.
+
+---
+
+&lt;h4&gt;More on summarize functions&lt;/h4&gt;
+
+Ungrouping: 
+* ungroup()
+
+We can group by several variables:
+* group_by(var1, var2, var3)
+
+
+Useful functions:
+* averages, quantiles: mean(), median(), quantile(x, 0.75)
+* counts: n(), sum(!is.na()) (non-NA count), n_distinct() (unique values)
+* measures of variations: 
+  * sd() (standard deviation)
+  * IQR() (interquatile range, difference between third quantile and first quantile), 
+  * mad() (median absolute deviation, median of absolute deviations from median)
+* position: first(), nth(x, 10), last()  
+
+
+More on summarize functions in B3 tommorrow!
+
 
 ---
 

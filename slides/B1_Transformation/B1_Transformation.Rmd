@@ -53,7 +53,7 @@ class: center, middle
 ---
 
 <h2>Verbs</h2>
-The tidyverse comes with a range of new functions, called verbs, that make data analysis easier.  
+The tidyverse comes with a range of new functions, called verbs, that make data cleaning (and analyzing) easier.  
 These verbse are provided with the package dplyr.  
 
 The most important verbs are:
@@ -61,7 +61,7 @@ The most important verbs are:
 * filter (rows)
 * arrange (the order of rows)
 * select (columns)
-* mutate (i.e. create new columns)
+* mutate (create new columns)
 * group_by/summarize (create summary/aggregate values)
 
 --
@@ -269,7 +269,7 @@ select(t_startswith, matches("^w\\d_z"))
 
 <h2>Verb 'mutate'</h2>
 
-With 'mutate', we create new variables based on existing ones.  
+With 'mutate' we create new variables based on existing ones.  
 
 --
 
@@ -350,8 +350,6 @@ Please note, that it is a deliberate choice of tibbles to not show 'insignifican
 
 <h4> Aggregate functions example</h4>
 
---
-
 ```{r echo=TRUE}
 table1 %>%
   mutate(
@@ -367,6 +365,9 @@ table1 %>%
   * The most cases were reported in China 2000.
   * Mean population over all observations is 490072924.
 
+.bottom[
+Aggregate functions are not too useful on individual data. We'll get to grouping later.
+]
 
 ---
 
@@ -375,8 +376,8 @@ table1 %>%
 ```{r echo=TRUE}
 offset_example <- tibble(
   hour = 8:17,
-  productivity = c(80, 110, 120, 120, 60, 
-                   70, 100, 100, 120, 80)) # index 100 is 'normal'/default
+  productivity = c(80, 80, 120, 120, 60, 
+                   70, 100, 100, 120, 80)) # index 100 is 'normal'
 ```
 
 --
@@ -423,6 +424,50 @@ table1 %>%
     ranks_rev = min_rank(desc(cases))
   )
 ```
+
+---
+
+<h2>Grouping and summarizing</h2>
+
+We can group data by columns and then compute summary statistics/values.  
+
+--
+```{r echo=TRUE}
+table1 %>% 
+  group_by(year) %>%
+  summarise(
+    nr_cases = n(), min_cases = min(cases), max_cases = max(cases),
+    mean_cases = mean(cases), sum_cases = sum(cases)
+  )
+```
+--
+Note that 
+* there are only 2 observations (because year = [1999, 2000]).
+* only the grouping variable and the newly created variables remain.
+
+---
+
+<h4>More on summarize functions</h4>
+
+Ungrouping: 
+* ungroup()
+
+We can group by several variables:
+* group_by(var1, var2, var3)
+
+
+Useful functions:
+* averages, quantiles: mean(), median(), quantile(x, 0.75)
+* counts: n(), sum(!is.na()) (non-NA count), n_distinct() (unique values)
+* measures of variations: 
+  * sd() (standard deviation)
+  * IQR() (interquatile range, difference between third quantile and first quantile), 
+  * mad() (median absolute deviation, median of absolute deviations from median)
+* position: first(), nth(x, 10), last()  
+
+
+More on summarize functions in B3 tommorrow!
+
 
 ---
 
