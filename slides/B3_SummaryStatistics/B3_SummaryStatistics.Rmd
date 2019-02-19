@@ -56,17 +56,36 @@ class: center, middle
 
 <h2>Untangling data is hard</h2>
 Humans looking at raw numbers have a really hard time at understanding them.  
-For example, it's almost impossible to say which of those 2 vectors have more variance just by looking at them.
+For example, it's almost impossible to say which of those 2 vectors has more variance, or the lower mean, just by looking at them.
 
-```{r echo=FALSE}
+```{r echo=FALSE, results='markup'}
 x <- sample(x = 18:65, size = 10, replace = TRUE)
 y <- sample(x = 20:60, size = 10, replace = TRUE)
-```
-
-```{r results='markup'}
+untangling <- tibble(
+  x,
+  y
+)
 (x)
 (y)
 ```
+
+--
+
+```{r echo=TRUE}
+options(pillar.sigfig = 5)
+untangling %>% summarize(mean_x = mean(x), mean_y = mean(y),
+                         var_x = sd(x)^2, var_y = sd(y)^2)
+```
+
+In the real world, vectors are also too long to conveniently look at.
+
+---
+
+To make sense of data ... we need summarizing functions that produce singular values that give us an understanding of
+* location (e.g. the mean),
+* spread (e.g. standard deviation),
+* shape of distribution (e.g. skewness) and
+* relations between variables (e.g. correlation coefficients)
 
 ---
 
@@ -112,7 +131,7 @@ datasauRus::datasaurus_dozen %>%
 ```
 
 ---
-In fact, all of these 13 datasets have the same means, standard deviations, and Pearson's correlation.
+In fact, all of these 13 datasets have the same means, standard deviations, and Pearson's correlation coefficients.
 ```{r}
 ggplot(datasaurus_dozen, aes(x=x, y=y, colour=dataset))+
 geom_point()+
@@ -124,7 +143,7 @@ facet_wrap(~dataset, ncol=3)
 
 ---
 
-Let's prove that to ourselves!
+<h4>Let's prove that to ourselves!</h4>
 
 Here's how the data set looks like
 ```{r echo=TRUE}
@@ -133,12 +152,12 @@ datasauRus::datasaurus_dozen %>% select(dataset) %>% table
 ```
 
 ---
-Proving the points in the various datasets (e.g. dino, away) are not identical.
+Proving that the points in the various datasets (e.g. dino, away) are not identical.
 
 ```{r echo=TRUE}
 x <- c(1,2,3,4)
-y <- c(4,3,2,1)
-identical(sort(x),sort(y))
+x2 <- c(4,3,2,1)
+identical(sort(x),sort(x2))
 
 dino <- datasauRus::datasaurus_dozen %>%
   filter(dataset == "dino")
@@ -159,4 +178,13 @@ datasauRus::datasaurus_dozen %>% group_by(dataset) %>%
 ```
 
 ---
+
+---
+class: center, middle
+
+<h2> Thanks!</h2>
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
 
