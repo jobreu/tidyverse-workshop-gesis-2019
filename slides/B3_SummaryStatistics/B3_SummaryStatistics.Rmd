@@ -1,0 +1,138 @@
+---
+title: "Summary Statistics"
+subtitle: "First inspections - What can we tell about the data?"
+author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
+date: "2018-05-16"
+location: "GESIS, Mannheim, Germany"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    nature:
+      highlightStyle: "github"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+layout: true
+
+```{r setup, include=FALSE}
+if (!require(knitr)) install.packages("knitr")
+if (!require(rmarkdown)) install.packages("rmarkdown")
+if (!require(tidyverse)) install.packages("tidyverse")
+if (!require(datasauRus)) install.packages("datasauRus")
+library("knitr")
+library("rmarkdown")
+library("tidyverse")
+library("datasauRus")
+options(htmltools.dir.version = FALSE)
+
+opts_chunk$set(echo = FALSE, fig.align = "center")#
+set.seed(123)
+```
+
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+</div>
+
+---
+
+```{r, include=FALSE, warning=FALSE, error=FALSE}
+# devtools::install_github("DavZim/colorTable")
+library(colorTable)
+
+# define some colors for later
+green <- "#a6d96a"
+blue  <- "#74add1"
+yellow <- "#f4e842"
+```
+class: center, middle
+
+<h1>Demystifing unknown knowns</h1>
+<h2>What do we know, what don't we know and why do we care?</h2>
+
+---
+
+<h2>Untangling data is hard</h2>
+Humans looking at raw numbers have a really hard time at understanding them.  
+For example, it's almost impossible to say which of those 2 vectors have more variance just by looking at them.
+
+```{r echo=FALSE}
+x <- sample(x = 18:65, size = 10, replace = TRUE)
+y <- sample(x = 20:60, size = 10, replace = TRUE)
+```
+```{r results='markup'}
+(x)
+(y)
+```
+
+---
+
+Stufff missing. Well, duh.
+
+---
+
+<h2>But, beware: Summary statistics can also be misleading!</h2>
+![](img/pity_the_fool.jpg)
+
+... who takes summary statistics as the complete picture", Mr. T?  
+Well said!
+
+---
+
+Beautifully illustrated by the 'datasauRus' package, summary statistics can also mislead you about the structure of a dataset/variable.  
+
+--
+
+For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relations between them like this:
+```{r}
+datasauRus::datasaurus_dozen %>% 
+  filter(dataset == "h_lines") %>% 
+  ggplot(aes(x = x, y = y)) + geom_point() + theme_void()
+```
+---
+
+**But** datasauRus proves to us that various different relations with the same summary statistics are possible.
+
+This one here has **the same correlation coefficient (-0.06, Pearson's)**.
+```{r}
+datasauRus::datasaurus_dozen %>% 
+  filter(dataset == "slant_up") %>% 
+  ggplot(aes(x = x, y = y)) + geom_point() + theme_void()
+```
+---
+
+As does this one (again, -0.06):
+```{r}
+datasauRus::datasaurus_dozen %>% 
+  filter(dataset == "dino") %>% 
+  ggplot(aes(x = x, y = y)) + geom_point() + theme_void()
+```
+---
+
+In fact, all of the following 12 datasets have the same mean, standard deviation, and Pearson's correlation.
+```{r}
+ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset)) +
+ geom_point() +
+ theme_void() +
+ theme(legend.position = "none") +
+ facet_wrap( ~ dataset, ncol = 3)
+```
+---
+
+Let's prove it ourselves.  
+The data_set looks like this
+```{r}
+
+```
+---
+
+---
+class: center, middle
+
+<h2> Thanks!</h2>
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).

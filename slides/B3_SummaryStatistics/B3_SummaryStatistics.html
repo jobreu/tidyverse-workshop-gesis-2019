@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Summary Statistics</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
+    <meta name="date" content="2018-05-16" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Summary Statistics
+## First inspections - What can we tell about the data?
+### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
+### 2018-05-16
+
+---
+
+layout: true
+
+
+
+&lt;div class="my-footer"&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Müller&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-16&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="text-align: center;"&gt;&lt;span&gt;Summary Statistics&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+
+class: center, middle
+
+&lt;h1&gt;Demystifing unknown knowns&lt;/h1&gt;
+&lt;h2&gt;What do we know, what don't we know and why do we care?&lt;/h2&gt;
+
+---
+
+&lt;h2&gt;Untangling data is hard&lt;/h2&gt;
+Humans looking at raw numbers have a really hard time at understanding them.  
+For example, it's almost impossible to say which of those 2 vectors have more variance just by looking at them.
+
+
+
+```
+##  [1] 31 55 37 60 63 20 43 60 44 39
+```
+
+```
+##  [1] 59 38 47 43 24 56 30 21 33 59
+```
+
+---
+
+Stufff missing. Well, duh.
+
+---
+
+&lt;h2&gt;But, beware: Summary statistics can also be misleading!&lt;/h2&gt;
+![](img/pity_the_fool.jpg)
+
+... who takes summary statistics as the complete picture", Mr. T?  
+Well said!
+
+---
+
+Beautifully illustrated by the 'datasauRus' package, summary statistics can also mislead you about the structure of a dataset/variable.  
+
+--
+
+For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relations between them like this:
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+---
+
+**But** datasauRus proves to us that various different relations with the same summary statistics are possible.
+
+This one here has **the same correlation coefficient (-0.06, Pearson's)**.
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+---
+
+As does this one (again, -0.06):
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+---
+
+In fact, all of the following 12 datasets have the same mean, standard deviation, and Pearson's correlation.
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+---
+
+Let's prove it ourselves.  
+The data_set looks like this
+
+---
+
+---
+class: center, middle
+
+&lt;h2&gt; Thanks!&lt;/h2&gt;
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
