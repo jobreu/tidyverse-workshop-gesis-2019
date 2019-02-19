@@ -86,7 +86,7 @@ Beautifully illustrated by the 'datasauRus' package, summary statistics can also
 
 --
 
-For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relations between them like this:
+For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relation like this:
 ```{r}
 datasauRus::datasaurus_dozen %>% 
   filter(dataset == "h_lines") %>% 
@@ -94,7 +94,7 @@ datasauRus::datasaurus_dozen %>%
 ```
 ---
 
-**But** datasauRus proves to us that various different relations with the same summary statistics are possible.
+**But**, datasauRus proves to us that various different relations with the same summary statistics are possible.
 
 This one here has **the same correlation coefficient (-0.06, Pearson's)**.
 ```{r}
@@ -128,7 +128,24 @@ Let's prove that to ourselves!
 
 Here's how the data set looks like
 ```{r echo=TRUE}
-datasauRus::datasaurus_dozen %>% names()
+datasauRus::datasaurus_dozen %>% glimpse()
+datasauRus::datasaurus_dozen %>% select(dataset) %>% table
+```
+
+---
+Proving the points in the various datasets (e.g. dino, away) are not identical.
+
+```{r echo=TRUE}
+x <- c(1,2,3,4)
+y <- c(4,3,2,1)
+identical(sort(x),sort(y))
+
+dino <- datasauRus::datasaurus_dozen %>%
+  filter(dataset == "dino")
+away <- datasauRus::datasaurus_dozen %>%
+  filter(dataset == "away")
+
+identical(sort(dino$x), sort(away$x))
 ```
 
 ---
@@ -136,9 +153,9 @@ datasauRus::datasaurus_dozen %>% names()
 And here's the solution to compute the statistics
 ```{r echo=TRUE}
 datasauRus::datasaurus_dozen %>% group_by(dataset) %>%
-  summarise(n = n(), first_x = first(x), first_y = first(y), 
-            mean_x = mean(x), mean_y = mean(y), sd_x = sd(x),
-            sd_y = sd(y), corr = cor(x, y, method = "pearson"))
+  summarise(n = n(), mean_x = mean(x), mean_y = mean(y), 
+            sd_x = sd(x), sd_y = sd(y),
+            corr = cor(x, y, method = "pearson"))
 ```
 
 ---

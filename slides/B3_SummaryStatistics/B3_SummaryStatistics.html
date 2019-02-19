@@ -74,11 +74,11 @@ Beautifully illustrated by the 'datasauRus' package, summary statistics can also
 
 --
 
-For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relations between them like this:
+For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relation like this:
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 ---
 
-**But** datasauRus proves to us that various different relations with the same summary statistics are possible.
+**But**, datasauRus proves to us that various different relations with the same summary statistics are possible.
 
 This one here has **the same correlation coefficient (-0.06, Pearson's)**.
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
@@ -88,7 +88,7 @@ As does this one (again, -0.06):
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-In fact, all of these 13 datasets have the same mean, standard deviation, and Pearson's correlation.
+In fact, all of these 13 datasets have the same means, standard deviations, and Pearson's correlation.
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
@@ -98,11 +98,56 @@ Let's prove that to ourselves!
 Here's how the data set looks like
 
 ```r
-datasauRus::datasaurus_dozen %&gt;% names()
+datasauRus::datasaurus_dozen %&gt;% glimpse()
 ```
 
 ```
-## [1] "dataset" "x"       "y"
+## Observations: 1,846
+## Variables: 3
+## $ dataset &lt;chr&gt; "dino", "dino", "dino", "dino", "dino", "dino", "dino"...
+## $ x       &lt;dbl&gt; 55.3846, 51.5385, 46.1538, 42.8205, 40.7692, 38.7179, ...
+## $ y       &lt;dbl&gt; 97.1795, 96.0256, 94.4872, 91.4103, 88.3333, 84.8718, ...
+```
+
+```r
+datasauRus::datasaurus_dozen %&gt;% select(dataset) %&gt;% table
+```
+
+```
+## .
+##       away   bullseye     circle       dino       dots    h_lines 
+##        142        142        142        142        142        142 
+## high_lines slant_down   slant_up       star    v_lines wide_lines 
+##        142        142        142        142        142        142 
+##    x_shape 
+##        142
+```
+
+---
+Proving the points in the various datasets (e.g. dino, away) are not identical.
+
+
+```r
+x &lt;- c(1,2,3,4)
+y &lt;- c(4,3,2,1)
+identical(sort(x),sort(y))
+```
+
+```
+## [1] TRUE
+```
+
+```r
+dino &lt;- datasauRus::datasaurus_dozen %&gt;%
+  filter(dataset == "dino")
+away &lt;- datasauRus::datasaurus_dozen %&gt;%
+  filter(dataset == "away")
+
+identical(sort(dino$x), sort(away$x))
+```
+
+```
+## [1] FALSE
 ```
 
 ---
@@ -111,28 +156,28 @@ And here's the solution to compute the statistics
 
 ```r
 datasauRus::datasaurus_dozen %&gt;% group_by(dataset) %&gt;%
-  summarise(n = n(), first_x = first(x), first_y = first(y), 
-            mean_x = mean(x), mean_y = mean(y), sd_x = sd(x),
-            sd_y = sd(y), corr = cor(x, y, method = "pearson"))
+  summarise(n = n(), mean_x = mean(x), mean_y = mean(y), 
+            sd_x = sd(x), sd_y = sd(y),
+            corr = cor(x, y, method = "pearson"))
 ```
 
 ```
-## # A tibble: 13 x 9
-##    dataset        n first_x first_y mean_x mean_y  sd_x  sd_y    corr
-##    &lt;chr&gt;      &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-##  1 away         142    32.3    61.4   54.3   47.8  16.8  26.9 -0.0641
-##  2 bullseye     142    51.2    83.3   54.3   47.8  16.8  26.9 -0.0686
-##  3 circle       142    56.0    79.3   54.3   47.8  16.8  26.9 -0.0683
-##  4 dino         142    55.4    97.2   54.3   47.8  16.8  26.9 -0.0645
-##  5 dots         142    51.1    90.9   54.3   47.8  16.8  26.9 -0.0603
-##  6 h_lines      142    53.4    90.2   54.3   47.8  16.8  26.9 -0.0617
-##  7 high_lines   142    57.6    83.9   54.3   47.8  16.8  26.9 -0.0685
-##  8 slant_down   142    52.9    97.3   54.3   47.8  16.8  26.9 -0.0690
-##  9 slant_up     142    47.7    95.2   54.3   47.8  16.8  26.9 -0.0686
-## 10 star         142    58.2    91.9   54.3   47.8  16.8  26.9 -0.0630
-## 11 v_lines      142    50.5    93.2   54.3   47.8  16.8  26.9 -0.0694
-## 12 wide_lines   142    65.8    95.6   54.3   47.8  16.8  26.9 -0.0666
-## 13 x_shape      142    38.3    92.5   54.3   47.8  16.8  26.9 -0.0656
+## # A tibble: 13 x 7
+##    dataset        n mean_x mean_y  sd_x  sd_y    corr
+##    &lt;chr&gt;      &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1 away         142   54.3   47.8  16.8  26.9 -0.0641
+##  2 bullseye     142   54.3   47.8  16.8  26.9 -0.0686
+##  3 circle       142   54.3   47.8  16.8  26.9 -0.0683
+##  4 dino         142   54.3   47.8  16.8  26.9 -0.0645
+##  5 dots         142   54.3   47.8  16.8  26.9 -0.0603
+##  6 h_lines      142   54.3   47.8  16.8  26.9 -0.0617
+##  7 high_lines   142   54.3   47.8  16.8  26.9 -0.0685
+##  8 slant_down   142   54.3   47.8  16.8  26.9 -0.0690
+##  9 slant_up     142   54.3   47.8  16.8  26.9 -0.0686
+## 10 star         142   54.3   47.8  16.8  26.9 -0.0630
+## 11 v_lines      142   54.3   47.8  16.8  26.9 -0.0694
+## 12 wide_lines   142   54.3   47.8  16.8  26.9 -0.0666
+## 13 x_shape      142   54.3   47.8  16.8  26.9 -0.0656
 ```
 
 ---
