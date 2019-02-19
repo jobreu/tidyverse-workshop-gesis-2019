@@ -47,6 +47,7 @@ For example, it's almost impossible to say which of those 2 vectors have more va
 
 
 
+
 ```
 ##  [1] 31 55 37 60 63 20 43 60 44 39
 ```
@@ -85,25 +86,56 @@ This one here has **the same correlation coefficient (-0.06, Pearson's)**.
 
 As does this one (again, -0.06):
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
----
 
-In fact, all of the following 12 datasets have the same mean, standard deviation, and Pearson's correlation.
+---
+In fact, all of these 13 datasets have the same mean, standard deviation, and Pearson's correlation.
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
----
-
-Let's prove it ourselves.  
-The data_set looks like this
 
 ---
 
+Let's prove that to ourselves!
+
+Here's how the data set looks like
+
+```r
+datasauRus::datasaurus_dozen %&gt;% names()
+```
+
+```
+## [1] "dataset" "x"       "y"
+```
+
 ---
-class: center, middle
 
-&lt;h2&gt; Thanks!&lt;/h2&gt;
+And here's the solution to compute the statistics
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+```r
+datasauRus::datasaurus_dozen %&gt;% group_by(dataset) %&gt;%
+  summarise(n = n(), first_x = first(x), first_y = first(y), 
+            mean_x = mean(x), mean_y = mean(y), sd_x = sd(x),
+            sd_y = sd(y), corr = cor(x, y, method = "pearson"))
+```
 
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+```
+## # A tibble: 13 x 9
+##    dataset        n first_x first_y mean_x mean_y  sd_x  sd_y    corr
+##    &lt;chr&gt;      &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1 away         142    32.3    61.4   54.3   47.8  16.8  26.9 -0.0641
+##  2 bullseye     142    51.2    83.3   54.3   47.8  16.8  26.9 -0.0686
+##  3 circle       142    56.0    79.3   54.3   47.8  16.8  26.9 -0.0683
+##  4 dino         142    55.4    97.2   54.3   47.8  16.8  26.9 -0.0645
+##  5 dots         142    51.1    90.9   54.3   47.8  16.8  26.9 -0.0603
+##  6 h_lines      142    53.4    90.2   54.3   47.8  16.8  26.9 -0.0617
+##  7 high_lines   142    57.6    83.9   54.3   47.8  16.8  26.9 -0.0685
+##  8 slant_down   142    52.9    97.3   54.3   47.8  16.8  26.9 -0.0690
+##  9 slant_up     142    47.7    95.2   54.3   47.8  16.8  26.9 -0.0686
+## 10 star         142    58.2    91.9   54.3   47.8  16.8  26.9 -0.0630
+## 11 v_lines      142    50.5    93.2   54.3   47.8  16.8  26.9 -0.0694
+## 12 wide_lines   142    65.8    95.6   54.3   47.8  16.8  26.9 -0.0666
+## 13 x_shape      142    38.3    92.5   54.3   47.8  16.8  26.9 -0.0656
+```
+
+---
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({

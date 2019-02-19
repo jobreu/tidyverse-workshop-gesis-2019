@@ -62,6 +62,7 @@ For example, it's almost impossible to say which of those 2 vectors have more va
 x <- sample(x = 18:65, size = 10, replace = TRUE)
 y <- sample(x = 20:60, size = 10, replace = TRUE)
 ```
+
 ```{r results='markup'}
 (x)
 (y)
@@ -109,30 +110,36 @@ datasauRus::datasaurus_dozen %>%
   filter(dataset == "dino") %>% 
   ggplot(aes(x = x, y = y)) + geom_point() + theme_void()
 ```
----
 
-In fact, all of the following 12 datasets have the same mean, standard deviation, and Pearson's correlation.
-```{r}
-ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset)) +
- geom_point() +
- theme_void() +
- theme(legend.position = "none") +
- facet_wrap( ~ dataset, ncol = 3)
-```
 ---
-
-Let's prove it ourselves.  
-The data_set looks like this
+In fact, all of these 13 datasets have the same means, standard deviations, and Pearson's correlation.
 ```{r}
+ggplot(datasaurus_dozen, aes(x=x, y=y, colour=dataset))+
+geom_point()+
+theme_void()+
+theme(legend.position = "none")+
+facet_wrap(~dataset, ncol=3)
 
 ```
----
 
 ---
-class: center, middle
 
-<h2> Thanks!</h2>
+Let's prove that to ourselves!
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+Here's how the data set looks like
+```{r echo=TRUE}
+datasauRus::datasaurus_dozen %>% names()
+```
 
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+---
+
+And here's the solution to compute the statistics
+```{r echo=TRUE}
+datasauRus::datasaurus_dozen %>% group_by(dataset) %>%
+  summarise(n = n(), first_x = first(x), first_y = first(y), 
+            mean_x = mean(x), mean_y = mean(y), sd_x = sd(x),
+            sd_y = sd(y), corr = cor(x, y, method = "pearson"))
+```
+
+---
+
