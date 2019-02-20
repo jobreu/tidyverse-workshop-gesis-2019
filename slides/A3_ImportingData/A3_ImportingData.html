@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Importing Data</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
+    <meta name="date" content="2018-05-15" />
+    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
+    <link href="libs/remark-css/robot-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Importing Data
+### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
+### 2018-05-15
+
+---
+
+layout: true
+
+
+
+&lt;div class="my-footer"&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;, &lt;/span&gt;&lt;/div&gt;
+  &lt;div style="text-align: center;"&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+---
+# Data, Data, Data
+Thus far, we've already learned that data can be untidy.
+
+This course is all about making them tidy again (...or maybe for the first time?).
+
+There's one rather important prerequisite, however:
+
+We need data!
+
+---
+&lt;h2&gt; Getting Data in the tidyverse &lt;/h2&gt;
+
+No matter we aim to use our own data or data from others, we need to get data into R.
+
+tidyverse provides some nice tools to do so:
+
+- readr  (for 'flat' files, such as CSV)
+- readxl (for excel spreadsheets)
+- haven  (for statistical software files, such as SPSS, Stata, and SAS)
+
+The difference to other tool is that tidyverse import functions already prepare the data for being 'tidyed': they are a tibbles
+
+![](readr.png) ![](readxl.png) ![](haven.png)
+
+---
+# A readr example: `read_csv()`
+
+```r
+mtcars &lt;- 
+  "mtcars.csv" %&gt;% 
+  readr_example() %&gt;% 
+  read_csv()
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   mpg = col_double(),
+##   cyl = col_double(),
+##   disp = col_double(),
+##   hp = col_double(),
+##   drat = col_double(),
+##   wt = col_double(),
+##   qsec = col_double(),
+##   vs = col_double(),
+##   am = col_double(),
+##   gear = col_double(),
+##   carb = col_double()
+## )
+```
+
+---
+# A readr example: `read_csv()`
+
+```r
+mtcars
+```
+
+```
+## # A tibble: 32 x 11
+##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+## # ... with 22 more rows
+```
+
+
+It's that easy.
+
+---
+# A readxl example: `read_excel()`
+
+```r
+datasets &lt;- 
+  "datasets.xlsx" %&gt;% 
+  readxl_example() %&gt;% 
+  read_excel()
+```
+
+No output :-(
+
+---
+# A readxl example: `read_excel()`
+
+```r
+datasets
+```
+
+```
+## # A tibble: 150 x 5
+##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+##  1          5.1         3.5          1.4         0.2 setosa 
+##  2          4.9         3            1.4         0.2 setosa 
+##  3          4.7         3.2          1.3         0.2 setosa 
+##  4          4.6         3.1          1.5         0.2 setosa 
+##  5          5           3.6          1.4         0.2 setosa 
+##  6          5.4         3.9          1.7         0.4 setosa 
+##  7          4.6         3.4          1.4         0.3 setosa 
+##  8          5           3.4          1.5         0.2 setosa 
+##  9          4.4         2.9          1.4         0.2 setosa 
+## 10          4.9         3.1          1.5         0.1 setosa 
+## # ... with 140 more rows
+```
+
+Just iris?
+
+---
+# A readxl example: `read_excel()`
+
+```r
+"datasets.xlsx" %&gt;% 
+  readxl_example() %&gt;% 
+  excel_sheets()
+```
+
+```
+## [1] "iris"     "mtcars"   "chickwts" "quakes"
+```
+
+
+---
+# A readxl example: `read_excel()`
+
+```r
+mtcars &lt;- 
+  "datasets.xlsx" %&gt;% 
+  readxl_example() %&gt;% 
+  read_excel(sheet = "mtcars")
+mtcars
+```
+
+```
+## # A tibble: 32 x 11
+##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+## # ... with 22 more rows
+```
+
+---
+# A haven example: `read_stata()`
+
+```r
+mtcars &lt;-
+system.file("examples", "iris.dta", package = "haven") %&gt;% 
+  read_stata()
+mtcars
+```
+
+```
+## # A tibble: 150 x 5
+##    sepallength sepalwidth petallength petalwidth species
+##          &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;  
+##  1        5.10       3.5         1.40      0.200 setosa 
+##  2        4.90       3           1.40      0.200 setosa 
+##  3        4.70       3.20        1.30      0.200 setosa 
+##  4        4.60       3.10        1.5       0.200 setosa 
+##  5        5          3.60        1.40      0.200 setosa 
+##  6        5.40       3.90        1.70      0.400 setosa 
+##  7        4.60       3.40        1.40      0.300 setosa 
+##  8        5          3.40        1.5       0.200 setosa 
+##  9        4.40       2.90        1.40      0.200 setosa 
+## 10        4.90       3.10        1.5       0.100 setosa 
+## # ... with 140 more rows
+```
+
+---
+# There's More
+These were just some very first examples of applying functions from each package.
+
+- readr
+  - `read_csv()`
+  - `read_tsv()`
+  - `read_delim()`
+  - `read_fwf()`
+  - `read_table()`
+  - `read_log()`
+- haven
+  - `read_sas()`
+  - `read_spss()`
+  - `read_stata()`
+
+Not to mention all the helper files and options. For example, we can define the cells to read from an excel file by applying the option `range = "C1:E4"` in
+`read_excel()`
+
+---
+# Exporting Data
+Sometimes we also have to leave R and its tidy world.
+
+- We share data with colleagues
+- We wanna start where we left the next day
+  - Particularly, when data tidying to a long time
+  
+For these purposes, we also have to need a way to export our data.
+
+All tools presented also have designated functions for that.
+
+---
+# Example: CSV files
+
+---
+# Maybe More Relevant: Stata Files
+
+---
+# Additional Packages
+The great benefit of tidyverse import functions is the import of the data as tibbles: the data are potentially more tidy.
+
+Several other non-tidyverse packages provide similar benefits as they make use of this universal data format:
+- sf (for geospatial data)
+- ...
+
+---
+# Alternative Packages
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
