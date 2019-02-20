@@ -82,8 +82,172 @@ To make sense of data ... we need summarizing functions that produce singular va
 
 ---
 
-Stufff missing. Well, duh.
+We assume all know the basics of summary statistics.  
+So instead of repeating that let's see respective Tidyverse code.
 
+--
+
+Dataset is from gapminder.  
+
+Income per person (fixed 2000 US$) for 275 countries for the years 1960-2011.
+
+"Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
+
+
+```r
+capita &lt;- readxl::read_excel(
+  path = "./data/GDPpercapitaconstant2000US.xlsx", sheet = "Data",
+  col_names = TRUE)
+```
+---
+
+A first glimpse.
+
+```
+## Observations: 275
+## Variables: 53
+## $ country  &lt;chr&gt; "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "...
+## $ `1960.0` &lt;dbl&gt; NA, NA, NA, NA, 1280.3848, NA, NA, NA, NA, NA, 5251.8...
+## $ `1961`   &lt;dbl&gt; NA, NA, NA, NA, 1085.4146, NA, NA, NA, NA, NA, 5448.3...
+## $ `1962`   &lt;dbl&gt; NA, NA, NA, NA, 855.9480, NA, NA, NA, NA, NA, 5316.57...
+## $ `1963`   &lt;dbl&gt; NA, NA, NA, NA, 1128.4158, NA, NA, NA, NA, NA, 4956.2...
+## $ `1964`   &lt;dbl&gt; NA, NA, NA, NA, 1170.3239, NA, NA, NA, NA, NA, 5375.4...
+## $ `1965`   &lt;dbl&gt; NA, NA, NA, NA, 1215.0158, NA, NA, NA, NA, NA, 5855.6...
+## $ `1966`   &lt;dbl&gt; NA, NA, NA, NA, 1127.6143, NA, NA, NA, NA, NA, 5733.3...
+## $ `1967`   &lt;dbl&gt; NA, NA, NA, NA, 1200.5582, NA, NA, NA, NA, NA, 5833.0...
+## $ `1968`   &lt;dbl&gt; NA, NA, NA, NA, 1291.8640, NA, NA, NA, NA, NA, 6028.1...
+## $ `1969`   &lt;dbl&gt; NA, NA, NA, NA, 1359.4910, NA, NA, NA, NA, NA, 6515.3...
+## $ `1970`   &lt;dbl&gt; NA, NA, NA, NA, 1436.1298, NA, 18256.2701, NA, NA, NA...
+## $ `1971`   &lt;dbl&gt; NA, NA, NA, NA, 1235.6638, NA, 18142.9851, NA, NA, NA...
+## $ `1972`   &lt;dbl&gt; NA, NA, NA, NA, 1527.6464, NA, 18646.9449, NA, NA, NA...
+## $ `1973`   &lt;dbl&gt; NA, NA, NA, NA, 1538.306, NA, 19135.297, NA, NA, NA, ...
+## $ `1974`   &lt;dbl&gt; NA, NA, NA, NA, 1603.3496, NA, 19304.3735, NA, NA, NA...
+## $ `1975`   &lt;dbl&gt; NA, NA, NA, NA, 1632.2960, NA, 18607.4095, NA, NA, NA...
+## $ `1976`   &lt;dbl&gt; NA, NA, NA, NA, 1714.0701, NA, 18511.4011, NA, NA, NA...
+## $ `1977`   &lt;dbl&gt; NA, NA, NA, NA, 1747.6651, NA, 18394.4620, NA, NA, 38...
+## $ `1978`   &lt;dbl&gt; NA, NA, NA, NA, 1848.4375, NA, 18038.5998, NA, NA, 39...
+## $ `1979`   &lt;dbl&gt; NA, NA, NA, NA, 1923.2906, NA, 17379.3280, NA, NA, 42...
+## $ `1980`   &lt;dbl&gt; NA, NA, NA, 1060.6846, 1876.0756, NA, 17013.6985, NA,...
+## $ `1981`   &lt;dbl&gt; NA, NA, NA, 1099.5127, 1869.6213, NA, 16169.0217, NA,...
+## $ `1982`   &lt;dbl&gt; NA, NA, NA, 1110.5123, 1924.6141, NA, 15514.6576, NA,...
+## $ `1983`   &lt;dbl&gt; NA, NA, NA, 1101.3357, 1963.3651, NA, 14976.5906, NA,...
+## $ `1984`   &lt;dbl&gt; NA, NA, NA, 1065.2353, 2008.4722, NA, 14554.7628, NA,...
+## $ `1985`   &lt;dbl&gt; NA, NA, NA, 1059.8657, 2020.0872, NA, 14354.9066, 362...
+## $ `1986`   &lt;dbl&gt; NA, NA, NA, 1091.5606, 1969.7642, NA, 14444.4621, 362...
+## $ `1987`   &lt;dbl&gt; NA, NA, NA, 1054.2478, 1902.0611, NA, 14983.6322, 381...
+## $ `1988`   &lt;dbl&gt; NA, NA, NA, 1013.6290, 1833.1529, NA, 15517.4947, 392...
+## $ `1989`   &lt;dbl&gt; NA, NA, NA, 1092.4746, 1864.7126, NA, 15947.4902, 384...
+## $ `1990`   &lt;dbl&gt; NA, NA, NA, 977.7655, 1832.7434, NA, 16070.0658, 372....
+## $ `1991`   &lt;dbl&gt; NA, NA, NA, 687.9919, 1766.6608, NA, 15813.1016, 357....
+## $ `1992`   &lt;dbl&gt; NA, NA, NA, 643.2858, 1755.9737, NA, 15194.4592, 322....
+## $ `1993`   &lt;dbl&gt; NA, NA, NA, 714.2414, 1680.3799, NA, 14318.1890, 234....
+## $ `1994`   &lt;dbl&gt; NA, NA, NA, 784.5831, 1630.3815, NA, 14092.4241, 235....
+## $ `1995`   &lt;dbl&gt; NA, NA, NA, 899.7829, 1660.0042, NA, 14125.5934, 251....
+## $ `1996`   &lt;dbl&gt; NA, NA, NA, 990.6532, 1698.3338, NA, 14662.7364, 272....
+## $ `1997`   &lt;dbl&gt; NA, NA, NA, 895.5610, 1690.2375, NA, 16071.6449, 286....
+## $ `1998`   &lt;dbl&gt; NA, NA, NA, 1013.5143, 1750.6509, NA, 16755.2207, 297...
+## $ `1999`   &lt;dbl&gt; NA, NA, NA, 1118.1715, 1781.1425, NA, 17513.1782, 298...
+## $ `2000`   &lt;dbl&gt; NA, NA, NA, 1200.1374, 1794.4052, NA, 17539.4420, 298...
+## $ `2001`   &lt;dbl&gt; NA, NA, NA, 1281.8428, 1814.4151, NA, 19085.3641, 297...
+## $ `2002`   &lt;dbl&gt; NA, NA, NA, 1313.7227, 1871.9220, NA, 19430.0548, 329...
+## $ `2003`   &lt;dbl&gt; NA, NA, NA, 1381.0408, 1971.5128, NA, 19834.6326, 328...
+## $ `2004`   &lt;dbl&gt; NA, NA, NA, 1454.0229, 2043.1357, NA, 20254.3463, 353...
+## $ `2005`   &lt;dbl&gt; NA, NA, NA, 1525.7236, 2115.1860, NA, 20737.9451, 404...
+## $ `2006`   &lt;dbl&gt; NA, NA, NA, 1594.4951, 2124.9578, NA, 21595.3955, 473...
+## $ `2007`   &lt;dbl&gt; NA, NA, NA, 1681.6139, 2155.4852, NA, 21495.8051, 562...
+## $ `2008`   &lt;dbl&gt; NA, NA, NA, 1804.4194, 2173.7879, NA, 21943.3399, 622...
+## $ `2009`   &lt;dbl&gt; NA, NA, NA, 1857.3529, 2192.7040, NA, NA, 619.8186, N...
+## $ `2010`   &lt;dbl&gt; NA, NA, NA, 1915.4245, 2231.9802, NA, NA, 623.2453, N...
+## $ `2011`   &lt;dbl&gt; NA, NA, NA, 1965.7072, 2255.2255, NA, NA, 629.9553, N...
+```
+
+
+---
+Let's start by reducing the data to 3 countries and converting it to long format.
+
+```r
+*capita %&gt;%
+  rename(country = 1) %&gt;%
+  filter(country %in% 
+           c("Germany", "United Kingdom", "United States")) %&gt;%
+  gather(2:53, key = "year", value = "income") %&gt;%
+  arrange(country, year) %&gt;%
+  tail
+```
+
+```
+## # A tibble: 6 x 3
+##   country       year  income
+##   &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;
+## 1 United States 2006  38349.
+## 2 United States 2007  38711.
+## 3 United States 2008  38209.
+## 4 United States 2009  36539.
+## 5 United States 2010  37330.
+## 6 United States 2011  37691.
+```
+
+--
+
+Showing the tail because Germany has missings up to and including 1969.
+
+
+
+---
+
+&lt;h2&gt;Summary statistics&lt;/h2&gt;
+
+
+```r
+capita_long %&gt;%
+  mutate(change = (income / lag(income) - 1) * 100) %&gt;%
+  group_by(country) %&gt;%
+  summarise(n = n(), min_inc = min(income, na.rm = TRUE),
+            max_inc = max(income, na.rm = TRUE), 
+            diff = max_inc - min_inc, has_na = any(is.na(income)),
+            max_change = max(change, na.rm = TRUE))
+```
+
+```
+## # A tibble: 3 x 7
+##   country            n min_inc max_inc   diff has_na max_change
+##   &lt;chr&gt;          &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
+## 1 Germany           52  11895.  26207. 14311. TRUE       5.4002
+## 2 United Kingdom    52  10025.  29771. 19746. FALSE      7.1064
+## 3 United States     52  13723.  38711. 24988. FALSE      6.2707
+```
+
+'change' is change in percent to previous year
+
+---
+
+
+```r
+capita_long %&gt;%
+  mutate(change = (income / lag(income) - 1) * 100) %&gt;%
+  filter(change &gt; 5) 
+```
+
+```
+## # A tibble: 6 x 4
+##   country        year  income change
+##   &lt;chr&gt;          &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Germany        1976  14043. 5.4002
+## 2 United Kingdom 1970  13042. 6.4929
+## 3 United Kingdom 1973  14654. 7.1064
+## 4 United States  1965  16277. 5.0781
+## 5 United States  1966  17136. 5.2771
+## 6 United States  1984  24554. 6.2707
+```
+
+```r
+  # %&gt;% group_by(country) %&gt;%
+  # filter(change == max(change, na.rm = TRUE))
+```
+
+--
+
+The out-commented lines show that we could use 'group_by' to just see the year in which each country's gdp increased the strongest. Even if we do not care about (other) summary statistics at all.
 ---
 
 &lt;h2&gt;But, beware: Summary statistics can also be misleading!&lt;/h2&gt;
@@ -99,21 +263,23 @@ Beautifully illustrated by the 'datasauRus' package, summary statistics can also
 --
 
 For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relation like this:
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
 ---
 
 **But**, datasauRus proves to us that various different relations with the same summary statistics are possible.
 
 This one here has **the same correlation coefficient (-0.06, Pearson's)**.
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 ---
 
 As does this one (again, -0.06):
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 In fact, all of these 13 datasets have the same means, standard deviations, and Pearson's correlation coefficients.
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 

@@ -89,7 +89,84 @@ To make sense of data ... we need summarizing functions that produce singular va
 
 ---
 
-Stufff missing. Well, duh.
+We assume all know the basics of summary statistics.  
+So instead of repeating that let's see respective Tidyverse code.
+
+--
+
+Dataset is from gapminder.  
+
+Income per person (fixed 2000 US$) for 275 countries for the years 1960-2011.
+
+"Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
+
+```{r echo=TRUE}
+capita <- readxl::read_excel(
+  path = "./data/GDPpercapitaconstant2000US.xlsx", sheet = "Data",
+  col_names = TRUE)
+```
+---
+
+A first glimpse.
+```{r}
+capita %>% rename(country = 1) %>% glimpse
+```
+
+
+---
+Let's start by reducing the data to 3 countries and converting it to long format.
+```{r echo=TRUE}
+capita %>%
+  rename(country = 1) %>%
+  filter(country %in% 
+           c("Germany", "United Kingdom", "United States")) %>%
+  gather(2:53, key = "year", value = "income") %>%
+  arrange(country, year) %>%
+  tail
+```
+
+--
+
+Showing the tail because Germany has missings up to and including 1969.
+
+```{r echo=FALSE}
+capita_long <- capita %>%
+  rename(country = 1) %>%
+  filter(country %in% 
+           c("Germany", "United Kingdom", "United States")) %>%
+  gather(2:53, key = "year", value = "income") %>%
+  arrange(country, year)
+```
+
+---
+
+<h2>Summary statistics</h2>
+
+```{r echo=TRUE}
+capita_long %>%
+  mutate(change = (income / lag(income) - 1) * 100) %>%
+  group_by(country) %>%
+  summarise(n = n(), min_inc = min(income, na.rm = TRUE),
+            max_inc = max(income, na.rm = TRUE), 
+            diff = max_inc - min_inc, has_na = any(is.na(income)),
+            max_change = max(change, na.rm = TRUE))
+```
+
+'change' is change in percent to previous year
+
+---
+
+```{r echo=TRUE}
+capita_long %>%
+  mutate(change = (income / lag(income) - 1) * 100) %>%
+  filter(change > 5) 
+  # %>% group_by(country) %>%
+  # filter(change == max(change, na.rm = TRUE))
+```
+
+--
+
+The out-commented lines show that we could use 'group_by' to just see the year in which each country's gdp increased the strongest. Even if we do not care about (other) summary statistics at all.
 
 ---
 
@@ -106,11 +183,13 @@ Beautifully illustrated by the 'datasauRus' package, summary statistics can also
 --
 
 For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relation like this:
+
 ```{r}
 datasauRus::datasaurus_dozen %>% 
   filter(dataset == "h_lines") %>% 
   ggplot(aes(x = x, y = y)) + geom_point() + theme_void()
 ```
+
 ---
 
 **But**, datasauRus proves to us that various different relations with the same summary statistics are possible.
