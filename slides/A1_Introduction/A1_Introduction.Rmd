@@ -28,7 +28,7 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 ```
 
 <div class="my-footer">
-  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
   <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
   <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
 </div>
@@ -91,47 +91,51 @@ In this course you will learn how to **wrangle and explore data in R using packa
 ---
 # Preliminaries
 
-- Feel free to ask questions at any time
-- We want to make this workshop as interactive as possible
+- Feel free to ask questions at any time<br /><br />
+- We want to make this workshop as interactive as possible<br /><br />
 - Slides and other materials are available at
 
 .center[`https://github.com/jobreu/tidyverse-workshop-gesis-2019`]
 
 ---
-# Hello World
+# Course schedule
 
-Install the **xaringan** package from [Github](https://github.com/yihui/xaringan):
+.center[**Wednesday, May 15th, 2019**]
+```{r schedule Wed, echo = FALSE}
+sharing_options <- data.frame(
+  "When?" = c("10:00 - 11:00", "11:00 - 11:30", "11:30 - 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 15:30", "15:30 - 16:30", "16:30 - 18:00", "18:00 - 20:00")
+  , "What?" = c("Introduction", "<i>Coffee break</i>", "Tidy data", "<i>Lunch break</i>", "Importing data", "<i>Coffee break</i>", "Tidyverse terminology: tibbles & pipes", "Data cleaning", "<i>Wine & cheese</i>")
+  , stringsAsFactors = FALSE
+  , check.names = FALSE
+)
 
-```{r eval=FALSE, tidy=FALSE}
-devtools::install_github("yihui/xaringan")
+kable(
+  sharing_options
+  , format = "html"
+  , align = "lcccc"
+  , escape = FALSE
+)
 ```
 
---
-
-You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rstudio/), but you do not have to.
-
-- Create a new R Markdown document from the menu `File -> New File -> R Markdown -> From Template -> Ninja Presentation`;<sup>1</sup>
-
---
-
-- Click the `Knit` button to compile it;
-
---
-
-- or use the [RStudio Addin](https://rstudio.github.io/rstudioaddins/)<sup>2</sup> "Infinite Moon Reader" to live preview the slides (every time you update and save the Rmd document, the slides will be automatically reloaded in RStudio Viewer.
-
-.footnote[
-[1] 中文用户请看[这份教程](http://slides.yihui.name/xaringan/zh-CN.html)
-
-[2] See [#2](https://github.com/yihui/xaringan/issues/2) if you do not see the template or addin in RStudio.
-]
-
 ---
-background-image: url(`r xaringan:::karl`)
-background-position: 50% 50%
-class: center, bottom, inverse
+# Course schedule
 
-# You only live once!
+.center[**Thursday, May 16th, 2019**]
+```{r schedule Thur, echo = FALSE}
+sharing_options <- data.frame(
+  "When?" = c("09:00 - 10:30", "10:30 - 11:00", "11:00 - 12:00", "12:00 - 13:00", "13:00 - 14:00", "14:00 - 15:30", "15:30 - 16:00")
+  , "What?" = c("Data transformation", "<i>Coffee break</i>", "Relational data", "<i>Lunch break</i>", "Data exploration I: Summary statistics", "Data exploration II: ggplot2 basics", "Outlook")
+  , stringsAsFactors = FALSE
+  , check.names = FALSE
+)
+
+kable(
+  sharing_options
+  , format = "html"
+  , align = "lcccc"
+  , escape = FALSE
+)
+```
 
 ---
 
@@ -162,13 +166,6 @@ You can see an introduction of remark.js from [its homepage](https://remarkjs.co
 It is important to be familiar with remark.js before you can understand the options in **xaringan**.
 
 .footnote[[*] It is different with Pandoc's Markdown! It is limited but should be enough for presentation purposes. Come on... You do not need a slide for the Table of Contents! Well, the Markdown support in remark.js [may be improved](https://github.com/gnab/remark/issues/142) in the future.]
-
----
-background-image: url(`r xaringan:::karl`)
-background-size: cover
-class: center, bottom, inverse
-
-# I was so happy to have discovered remark.js!
 
 ---
 class: inverse, middle, center
