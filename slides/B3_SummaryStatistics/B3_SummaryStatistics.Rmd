@@ -146,7 +146,8 @@ capita_long <- capita %>%
 capita_long %>%
   mutate(change = (income / lag(income) - 1) * 100) %>%
   group_by(country) %>%
-  summarise(n = n(), min_inc = min(income, na.rm = TRUE),
+  summarise(n = sum(!is.na(income)), 
+            min_inc = min(income, na.rm = TRUE),
             max_inc = max(income, na.rm = TRUE), 
             diff = max_inc - min_inc, has_na = any(is.na(income)),
             max_change = max(change, na.rm = TRUE))

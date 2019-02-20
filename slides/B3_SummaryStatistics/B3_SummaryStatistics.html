@@ -202,7 +202,8 @@ Showing the tail because Germany has missings up to and including 1969.
 capita_long %&gt;%
   mutate(change = (income / lag(income) - 1) * 100) %&gt;%
   group_by(country) %&gt;%
-  summarise(n = n(), min_inc = min(income, na.rm = TRUE),
+  summarise(n = sum(!is.na(income)), 
+            min_inc = min(income, na.rm = TRUE),
             max_inc = max(income, na.rm = TRUE), 
             diff = max_inc - min_inc, has_na = any(is.na(income)),
             max_change = max(change, na.rm = TRUE))
@@ -212,7 +213,7 @@ capita_long %&gt;%
 ## # A tibble: 3 x 7
 ##   country            n min_inc max_inc   diff has_na max_change
 ##   &lt;chr&gt;          &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
-## 1 Germany           52  11895.  26207. 14311. TRUE       5.4002
+## 1 Germany           42  11895.  26207. 14311. TRUE       5.4002
 ## 2 United Kingdom    52  10025.  29771. 19746. FALSE      7.1064
 ## 3 United States     52  13723.  38711. 24988. FALSE      6.2707
 ```
