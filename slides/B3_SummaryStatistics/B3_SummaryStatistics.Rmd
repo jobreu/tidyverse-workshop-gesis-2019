@@ -102,7 +102,7 @@ Income per person (fixed 2000 US$) for 275 countries for the years 1960-2011.
 
 ```{r echo=TRUE}
 capita <- readxl::read_excel(
-  path = "./data/GDPpercapitaconstant2000US.xlsx", sheet = "Data",
+  path = "../data/GDPpercapitaconstant2000US.xlsx", sheet = "Data",
   col_names = TRUE)
 ```
 ---
@@ -160,13 +160,20 @@ capita_long %>%
 capita_long %>%
   mutate(change = (income / lag(income) - 1) * 100) %>%
   filter(change > 5) 
-  # %>% group_by(country) %>%
-  # filter(change == max(change, na.rm = TRUE))
 ```
+
+.highlight[16277 + (16277*5.2771/100) ~= 17136]
 
 --
 
-The out-commented lines show that we could use 'group_by' to just see the year in which each country's gdp increased the strongest. Even if we do not care about (other) summary statistics at all.
+
+```{r echo=TRUE}
+# group_by(country) %>%  
+# filter(change == max(change, na.rm = TRUE))  
+```
+
+
+With  the outcomment code above we could use 'group_by' to just see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
 
 ---
 

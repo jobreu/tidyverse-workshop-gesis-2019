@@ -96,7 +96,7 @@ Income per person (fixed 2000 US$) for 275 countries for the years 1960-2011.
 
 ```r
 capita &lt;- readxl::read_excel(
-  path = "./data/GDPpercapitaconstant2000US.xlsx", sheet = "Data",
+  path = "../data/GDPpercapitaconstant2000US.xlsx", sheet = "Data",
   col_names = TRUE)
 ```
 ---
@@ -166,7 +166,7 @@ A first glimpse.
 Let's start by reducing the data to 3 countries and converting it to long format.
 
 ```r
-*capita %&gt;%
+capita %&gt;%
   rename(country = 1) %&gt;%
   filter(country %in% 
            c("Germany", "United Kingdom", "United States")) %&gt;%
@@ -240,14 +240,20 @@ capita_long %&gt;%
 ## 6 United States  1984  24554. 6.2707
 ```
 
-```r
-  # %&gt;% group_by(country) %&gt;%
-  # filter(change == max(change, na.rm = TRUE))
-```
+.highlight[16277 + (16277*5.2771/100) ~= 17136]
 
 --
 
-The out-commented lines show that we could use 'group_by' to just see the year in which each country's gdp increased the strongest. Even if we do not care about (other) summary statistics at all.
+
+
+```r
+# group_by(country) %&gt;%  
+# filter(change == max(change, na.rm = TRUE))  
+```
+
+
+With  the outcomment code above we could use 'group_by' to just see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
+
 ---
 
 &lt;h2&gt;But, beware: Summary statistics can also be misleading!&lt;/h2&gt;
@@ -264,22 +270,22 @@ Beautifully illustrated by the 'datasauRus' package, summary statistics can also
 
 For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relation like this:
 
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 **But**, datasauRus proves to us that various different relations with the same summary statistics are possible.
 
 This one here has **the same correlation coefficient (-0.06, Pearson's)**.
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
 ---
 
 As does this one (again, -0.06):
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 In fact, all of these 13 datasets have the same means, standard deviations, and Pearson's correlation coefficients.
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
