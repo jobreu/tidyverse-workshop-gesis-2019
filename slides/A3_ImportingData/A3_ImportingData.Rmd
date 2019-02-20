@@ -7,11 +7,12 @@ location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["ninjutsu", "robot-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
       countIncrementalSlides: false
+      yolo: true
 ---
 layout: true
 
@@ -42,18 +43,26 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 
 ---
 # Data, Data, Data
+
+--
 Thus far, we've already learned that data can be untidy.
 
+
+--
 This course is all about making them tidy again (...or maybe for the first time?).
 
+
+--
 There's one rather important prerequisite, however:
 
-We need data!
+
+--
+.center[We need data!]
 
 ---
 <h2> Getting Data in the tidyverse </h2>
 
-No matter we aim to use our own data or data from others, we need to get data into R.
+Whether we want to use our own data or that from others, we need to get data into R.
 
 tidyverse provides some nice tools to do so:
 
@@ -63,7 +72,13 @@ tidyverse provides some nice tools to do so:
 
 The difference to other tool is that tidyverse import functions already prepare the data for being 'tidyed': they are a tibbles
 
-![](readr.png) ![](readxl.png) ![](haven.png)
+```{r out.width='15%', fig.align='center', fig.show='hold'}
+knitr::include_graphics(c("readr.png", "readxl.png", "haven.png"))
+```
+
+
+
+.right[![](readr.png) ![](readxl.png) ![](haven.png)]
 
 ---
 # A readr example: `read_csv()`
