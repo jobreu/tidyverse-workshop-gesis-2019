@@ -89,7 +89,7 @@ To make sense of data ... we need summarizing functions that produce singular va
 
 ---
 
-We assume all know the basics of summary statistics.  
+We assume everyone here knows the basics of summary statistics.  
 So instead of repeating that let's see respective Tidyverse code.
 
 --
@@ -120,7 +120,7 @@ capita %>%
   rename(country = 1) %>%
   filter(country %in% 
            c("Germany", "United Kingdom", "United States")) %>%
-  gather(2:53, key = "year", value = "income") %>%
+  gather(-1, key = "year", value = "income") %>%
   arrange(country, year) %>%
   tail
 ```
@@ -134,7 +134,7 @@ capita_long <- capita %>%
   rename(country = 1) %>%
   filter(country %in% 
            c("Germany", "United Kingdom", "United States")) %>%
-  gather(2:53, key = "year", value = "income") %>%
+  gather(-1, key = "year", value = "income") %>%
   arrange(country, year)
 ```
 
