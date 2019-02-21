@@ -178,7 +178,8 @@ kable(
 ---
 # What we want to avoid
 
-.center[![](./pics/owl.jpg)]
+.center[<img src="./pics/owl.jpg" width="75%">]
+<small><small>Source: https://bit.ly/2Xhz81a</small></small>
 
 ---
 # Why tidyverse?
@@ -210,6 +211,32 @@ include_graphics("./pics/hex-tidyverse.png")
 ```
 
 ---
+
+# Workflow
+
+.center[
+<img src="./pics/data-science.png" width="60%">
+]
+<small><small>Source: http://r4ds.had.co.nz/</small></small>
+
+- **Import**: read in data in different formats (e.g., .csv, .xls, .sav, .dta)
+- **Tidy**: clean data (1 row = 1 case, 1 column = 1 variable), rename & recode variables, etc.
+- **Transform**: prepare data for analysis (e.g., by aggregating and/or filtering)
+- **Visualize**: Explore/analyze data through informative plots
+- **Model**: Analyze the data by creating models (e.g, linear regression model) 
+- **Communicate**: Present the results (to others)
+
+---
+
+# Tidy workflow
+
+.center[
+<img src="./pics/tidyverse-1200x484.png">
+]
+<small><small>Source: http://www.storybench.org/getting-started-with-tidyverse-in-r/</small></small>
+
+---
+
 # Lift-off into the tidyverse `r ji("rocket")`
 
 install all tidyverse packages

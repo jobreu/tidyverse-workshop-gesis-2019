@@ -4,7 +4,7 @@
     <title>Introduction</title>
     <meta charset="utf-8">
     <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
-    <meta name="date" content="2018-05-15" />
+    <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <script src="libs/htmlwidgets/htmlwidgets.js"></script>
@@ -32,7 +32,7 @@ class: center, middle, inverse, title-slide
 
 # Introduction
 ### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
-### 2018-05-15
+### 2019-05-15
 
 ---
 
@@ -42,7 +42,7 @@ layout: true
 
 &lt;div class="my-footer"&gt;
   &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Thomas Ebel, Stefan Müller&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-15&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Introduction&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
@@ -237,7 +237,8 @@ install.packages(c("tidyverse", "sf"))
 ---
 # What we want to avoid
 
-.center[![](./pics/owl.jpg)]
+.center[&lt;img src="./pics/owl.jpg" width="75%"&gt;]
+&lt;small&gt;&lt;small&gt;Source: https://bit.ly/2Xhz81a&lt;/small&gt;&lt;/small&gt;
 
 ---
 # Why tidyverse?
@@ -267,6 +268,32 @@ The (in)famous **80/20-rule**: 80% wrangling, 20% analysis
 &lt;img src="./pics/hex-tidyverse.png" width="30%" style="display: block; margin: auto;" /&gt;
 
 ---
+
+# Workflow
+
+.center[
+&lt;img src="./pics/data-science.png" width="60%"&gt;
+]
+&lt;small&gt;&lt;small&gt;Source: http://r4ds.had.co.nz/&lt;/small&gt;&lt;/small&gt;
+
+- **Import**: read in data in different formats (e.g., .csv, .xls, .sav, .dta)
+- **Tidy**: clean data (1 row = 1 case, 1 column = 1 variable), rename &amp; recode variables, etc.
+- **Transform**: prepare data for analysis (e.g., by aggregating and/or filtering)
+- **Visualize**: Explore/analyze data through informative plots
+- **Model**: Analyze the data by creating models (e.g, linear regression model) 
+- **Communicate**: Present the results (to others)
+
+---
+
+# Tidy workflow
+
+.center[
+&lt;img src="./pics/tidyverse-1200x484.png"&gt;
+]
+&lt;small&gt;&lt;small&gt;Source: http://www.storybench.org/getting-started-with-tidyverse-in-r/&lt;/small&gt;&lt;/small&gt;
+
+---
+
 # Lift-off into the tidyverse 🚀
 
 install all tidyverse packages
@@ -502,12 +529,12 @@ See the next page for two HTML widgets.
 
 ---
 
-&lt;div id="htmlwidget-93b93525b427e0ade7e1" style="width:100%;height:432px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-93b93525b427e0ade7e1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script><
+&lt;div id="htmlwidget-066a1aa150a3fc62b156" style="width:100%;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-066a1aa150a3fc62b156">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script><
 ---
 
-&lt;div id="htmlwidget-1557ba6f8a1d9e193940" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1557ba6f8a1d9e193940">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><
+&lt;div id="htmlwidget-49c9dd55786f3e6887d3" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-49c9dd55786f3e6887d3">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><
 ---
 
 # Some Tips
