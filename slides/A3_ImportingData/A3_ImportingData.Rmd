@@ -163,6 +163,25 @@ These were just some very first examples of applying functions from each package
 Not to mention all the helper files and options. For example, we can define the cells to read from an excel file by applying the option `range = "C1:E4"` in
 `read_excel()`
 
+
+---
+# Data Specifics
+- characters
+- integers
+- doubles
+
+---
+# Changing Variable Types
+For example, `read_csv` 'guesses' the variable types which can go wrong.
+
+Luckily, we can change the variable type -- before and after loading the data
+
+---
+# While Loading the data in `read_csv`
+
+---
+# After Loading the data
+
 ---
 # Exporting Data
 Sometimes we also have to leave R and its tidy world.
@@ -191,6 +210,12 @@ Several other non-tidyverse packages provide similar benefits as they make use o
 
 ---
 # Alternative Packages
+
+- base R
+- data.table
+
+---
+# Exercise: Pick One From the Pool of Data
 
 
 
