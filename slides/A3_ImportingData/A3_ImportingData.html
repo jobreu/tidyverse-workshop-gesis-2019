@@ -4,9 +4,9 @@
     <title>Importing Data</title>
     <meta charset="utf-8">
     <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
-    <meta name="date" content="2018-05-15" />
-    <link href="libs/remark-css/ninjutsu.css" rel="stylesheet" />
-    <link href="libs/remark-css/robot-fonts.css" rel="stylesheet" />
+    <meta name="date" content="2019-05-15" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
     <link rel="stylesheet" href="..\mycss.css" type="text/css" />
   </head>
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 
 # Importing Data
 ### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
-### 2018-05-15
+### 2019-05-15
 
 ---
 
@@ -25,25 +25,33 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="float: right;"&gt;&lt;span&gt;, &lt;/span&gt;&lt;/div&gt;
-  &lt;div style="text-align: center;"&gt;&lt;span&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Müller&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="text-align: center;"&gt;&lt;span&gt;Importing Data&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 ---
 # Data, Data, Data
+
+--
 Thus far, we've already learned that data can be untidy.
 
+
+--
 This course is all about making them tidy again (...or maybe for the first time?).
 
+
+--
 There's one rather important prerequisite, however:
 
-We need data!
+
+--
+.center[We need data!]
 
 ---
 &lt;h2&gt; Getting Data in the tidyverse &lt;/h2&gt;
 
-No matter we aim to use our own data or data from others, we need to get data into R.
+Whether we want to use our own data or that from others, we need to get data into R.
 
 tidyverse provides some nice tools to do so:
 
@@ -53,7 +61,11 @@ tidyverse provides some nice tools to do so:
 
 The difference to other tool is that tidyverse import functions already prepare the data for being 'tidyed': they are a tibbles
 
-![](readr.png) ![](readxl.png) ![](haven.png)
+&lt;img src="readr.png" width="15%" style="display: block; margin: auto;" /&gt;&lt;img src="readxl.png" width="15%" style="display: block; margin: auto;" /&gt;&lt;img src="haven.png" width="15%" style="display: block; margin: auto;" /&gt;
+
+
+
+.right[![](readr.png) ![](readxl.png) ![](haven.png)]
 
 ---
 # A readr example: `read_csv()`
