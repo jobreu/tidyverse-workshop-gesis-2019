@@ -2,7 +2,7 @@
 title: "Tidy Data"
 subtitle: "(according to Hadley Wickham/RStudio)"
 author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
-date: "2018-05-15"
+date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:

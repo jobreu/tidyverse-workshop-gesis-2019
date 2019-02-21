@@ -47,13 +47,18 @@ layout: true
 &lt;/div&gt;
 
 ---
+
 # About this course
 
+.larger[
 In this course you will learn how to **wrangle and explore data in R using packages from the tidyverse**. At the end of the course, you should be be familiar with the concepts of **tidy data** and the **pipe operator**, able to **import, transform, and explore** data with the tidyverse, and comfortable rewriting base R syntax in **tidyverse syntax**.
+]
 
 ---
+
 # About us
-## Johannes Breuer
+
+### Johannes Breuer
 
 - senior researcher in the team Data Linking &amp; Data Security at the GESIS Data Archive
     - main area: data linking
@@ -68,8 +73,10 @@ In this course you will learn how to **wrangle and explore data in R using packa
 [johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [@MattEagle09](https://twitter.com/MattEagle09)
 
 ---
+
 # About us
-## Thomas Ebel
+
+### Thomas Ebel
 
 - data curator in the team Archive Operations at the GESIS Data Archive
 - studied Sociology and Empirical Social Research
@@ -81,8 +88,10 @@ In this course you will learn how to **wrangle and explore data in R using packa
 [thomas.ebel@gesis.org](mailto:thomas.ebel@gesis.org)
 
 ---
+
 # About us
-## Stefan Müller
+
+### Stefan Müller
 
 - senior researcher in the team Data Linking &amp; Data Security at the GESIS Data Archive
     - main area: geo data
@@ -93,21 +102,43 @@ In this course you will learn how to **wrangle and explore data in R using packa
 [stefan.mueller@gesis.org](mailto:stefan.mueller@gesis.org)
 
 ---
+
 # About you
 
+.large[
 - What's your name?&lt;br /&gt;&lt;br /&gt;
 - Where do you work?&lt;br /&gt;&lt;br /&gt;
 - What do you work on?&lt;br /&gt;&lt;br /&gt;
 - What are your experiences with R and the tidyverse?&lt;br /&gt;&lt;br /&gt;
 - What do you want to use the tidyverse for?&lt;br /&gt;&lt;br /&gt;
+]
 
 ---
+
+# Prerequisites for this course
+
+.large[
+- Working version of R and RStudio&lt;br /&gt;&lt;br /&gt;
+- Some basic knowledge of R&lt;br /&gt;&lt;br /&gt;
+- The following packages: `tidyverse`, `sf` 
+]
+Install the packages with
+
+
+
+```r
+install.packages(c("tidyverse", "sf"))
+```
+
+---
+
 # Preliminaries
 
+.large[
 - Feel free to ask questions at any time&lt;br /&gt;&lt;br /&gt;
 - We want to make this workshop as interactive as possible&lt;br /&gt;&lt;br /&gt;
 - Slides and other materials are available at
-
+]
 .center[`https://github.com/jobreu/tidyverse-workshop-gesis-2019`]
 
 ---
@@ -203,9 +234,71 @@ In this course you will learn how to **wrangle and explore data in R using packa
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+---
+# What we want to avoid
+
+.center[![](./pics/owl.jpg)]
+
+---
+# Why tidyverse?
+
+Tidyverse syntax is designed to increase **human-readability**. This makes it especially attractive for R novices as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)).
+
+&gt; .highlight[programming languages are a lot like human languages].To communicate effectively and “get things done” in a language, .highlight[you essentially need to be “fluent.”] You need to be able to express yourself in that language, and you need to be able to do so in a way that’s accurate and performed with ease. Granted, you can “get by” without fluency, but you couldn’t expect to be hired for a language-dependent job without fluency. For example, do you think you could get a job as a journalist at the New York Times if you hadn’t mastered basic English grammar? Do you think you could get a job at the Wall Street Journal if you needed to look up 50% of the words you used? ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/))
+
+---
+# Why do we focus on wrangling &amp; exploring?
+
+It is important to **master the basics** (before moving on to more advanced tasks).
+
+The (in)famous **80/20-rule**: 80% wrangling, 20% analysis
+
+&gt; Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
 
 ---
 
+# What is the tidyverse?
+
+.large[
+&gt; The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures ([Tidyverse website](https://www.tidyverse.org/)).
+
+]
+
+&lt;img src="./pics/hex-tidyverse.png" width="30%" style="display: block; margin: auto;" /&gt;
+
+---
+# Lift-off into the tidyverse 🚀
+
+install all tidyverse packages
+
+```r
+install.packages("tidyverse")
+```
+
+load core tidyverse packages
+
+```r
+library("tidyverse")
+```
+
+```
+## -- Attaching packages ------------------------------------------------------------------- tidyverse 1.2.1 --
+```
+
+```
+## v ggplot2 3.1.0     v purrr   0.3.0
+## v tibble  2.0.1     v dplyr   0.7.8
+## v tidyr   0.8.2     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.3.0
+```
+
+```
+## -- Conflicts ---------------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+
+---
 # Hello Ninja
 
 As a presentation ninja, you certainly should not be satisfied by the "Hello World" example. You need to understand more about two things:
@@ -409,14 +502,12 @@ See the next page for two HTML widgets.
 
 ---
 
-<div id="htmlwidget-3f8a5b81f951de51e0a7" style="width:100%;height:432px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3f8a5b81f951de51e0a7">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script>
-
+&lt;div id="htmlwidget-93b93525b427e0ade7e1" style="width:100%;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-93b93525b427e0ade7e1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script><
 ---
 
-<div id="htmlwidget-0e88e431582d96aacb22" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0e88e431582d96aacb22">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
-
+&lt;div id="htmlwidget-1557ba6f8a1d9e193940" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1557ba6f8a1d9e193940">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><
 ---
 
 # Some Tips
