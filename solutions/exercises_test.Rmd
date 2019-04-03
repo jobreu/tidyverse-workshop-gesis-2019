@@ -7,6 +7,15 @@ output:
   unilur::tutorial_html_solution: default
 ---
 
+```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
+# custom boxes
+knitr::opts_template$set(clues = list(box.title = "Clues",
+                                      box.body = list(fill = "#fff9dc", colour = "black"),
+                                      box.header = list(fill = "#ffec8b", colour = "black"),
+                                      box.icon = "fa-search",
+                                      box.collapse = TRUE))
+```
+
 You can write some text appearing in both files using the standard [markup language](http://rmarkdown.rstudio.com).
 
 Use the `r` chunk to display some code in both files.
@@ -37,3 +46,16 @@ Use the knit dropdown menu on the knit button to generate the desired output:
 You can also include custom boxes to highlight some content. Read the [article](http://koncina.github.io/unilur/articles/custom-boxes.html) to learn more about how to customize the appearance.
 ```
 
+- What is the mean speed reported in the `cars` dataset?
+
+```{r, solution = TRUE}
+mean(cars$speed)
+```
+
+```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the **tidyr** library
+```
+
+```{block, opts.label = "clues"}
+Use `library()`.
+```
