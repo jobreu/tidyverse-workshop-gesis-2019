@@ -65,6 +65,12 @@ They are one of the most important terms in the whole uni.. tidyverse.
 
 
 ---
+# What is a pipe?
+```{r, out.width = "60%"}
+include_graphics("pipe office decoration.jpg")
+```
+
+---
 # Nested Functions in Base R
 
 First, let's load some data:

@@ -57,10 +57,12 @@ In this course you will learn how to **wrangle and explore data in R using packa
 ### Johannes Breuer
 
 - senior researcher in the team Data Linking & Data Security at the GESIS Data Archive
-    - main area: data linking
-- Ph.D. in psychology, University of Cologne
-- previously worked in several research projects investigating the use and effects of digital media
-<br />(Cologne, Hohenheim, Münster, Tübingen)
+    - main area: data linking  
+    
+- Ph.D. in psychology, University of Cologne  
+
+- previously worked in several research projects investigating the use and effects of digital media (Cologne, Hohenheim, Münster, Tübingen)  
+
 - other research interests:
     - methods of media (effects) research
     - data management
@@ -72,28 +74,14 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 # About us
 
-### Thomas Ebel
-
-- data curator in the team Archive Operations at the GESIS Data Archive
-- studied Sociology and Empirical Social Research
-- interests include:
-    - programming with R, Python, and JavaScript
-    - reproducible research (workflows and best practices)
-    - data management
-
-[thomas.ebel@gesis.org](mailto:thomas.ebel@gesis.org)
-
----
-
-# About us
-
 ### Stefan Müller
 
 - senior researcher in the team Data Linking & Data Security at the GESIS Data Archive
-    - main area: geo data
-- studied Sociology, Ethnology and Philosophy at the University of Cologne (M.A.)
-- previously worked in the area of data ingest and curator of the data repository datorium
-<br />and two DFG research projects on geo data
+    - main area: geo data  
+    
+- studied Sociology, Ethnology and Philosophy at the University of Cologne (M.A.)  
+
+- previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geo data
 
 [stefan.mueller@gesis.org](mailto:stefan.mueller@gesis.org)
 
@@ -102,11 +90,15 @@ In this course you will learn how to **wrangle and explore data in R using packa
 # About you
 
 .large[
-- What's your name?<br /><br />
-- Where do you work?<br /><br />
-- What do you work on?<br /><br />
-- What are your experiences with R and the tidyverse?<br /><br />
-- What do you want to use the tidyverse for?<br /><br />
+- What's your name?  
+
+- Where do you work?  
+
+- What do you work on?  
+
+- What are your experiences with R and the tidyverse?  
+
+- What do you want to use the tidyverse for?
 ]
 
 ---
@@ -114,12 +106,15 @@ In this course you will learn how to **wrangle and explore data in R using packa
 # Prerequisites for this course
 
 .large[
-- Working version of R and RStudio<br /><br />
-- Some basic knowledge of R<br /><br />
-- The following packages: `tidyverse`, `sf` 
-]
-Install the packages with
+- Working version of R and RStudio  
 
+- Some basic knowledge of R  
+
+- The following packages: `tidyverse`, `sf` 
+]  
+  
+  
+Install the packages with
 
 ```{r, eval = F, echo = T}
 install.packages(c("tidyverse", "sf"))
@@ -130,8 +125,10 @@ install.packages(c("tidyverse", "sf"))
 # Preliminaries
 
 .large[
-- Feel free to ask questions at any time<br /><br />
-- We want to make this workshop as interactive as possible<br /><br />
+- Feel free to ask questions at any time  
+
+- We want to make this workshop as interactive as possible  
+
 - Slides and other materials are available at
 ]
 .center[`https://github.com/jobreu/tidyverse-workshop-gesis-2019`]
@@ -151,7 +148,7 @@ sharing_options <- data.frame(
 kable(
   sharing_options
   , format = "html"
-  , align = "lcccc"
+  , align = "cc"
   , escape = FALSE
 )
 ```
@@ -171,10 +168,35 @@ sharing_options <- data.frame(
 kable(
   sharing_options
   , format = "html"
-  , align = "lcccc"
+  , align = "cc"
   , escape = FALSE
 )
 ```
+---
+# Why tidyverse?
+
+Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)).
+
+> .highlight[programming languages are a lot like human languages].To communicate effectively and “get things done” in a language, .highlight[you essentially need to be “fluent.”] You need to be able to express yourself in that language, and you need to be able to do so in a way that’s accurate and performed with ease. Granted, you can “get by” without fluency, but you couldn’t expect to be hired for a language-dependent job without fluency. For example, do you think you could get a job as a journalist at the New York Times if you hadn’t mastered basic English grammar? Do you think you could get a job at the Wall Street Journal if you needed to look up 50% of the words you used? ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/))
+
+---
+# Why do we focus on wrangling & exploring?
+
+The (in)famous **80/20-rule**: 80% wrangling, 20% analysis  
+
+> Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
+
+---
+
+# What to expect
+
+.large[- This is not a statistics workshop!
+    - Plumbing (skills for wrangling & exploring) instead of engineering (knowledge about stats)
+```{r, out.width = "60%"}
+include_graphics("./pics/mario_brick_3d.png")
+```
+- You will become a super (data) plumber who knows how to use pipes]
+
 ---
 # What we want to avoid
 
@@ -182,23 +204,6 @@ kable(
 <small><small>Source: https://bit.ly/2Xhz81a</small></small>
 
 ---
-# Why tidyverse?
-
-Tidyverse syntax is designed to increase **human-readability**. This makes it especially attractive for R novices as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)).
-
-> .highlight[programming languages are a lot like human languages].To communicate effectively and “get things done” in a language, .highlight[you essentially need to be “fluent.”] You need to be able to express yourself in that language, and you need to be able to do so in a way that’s accurate and performed with ease. Granted, you can “get by” without fluency, but you couldn’t expect to be hired for a language-dependent job without fluency. For example, do you think you could get a job as a journalist at the New York Times if you hadn’t mastered basic English grammar? Do you think you could get a job at the Wall Street Journal if you needed to look up 50% of the words you used? ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/))
-
----
-# Why do we focus on wrangling & exploring?
-
-It is important to **master the basics** (before moving on to more advanced tasks).
-
-The (in)famous **80/20-rule**: 80% wrangling, 20% analysis
-
-> Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
-
----
-
 # What is the tidyverse?
 
 .large[
@@ -219,12 +224,12 @@ include_graphics("./pics/hex-tidyverse.png")
 ]
 <small><small>Source: http://r4ds.had.co.nz/</small></small>
 
-- **Import**: read in data in different formats (e.g., .csv, .xls, .sav, .dta)
+.highlight[- **Import**: read in data in different formats (e.g., .csv, .xls, .sav, .dta)
 - **Tidy**: clean data (1 row = 1 case, 1 column = 1 variable), rename & recode variables, etc.
 - **Transform**: prepare data for analysis (e.g., by aggregating and/or filtering)
-- **Visualize**: Explore/analyze data through informative plots
-- **Model**: Analyze the data by creating models (e.g, linear regression model) 
-- **Communicate**: Present the results (to others)
+- **Visualize**: explore/analyze data through informative plots]
+- **Model**: analyze the data by creating models (e.g, linear regression model) 
+- **Communicate**: present the results (to others)
 
 ---
 

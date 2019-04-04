@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
     <title>Introduction</title>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
     <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -61,10 +61,12 @@ In this course you will learn how to **wrangle and explore data in R using packa
 ### Johannes Breuer
 
 - senior researcher in the team Data Linking &amp; Data Security at the GESIS Data Archive
-    - main area: data linking
-- Ph.D. in psychology, University of Cologne
-- previously worked in several research projects investigating the use and effects of digital media
-&lt;br /&gt;(Cologne, Hohenheim, Münster, Tübingen)
+    - main area: data linking  
+    
+- Ph.D. in psychology, University of Cologne  
+
+- previously worked in several research projects investigating the use and effects of digital media (Cologne, Hohenheim, Münster, Tübingen)  
+
 - other research interests:
     - methods of media (effects) research
     - data management
@@ -76,28 +78,14 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 # About us
 
-### Thomas Ebel
-
-- data curator in the team Archive Operations at the GESIS Data Archive
-- studied Sociology and Empirical Social Research
-- interests include:
-    - programming with R, Python, and JavaScript
-    - reproducible research (workflows and best practices)
-    - data management
-
-[thomas.ebel@gesis.org](mailto:thomas.ebel@gesis.org)
-
----
-
-# About us
-
 ### Stefan Müller
 
 - senior researcher in the team Data Linking &amp; Data Security at the GESIS Data Archive
-    - main area: geo data
-- studied Sociology, Ethnology and Philosophy at the University of Cologne (M.A.)
-- previously worked in the area of data ingest and curator of the data repository datorium
-&lt;br /&gt;and two DFG research projects on geo data
+    - main area: geo data  
+    
+- studied Sociology, Ethnology and Philosophy at the University of Cologne (M.A.)  
+
+- previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geo data
 
 [stefan.mueller@gesis.org](mailto:stefan.mueller@gesis.org)
 
@@ -106,11 +94,15 @@ In this course you will learn how to **wrangle and explore data in R using packa
 # About you
 
 .large[
-- What's your name?&lt;br /&gt;&lt;br /&gt;
-- Where do you work?&lt;br /&gt;&lt;br /&gt;
-- What do you work on?&lt;br /&gt;&lt;br /&gt;
-- What are your experiences with R and the tidyverse?&lt;br /&gt;&lt;br /&gt;
-- What do you want to use the tidyverse for?&lt;br /&gt;&lt;br /&gt;
+- What's your name?  
+
+- Where do you work?  
+
+- What do you work on?  
+
+- What are your experiences with R and the tidyverse?  
+
+- What do you want to use the tidyverse for?
 ]
 
 ---
@@ -118,12 +110,15 @@ In this course you will learn how to **wrangle and explore data in R using packa
 # Prerequisites for this course
 
 .large[
-- Working version of R and RStudio&lt;br /&gt;&lt;br /&gt;
-- Some basic knowledge of R&lt;br /&gt;&lt;br /&gt;
-- The following packages: `tidyverse`, `sf` 
-]
-Install the packages with
+- Working version of R and RStudio  
 
+- Some basic knowledge of R  
+
+- The following packages: `tidyverse`, `sf` 
+]  
+  
+  
+Install the packages with
 
 
 ```r
@@ -135,8 +130,10 @@ install.packages(c("tidyverse", "sf"))
 # Preliminaries
 
 .large[
-- Feel free to ask questions at any time&lt;br /&gt;&lt;br /&gt;
-- We want to make this workshop as interactive as possible&lt;br /&gt;&lt;br /&gt;
+- Feel free to ask questions at any time  
+
+- We want to make this workshop as interactive as possible  
+
 - Slides and other materials are available at
 ]
 .center[`https://github.com/jobreu/tidyverse-workshop-gesis-2019`]
@@ -148,45 +145,45 @@ install.packages(c("tidyverse", "sf"))
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; When? &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; When? &lt;/th&gt;
    &lt;th style="text-align:center;"&gt; What? &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 10:00 - 11:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 10:00 - 11:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Introduction &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 11:00 - 11:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 11:00 - 11:30 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; &lt;i&gt;Coffee break&lt;/i&gt; &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 11:30 - 13:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 11:30 - 13:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Tidy data &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13:00 - 14:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 13:00 - 14:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; &lt;i&gt;Lunch break&lt;/i&gt; &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 14:00 - 15:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 14:00 - 15:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Importing data &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 15:00 - 15:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 15:00 - 15:30 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; &lt;i&gt;Coffee break&lt;/i&gt; &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 15:30 - 16:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 15:30 - 16:30 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Tidyverse terminology: tibbles &amp; pipes &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 16:30 - 18:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 16:30 - 18:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Data cleaning &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 18:00 - 20:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 18:00 - 20:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; &lt;i&gt;Wine &amp; cheese&lt;/i&gt; &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -199,41 +196,64 @@ install.packages(c("tidyverse", "sf"))
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; When? &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; When? &lt;/th&gt;
    &lt;th style="text-align:center;"&gt; What? &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 09:00 - 10:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 09:00 - 10:30 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Data transformation &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 10:30 - 11:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 10:30 - 11:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; &lt;i&gt;Coffee break&lt;/i&gt; &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 11:00 - 12:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 11:00 - 12:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Relational data &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 12:00 - 13:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 12:00 - 13:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; &lt;i&gt;Lunch break&lt;/i&gt; &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 13:00 - 14:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 13:00 - 14:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Data exploration I: Summary statistics &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 14:00 - 15:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 14:00 - 15:30 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Data exploration II: ggplot2 basics &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; 15:30 - 16:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 15:30 - 16:00 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; Outlook &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+---
+# Why tidyverse?
+
+Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)).
+
+&gt; .highlight[programming languages are a lot like human languages].To communicate effectively and “get things done” in a language, .highlight[you essentially need to be “fluent.”] You need to be able to express yourself in that language, and you need to be able to do so in a way that’s accurate and performed with ease. Granted, you can “get by” without fluency, but you couldn’t expect to be hired for a language-dependent job without fluency. For example, do you think you could get a job as a journalist at the New York Times if you hadn’t mastered basic English grammar? Do you think you could get a job at the Wall Street Journal if you needed to look up 50% of the words you used? ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/))
+
+---
+# Why do we focus on wrangling &amp; exploring?
+
+The (in)famous **80/20-rule**: 80% wrangling, 20% analysis  
+
+&gt; Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
+
+---
+
+# What to expect
+
+.large[- This is not a statistics workshop!
+    - Plumbing (skills for wrangling &amp; exploring) instead of engineering (knowledge about stats)
+&lt;img src="./pics/mario_brick_3d.png" width="60%" style="display: block; margin: auto;" /&gt;
+- You will become a super (data) plumber who knows how to use pipes]
+
 ---
 # What we want to avoid
 
@@ -241,23 +261,6 @@ install.packages(c("tidyverse", "sf"))
 &lt;small&gt;&lt;small&gt;Source: https://bit.ly/2Xhz81a&lt;/small&gt;&lt;/small&gt;
 
 ---
-# Why tidyverse?
-
-Tidyverse syntax is designed to increase **human-readability**. This makes it especially attractive for R novices as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)).
-
-&gt; .highlight[programming languages are a lot like human languages].To communicate effectively and “get things done” in a language, .highlight[you essentially need to be “fluent.”] You need to be able to express yourself in that language, and you need to be able to do so in a way that’s accurate and performed with ease. Granted, you can “get by” without fluency, but you couldn’t expect to be hired for a language-dependent job without fluency. For example, do you think you could get a job as a journalist at the New York Times if you hadn’t mastered basic English grammar? Do you think you could get a job at the Wall Street Journal if you needed to look up 50% of the words you used? ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/))
-
----
-# Why do we focus on wrangling &amp; exploring?
-
-It is important to **master the basics** (before moving on to more advanced tasks).
-
-The (in)famous **80/20-rule**: 80% wrangling, 20% analysis
-
-&gt; Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
-
----
-
 # What is the tidyverse?
 
 .large[
@@ -276,12 +279,12 @@ The (in)famous **80/20-rule**: 80% wrangling, 20% analysis
 ]
 &lt;small&gt;&lt;small&gt;Source: http://r4ds.had.co.nz/&lt;/small&gt;&lt;/small&gt;
 
-- **Import**: read in data in different formats (e.g., .csv, .xls, .sav, .dta)
+.highlight[- **Import**: read in data in different formats (e.g., .csv, .xls, .sav, .dta)
 - **Tidy**: clean data (1 row = 1 case, 1 column = 1 variable), rename &amp; recode variables, etc.
 - **Transform**: prepare data for analysis (e.g., by aggregating and/or filtering)
-- **Visualize**: Explore/analyze data through informative plots
-- **Model**: Analyze the data by creating models (e.g, linear regression model) 
-- **Communicate**: Present the results (to others)
+- **Visualize**: explore/analyze data through informative plots]
+- **Model**: analyze the data by creating models (e.g, linear regression model) 
+- **Communicate**: present the results (to others)
 
 ---
 
@@ -309,18 +312,18 @@ library("tidyverse")
 ```
 
 ```
-## -- Attaching packages ------------------------------------------------------------------- tidyverse 1.2.1 --
+## -- Attaching packages -------------------------------------------------------- tidyverse 1.2.1 --
 ```
 
 ```
-## v ggplot2 3.1.0     v purrr   0.3.0
-## v tibble  2.0.1     v dplyr   0.7.8
-## v tidyr   0.8.2     v stringr 1.4.0
-## v readr   1.3.1     v forcats 0.3.0
+## v ggplot2 3.1.0       v purrr   0.3.2  
+## v tibble  2.1.1       v dplyr   0.8.0.1
+## v tidyr   0.8.3       v stringr 1.4.0  
+## v readr   1.3.1       v forcats 0.4.0
 ```
 
 ```
-## -- Conflicts ---------------------------------------------------------------------- tidyverse_conflicts() --
+## -- Conflicts ----------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
@@ -529,12 +532,12 @@ See the next page for two HTML widgets.
 
 ---
 
-&lt;div id="htmlwidget-066a1aa150a3fc62b156" style="width:100%;height:432px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-066a1aa150a3fc62b156">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script><
+&lt;div id="htmlwidget-eade64ad39c55121f262" style="width:100%;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-eade64ad39c55121f262">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script><
 ---
 
-&lt;div id="htmlwidget-49c9dd55786f3e6887d3" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-49c9dd55786f3e6887d3">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><
+&lt;div id="htmlwidget-cc678586448d08e34865" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cc678586448d08e34865">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><
 ---
 
 # Some Tips
@@ -813,14 +816,15 @@ Don't want to learn CSS? Okay, you can use some user-contributed themes. A theme
 
 ```
 ##  [1] "chocolate-fonts"  "chocolate"        "default-fonts"   
-##  [4] "default"          "duke-blue"        "hygge-duke"      
-##  [7] "hygge"            "kunoichi"         "lucy-fonts"      
-## [10] "lucy"             "metropolis-fonts" "metropolis"      
-## [13] "middlebury-fonts" "middlebury"       "ninjutsu"        
-## [16] "rladies-fonts"    "rladies"          "robot-fonts"     
-## [19] "robot"            "rutgers-fonts"    "rutgers"         
-## [22] "shinobi"          "tamu-fonts"       "tamu"            
-## [25] "uo-fonts"         "uo"
+##  [4] "default"          "duke-blue"        "fc-fonts"        
+##  [7] "fc"               "hygge-duke"       "hygge"           
+## [10] "kunoichi"         "lucy-fonts"       "lucy"            
+## [13] "metropolis-fonts" "metropolis"       "middlebury-fonts"
+## [16] "middlebury"       "ninjutsu"         "rladies-fonts"   
+## [19] "rladies"          "robot-fonts"      "robot"           
+## [22] "rutgers-fonts"    "rutgers"          "shinobi"         
+## [25] "tamu-fonts"       "tamu"             "uo-fonts"        
+## [28] "uo"               "uol-fonts"        "uol"
 ```
 
 ---
@@ -907,6 +911,7 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 
 The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -916,16 +921,57 @@ The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihu
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
 })();</script>
 
 <script>
 (function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -939,7 +985,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     i++;
   }
-})();
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
