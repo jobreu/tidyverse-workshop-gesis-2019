@@ -172,19 +172,6 @@ kable(
   , escape = FALSE
 )
 ```
----
-# Why tidyverse?
-
-Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)).
-
-> .highlight[programming languages are a lot like human languages].To communicate effectively and “get things done” in a language, .highlight[you essentially need to be “fluent.”] You need to be able to express yourself in that language, and you need to be able to do so in a way that’s accurate and performed with ease. Granted, you can “get by” without fluency, but you couldn’t expect to be hired for a language-dependent job without fluency. For example, do you think you could get a job as a journalist at the New York Times if you hadn’t mastered basic English grammar? Do you think you could get a job at the Wall Street Journal if you needed to look up 50% of the words you used? ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/))
-
----
-# Why do we focus on wrangling & exploring?
-
-The (in)famous **80/20-rule**: 80% wrangling, 20% analysis  
-
-> Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
 
 ---
 
@@ -198,25 +185,41 @@ include_graphics("./pics/mario_brick_3d.png")
 - You will become a super (data) plumber who knows how to use pipes]
 
 ---
+# Why do we focus on wrangling & exploring?
+
+.large[The (in)famous **80/20-rule**: 80% wrangling, 20% analysis]  
+  
+  
+> Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
+
+---
 # What we want to avoid
 
 .center[<img src="./pics/owl.jpg" width="75%">]
 <small><small>Source: https://bit.ly/2Xhz81a</small></small>
 
+
 ---
 # What is the tidyverse?
 
-.large[
-> The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures ([Tidyverse website](https://www.tidyverse.org/)).
+> The tidyverse is an .highlight[opinionated collection of R packages designed for data science]. All packages share an .highlight[underlying design philosophy, grammar, and data structures] ([Tidyverse website](https://www.tidyverse.org/)).
 
-]
+> The tidyverse is a .highlight[coherent system of packages for data manipulation, exploration and visualization] that share a .highlight[common design philosophy] ([Rickert, 2017](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/)).
 
-```{r, out.width = "30%"}
+```{r, out.width = "25%"}
 include_graphics("./pics/hex-tidyverse.png")
 ```
 
 ---
 
+# Benefits of the tidyverse
+
+.large[Most of the things we are going to show you can also be achieved with base R. However, the syntax for this is typically (more) verbose and not intuitive and, hence, difficult to learn, remember, and read.  
+  
+Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)). The tidyverse also aims for **consistency** (within and across its packages).]
+
+
+---
 # Workflow
 
 .center[
@@ -233,7 +236,7 @@ include_graphics("./pics/hex-tidyverse.png")
 
 ---
 
-# Tidy workflow
+# Tidyverse workflow
 
 .center[
 <img src="./pics/tidyverse-1200x484.png">
@@ -244,7 +247,7 @@ include_graphics("./pics/hex-tidyverse.png")
 
 # Lift-off into the tidyverse `r ji("rocket")`
 
-install all tidyverse packages
+install all tidyverse packages<sup>1</sup>
 ```{r install tidyverse, eval = F, echo = T}
 install.packages("tidyverse")
 
@@ -255,6 +258,13 @@ load core tidyverse packages
 library("tidyverse")
 
 ```
+  
+  
+.footnote[
+.smaller[
+[1] For the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/).
+] 
+]
 
 ---
 # Hello Ninja

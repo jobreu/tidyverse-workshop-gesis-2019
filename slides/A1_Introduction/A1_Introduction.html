@@ -231,19 +231,6 @@ install.packages(c("tidyverse", "sf"))
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
----
-# Why tidyverse?
-
-Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)).
-
-&gt; .highlight[programming languages are a lot like human languages].To communicate effectively and “get things done” in a language, .highlight[you essentially need to be “fluent.”] You need to be able to express yourself in that language, and you need to be able to do so in a way that’s accurate and performed with ease. Granted, you can “get by” without fluency, but you couldn’t expect to be hired for a language-dependent job without fluency. For example, do you think you could get a job as a journalist at the New York Times if you hadn’t mastered basic English grammar? Do you think you could get a job at the Wall Street Journal if you needed to look up 50% of the words you used? ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/))
-
----
-# Why do we focus on wrangling &amp; exploring?
-
-The (in)famous **80/20-rule**: 80% wrangling, 20% analysis  
-
-&gt; Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
 
 ---
 
@@ -255,23 +242,39 @@ The (in)famous **80/20-rule**: 80% wrangling, 20% analysis
 - You will become a super (data) plumber who knows how to use pipes]
 
 ---
+# Why do we focus on wrangling &amp; exploring?
+
+.large[The (in)famous **80/20-rule**: 80% wrangling, 20% analysis]  
+  
+  
+&gt; Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
+
+---
 # What we want to avoid
 
 .center[&lt;img src="./pics/owl.jpg" width="75%"&gt;]
 &lt;small&gt;&lt;small&gt;Source: https://bit.ly/2Xhz81a&lt;/small&gt;&lt;/small&gt;
 
+
 ---
 # What is the tidyverse?
 
-.large[
-&gt; The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures ([Tidyverse website](https://www.tidyverse.org/)).
+&gt; The tidyverse is an .highlight[opinionated collection of R packages designed for data science]. All packages share an .highlight[underlying design philosophy, grammar, and data structures] ([Tidyverse website](https://www.tidyverse.org/)).
 
-]
+&gt; The tidyverse is a .highlight[coherent system of packages for data manipulation, exploration and visualization] that share a .highlight[common design philosophy] ([Rickert, 2017](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/)).
 
-&lt;img src="./pics/hex-tidyverse.png" width="30%" style="display: block; margin: auto;" /&gt;
+&lt;img src="./pics/hex-tidyverse.png" width="25%" style="display: block; margin: auto;" /&gt;
 
 ---
 
+# Benefits of the tidyverse
+
+.large[Most of the things we are going to show you can also be achieved with base R. However, the syntax for this is typically (more) verbose and not intuitive and, hence, difficult to learn, remember, and read.  
+  
+Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)). The tidyverse also aims for **consistency** (within and across its packages).]
+
+
+---
 # Workflow
 
 .center[
@@ -288,7 +291,7 @@ The (in)famous **80/20-rule**: 80% wrangling, 20% analysis
 
 ---
 
-# Tidy workflow
+# Tidyverse workflow
 
 .center[
 &lt;img src="./pics/tidyverse-1200x484.png"&gt;
@@ -299,7 +302,7 @@ The (in)famous **80/20-rule**: 80% wrangling, 20% analysis
 
 # Lift-off into the tidyverse 🚀
 
-install all tidyverse packages
+install all tidyverse packages&lt;sup&gt;1&lt;/sup&gt;
 
 ```r
 install.packages("tidyverse")
@@ -327,6 +330,13 @@ library("tidyverse")
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
+  
+  
+.footnote[
+.smaller[
+[1] For the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/).
+] 
+]
 
 ---
 # Hello Ninja
@@ -532,12 +542,12 @@ See the next page for two HTML widgets.
 
 ---
 
-&lt;div id="htmlwidget-eade64ad39c55121f262" style="width:100%;height:432px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-eade64ad39c55121f262">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script><
+&lt;div id="htmlwidget-583fc73e84a264958fea" style="width:100%;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-583fc73e84a264958fea">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script><
 ---
 
-&lt;div id="htmlwidget-cc678586448d08e34865" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cc678586448d08e34865">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><
+&lt;div id="htmlwidget-1255a555f93a10b9e2bb" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1255a555f93a10b9e2bb">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><
 ---
 
 # Some Tips

@@ -1,0 +1,55 @@
+---
+title: "Data Cleaning"
+subtitle: ""
+author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
+date: "2019-05-15"
+location: "GESIS, Mannheim, Germany"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    nature:
+      highlightStyle: "github"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+layout: true
+
+```{r setup, include=FALSE}
+packages_to_load <- c("knitr", "rmarkdown", "devtools", "tibble")
+
+for (i in packages_to_load) {
+  if (!require(i, character.only = TRUE)) {
+    install.packages(i)
+  } else {
+    library(i, character.only = TRUE)
+  }
+}
+
+rm(packages_to_load)
+
+install_github("hadley/emo")
+library(emo)
+
+options(htmltools.dir.version = FALSE)
+
+opts_chunk$set(echo = FALSE, fig.align = "center")
+```
+
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+</div>
+
+---
+
+# Toy data
+
+```{r create toy data, echo = F}
+toys <- tibble(
+  name = c("Teddy bear", "Fire truck", "Basketball", "Frog", "Skeletor"), 
+  color = c("brown", "red", "orange", "green", "blue"), 
+  price = c(15, 5, 10, 12, 20)
+)
+```
