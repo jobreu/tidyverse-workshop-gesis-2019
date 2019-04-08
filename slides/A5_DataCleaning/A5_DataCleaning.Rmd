@@ -1,6 +1,6 @@
 ---
-title: "Data Cleaning"
-subtitle: ""
+title: "Data Wrangling & Exploration with the Tidyverse in R"
+subtitle: "Data Cleaning"
 author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
@@ -16,7 +16,13 @@ output:
 layout: true
 
 ```{r setup, include=FALSE}
-packages_to_load <- c("knitr", "rmarkdown", "devtools", "tibble")
+packages_to_load <- c("knitr",
+                      "rmarkdown",
+                      "devtools",
+                      "tibble",
+                      "readr",
+                      "kableExtra",
+                      "dplyr")
 
 for (i in packages_to_load) {
   if (!require(i, character.only = TRUE)) {
@@ -39,17 +45,120 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 <div class="my-footer">
   <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
   <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
-  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
 </div>
 
 ---
 
-# Toy data
+# Data cleaning
 
-```{r create toy data, echo = F}
+In this section, we will focus on the `dplyr` package.
+
+```{r, out.width = "50%"}
+include_graphics("./pics/hex-dplyr.png")
+```
+
+---
+
+# Data wrangling `r ji("cowboy_hat_face")`
+
+.pull-left[
+We split up **wrangling** into...
+- **cleaning** (now)
+    - rename
+    - recode
+    - missings  
+    
+- **transformation** (1st session tomorrow)
+    - new variables
+    - reshape data
+    ]
+
+.pull-right[
+.center[
+<img src="pics/dplyr_wrangling.png">
+]
+.smaller[
+Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+]
+]
+
+---
+
+# Toy data `r ji("kick_scooter")`
+
+```{r create toy data}
 toys <- tibble(
   name = c("Teddy bear", "Fire truck", "Basketball", "Frog", "Skeletor"), 
   color = c("brown", "red", "orange", "green", "blue"), 
   price = c(15, 5, 10, 12, 20)
 )
 ```
+
+---
+
+# Titanic `r ji("passenger_ship")`
+
+- for the data wrangling parts of the workshop we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
+
+```{r titanic data, include = F}
+titanic <- read_csv("../../data/titanic.csv")
+```
+
+
+```{r read titanic codebook, include = FALSE}
+titanic_codebook <- read_csv2("../../data/titanic_codebook.csv")
+```
+
+```{r titanic codebook, echo = FALSE}
+titanic_codebook %>%
+  kable("html") %>%
+  kable_styling(font_size = 16)
+```
+
+---
+
+# Data frame check
+
+It's always good to first check how clean or messy your data is and whether or where it needs cleaning.  
+
+The `glimpse()` function from `dplyr` is usually a good start as it similar to `str()` base R but tries to display as many data points as possible (in the Console).  
+
+The second thing you could/should do (esp. if you have many/mostly numeric variables) is to use the `summary()` function from base R.  
+
+If you want more detailed summaries, you can have a look at the [`skimr`](https://github.com/ropensci/skimr) and [`summarytools`](https://github.com/dcomtois/summarytools) packages.
+
+---
+
+# Data frame check 1
+
+```{r glimpse, echo = T}
+glimpse(titanic)
+```
+
+---
+
+# Data frame check 2
+
+```{r summary_df, include = F}
+titanic_num <- titanic %>% 
+  select_if(is.numeric)
+```
+
+```{r summary, echo = T}
+summary(titanic_num)
+```
+
+---
+
+# dplyr functions
+
+.large[
+- dplyr functions are verbs that signal an action  
+
+- first argument = a data frame  
+
+- output normally also a data frame  
+
+- columns (= variables in a tidy data frame) can be referenced without quotation marks
+]

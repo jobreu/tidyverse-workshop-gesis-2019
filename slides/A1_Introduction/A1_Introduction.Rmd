@@ -1,6 +1,6 @@
 ---
-title: "Introduction"
-subtitle: ""
+title: "Data Wrangling & Exploration with the Tidyverse in R"
+subtitle: "Introduction"
 author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
@@ -39,7 +39,7 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 <div class="my-footer">
   <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
   <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
-  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
 </div>
 
 ---
@@ -138,7 +138,7 @@ install.packages(c("tidyverse", "sf"))
 
 .center[**Wednesday, May 15th, 2019**]
 ```{r schedule Wed, echo = F}
-sharing_options <- data.frame(
+schedule <- data.frame(
   "When?" = c("10:00 - 11:00", "11:00 - 11:30", "11:30 - 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 15:30", "15:30 - 16:30", "16:30 - 18:00", "18:00 - 20:00")
   , "What?" = c("Introduction", "<i>Coffee break</i>", "Tidy data", "<i>Lunch break</i>", "Importing data", "<i>Coffee break</i>", "Tidyverse terminology: tibbles & pipes", "Data cleaning", "<i>Wine & cheese</i>")
   , stringsAsFactors = FALSE
@@ -146,7 +146,7 @@ sharing_options <- data.frame(
 )
 
 kable(
-  sharing_options
+  schedule
   , format = "html"
   , align = "cc"
   , escape = FALSE
@@ -214,9 +214,9 @@ include_graphics("./pics/hex-tidyverse.png")
 
 # Benefits of the tidyverse
 
-.large[Most of the things we are going to show you can also be achieved with base R. However, the syntax for this is typically (more) verbose and not intuitive and, hence, difficult to learn, remember, and read.  
+.large[Most of the things we are going to show you can also be achieved with base R. However, the syntax for this is typically (more) verbose and not intuitive and, hence, difficult to learn, remember, and read (plus many tidyverse operations are faster than their base R equivalents).  
   
-Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)). The tidyverse also aims for **consistency** (within and across its packages).]
+Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)). The tidyverse also aims for **consistency** (e.g., data frame as first argument and output) and uses **smarter defaults** (e.g., `stringsAsFactors = FALSE` & no partial matching of data frame and column names).]
 
 
 ---
@@ -246,25 +246,52 @@ Tidyverse syntax is designed to increase **human-readability**. This makes it es
 ---
 
 # Lift-off into the tidyverse `r ji("rocket")`
-
 install all tidyverse packages<sup>1</sup>
 ```{r install tidyverse, eval = F, echo = T}
 install.packages("tidyverse")
 
 ```
-
-load core tidyverse packages
+load core tidyverse packages<sup>2</sup>
+.small[
 ```{r load tidyverse, eval = T, echo = T, message = T}
 library("tidyverse")
 
 ```
-  
-  
+]  
+
 .footnote[
 .smaller[
-[1] For the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/).
+[1] For the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/).  
+[2] To save time and reduce namespace conflicts it often makes sense to install and load the tidyverse packages individually.
 ] 
 ]
+
+---
+# Coding in style `r ji("sunglasses")`
+
+[The tidyverse style guide](https://style.tidyverse.org/) by Hadley Wickham  
+  
+[`styler`](http://styler.r-lib.org/) package (incl. RStudio add-in)
+
+```{r install & load styler, eval = F, echo = T}
+install.packages("styler")
+library(styler)
+
+```
+
+From the package documentation:
+- `style_file()` styles .R and/or .Rmd files.
+- `style_dir()` styles all .R and/or .Rmd files in a directory.
+
+```{r, out.width = "50%"}
+include_graphics("./pics/styler_addin.png")
+```
+
+---
+
+class: center, middle
+
+# Time for `r ji("coffee")`
 
 ---
 # Hello Ninja

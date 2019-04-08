@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Introduction</title>
+    <title>Data Wrangling &amp; Exploration with the Tidyverse in R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
     <meta name="date" content="2019-05-15" />
@@ -30,7 +30,8 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Introduction
+# Data Wrangling &amp; Exploration with the Tidyverse in R
+## Introduction
 ### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
 ### 2019-05-15
 
@@ -269,9 +270,9 @@ install.packages(c("tidyverse", "sf"))
 
 # Benefits of the tidyverse
 
-.large[Most of the things we are going to show you can also be achieved with base R. However, the syntax for this is typically (more) verbose and not intuitive and, hence, difficult to learn, remember, and read.  
+.large[Most of the things we are going to show you can also be achieved with base R. However, the syntax for this is typically (more) verbose and not intuitive and, hence, difficult to learn, remember, and read (plus many tidyverse operations are faster than their base R equivalents).  
   
-Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)). The tidyverse also aims for **consistency** (within and across its packages).]
+Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)). The tidyverse also aims for **consistency** (e.g., data frame as first argument and output) and uses **smarter defaults** (e.g., `stringsAsFactors = FALSE` &amp; no partial matching of data frame and column names).]
 
 
 ---
@@ -301,14 +302,13 @@ Tidyverse syntax is designed to increase **human-readability**. This makes it es
 ---
 
 # Lift-off into the tidyverse 🚀
-
 install all tidyverse packages&lt;sup&gt;1&lt;/sup&gt;
 
 ```r
 install.packages("tidyverse")
 ```
-
-load core tidyverse packages
+load core tidyverse packages&lt;sup&gt;2&lt;/sup&gt;
+.small[
 
 ```r
 library("tidyverse")
@@ -330,13 +330,33 @@ library("tidyverse")
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
-  
-  
+]  
+
 .footnote[
 .smaller[
-[1] For the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/).
+[1] For the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/).  
+[2] To save time and reduce namespace conflicts it often makes sense to install and load the tidyverse packages individually.
 ] 
 ]
+
+---
+# Coding in style 😎
+
+[The tidyverse style guide](https://style.tidyverse.org/) by Hadley Wickham  
+  
+[`styler`](http://styler.r-lib.org/) package (incl. RStudio add-in)
+
+
+```r
+install.packages("styler")
+library(styler)
+```
+
+From the package documentation:
+- `style_file()` styles .R and/or .Rmd files.
+- `style_dir()` styles all .R and/or .Rmd files in a directory.
+
+&lt;img src="./pics/styler_addin.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
 # Hello Ninja
@@ -542,13 +562,11 @@ See the next page for two HTML widgets.
 
 ---
 
-&lt;div id="htmlwidget-583fc73e84a264958fea" style="width:100%;height:432px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-583fc73e84a264958fea">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script><
----
+&lt;!iv id="htmlwidget-66391256ebbfe33bbed3" style="width:100%;height:432px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-66391256ebbfe33bbed3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]}],"setView":[[42.0285,-93.65],17,[]]},"evals":[],"jsHooks":[]}</script><!---
 
-&lt;div id="htmlwidget-1255a555f93a10b9e2bb" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1255a555f93a10b9e2bb">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><
----
+&lt;!iv id="htmlwidget-50f181e0e6f87d470cdf" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-50f181e0e6f87d470cdf">{"x":{"filter":"none","fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":8,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[8,10,25,50,100]}},"evals":[],"jsHooks":[]}</script><!---
 
 # Some Tips
 
