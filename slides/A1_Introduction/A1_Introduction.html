@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>Data Wrangling &amp; Exploration with the Tidyverse in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
+    <meta name="date" content="2019-05-15" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data Wrangling &amp; Exploration with the Tidyverse in R
+## Introduction
+### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
+### 2019-05-15
+
+---
+
+layout: true
+
+
+
+&lt;div class="my-footer"&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Thomas Ebel, Stefan Müller&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="text-align: center;"&gt;&lt;span&gt;Introduction&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+---
+
+# About this course
+
+.larger[
+In this course you will learn how to **wrangle and explore data in R using packages from the tidyverse**. At the end of the course, you should be be familiar with the concepts of **tidy data** and the **pipe operator**, able to **import, transform, and explore** data with the tidyverse, and comfortable rewriting base R syntax in **tidyverse syntax**.
+]
+
+---
+
+# About us
+
+### Johannes Breuer
+
+- senior researcher in the team Data Linking &amp; Data Security at the GESIS Data Archive
+    - main area: data linking  
+    
+- Ph.D. in psychology, University of Cologne  
+
+- previously worked in several research projects investigating the use and effects of digital media (Cologne, Hohenheim, Münster, Tübingen)  
+
+- other research interests:
+    - methods of media (effects) research
+    - data management
+    - open science
+
+[johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [@MattEagle09](https://twitter.com/MattEagle09)
+
+---
+
+# About us
+
+### Stefan Müller
+
+- senior researcher in the team Data Linking &amp; Data Security at the GESIS Data Archive
+    - main area: geo data  
+    
+- studied Sociology, Ethnology and Philosophy at the University of Cologne (M.A.)  
+
+- previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geo data
+
+[stefan.mueller@gesis.org](mailto:stefan.mueller@gesis.org)
+
+---
+
+# About you
+
+.large[
+- What's your name?  
+
+- Where do you work?  
+
+- What do you work on?  
+
+- What are your experiences with R and the tidyverse?  
+
+- What do you want to use the tidyverse for?
+]
+
+---
+
+# Prerequisites for this course
+
+.large[
+- Working version of R and RStudio  
+
+- Some basic knowledge of R  
+
+- The following packages: `tidyverse`, `sf` 
+]  
+  
+  
+Install the packages with
+
+
+```r
+install.packages(c("tidyverse", "sf"))
+```
+
+---
+
+# Preliminaries
+
+.large[
+- Feel free to ask questions at any time  
+
+- We want to make this workshop as interactive as possible  
+
+- Slides and other materials are available at
+]
+.center[`https://github.com/jobreu/tidyverse-workshop-gesis-2019`]
+
+---
+# Course schedule
+
+.center[**Wednesday, May 15th, 2019**]
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; When? &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; What? &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 10:00 - 11:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Introduction &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 11:00 - 11:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;i&gt;Coffee break&lt;/i&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 11:30 - 13:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tidy data &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 13:00 - 14:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;i&gt;Lunch break&lt;/i&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 14:00 - 15:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Importing data &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 15:00 - 15:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;i&gt;Coffee break&lt;/i&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 15:30 - 16:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tidyverse terminology: tibbles &amp; pipes &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 16:30 - 18:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Data cleaning &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 18:00 - 20:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;i&gt;Wine &amp; cheese&lt;/i&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+# Course schedule
+
+.center[**Thursday, May 16th, 2019**]
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; When? &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; What? &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 09:00 - 10:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Data transformation &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 10:30 - 11:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;i&gt;Coffee break&lt;/i&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 11:00 - 12:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Relational data &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 12:00 - 13:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; &lt;i&gt;Lunch break&lt;/i&gt; &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 13:00 - 14:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Data exploration I: Summary statistics &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 14:00 - 15:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Data exploration II: ggplot2 basics &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 15:30 - 16:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Outlook &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# What to expect
+
+.large[- This is not a statistics workshop!
+    - Plumbing (skills for wrangling &amp; exploring) instead of engineering (knowledge about stats)
+&lt;img src="./pics/mario_brick_3d.png" width="60%" style="display: block; margin: auto;" /&gt;
+- You will become a super (data) plumber who knows how to use pipes]
+
+---
+# Why do we focus on wrangling &amp; exploring?
+
+.large[The (in)famous **80/20-rule**: 80% wrangling, 20% analysis]  
+  
+  
+&gt; Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
+
+---
+# What we want to avoid
+
+.center[&lt;img src="./pics/owl.jpg" width="75%"&gt;]
+&lt;small&gt;&lt;small&gt;Source: https://bit.ly/2Xhz81a&lt;/small&gt;&lt;/small&gt;
+
+
+---
+# What is the tidyverse?
+
+&gt; The tidyverse is an .highlight[opinionated collection of R packages designed for data science]. All packages share an .highlight[underlying design philosophy, grammar, and data structures] ([Tidyverse website](https://www.tidyverse.org/)).
+
+&gt; The tidyverse is a .highlight[coherent system of packages for data manipulation, exploration and visualization] that share a .highlight[common design philosophy] ([Rickert, 2017](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/)).
+
+&lt;img src="./pics/hex-tidyverse.png" width="25%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Benefits of the tidyverse
+
+.large[Most of the things we are going to show you can also be achieved with base R. However, the syntax for this is typically (more) verbose and not intuitive and, hence, difficult to learn, remember, and read (plus many tidyverse operations are faster than their base R equivalents).  
+  
+Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)). The tidyverse also aims for **consistency** (e.g., data frame as first argument and output) and uses **smarter defaults** (e.g., `stringsAsFactors = FALSE` &amp; no partial matching of data frame and column names).]
+
+
+---
+# Workflow
+
+.center[
+&lt;img src="./pics/data-science.png" width="60%"&gt;
+]
+&lt;small&gt;&lt;small&gt;Source: http://r4ds.had.co.nz/&lt;/small&gt;&lt;/small&gt;
+
+.highlight[- **Import**: read in data in different formats (e.g., .csv, .xls, .sav, .dta)
+- **Tidy**: clean data (1 row = 1 case, 1 column = 1 variable), rename &amp; recode variables, etc.
+- **Transform**: prepare data for analysis (e.g., by aggregating and/or filtering)
+- **Visualize**: explore/analyze data through informative plots]
+- **Model**: analyze the data by creating models (e.g, linear regression model) 
+- **Communicate**: present the results (to others)
+
+---
+
+# Tidyverse workflow
+
+.center[
+&lt;img src="./pics/tidyverse-1200x484.png"&gt;
+]
+&lt;small&gt;&lt;small&gt;Source: http://www.storybench.org/getting-started-with-tidyverse-in-r/&lt;/small&gt;&lt;/small&gt;
+
+---
+
+# Lift-off into the tidyverse 🚀
+install all tidyverse packages&lt;sup&gt;1&lt;/sup&gt;
+
+```r
+install.packages("tidyverse")
+```
+load core tidyverse packages&lt;sup&gt;2&lt;/sup&gt;
+.small[
+
+```r
+library("tidyverse")
+```
+
+```
+## -- Attaching packages -------------------------------------------------------- tidyverse 1.2.1 --
+```
+
+```
+## v ggplot2 3.1.0       v purrr   0.3.2  
+## v tibble  2.1.1       v dplyr   0.8.0.1
+## v tidyr   0.8.3       v stringr 1.4.0  
+## v readr   1.3.1       v forcats 0.4.0
+```
+
+```
+## -- Conflicts ----------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+```
+]  
+
+.footnote[
+.smaller[
+[1] For the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/).  
+[2] To save time and reduce namespace conflicts it often makes sense to install and load the tidyverse packages individually.
+] 
+]
+
+---
+# Coding in style 😎
+
+[The tidyverse style guide](https://style.tidyverse.org/) by Hadley Wickham  
+  
+[`styler`](http://styler.r-lib.org/) package (incl. RStudio add-in)
+
+
+```r
+install.packages("styler")
+library(styler)
+```
+
+From the package documentation:
+- `style_file()` styles .R and/or .Rmd files.
+- `style_dir()` styles all .R and/or .Rmd files in a directory.
+
+&lt;img src="./pics/styler_addin.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: center, middle
+
+# Time for ☕
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
