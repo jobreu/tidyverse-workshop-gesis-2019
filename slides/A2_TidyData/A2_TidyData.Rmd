@@ -223,7 +223,7 @@ There are three interrelated rules which make a dataset tidy:
 - Each observation must have its own row.
 - Each value must have its own cell.
 
-<img src="../pictures/tidy_data.png" width="100%">
+<img src="pics/tidy_data.png" width="100%">
 Source: https://r4ds.had.co.nz/tidy-data.html
 ---
 <h2> Short notes on tibbles </h2>
