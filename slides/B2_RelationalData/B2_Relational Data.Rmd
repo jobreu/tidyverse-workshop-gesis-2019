@@ -1,0 +1,79 @@
+---
+title: "Data Wrangling & Exploration with the Tidyverse in R"
+subtitle: "Relational Data"
+author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
+date: "2019-05-16"
+location: "GESIS, Mannheim, Germany"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    nature:
+      highlightStyle: "github"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+layout: true
+
+```{r setup, include=FALSE}
+packages_to_load <- c("knitr",
+                      "rmarkdown",
+                      "devtools",
+                      "tibble",
+                      "readr",
+                      "kableExtra",
+                      "dplyr")
+
+for (i in packages_to_load) {
+  if (!require(i, character.only = TRUE)) {
+    install.packages(i)
+  } else {
+    library(i, character.only = TRUE)
+  }
+}
+
+rm(packages_to_load)
+
+install_github("hadley/emo")
+library(emo)
+
+options(htmltools.dir.version = FALSE)
+
+opts_chunk$set(echo = FALSE, fig.align = "center")
+```
+
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
+</div>
+
+---
+
+# Combining datasets
+
+In most cases researchers/analysts work with more than one data file.  
+
+The simplest way two combine two tabular datasets is to use `bind_cols()` or `bind_rows()` from `dplyr`. However, to use **`bind_cols()`**, you need to make sure that the datasets contain the **same cases** (rows) in the **same order**. In order to use **`bind_rows()`**, it is necessary to have the **same variables** (with the same names) across the datasets.
+
+`dplyr` offers three categories of so-called *two-table verbs* to combine two tabular datasets:
+
+1. Mutating joins  
+
+2. Filtering joins  
+
+3. Set operations
+
+---
+
+# Superhero data
+```{r superhero data, include = F}
+heroes <- read_csv("../../data/other/heroes_information.csv") %>% 
+  select(name, Gender, Alignment, Publisher)
+```
+
+---
+
+class: center, middle
+
+# Time for `r ji("coffee")`
