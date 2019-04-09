@@ -2,8 +2,8 @@ library(dplyr)
 library(readxl)
 
 # read in data ####
-observations <- read_excel('observations.xlsx')
-sales <- read_excel('sales.xlsx')
+observations <- read_excel("data/unicorns/observations.xlsx")
+sales <- read_excel("data/unicorns/sales.xlsx")
 
 glimpse(observations)
 glimpse(sales)
@@ -13,8 +13,8 @@ glimpse(sales)
 ?read_excel
 
 # Fix this
-sales <- read_excel('sales.xlsx',  range = cell_cols("A:C")) %>% 
-    bind_cols(read_excel('sales.xlsx',  range = cell_cols("H")))
+sales <- read_excel("data/unicorns/sales.xlsx",  range = cell_cols("A:C")) %>% 
+    bind_cols(read_excel("data/unicorns/sales.xlsx",  range = cell_cols("H")))
 
 sales
 observations
@@ -38,6 +38,12 @@ sales <- sales %>%
 
 sales
 observations
+
+# Join datasets ####
+unicorns <- observations %>% 
+    full_join(sales, by = c("countryname", "year"))
+
+unicorns
 
 # Filter cases ####
 # Let's say we are only interested in German-speaking countries
