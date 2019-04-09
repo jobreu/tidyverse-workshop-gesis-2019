@@ -22,7 +22,8 @@ packages_to_load <- c("knitr",
                       "tibble",
                       "readr",
                       "kableExtra",
-                      "dplyr")
+                      "dplyr",
+                      "here")
 
 for (i in packages_to_load) {
   if (!require(i, character.only = TRUE)) {
@@ -66,11 +67,59 @@ The simplest way two combine two tabular datasets is to use `bind_cols()` or `bi
 
 ---
 
-# Superhero data
+# Superhero data `r ji("bat")``r ji("zap")``r ji("spider_web")``r ji("merman")`
+
+- to illustrate the two-table verbs from `dlpyr` we will use data from the Super Heroes dataset from [*Kaggle*](https://www.kaggle.com/claudiodavi/superhero-set)
+
 ```{r superhero data, include = F}
 heroes <- read_csv("../../data/other/heroes_information.csv") %>% 
-  select(name, Gender, Alignment, Publisher)
+  select(name, Alignment) %>% 
+  rename(Name = name) %>%
+  distinct() %>% 
+  filter(
+    Name == "Spider-Man" |
+    Name == "Aquaman" |
+    Name == "Hellboy"
+  )
+
+publishers <- read_csv("../../data/other/heroes_information.csv") %>% 
+  select(name, Publisher) %>%
+  rename(Name = name) %>%
+  distinct() %>% 
+  filter(
+    Name == "Spider-Man" |
+    Name == "Aquaman" |
+    Name == "Spawn"
+  ) %>% 
+  distinct()
+
+# define colors for superheroes
+aq_green <- "#008B45"
+spi_blue  <- "#0000FF"
+spa_black <- "#000000"
+he_red <- "#FF0000"
+
 ```
+
+.pull-left[
+.center[
+**Superheroes**
+```{r superhero table, echo = FALSE}
+heroes %>%
+  kable("html")
+```
+]
+]
+
+.pull-right[
+.center[
+**Publishers**
+```{r publishers table, echo = FALSE}
+publishers %>%
+  kable("html")
+```
+]
+]
 
 ---
 
