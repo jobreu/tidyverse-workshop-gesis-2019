@@ -102,12 +102,12 @@ toys <- tibble(
 - for the data wrangling parts of the workshop we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
 
 ```{r titanic data, include = F}
-titanic <- read_csv("../../data/titanic.csv")
+titanic <- read_csv("../../data/titanic/titanic.csv")
 ```
 
 
 ```{r read titanic codebook, include = FALSE}
-titanic_codebook <- read_csv2("../../data/titanic_codebook.csv")
+titanic_codebook <- read_csv2("../../data/titanic/titanic_codebook.csv")
 ```
 
 ```{r titanic codebook, echo = FALSE}
