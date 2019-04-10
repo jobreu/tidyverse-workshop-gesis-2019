@@ -174,7 +174,7 @@ capita_long %>%
 ```
 
 
-With  the outcomment code above we could use 'group_by' to just see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
+With  the outcommented code above we could use 'group_by' to just see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
 
 ---
 
@@ -260,11 +260,38 @@ And here's the solution to compute the statistics
 ```{r echo=TRUE}
 datasauRus::datasaurus_dozen %>% group_by(dataset) %>%
   summarise(n = n(), mean_x = mean(x), mean_y = mean(y), 
-            sd_x = sd(x), sd_y = sd(y),
+            sd_x = sd(x), sd_y = sd(y), 
             corr = cor(x, y, method = "pearson"))
 ```
 
 ---
+
+<h2> Your turn! Excercises :) </h2>
+
+```{r echo=TRUE}
+gapminder_example <- 
+  readxl::read_excel(
+    path = "../data/GDPpercapitaconstant2000US.xlsx",
+    sheet = "Data")
+gapminder_example %>% select(1:4) %>% head(n = 4)
+```
+
+Task: How could you compute mean GDP of 1960-1970 over all countries?
+
+---
+
+Solution
+
+```{r echo=TRUE}
+gapminder_example %>% 
+  mutate(country = `Income per person (fixed 2000 US$)`) %>% 
+  select(country, starts_with("196")) %>% 
+  gather(-1, key = "year", value = "GDP") %>%
+  filter(!is.na(GDP)) %>% 
+  arrange(year, GDP) %>%
+  group_by(year) %>% 
+  summarise(`GDP` = mean(GDP))
+```
 
 ---
 class: center, middle

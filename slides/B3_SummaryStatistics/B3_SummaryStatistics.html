@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html>
   <head>
     <title>Summary Statistics</title>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
     <meta name="date" content="2018-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
@@ -253,7 +253,7 @@ capita_long %&gt;%
 ```
 
 
-With  the outcomment code above we could use 'group_by' to just see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
+With  the outcommented code above we could use 'group_by' to just see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
 
 ---
 
@@ -354,7 +354,7 @@ And here's the solution to compute the statistics
 ```r
 datasauRus::datasaurus_dozen %&gt;% group_by(dataset) %&gt;%
   summarise(n = n(), mean_x = mean(x), mean_y = mean(y), 
-            sd_x = sd(x), sd_y = sd(y),
+            sd_x = sd(x), sd_y = sd(y), 
             corr = cor(x, y, method = "pearson"))
 ```
 
@@ -379,6 +379,61 @@ datasauRus::datasaurus_dozen %&gt;% group_by(dataset) %&gt;%
 
 ---
 
+&lt;h2&gt; Your turn! Excercises :) &lt;/h2&gt;
+
+
+```r
+gapminder_example &lt;- 
+  readxl::read_excel(
+    path = "../data/GDPpercapitaconstant2000US.xlsx",
+    sheet = "Data")
+gapminder_example %&gt;% select(1:4) %&gt;% head(n = 4)
+```
+
+```
+## # A tibble: 4 x 4
+##   `Income per person (fixed 2000 US$)` `1960.0` `1961` `1962`
+##   &lt;chr&gt;                                   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Abkhazia                                   NA     NA     NA
+## 2 Afghanistan                                NA     NA     NA
+## 3 Akrotiri and Dhekelia                      NA     NA     NA
+## 4 Albania                                    NA     NA     NA
+```
+
+Task: How could you compute mean GDP of 1960-1970 over all countries?
+
+---
+
+Solution
+
+
+```r
+gapminder_example %&gt;% 
+  mutate(country = `Income per person (fixed 2000 US$)`) %&gt;% 
+  select(country, starts_with("196")) %&gt;% 
+  gather(-1, key = "year", value = "GDP") %&gt;%
+  filter(!is.na(GDP)) %&gt;% 
+  arrange(year, GDP) %&gt;%
+  group_by(year) %&gt;% 
+  summarise(`GDP` = mean(GDP))
+```
+
+```
+## # A tibble: 10 x 2
+##    year      GDP
+##    &lt;chr&gt;   &lt;dbl&gt;
+##  1 1960.0 2862.7
+##  2 1961   2936.3
+##  3 1962   3033.7
+##  4 1963   3127.4
+##  5 1964   3297.2
+##  6 1965   3479.1
+##  7 1966   3561.8
+##  8 1967   3643.8
+##  9 1968   3827.4
+## 10 1969   4014.6
+```
+
 ---
 class: center, middle
 
@@ -388,7 +443,6 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 
 The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
     </textarea>
-<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -398,57 +452,16 @@ The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihu
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function(d) {
-  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
-})(document);
-
-(function(d) {
-  var el = d.getElementsByClassName("remark-slides-area");
-  if (!el) return;
-  var slide, slides = slideshow.getSlides(), els = el[0].children;
-  for (var i = 1; i < slides.length; i++) {
-    slide = slides[i];
-    if (slide.properties.continued === "true" || slide.properties.count === "false") {
-      els[i - 1].className += ' has-continuation';
-    }
-  }
-  var s = d.createElement("style");
-  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
-  d.head.appendChild(s);
-})(document);
-// delete the temporary CSS (for displaying all slides initially) when the user
-// starts to view slides
-(function() {
-  var deleted = false;
-  slideshow.on('beforeShowSlide', function(slide) {
-    if (deleted) return;
-    var sheets = document.styleSheets, node;
-    for (var i = 0; i < sheets.length; i++) {
-      node = sheets[i].ownerNode;
-      if (node.dataset["target"] !== "print-only") continue;
-      node.parentNode.removeChild(node);
-    }
-    deleted = true;
-  });
 })();</script>
 
 <script>
 (function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-</script>
-
-<script>
-slideshow._releaseMath = function(el) {
-  var i, text, code, codes = el.getElementsByTagName('code');
+  var i, text, code, codes = document.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -462,8 +475,7 @@ slideshow._releaseMath = function(el) {
     }
     i++;
   }
-};
-slideshow._releaseMath(document);
+})();
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
