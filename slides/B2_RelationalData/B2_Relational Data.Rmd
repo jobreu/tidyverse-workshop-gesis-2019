@@ -23,7 +23,7 @@ packages_to_load <- c("knitr",
                       "readr",
                       "kableExtra",
                       "dplyr",
-                      "here")
+                      "stringr")
 
 for (i in packages_to_load) {
   if (!require(i, character.only = TRUE)) {
@@ -55,7 +55,9 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 
 In most cases researchers/analysts work with more than one data file.  
 
-The simplest way two combine two tabular datasets is to use `bind_cols()` or `bind_rows()` from `dplyr`. However, to use **`bind_cols()`**, you need to make sure that the datasets contain the **same cases** (rows) in the **same order**. In order to use **`bind_rows()`**, it is necessary to have the **same variables** (with the same names) across the datasets.
+The simplest way two combine tabular datasets is to use `bind_cols()` or `bind_rows()` from `dplyr`.  
+  
+However, to use **`bind_cols()`**, you need to make sure that the datasets contain the **same cases** (rows) in the **same order**. In order to use **`bind_rows()`**, it is necessary to have the **same variables** (with the same names) across the datasets.
 
 `dplyr` offers three categories of so-called *two-table verbs* to combine two tabular datasets:
 
@@ -69,35 +71,44 @@ The simplest way two combine two tabular datasets is to use `bind_cols()` or `bi
 
 # Superhero data `r ji("bat")``r ji("zap")``r ji("spider_web")``r ji("merman")`
 
-- to illustrate the two-table verbs from `dlpyr` we will use data from the Super Heroes dataset from [*Kaggle*](https://www.kaggle.com/claudiodavi/superhero-set)
+- to illustrate the different joins from `dlpyr` we will use data from the Super Heroes dataset from [*Kaggle*](https://www.kaggle.com/claudiodavi/superhero-set)
 
 ```{r superhero data, include = F}
 heroes <- read_csv("../../data/other/heroes_information.csv") %>% 
-  select(name, Alignment) %>% 
+  select(name, Alignment, Race, Publisher) %>% 
   rename(Name = name) %>%
-  distinct() %>% 
-  filter(
-    Name == "Spider-Man" |
-    Name == "Aquaman" |
-    Name == "Hellboy"
+  mutate(Publisher = str_replace(Publisher, " Comics", "")) %>%
+    filter(
+    (Name == "Batgirl" & Race != "-") |
+      Name == "Aquaman" |
+      Name == "Catwoman" |
+      Name == "Magneto" |
+      Name == "Deadpool" |
+      Name == "Poison Ivy" |
+      Name == "Hellboy"
   )
 
 publishers <- read_csv("../../data/other/heroes_information.csv") %>% 
-  select(name, Publisher) %>%
-  rename(Name = name) %>%
+  select(Publisher) %>%
   distinct() %>% 
   filter(
-    Name == "Spider-Man" |
-    Name == "Aquaman" |
-    Name == "Spawn"
+    Publisher == "Marvel Comics" |
+    Publisher == "DC Comics" |
+    Publisher == "Image Comics"
   ) %>% 
-  distinct()
+  distinct() %>%
+  mutate(Publisher = str_replace(Publisher, " Comics", ""),
+    Founded = case_when(
+    Publisher == "Marvel" ~ 1939L,
+    Publisher == "DC" ~ 1934L,
+    Publisher == "Image" ~ 1992L
+  ),
+  Location = case_when(
+    Publisher == "Marvel" ~ "NYC (NY)",
+    Publisher == "DC" ~ "Burbank (CA)",
+    Publisher == "Image" ~ "Berkeley (CA)"
+  ))
 
-# define colors for superheroes
-aq_green <- "#008B45"
-spi_blue  <- "#0000FF"
-spa_black <- "#000000"
-he_red <- "#FF0000"
 
 ```
 
@@ -106,7 +117,8 @@ he_red <- "#FF0000"
 **Superheroes**
 ```{r superhero table, echo = FALSE}
 heroes %>%
-  kable("html")
+  kable("html") %>% 
+  kable_styling(font_size = 16)
 ```
 ]
 ]
@@ -116,13 +128,210 @@ heroes %>%
 **Publishers**
 ```{r publishers table, echo = FALSE}
 publishers %>%
-  kable("html")
+  kable("html") %>% 
+  kable_styling(font_size = 16)
 ```
 ]
 ]
 
 ---
 
+# Mutating joins
+
+.large[
+> A mutating join [...] .highlight[first matches observations by their keys], then .highlight[copies across variables from one table to the other] ([R for Data Science](https://r4ds.had.co.nz/relational-data.html#mutating-joins)).
+
+- `inner_join()`  
+
+- `left_join()`  
+
+- `right_join()`  
+
+- `full_join()`
+]
+
+---
+
+# Inner join
+
+All rows from `x` where there are matching values in `y`, and all columns from `x` and `y` (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/inner-join.gif)
+
+---
+
+# Inner join example
+
+.pull-left[
+.center[
+```{r superhero table 2, echo = FALSE}
+heroes %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+
+.pull-right[
+.center[
+```{r publishers table 2, echo = FALSE}
+publishers %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+  
+```{r eval = F, echo = T}
+heroes %>% 
+  inner_join(publishers, by = "Publisher")
+```
+
+```{r inner join, echo = F}
+heroes %>% 
+  inner_join(publishers, by = "Publisher") %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+
+---
+
+# Left join
+
+All rows from `x`, and all columns from `x` and `y`. Rows in `x` with no match in `y` will have `NA` values in the new columns (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/left-join.gif)
+
+---
+
+# Left join example
+
+.pull-left[
+.center[
+```{r superhero table 3, echo = FALSE}
+heroes %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+
+.pull-right[
+.center[
+```{r publishers table 3, echo = FALSE}
+publishers %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+  
+```{r eval = F, echo = T}
+heroes %>% 
+  left_join(publishers, by = "Publisher")
+```
+
+```{r left join, echo = F}
+heroes %>% 
+  left_join(publishers, by = "Publisher") %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+
+---
+
+# Right join
+
+All rows from y, and all columns from `x` and `y`. Rows in `y` with no match in `x` will have `NA` values in the new columns (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/right-join.gif)
+
+---
+
+# Full join
+
+All rows and all columns from both `x` and `y`. Where there are not matching values, returns `NA` for the one missing (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/full-join.gif)
+
+---
+
+# Filtering joins
+
+.large[
+> Filtering joins .highlight[match observations in the same way as mutating joins], but .highlight[affect the observations, not the variables] ([R for Data Science](https://r4ds.had.co.nz/relational-data.html#filtering-joins)).
+
+- `semi_join()`  
+
+- `anti_join()`
+]
+
+---
+
+# Semi join
+
+All rows from `x` where there are matching values in `y`, keeping just columns from `x` (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/semi-join.gif)
+
+---
+
+# Anti join
+
+All rows from `x` where there are not matching values in `y`, keeping just columns from `x` (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/anti-join.gif)
+
+---
+
+# Set operations
+
+.large[
+> These operations .highlight[work with a complete row, comparing the values of every variable]. These .highlight[expect the x and y inputs to have the same variables], and treat the observations like sets ([R for Data Science](https://r4ds.had.co.nz/relational-data.html#set-operations)).
+
+- `union()`  
+
+- `union_all()` 
+
+- `intersect()` 
+
+- `setdiff()`
+]
+
+---
+
+# Union
+
+All unique rows from `x` and `y` (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/union.gif)
+
+---
+
+# Union all
+
+All rows from `x` and `y`, keeping duplicates (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/union-all.gif)
+
+---
+
+# Intersection
+
+Common rows in both `x` and `y`, keeping just unique rows (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/intersect.gif)
+
+---
+
+# Set difference
+
+All rows from `x` which are not also rows in `y`, keeping just unique rows (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+
+![](pics/setdiff.gif)
+
+---
+
 class: center, middle
 
-# Time for `r ji("coffee")`
+# Exercise time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
