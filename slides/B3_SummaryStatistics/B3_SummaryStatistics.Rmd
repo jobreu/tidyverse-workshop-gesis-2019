@@ -276,7 +276,7 @@ gapminder_example <-
 gapminder_example %>% select(1:4) %>% head(n = 4)
 ```
 
-Task: How could you compute mean GDP of 1960-1970 over all countries?
+Task: Compute the mean GDP of 1960-1969 over all countries?
 
 ---
 
@@ -290,7 +290,7 @@ gapminder_example %>%
   filter(!is.na(GDP)) %>% 
   arrange(year, GDP) %>%
   group_by(year) %>% 
-  summarise(`GDP` = mean(GDP))
+  summarise(`GDP_over_all_countries` = mean(GDP))
 ```
 
 ---

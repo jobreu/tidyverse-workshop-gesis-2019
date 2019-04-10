@@ -400,7 +400,7 @@ gapminder_example %&gt;% select(1:4) %&gt;% head(n = 4)
 ## 4 Albania                                    NA     NA     NA
 ```
 
-Task: How could you compute mean GDP of 1960-1970 over all countries?
+Task: Compute the mean GDP of 1960-1969 over all countries?
 
 ---
 
@@ -415,23 +415,23 @@ gapminder_example %&gt;%
   filter(!is.na(GDP)) %&gt;% 
   arrange(year, GDP) %&gt;%
   group_by(year) %&gt;% 
-  summarise(`GDP` = mean(GDP))
+  summarise(`GDP_over_all_countries` = mean(GDP))
 ```
 
 ```
 ## # A tibble: 10 x 2
-##    year      GDP
-##    &lt;chr&gt;   &lt;dbl&gt;
-##  1 1960.0 2862.7
-##  2 1961   2936.3
-##  3 1962   3033.7
-##  4 1963   3127.4
-##  5 1964   3297.2
-##  6 1965   3479.1
-##  7 1966   3561.8
-##  8 1967   3643.8
-##  9 1968   3827.4
-## 10 1969   4014.6
+##    year   GDP_over_all_countries
+##    &lt;chr&gt;                   &lt;dbl&gt;
+##  1 1960.0                 2862.7
+##  2 1961                   2936.3
+##  3 1962                   3033.7
+##  4 1963                   3127.4
+##  5 1964                   3297.2
+##  6 1965                   3479.1
+##  7 1966                   3561.8
+##  8 1967                   3643.8
+##  9 1968                   3827.4
+## 10 1969                   4014.6
 ```
 
 ---
