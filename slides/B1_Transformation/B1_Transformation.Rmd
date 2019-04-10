@@ -68,7 +68,7 @@ The most important verbs are:
 
 .bottom[
 There are a handful of variations, like  
-* mutate_if (create new variable dependend on some condition),
+* mutate_if (create new variable dependent on some condition),
 * rename (an existing variable and select all),  
 and other functions, too.  
 ]
@@ -173,7 +173,7 @@ Output very similar to the previous example but one row was dropped: The one tha
 --
 
 .bottom[
-.highlight[Attention:] Never use base R's additional comparison operators '&&' and '||'. They only compare the first element of a vector and do not work in the tidyverse pipes!
+.highlight[Attention:] Never use base R's additional comparison operators '&&' and '||'. They only compare the first element of vectors and do not work with  tidyverse pipes!
 ]
 ---
 
@@ -210,7 +210,7 @@ We can use 'select' to select the columns/variables that we want to look at.
 
 --
 
-Often we do not want to deal with all variables in a data set because there could be easily hundreds of variables. It's too much to be printed nicely in the console.
+Often we do not want to deal with all variables in a data set because there could be easily hundreds of variables (too many to be printed nicely in the console).
 
 ```{r echo=TRUE}
 table1 %>%
@@ -229,7 +229,7 @@ There are nice helper functions/operators for 'select'.
 
 --
 
-* 'starts_with'/'ends_with' --> 'select(table1, .highlight[starts_with('c')]) --> select all variables that start/end with string.
+* 'starts_with'/'ends_with' --> 'select(table1, .highlight[starts_with('w1')]) --> select all variables that start/end with string.
 
 --
 
@@ -256,7 +256,7 @@ glimpse(t_startswith)
 
 --
 
-* 'matches' --> 'select(t_startswith, .highlight[matches("^w\\\\d_z")])' --> select all variables that match a regular expression.
+* 'matches' --> 'select(t_startswith, .highlight[matches("^w\\\\\d_z")])' --> select all variables that match a regular expression.
 ```{r echo=TRUE}
 select(t_startswith, matches("^w\\d_z"))
 ```
@@ -471,6 +471,119 @@ More on summarize functions in B3 tommorrow!
 
 ---
 
+<h2> Your turn! Excercises :) </h2>
+
+```{r}
+gapminder_example <- 
+  readxl::read_excel(
+    path = "../data/GDPpercapitaconstant2000US.xlsx",
+    sheet = "Data")
+```
+
+```{r echo=TRUE}
+gapminder_example %>% select(1:4) %>% head(n = 4)
+```
+
+Task 1: Change that first column's name!
+
+--
+
+Solution
+
+```{r eval=FALSE, echo=TRUE}
+gapminder_example %>% 
+  rename(country = `Income per person (fixed 2000 US$)`)
+```
+
+
+---
+
+```{r echo=FALSE}
+gapminder_example %>% select(1:4) %>% head(n = 4)
+```
+
+Task 2: Keep only Germany (hint: there's (West|East) Germany and Germany)
+
+--
+
+Solution
+
+```{r eval=TRUE, echo=TRUE}
+gapminder_example %>% 
+  rename(country = `Income per person (fixed 2000 US$)`) %>% 
+  filter(country %in% 
+           c("Germany", "West Germany", "East Germany")) %>% 
+  select(1:4)
+```
+
+
+---
+
+```{r echo=FALSE}
+gapminder_example %>% select(1:4) %>% head(n = 4)
+```
+
+Task 3: Keep only (united, ignore [West|East]) Germany rows and convert to long format
+
+--
+
+Solution
+
+```{r eval=TRUE, echo=TRUE}
+gapminder_example %>% 
+  rename(country = `Income per person (fixed 2000 US$)`) %>% 
+  filter(country == "Germany") %>% 
+  gather(2:last_col(), key = year, value = GDP) %>% tail(n = 2)
+```
+
+Instead of last_col you could have just counted, too.
+
+---
+
+```{r}
+gapminder_example_long <- gapminder_example %>% 
+  rename(country = `Income per person (fixed 2000 US$)`) %>% 
+  filter(country == "Germany") %>% 
+  gather(2:last_col(), key = year, value = GDP)
+```
+
+```{r echo=FALSE}
+gapminder_example_long %>% head(n = 4)
+```
+
+Task 4: Working with the long format, drop all NA-rows
+
+--
+
+Solution
+
+```{r eval=TRUE, echo=TRUE}
+gapminder_example_long %>% 
+  filter(!is.na(GDP)) %>% head(n = 3)
+```
+
+---
+
+
+```{r echo=FALSE}
+gapminder_example_long %>%
+  filter(!is.na(GDP)) %>% head(n = 4)
+```
+
+Task 5: Compute the average (mean) of Germany's GDP and show yearly deviation.
+
+--
+
+Solution
+
+```{r eval=TRUE, echo=TRUE}
+gapminder_example_long %>%
+  filter(!is.na(GDP)) %>% mutate(mean_GDP = mean(GDP), 
+                                 diff = abs(GDP) - mean_GDP) %>% 
+  head(n = 3)
+```
+
+---
 class: center, middle
 
 <h2> Thanks!</h2>
