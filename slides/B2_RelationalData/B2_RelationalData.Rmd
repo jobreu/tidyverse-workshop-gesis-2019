@@ -154,9 +154,13 @@ publishers %>%
 
 # Inner join
 
-All rows from `x` where there are matching values in `y`, and all columns from `x` and `y` (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+ > All rows from `x` where there are matching values in `y`, and all columns from `x` and `y`.
 
-![](pics/inner-join.gif)
+.center[<img src="pics/inner-join.gif" width="50%">]
+
+.small[
+Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
+]
 
 ---
 
@@ -181,7 +185,7 @@ publishers %>%
 ```
 ]
 ]
-  
+<br>
 ```{r eval = F, echo = T}
 heroes %>% 
   inner_join(publishers, by = "Publisher")
@@ -198,9 +202,13 @@ heroes %>%
 
 # Left join
 
-All rows from `x`, and all columns from `x` and `y`. Rows in `x` with no match in `y` will have `NA` values in the new columns (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+> All rows from `x`, and all columns from `x` and `y`. Rows in `x` with no match in `y` will have `NA` values in the new columns.
 
-![](pics/left-join.gif)
+.center[<img src="pics/left-join.gif" width="50%">]
+
+.small[
+Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
+]
 
 ---
 
@@ -225,7 +233,7 @@ publishers %>%
 ```
 ]
 ]
-  
+<br>
 ```{r eval = F, echo = T}
 heroes %>% 
   left_join(publishers, by = "Publisher")
@@ -242,17 +250,97 @@ heroes %>%
 
 # Right join
 
-All rows from y, and all columns from `x` and `y`. Rows in `y` with no match in `x` will have `NA` values in the new columns (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+> All rows from y, and all columns from `x` and `y`. Rows in `y` with no match in `x` will have `NA` values in the new columns.
 
-![](pics/right-join.gif)
+.center[<img src="pics/right-join.gif" width="50%">]
+
+.small[
+Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
+]
+
+---
+
+# Right join example
+
+.pull-left[
+.center[
+```{r superhero table 4, echo = FALSE}
+heroes %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+
+.pull-right[
+.center[
+```{r publishers table 4, echo = FALSE}
+publishers %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+<br>
+```{r eval = F, echo = T}
+heroes %>% 
+  right_join(publishers, by = "Publisher")
+```
+
+```{r right join, echo = F}
+heroes %>% 
+  right_join(publishers, by = "Publisher") %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
 
 ---
 
 # Full join
 
-All rows and all columns from both `x` and `y`. Where there are not matching values, returns `NA` for the one missing (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+> All rows and all columns from both `x` and `y`. Where there are not matching values, returns `NA` for the one missing.
 
-![](pics/full-join.gif)
+.center[<img src="pics/full-join.gif" width="50%">]
+
+.small[
+Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
+]
+
+---
+
+# Full join example
+
+.pull-left[
+.center[
+```{r superhero table 5, echo = FALSE}
+heroes %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+
+.pull-right[
+.center[
+```{r publishers table 5, echo = FALSE}
+publishers %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+<br>
+```{r eval = F, echo = T}
+heroes %>% 
+  full_join(publishers, by = "Publisher")
+```
+
+```{r full join, echo = F}
+heroes %>% 
+  full_join(publishers, by = "Publisher") %>%
+  kable("html") %>% 
+  kable_styling(font_size = 9)
+```
 
 ---
 
@@ -270,17 +358,97 @@ All rows and all columns from both `x` and `y`. Where there are not matching val
 
 # Semi join
 
-All rows from `x` where there are matching values in `y`, keeping just columns from `x` (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+> All rows from `x` where there are matching values in `y`, keeping just columns from `x`.
 
-![](pics/semi-join.gif)
+.center[<img src="pics/semi-join.gif" width="50%">]
+
+.small[
+Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
+]
+
+---
+
+# Semi join example
+
+.pull-left[
+.center[
+```{r superhero table 6, echo = FALSE}
+heroes %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+
+.pull-right[
+.center[
+```{r publishers table 6, echo = FALSE}
+publishers %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+<br>
+```{r eval = F, echo = T}
+heroes %>% 
+  semi_join(publishers, by = "Publisher")
+```
+
+```{r semi join, echo = F}
+heroes %>% 
+  semi_join(publishers, by = "Publisher") %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
 
 ---
 
 # Anti join
 
-All rows from `x` where there are not matching values in `y`, keeping just columns from `x` (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+> All rows from `x` where there are not matching values in `y`, keeping just columns from `x`.
 
-![](pics/anti-join.gif)
+.center[<img src="pics/anti-join.gif" width="50%">]
+
+.small[
+Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
+]
+
+---
+
+# Anti join example
+
+.pull-left[
+.center[
+```{r superhero table 7, echo = FALSE}
+heroes %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+
+.pull-right[
+.center[
+```{r publishers table 7, echo = FALSE}
+publishers %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
+]
+]
+<br>
+```{r eval = F, echo = T}
+heroes %>% 
+  anti_join(publishers, by = "Publisher")
+```
+
+```{r anti join, echo = F}
+heroes %>% 
+  anti_join(publishers, by = "Publisher") %>%
+  kable("html") %>% 
+  kable_styling(font_size = 10)
+```
 
 ---
 
@@ -302,33 +470,70 @@ All rows from `x` where there are not matching values in `y`, keeping just colum
 
 # Union
 
-All unique rows from `x` and `y` (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+> All unique rows from `x` and `y`.
 
-![](pics/union.gif)
+.pull-left[
+.center[<img src="pics/union.gif">]
+.small[Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)]
+]
+
+.pull-right[
+.center[
+`union(x, y)`  
+
+<img src="pics/venn_union.png" width="80%">
+]
+]
 
 ---
 
 # Union all
 
-All rows from `x` and `y`, keeping duplicates (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+> All rows from `x` and `y`, keeping duplicates.
 
-![](pics/union-all.gif)
+.center[<img src="pics/union-all.gif" width="50%">]
+
+.small[
+Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
+]
 
 ---
 
 # Intersection
 
-Common rows in both `x` and `y`, keeping just unique rows (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+> Common rows in both `x` and `y`, keeping just unique rows.
 
-![](pics/intersect.gif)
+.pull-left[
+.center[<img src="pics/intersect.gif">]
+.small[Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)]
+]
+
+.pull-right[
+.center[
+`intersect(x, y)`  
+
+<img src="pics/venn_intersect.png" width="80%">
+]
+]
 
 ---
 
 # Set difference
 
-All rows from `x` which are not also rows in `y`, keeping just unique rows (Garrick Aden-Buie: [Tidyexplain](https://github.com/gadenbuie/tidyexplain)).
+> All rows from `x` which are not also rows in `y`, keeping just unique rows.
 
-![](pics/setdiff.gif)
+.pull-left[
+.center[<img src="pics/setdiff.gif">]
+.small[Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)]
+]
+
+.pull-right[
+.center[
+`setdiff(x, y)`  
+
+<img src="pics/venn_setdiff.png" width="80%">
+]
+]
 
 ---
 
