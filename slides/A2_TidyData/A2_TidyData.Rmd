@@ -53,9 +53,10 @@ class: center, middle
 Data can always be represented in various ways.  
 **But** some ways are more common and easy to understand than others.
 
-One reason why data would be non-tidy might be that the focus was on data collection and easy of import instead of on data analysis.  
+Why would data be non-tidy?  
+For example: focus was on data collection and ease of import instead of on data analysis.  
 
-In any case data analysis often requires to first clean up the data.
+Data analysis often requires to first clean up the data.
 
 Because...
 
@@ -209,11 +210,12 @@ as.numeric(gsub(rate, pattern = "[0-9]+/([0-9]+)",
 Would you really want to put yourself and others through this?  
 Let's instead provide numeric variables as numbers - not strings!  
 
-.bottom[
-By the way - don't worry - you'll learn much nicer ways to handle this situtation during this course either through 
+--
+
+Btw., you'll learn much nicer ways to handle this situtation during this course either through 
 * a new tidyverse verb (separate) or - more generally - 
 * string and regular expression operations (package stringr)!
-]
+
 ---
 <h2>Rules for tidy datasets</h2>
 
@@ -335,6 +337,11 @@ color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 
 
 ---
+<h2> Alternatives </h2>
+
+Instead of 'gather' and 'spread' you could also use 'pivot_longer' and 'pivot_wider'. See https://tidyr.tidyverse.org/dev/articles/pivot.html.
+
+---
 
 
 <h2>Separating intermingled values</h2>
@@ -423,6 +430,67 @@ table5 %>%
 
 ---
 
+<h2> Your turn! Excercises :) </h2>
+
+```{r}
+gapminder_example <- readxl::read_excel(path = "../data/GDPpercapitaconstant2000US.xlsx", sheet = "Data")
+```
+
+```{r include=TRUE, echo=TRUE}
+# GDP data, for Germany, from 1960 - 2011
+# (missings in the first few years)
+gapminder_example %>% 
+  rename(country = `Income per person (fixed 2000 US$)`) %>%
+  filter(country == "Germany") %>%
+  select(1:4, last_col())
+```
+
+
+--
+
+Questions
+* What's 'wrong' with this data set?
+
+--
+* How do we convert it to long format?
+
+---
+<h2> Alternative world: Your turn! Excercises :) </h2>
+
+```{r}
+exercise_data <- 
+  tibble::tibble(country = rep(c("Germany", "Brazil", "Bulgaria"), 2),
+                  type = c(rep("murders", 3), rep("intentional homicide rate", 3)),
+                  year = c(rep(2010, 3), 2011, 2011, 2009),
+                  cases = c(690, 40974, 147, 0.81, 27, 1.91))
+```
+
+
+```{r echo=TRUE}
+exercise_data
+```
+Source: https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Intentional-homicide-rate and https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Murder-rate
+
+--
+
+Question
+* What's 'wrong' with this data set?
+
+---
+
+<h2> Solution </h2>
+
+Problems
+   * the meaning of column 'cases' depends on column 'type'.
+   * (the data set is in wide-format).
+   
+```{r echo=TRUE}
+exercise_data %>%
+  spread(key = "type", value = "cases")
+```
+
+
+---
 
 class: center, middle
 

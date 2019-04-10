@@ -4,7 +4,7 @@
     <title>Tidy Data</title>
     <meta charset="utf-8">
     <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
-    <meta name="date" content="2018-05-15" />
+    <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 # Tidy Data
 ## (according to Hadley Wickham/RStudio)
 ### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
-### 2018-05-15
+### 2019-05-15
 
 ---
 
@@ -27,7 +27,7 @@ layout: true
 
 &lt;div class="my-footer"&gt;
   &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Müller&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-15&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Tidy Data&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 ---
@@ -43,9 +43,10 @@ class: center, middle
 Data can always be represented in various ways.  
 **But** some ways are more common and easy to understand than others.
 
-One reason why data would be non-tidy might be that the focus was on data collection and easy of import instead of on data analysis.  
+Why would data be non-tidy?  
+For example: focus was on data collection and ease of import instead of on data analysis.  
 
-In any case data analysis often requires to first clean up the data.
+Data analysis often requires to first clean up the data.
 
 Because...
 
@@ -337,11 +338,12 @@ as.numeric(gsub(rate, pattern = "[0-9]+/([0-9]+)",
 Would you really want to put yourself and others through this?  
 Let's instead provide numeric variables as numbers - not strings!  
 
-.bottom[
-By the way - don't worry - you'll learn much nicer ways to handle this situtation during this course either through 
+--
+
+Btw., you'll learn much nicer ways to handle this situtation during this course either through 
 * a new tidyverse verb (separate) or - more generally - 
 * string and regular expression operations (package stringr)!
-]
+
 ---
 &lt;h2&gt;Rules for tidy datasets&lt;/h2&gt;
 
@@ -351,7 +353,7 @@ There are three interrelated rules which make a dataset tidy:
 - Each observation must have its own row.
 - Each value must have its own cell.
 
-&lt;img src="../pictures/tidy_data.png" width="100%"&gt;
+&lt;img src="pics/tidy_data.png" width="100%"&gt;
 Source: https://r4ds.had.co.nz/tidy-data.html
 ---
 &lt;h2&gt; Short notes on tibbles &lt;/h2&gt;
@@ -567,6 +569,11 @@ Before
 
 
 ---
+&lt;h2&gt; Alternatives &lt;/h2&gt;
+
+Instead of 'gather' and 'spread' you could also use 'pivot_longer' and 'pivot_wider'. See https://tidyr.tidyverse.org/dev/articles/pivot.html.
+
+---
 
 
 &lt;h2&gt;Separating intermingled values&lt;/h2&gt;
@@ -744,6 +751,93 @@ Before:
 
 ---
 
+&lt;h2&gt; Your turn! Excercises :) &lt;/h2&gt;
+
+
+
+
+```r
+# GDP data, for Germany, from 1960 - 2011
+# (missings in the first few years)
+gapminder_example %&gt;% 
+  rename(country = `Income per person (fixed 2000 US$)`) %&gt;%
+  filter(country == "Germany") %&gt;%
+  select(1:4, last_col())
+```
+
+```
+## # A tibble: 1 x 5
+##   country `1960.0` `1961` `1962` `2011`
+##   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Germany       NA     NA     NA 26207.
+```
+
+
+--
+
+Questions
+* What's 'wrong' with this data set?
+
+--
+* How do we convert it to long format?
+
+---
+&lt;h2&gt; Alternative world: Your turn! Excercises :) &lt;/h2&gt;
+
+
+
+
+
+```r
+exercise_data
+```
+
+```
+## # A tibble: 6 x 4
+##   country  type                       year    cases
+##   &lt;chr&gt;    &lt;chr&gt;                     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Germany  murders                    2010   690   
+## 2 Brazil   murders                    2010 40974   
+## 3 Bulgaria murders                    2010   147   
+## 4 Germany  intentional homicide rate  2011     0.81
+## 5 Brazil   intentional homicide rate  2011    27   
+## 6 Bulgaria intentional homicide rate  2009     1.91
+```
+Source: https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Intentional-homicide-rate and https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Murder-rate
+
+--
+
+Question
+* What's 'wrong' with this data set?
+
+---
+
+&lt;h2&gt; Solution &lt;/h2&gt;
+
+Problems
+   * the meaning of column 'cases' depends on column 'type'.
+   * (the data set is in wide-format).
+   
+
+```r
+exercise_data %&gt;%
+  spread(key = "type", value = "cases")
+```
+
+```
+## # A tibble: 6 x 4
+##   country   year `intentional homicide rate` murders
+##   &lt;chr&gt;    &lt;dbl&gt;                       &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Brazil    2010                       NA      40974
+## 2 Brazil    2011                       27         NA
+## 3 Bulgaria  2009                        1.91      NA
+## 4 Bulgaria  2010                       NA        147
+## 5 Germany   2010                       NA        690
+## 6 Germany   2011                        0.81      NA
+```
+
+
+---
 
 class: center, middle
 
