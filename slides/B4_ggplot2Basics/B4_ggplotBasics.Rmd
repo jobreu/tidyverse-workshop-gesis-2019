@@ -1,0 +1,72 @@
+---
+title: "Data exploration: ggplot2 Basics"
+# subtitle: "(according to Hadley Wickham/RStudio)"
+author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
+date: "2019-05-15"
+location: "GESIS, Mannheim, Germany"
+output:
+  xaringan::moon_reader:
+  lib_dir: libs
+css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
+nature:
+  highlightStyle: "github"
+highlightLines: true
+countIncrementalSlides: false
+---
+  layout: true
+
+```{r setup, include = FALSE}
+packages_to_load <- c("knitr", "rmarkdown", "magrittr", "readr", "ggplot2")
+
+for (i in packages_to_load) {
+  if (!require(i, character.only = TRUE)) {
+    install.packages(i)
+  } else {
+    library(i, character.only = TRUE)
+  }
+}
+
+rm(packages_to_load)
+
+options(htmltools.dir.version = FALSE)
+
+opts_chunk$set(echo = FALSE, fig.align = "center")
+```
+
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+  </div>
+  
+---
+# What is ggplot2?
+`ggplot2` is an R-package to create plots.
+
+It uses the "grammar of graphics"
+
+- language for multi-dimensional and data
+- accordingly, it expects (a) data (frame) as input
+- components of the plot are added as layers
+
+---
+# Going deeper into the components of a plot
+According to Wickham (2010, 8) a layered plot consists of the following components:
+
+- data and aesthetic mappings,
+- geometric objects,
+- scales,
+- and facet specification
+  
+
+
+---
+# Exercise: plots
+  
+  
+  
+  
+  
+  
+  
+  
