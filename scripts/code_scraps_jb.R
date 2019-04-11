@@ -1,3 +1,15 @@
+# convert slides to PDF ####
+
+# pagedown::chrome_print("slides/A1_Introduction/A1_Introduction.html")
+# generates an error: Failed to generate output. Reason: Failed to open http://127.0.0.1:5044/mycss.css (HTTP status code: 404)
+
+library(webshot)
+
+#install_phantomjs()
+
+file_name <- normalizePath("slides/A1_Introduction/A1_Introduction.html")
+webshot(file_name, "intro_slides.pdf")
+
 # superhero data ####
 
 publishers <- read_csv("data/other/heroes_information.csv") %>% 
