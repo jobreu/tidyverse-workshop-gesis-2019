@@ -1,0 +1,57 @@
+---
+title: "R Crash Course"
+# subtitle: "(according to Hadley Wickham/RStudio)"
+author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
+date: "2019-05-15"
+location: "GESIS, Mannheim, Germany"
+output:
+  xaringan::moon_reader:
+  lib_dir: libs
+css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
+nature:
+  highlightStyle: "github"
+highlightLines: true
+countIncrementalSlides: false
+---
+  layout: true
+
+```{r setup, include = FALSE}
+packages_to_load <- c("knitr", "rmarkdown", "magrittr", "readr", "ggplot2")
+
+for (i in packages_to_load) {
+  if (!require(i, character.only = TRUE)) {
+    install.packages(i)
+  } else {
+    library(i, character.only = TRUE)
+  }
+}
+
+rm(packages_to_load)
+
+options(htmltools.dir.version = FALSE)
+
+opts_chunk$set(echo = FALSE, fig.align = "center")
+```
+
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+  </div>
+  
+---
+# What is R?
+Some people characterize `R` as a programming language, some as a language for doing statistical analysis.
+
+The truth is `R` is used by data analysists and statisticians, but it could also be used, e.g., for application development.
+
+Yet, if you are seeking for 
+
+---
+# Why should I use R?
+
+---
+# How does R work?
+
+---
+# What should I know about R?
