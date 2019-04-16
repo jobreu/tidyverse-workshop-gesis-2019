@@ -70,6 +70,8 @@ They are one of the most important terms in the whole uni.. tidyverse.
 include_graphics("pipe office decoration.jpg")
 ```
 
+You might know them from other scripting utilities such as `bash` (here a `|` operator is used).
+
 ---
 # Nested Functions in Base R
 
@@ -341,7 +343,7 @@ This produces an error because piping always expects whole objects, such as data
 ```
 
 ---
-<h1> {} Brackets </h1>
+# `{}` Brackets
 
 Another workaround for our problem are curly brackets.
 
@@ -357,7 +359,39 @@ They prevent the first argument to be `.`
 They are what you may know from other languages being called lamda-functions.
 
 ---
-# Exercise: Pick One From the Pool of Data
+# What's left?
+tidyverse pipes are only one implementation of pipes in R.
+
+They are based on the implementation of the `magrittr` package.
+
+Other implementations, not discussed here, would be:
+
+- assignment pipes `%<>%`as an alternative to `<-`
+- `pipeR`'s `%>>%` pipes
+
+---
+# tibbles
+Tibbles are the data format used in the tidyverse.
+
+They are basically standard `R data.frame()`s, enriched with some more features and metadata:
+
+- information about size of data
+- information about variable types
+- better readability
+
+---
+# You've seen them already...
+OUTPUT OF TIBBLE HERE
+
+---
+# How to use tibbles?
+Usually we don't have to do anything. 
+
+tibbles are they standard output format of all tidyverse applications.
+
+Yet, some old R functions may have some issues with tibbles. Luckily, we just can use `as.data.frame(your_tibble)` on them. Problem solved.
+
+
 
 
 
