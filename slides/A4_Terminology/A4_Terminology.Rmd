@@ -39,9 +39,9 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
   <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
 </div>
 
+
 ---
 # The Power of Terminology
-
 It's maybe common sense to know what other people are talking about.
 
 It's not just words, it's the understanding of them.
@@ -55,13 +55,18 @@ As you might know, R contains some many terms and concepts
 
 tidyverse adds to this a whole new set of terms that have to be clarified
 
----
-# Pipes and Tibbles
 
+---
+# Pipes and Tibbles 
+.large[
+.center[
 In this session, we will learn about pipes and tibbles.
 
-They are one of the most important terms in the whole uni.. tidyverse.
+They are one of the most important terms in the whole uni.. 
 
+tidyverse.
+]
+]
 
 
 ---
@@ -72,9 +77,9 @@ include_graphics("pipe office decoration.jpg")
 
 You might know them from other scripting utilities such as `bash` (here a `|` operator is used).
 
+
 ---
 # Nested Functions in Base R
-
 First, let's load some data:
 
 ```{r echo = TRUE, message = FALSE}
@@ -89,9 +94,9 @@ mean(read_csv(readr_example("mtcars.csv"))$mpg)
 
 Pretty, isn't it? Well...
 
+
 ---
 # Make it Prettier with Base R
-
 We can use indentions to workaround issues with readablity:
 
 ```{r echo = TRUE, message = FALSE}
@@ -107,10 +112,10 @@ This works. But it also has some serious flaws:
 - Don't you dare to forget closing a bracket
 - It's not easy to grasp which operation is the most important one
 
+
 ---
 # Disentangling and Overwriting
-
-One easy way is this:
+An easy way is this:
 
 ```{r echo = TRUE, message = FALSE}
 
@@ -132,9 +137,9 @@ mean(example_file_loaded$mpg)
 
 Mix to your liking...
 
+
 ---
 # Pipes as solution?
-
 Pipes disentangle the whole process in a whole other way and apply each involved function step by step:
 
 ```{r echo = TRUE, message = FALSE}
@@ -146,6 +151,7 @@ Pipes disentangle the whole process in a whole other way and apply each involved
 ```
 
 Most importantly, the central dataset is now on top and the starting point of everything.
+
 
 ---
 # Formal Defintion of Pipes: Basic Logic
@@ -164,6 +170,7 @@ x %>% f()
 
 Thus, the inner argument/object is placed before the actual function call.
 
+
 ---
 # Formal Defintion of Pipes: First Argument
 
@@ -180,6 +187,7 @@ Piping:
 ```{r echo = TRUE, eval = FALSE}
 x %>% f(y)
 ```
+
 
 ---
 # Formal Defintion of Pipes: . as Placeholder
@@ -206,7 +214,7 @@ We can write pipes within one line:
 u %>% v %>% w %>% x %>% y %>% z
 ```
 
-Yet, this destroys the readability. At least for pipes with one than one `%>%` using multiple lines is easier to read:
+Yet, this destroys the readability. At least for pipes with more than one `%>%` using multiple lines is easier to read:
 
 ```{r echo = TRUE, eval = FALSE}
 u %>% 
@@ -216,6 +224,7 @@ u %>%
   y %>% 
   z
 ```
+
 
 ---
 # Notes on Pipes' Styling: Nesting I
@@ -234,8 +243,6 @@ z %>%
 ```
 
 
-
-
 ---
 # Notes on Pipes' Styling: Nesting II
 To:
@@ -246,18 +253,20 @@ z %>%
     u %>% 
       v %>% 
       w, 
-    x) %>% 
+    x
+  ) %>% 
   y
 ```
 
-While this is nice and cool and stuff, it can get cumbersome ro read
+While this is cool, it can get cumbersome ro read
 
 - It may be better to let the processes split up in pipes with more than one `%>%` operator 
 - Hadley Wickham himself^{TM} recommends never to use more than ten `%>%` anyway 
 
+
 ---
 # Don't Overthink Pipes
-
+.column-left-half[
 Pipes are so nice, you may be tempted to use them all the time.
 
 Some of you may even spend hours to create one single data preparation workflow in one single pipe.
@@ -267,6 +276,14 @@ While this is cool, it may not be very sufficient and also misses the whole purp
 - readability
 - reproducibility
 - and stuff
+]
+
+.column-right-half[
+```{r, out.width = "100%"}
+include_graphics("./crazy_pipes.png")
+```
+]
+
 
 ---
 # Alternative Pipe Operators and Related Tools from `magrittr`
@@ -276,19 +293,19 @@ While this is cool, it may not be very sufficient and also misses the whole purp
 - ...
 - \{\} brackets
 
+
 ---
-<h1> t-Pipes </h1>
-
-
-![](mr_t_pipes.png)
-
+# t-Pipes
+```{r, out.width = "100%"}
+include_graphics("./mr_t_pipes.png")
+```
 
 <!-- ![](Mr._T_HS_Yearbook.jpg) ![](drainage-pipes-2471293_960_720.jpg) -->
 <!-- https://upload.wikimedia.org/wikipedia/commons/8/83/Mr._T_HS_Yearbook.jpg -->
 <!-- https://pixabay.com/photos/drainage-pipes-construction-site-2471293/ -->
 
 ---
-<h1> t-Pipes </h1>
+# t-Pipes
 
 t-Pipes create some kind of a loophole during a piping process.
 
@@ -303,8 +320,9 @@ Moreover, they stop the inheritance of the output of the current command.
 
 ... and continue where we left the main pipe
 
+
 ---
-<h1> t-Pipes </h1>
+# t-Pipes
 ```{r echo = TRUE, message = FALSE, fig.height = 4}
 "mtcars.csv" %>% 
   readr_example() %>% 
@@ -314,18 +332,19 @@ Moreover, they stop the inheritance of the output of the current command.
   mean()
 ```
 
----
-<h1> Exploding Pipes </h1>
 
-![](exploding_pipes.png) 
+---
+# Exploding Pipes 
+```{r, out.width = "100%"}
+include_graphics("./exploding_pipes.png")
+``` 
 
 <!-- https://pixabay.com/vectors/explosion-detonation-blast-burst-147909/-->
 <!-- https://pixabay.com/photos/drainage-pipes-construction-site-2471293/ -->
 
 
 ---
-<h1> Exploding Pipes </h1>
-
+# Exploding Pipes
 ```{r echo = TRUE, message = FALSE, eval = FALSE, fig.height = 4}
 "mtcars.csv" %>% 
   readr_example() %>% 
@@ -341,6 +360,7 @@ This produces an error because piping always expects whole objects, such as data
   read_csv() %$% # 'exploding'
   cor(disp, mpg)
 ```
+
 
 ---
 # `{}` Brackets
@@ -358,6 +378,7 @@ They prevent the first argument to be `.`
 
 They are what you may know from other languages being called lamda-functions.
 
+
 ---
 # What's left?
 tidyverse pipes are only one implementation of pipes in R.
@@ -369,25 +390,32 @@ Other implementations, not discussed here, would be:
 - assignment pipes `%<>%`as an alternative to `<-`
 - `pipeR`'s `%>>%` pipes
 
+
 ---
 # tibbles
 Tibbles are the data format used in the tidyverse.
 
 They are basically standard `R data.frame()`s, enriched with some more features and metadata:
 
-- information about size of data
+- information about size (rows x columns) of data
 - information about variable types
 - better readability
+  - they fit to the screen automatically
+
 
 ---
 # You've seen them already...
-OUTPUT OF TIBBLE HERE
+```{r echo = FALSE, message = FALSE, eval = TRUE}
+example_tibble <- read_csv("../../data/titanic/titanic.csv")
+example_tibble
+```
+
 
 ---
 # How to use tibbles?
 Usually we don't have to do anything. 
 
-tibbles are they standard output format of all tidyverse applications.
+tibbles are the standard output format of all tidyverse applications.
 
 Yet, some old R functions may have some issues with tibbles. Luckily, we just can use `as.data.frame(your_tibble)` on them. Problem solved.
 
