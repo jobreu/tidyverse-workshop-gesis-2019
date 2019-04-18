@@ -2,6 +2,7 @@
 
 # pagedown::chrome_print("slides/A1_Introduction/A1_Introduction.html")
 # generates an error: Failed to generate output. Reason: Failed to open http://127.0.0.1:5044/mycss.css (HTTP status code: 404)
+# seems to be related to (additional) CSS file
 
 library(webshot)
 
@@ -9,6 +10,8 @@ library(webshot)
 
 file_name <- normalizePath("slides/A1_Introduction/A1_Introduction.html")
 webshot(file_name, "intro_slides.pdf")
+# looks crappy
+# Manual printing of HTML slides via Chrome works/looks better
 
 # superhero data ####
 
