@@ -65,19 +65,13 @@ Whether we want to use our own data or that from others, we need to get data int
 
 tidyverse provides some nice tools to do so:
 
-- readr  (for 'flat' files, such as CSV)
-- readxl (for excel spreadsheets)
-- haven  (for statistical software files, such as SPSS, Stata, and SAS)
+- `readr`  (for 'flat' files, such as CSV)
+- `readxl` (for excel spreadsheets)
+- `haven`  (for statistical software files, such as SPSS, Stata, and SAS)
 
 The difference to other tool is that tidyverse import functions already prepare the data for being 'tidyed': they are a tibbles
 
-```{r out.width='15%', fig.align='center', fig.show='hold'}
-knitr::include_graphics(c("readr.png", "readxl.png", "haven.png"))
-```
-
-
-
-.right[![](readr.png) ![](readxl.png) ![](haven.png)]
+![](hex_all_in_one.png)]
 
 ---
 # A readr example: `read_csv()`
@@ -139,7 +133,7 @@ mtcars
 # A haven example: `read_stata()`
 ```{r read_stata_example, echo = TRUE}
 mtcars <-
-system.file("examples", "iris.dta", package = "haven") %>% 
+  system.file("examples", "iris.dta", package = "haven") %>% 
   read_stata()
 mtcars
 ```
