@@ -137,22 +137,119 @@ Not to mention all the helper files and options. For example, we can define the 
 ---
 # Data Specifics
 - characters
+  - indicated by `<chr>`
+  - specified by `col_character()`
 - integers
+  - indicated by `XXX`
+  - specified by `col_integer()`
 - doubles
+  - indicated by `<dbl>`
+  - specified by `col_double()`
+- factors
+  - indicated by `XXX`
+  - specified by `col_factor()`
+- logical
+  - indicated by `<lgl>`
+  - specified by `col_logical()`
+  
+**There's more, but we'll leave it for now.**
 
 ---
 # Changing Variable Types
-For example, `read_csv` 'guesses' the variable types which can go wrong.
+For example, `read_csv` 'guesses' the variable types
+
+  - it scans the first 1000 oberservations
+
+This can go wrong!
 
 Luckily, we can change the variable type -- before and after loading the data
 
 ---
 # While Loading the data in `read_csv`
+```{r readr_example_col_change, echo = TRUE}
+titanic <-
+  read_csv(
+    "../../data/titanic/titanic.csv",
+    col_types = cols(
+      PassengerId = col_double(),
+      Survived = col_double(),
+      Pclass = col_double(),
+      Name = col_character(),
+      Sex = col_character(),
+      Age = col_double(),
+      SibSp = col_double(),
+      Parch = col_double(),
+      Ticket = col_character(),
+      Fare = col_double(),
+      Cabin = col_character(),
+      Embarked = col_character()
+    )
+  )
+```
+
+---
+# While Loading the data in `read_csv`
+```{r readr_example_col_change_display, echo = TRUE}
+titanic
+```
+
+---
+# While Loading the data in `read_csv`
+```{r readr_example_col_changeD, echo = TRUE}
+titanic <-
+  read_csv(
+    "../../data/titanic/titanic.csv",
+    col_types = cols(
+      PassengerId = col_double(),
+      Survived = col_double(),
+      Pclass = col_double(),
+      Name = col_character(),
+      Sex = col_factor(), # This one's now changed!
+      Age = col_double(),
+      SibSp = col_double(),
+      Parch = col_double(),
+      Ticket = col_character(),
+      Fare = col_double(),
+      Cabin = col_character(),
+      Embarked = col_character()
+    )
+  )
+```
+
+---
+# While Loading the data in `read_csv`
+```{r readr_example_col_changeD_display, echo = TRUE}
+titanic
+```
 
 ---
 # After Loading the data
+```{r readr_example_col_change_after, echo = TRUE}
+titanic <- read_csv("../../data/titanic/titanic.csv")
+```
 
-
+---
+# After Loading the data
+```{r readr_example_col_changeD_after, echo = TRUE}
+titanic <-
+  type_convert(
+    titanic,
+    col_types = cols(
+      PassengerId = col_double(),
+      Survived = col_double(),
+      Pclass = col_double(),
+      Name = col_character(),
+      Sex = col_factor(), # This one's now changed!
+      Age = col_double(),
+      SibSp = col_double(),
+      Parch = col_double(),
+      Ticket = col_character(),
+      Fare = col_double(),
+      Cabin = col_character(),
+      Embarked = col_character()
+    )
+  )
+```
 
 ---
 # Exporting Data
