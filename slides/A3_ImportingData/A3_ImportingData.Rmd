@@ -76,28 +76,21 @@ The difference to other tool is that tidyverse import functions already prepare 
 ---
 # A readr example: `read_csv()`
 ```{r readr_example, echo = TRUE}
-mtcars <- 
-  "mtcars.csv" %>% 
-  readr_example() %>% 
-  read_csv()
+titanic <- read_csv("../../data/titanic/titanic.csv")
 ```
 
 ---
 # A readr example: `read_csv()`
 ```{r readr_example:output, echo = TRUE}
-mtcars
+titanic
 ```
-
 
 It's that easy.
 
 ---
 # A readxl example: `read_excel()`
 ```{r readxl_example, echo = TRUE}
-datasets <- 
-  "datasets.xlsx" %>% 
-  readxl_example() %>% 
-  read_excel()
+unicorns <- read_xlsx("../../data/unicorns/observations.xlsx")
 ```
 
 No output :-(
@@ -105,37 +98,20 @@ No output :-(
 ---
 # A readxl example: `read_excel()`
 ```{r readxl_example_output, echo = TRUE}
-datasets
-```
-
-Just iris?
-
----
-# A readxl example: `read_excel()`
-```{r readxl_example_sheets, echo = TRUE}
-"datasets.xlsx" %>% 
-  readxl_example() %>% 
-  excel_sheets()
-```
-
-
----
-# A readxl example: `read_excel()`
-```{r readxl_example_sheets_loading, echo = TRUE}
-mtcars <- 
-  "datasets.xlsx" %>% 
-  readxl_example() %>% 
-  read_excel(sheet = "mtcars")
-mtcars
+unicorns
 ```
 
 ---
-# A haven example: `read_stata()`
+# A haven example: `read_stata()` 
 ```{r read_stata_example, echo = TRUE}
-mtcars <-
-  system.file("examples", "iris.dta", package = "haven") %>% 
-  read_stata()
-mtcars
+gesis_panel <- 
+  read_stata("../../data/gesis_panel_campusfile/ZA5666_v1-0-0_Stata14.dta")
+```
+
+---
+# A haven example: `read_stata()` 
+```{r read_stata_example_output, echo = TRUE}
+gesis_panel
 ```
 
 ---
@@ -176,6 +152,8 @@ Luckily, we can change the variable type -- before and after loading the data
 ---
 # After Loading the data
 
+
+
 ---
 # Exporting Data
 Sometimes we also have to leave R and its tidy world.
@@ -189,24 +167,30 @@ For these purposes, we also have to need a way to export our data.
 All tools presented also have designated functions for that.
 
 ---
-# Example: CSV files
+# Example: CSV and Stata files
+```{r export_csv, echo = TRUE}
+write_csv(titanic, "titanic_own.csv")
+```
 
----
-# Maybe More Relevant: Stata Files
+Maybe more relevant:
+```{r export_stata, echo = TRUE}
+write_dta(titanic, "titanic_own.dta")
+```
 
 ---
 # Additional Packages
 The great benefit of tidyverse import functions is the import of the data as tibbles: the data are potentially more tidy.
 
 Several other non-tidyverse packages provide similar benefits as they make use of this universal data format:
-- sf (for geospatial data)
+- `sf` (for geospatial data)
 - ...
 
 ---
 # Alternative Packages
 
-- base R
-- data.table
+- `base` R
+- the good old `foreign` package for spss and stata files 
+- `data.table` for large data tables
 
 ---
 # Exercise: Pick One From the Pool of Data
