@@ -295,7 +295,6 @@ Several other non-tidyverse packages provide similar benefits as they make use o
 
 ---
 # Alternative Packages
-
 - `base` R
 - the good old `foreign` package for spss and stata files 
 - `data.table` for large data tables
