@@ -58,7 +58,31 @@ According to Wickham (2010, 8) a layered plot consists of the following componen
 - scales,
 - and facet specification
   
+---
+# Data requirements
+You can use one single data frame to create a plot in `ggplot2`.
 
+As such, everything's on the plot is data, which creates a nice and smooth workflow from data wrangling to the final presentation of the results.
+
+But this makes it difficult to add extra features to your plot.
+
+  - There are ways of doing it anyway as we will see later
+  - Yet, it requires thinking about what to plot
+
+---
+# Why the long data format?
+`ggplot2` requires data to be in the long data format.
+
+In some scientific disciplines this format is only used for some specialized analyses, e.g., time series analysis
+
+We should get used to it anyway as the long table format has some very important benefits
+- every element we aim to plot is just an observation
+  - no thinking required how a specific variable relates to an observation
+- most importantly, the long format is more parsimonious
+  - it requires less memory and less disk space for processing
+  
+---
+# Enough is enough: I want to see a plot
 
 ---
 # Exercise: plots
