@@ -41,25 +41,24 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 </div>
 
 ---
-# Data, Data, Data
+<h1> Data, Data, Data </h1> 
 
---
+.large[
 Thus far, we've already learned that data can be untidy.
 
-
---
 This course is all about making them tidy again (...or maybe for the first time?).
 
-
---
 There's one rather important prerequisite, however:
 
+.center[**We need data!**]
+]
 
---
-.center[We need data!]
+```{r, out.width = "50%"}
+include_graphics("./import_data.png")
+```
 
 ---
-<h2> Getting Data in the tidyverse </h2>
+<h1> Getting Data in the tidyverse </h1>
 
 Whether we want to use our own data or that from others, we need to get data into R.
 
@@ -69,9 +68,12 @@ tidyverse provides some nice tools to do so:
 - `readxl` (for excel spreadsheets)
 - `haven`  (for statistical software files, such as SPSS, Stata, and SAS)
 
+```{r, out.width = "50%"}
+include_graphics("./hex_all_in_one.png")
+```
+
 The difference to other tool is that tidyverse import functions already prepare the data for being 'tidyed': they are a tibbles
 
-![](hex_all_in_one.png)]
 
 ---
 # A readr example: `read_csv()`
@@ -152,7 +154,7 @@ Not to mention all the helper files and options. For example, we can define the 
   - indicated by `<lgl>`
   - specified by `col_logical()`
   
-**There's more, but we'll leave it for now.**
+.center[**There's more, but we'll leave it for now.**]
 
 ---
 # Changing Variable Types
@@ -263,6 +265,10 @@ For these purposes, we also have to need a way to export our data.
 
 All tools presented also have designated functions for that.
 
+```{r, out.width = "50%"}
+include_graphics("./export_data.png")
+```
+
 ---
 # Example: CSV and Stata files
 ```{r export_csv, echo = TRUE}
@@ -274,13 +280,18 @@ Maybe more relevant:
 write_dta(titanic, "titanic_own.dta")
 ```
 
+Proof that they have been exported:
+```{r list_files, echo = TRUE}
+list.files() 
+```
+
 ---
 # Additional Packages
 The great benefit of tidyverse import functions is the import of the data as tibbles: the data are potentially more tidy.
 
 Several other non-tidyverse packages provide similar benefits as they make use of this universal data format:
-- `sf` (for geospatial data)
-- ...
+- `sf` for geospatial data
+- `sjlabelled` to work with labelled data, e.g., from SPSS or Stata
 
 ---
 # Alternative Packages
