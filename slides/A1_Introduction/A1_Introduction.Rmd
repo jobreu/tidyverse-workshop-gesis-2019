@@ -42,6 +42,13 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
   <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
 </div>
 
+<style type="text/css">
+
+pre {
+  font-size: 10px
+}
+</style>
+
 ---
 
 # About this course
