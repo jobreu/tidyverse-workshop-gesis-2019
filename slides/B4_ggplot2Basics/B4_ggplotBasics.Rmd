@@ -49,6 +49,39 @@ It uses the "grammar of graphics"
 - accordingly, it expects (a) data (frame) as input
 - components of the plot are added as layers
 
+
+---
+# Plot examples
+
+.pull-left[
+```{r}
+knitr::include_graphics("./143_radar_chart_multi_indiv_2.png")
+```
+]
+
+.pull-right[
+```{r}
+knitr::include_graphics("./21_ggplot2_ddensity_plot.png")
+```
+]
+
+
+---
+# Plot examples
+
+.pull-left[
+```{r}
+knitr::include_graphics("./51_scatterplot_linear_model_with_CI_ggplot2.png")
+```
+]
+
+.pull-right[
+```{r}
+knitr::include_graphics("./328_Hexbin_map_USA_4.png")
+```
+]
+
+
 ---
 # Going deeper into the components of a plot
 According to Wickham (2010, 8) a layered plot consists of the following components:
@@ -82,10 +115,182 @@ We should get used to it anyway as the long table format has some very important
   - it requires less memory and less disk space for processing
   
 ---
-# Enough is enough: I want to see a plot
+# Enough is enough: I want to create my own plot
+
+Three components are important:
+
+- Plot initation
+- data input
+- aesthetics definition
+- so called `geoms`
+
 
 ---
-# Exercise: plots
+# Plot initation
+.pull-left[
+`ggplot()` is the most basic command to create a plot:
+
+```{r ggplot_basic, eval = FALSE, echo = TRUE}
+ggplot()
+```
+]
+
+.pull-right[
+```{r ref.label = "ggplot_basic", echo=FALSE}
+```
+]
+
+But it doesn't show anything...
+
+
+---
+# Data input
+.pull-left[
+As we've already learned `ggplot()` expects data as input
+
+```{r ggplot_data, eval = FALSE, echo = TRUE}
+titanic <- 
+  read_csv(
+    "../../data/titanic/titanic.csv", 
+    col_types = cols()
+    ) %>% 
+  na.omit()
+
+ggplot(data = titanic)
+```
+]
+
+.pull-right[
+```{r ref.label = "ggplot_data", echo=FALSE}
+```
+]
+
+Still nothing there...
+
+
+---
+# Aesthetics!
+.pull-left[
+`ggplot()` is the most basic command to create a plot:
+
+```{r ggplot_aes, eval = FALSE, echo = TRUE}
+ggplot(data = titanic) +
+  aes(x = Age, y = Fare)
+```
+]
+
+.pull-right[
+```{r ref.label = "ggplot_aes", echo=FALSE}
+```
+]
+
+That's a little bit better, right?
+
+
+---
+# geoms!
+.pull-left[
+`ggplot()` is the most basic command to create a plot:
+
+```{r ggplot_geom, eval = FALSE, echo = TRUE}
+ggplot(data = titanic) +
+  aes(x = Age, y = Fare) +
+  geom_point()
+```
+]
+
+.pull-right[
+```{r ref.label = "ggplot_geom", echo=FALSE}
+```
+]
+
+A scatter plot!
+
+---
+# Add a line
+.pull-left[
+`ggplot()` is the most basic command to create a plot:
+
+```{r ggplot_line, eval = FALSE, echo = TRUE}
+ggplot(data = titanic) +
+  aes(x = Age, y = Fare) +
+  geom_point() +
+  geom_smooth(method='lm')
+```
+]
+
+.pull-right[
+```{r ref.label = "ggplot_line", echo=FALSE}
+```
+]
+
+...and a regression line!
+
+---
+#  Going further: add group asthetics
+.pull-left[
+`ggplot()` is the most basic command to create a plot:
+
+```{r ggplot_group, eval = FALSE, echo = TRUE}
+ggplot(
+  data = titanic,
+  aes(
+    x = Age, 
+    y = Fare, 
+    color = Sex
+    )
+  ) +
+  geom_point()
+```
+]
+
+.pull-right[
+```{r ref.label = "ggplot_group", echo=FALSE}
+```
+]
+
+
+---
+# Manipulate group asthetics
+.pull-left[
+`ggplot()` is the most basic command to create a plot:
+
+```{r ggplot_group_man, eval = FALSE, echo = TRUE}
+ggplot(
+  data = titanic,
+  aes(
+    x = Age, 
+    y = Fare, 
+    color = Sex
+    )
+  ) +
+  geom_point() +
+  scale_color_brewer(
+    palette = "Accent"
+    )
+```
+]
+
+.pull-right[
+```{r ref.label = "ggplot_group_man", echo=FALSE}
+```
+]
+
+
+---
+# A note on manipulations
+
+Working with combined aesthetics and different data inputs can become cumbersome.
+
+Particularly, when plotting similar aesthetics interferring the automatic procedures can create conflicts.
+
+My 'favorite' ones are:
+
+- Multiple legends
+  - and multiple color scales for similar `geoms` 
+- 
+
+
   
   
   
