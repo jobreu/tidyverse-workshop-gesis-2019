@@ -1,6 +1,6 @@
 ---
-title: "Tidy Data"
-subtitle: "(according to Hadley Wickham/RStudio)"
+title: "Data Wrangling & Exploration with the Tidyverse in R"
+subtitle: "Tidy Data"
 author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
@@ -25,15 +25,7 @@ library("tidyverse")
 options(htmltools.dir.version = FALSE)
 
 opts_chunk$set(echo = FALSE, fig.align = "center")
-```
 
-<div class="my-footer">
-  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
-  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
-  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
-</div>
----
-```{r, include=FALSE, warning=FALSE, error=FALSE}
 # devtools::install_github("DavZim/colorTable")
 library(colorTable)
 
@@ -42,62 +34,72 @@ green <- "#a6d96a"
 blue  <- "#74add1"
 yellow <- "#f4e842"
 ```
-class: center, middle
 
-<h1> What is tidy data?</h1>
-<h2> How do we expect data sets to look like?</h2>
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
+</div>
+---
+
+# The diversity of data
+
+**Data can always be represented in various ways.**
+
+But **some ways are** more common and **easier to understand and use** than others.
+
+> Happy families are all alike; every unhappy family is unhappy in its own way (Leo Tolstoy).
+
+> Tidy datasets are all alike, but every messy dataset is messy in its own way ([Hadley Wickham](https://r4ds.had.co.nz/tidy-data.html))
 
 ---
 
-<h2> The diversity of data </h2>
-Data can always be represented in various ways.  
-**But** some ways are more common and easy to understand than others.
+# Data tidying
 
-Why would data be non-tidy?  
-For example: focus was on data collection and ease of import instead of on data analysis.  
-
-Data analysis often requires to first clean up the data.
-
-Because...
+In most cases, data have to be brought into a specific format before they can be analyzed.
 
 --
 
-- the data set doesn't fit our (or the methods'/tools') expectation about structure.
+Why?
 
 --
 
-- clean data with standardized structure enable others to replicate/re-run our scripts.
+- structure of the dataset not in line with the requirements of the methods/tools we use
 
 --
 
-- if every data set is organized the same way it's much easier for you to write code.
+- clean data with standardized structure makes it easier for others to reuse the data
 
 --
 
-- R-specific: R works with vectors. Highly advantageous to use vectors (i.e. 1 column = 1 variable, 1 row = 1 observation).
+- organizing every dataset organized the same way facilitates the reuse of code
+
+--
+
+- R-specific: R works with vectors (hence it makes sense to have 1 column = 1 variable & 1 row = 1 observation)
 
 ---
 
-
 class: center, middle
-<h2>Let's see examples</h2>
 
-Let's experiment: four different ways of displaying the same data.
+## Let's have a look at a few examples
+
+In the following, we will compare four different ways of displaying the same data.
+
 Which one(s) make(s) sense?
 
-Data is country-level data on population and sampled cases.
+We will use country-level data on population and cases of a disease.
 
 ---
 
-class: center
+class: center, middle
 
-<h2>1. example</h2>
 ```{r, echo=FALSE, warning=FALSE, error=FALSE, results='markup'}
 color_table(head(table2, n = 8), body_bg = green, header_bg = blue)
 ```
-Source: tidyr::table2
-
+.large[
 What's the problem here?
+]
 
 ---
 
@@ -113,41 +115,36 @@ color_table(head(table2, n = 3), body_bg = color_mat)
 
 --
 
-.column-left-half[
-Problems
-1. Interpretation of cells depends on other cells.
-1. Hard to vectorize.
-1. 1 column for 2 variables.
+.pull-left[
+**Problems**
+1. Interpretation of cells depends on other cells
+
+2. Hard to vectorize
+
+3. 1 column for 2 variables
 ]
 
-.column-right-half[
-Details
+.pull-right[
+**Details**
 1. The interpretation of 745 depends on the value of "type".
-1. R uses vectors internally. Most functions expect a column to represent one cohesive selection of values (e.g. a variable or an observation). Both, "type" and "count" are not.
-1. "type" switches the meaning of "count". This is highly unintuitive and not what (most) scientists would expect.
+
+2. R uses vectors internally. Most functions expect a column to represent one cohesive selection of values (e.g. a variable or an observation). Both, "type" and "count" are not.
+
+3. "type" switches the meaning of "count". This is highly unintuitive and not what (most) scientists would expect.
 ]
 
---
-.bottom[
-Solution?
-
-1 column per variable: column name = variable name, cell = value
-]
 ---
 
 class: center, middle
 
-<h2> 2. example</h2>
-
-
 ```{r}
 color_table(table3, body_bg = green, header_bg = blue)
 ```
-Source: tidyr::table3
-
+.large[
+What's the problem here?
+]
 
 ---
-
 
 ```{r}
 color_mat <- matrix(c(
@@ -161,32 +158,25 @@ color_table(head(table3, n = 3), body_bg = color_mat)
 
 --
 
-.column-left-half[
-Problems
-1. Cells contain several values.
-1. Cells are strings but represent a number (rate).
+.pull-left[
+**Problems**
+1. Cells contain several values
+
+1. Cells are strings but represent a number (rate)
 ]
 
-.column-right-half[
-Details
+.pull-right[
+**Details**
 1. It's hard to separate the values in a cell.
+
 1. It's hard to run numeric operations on string variables.
-]
-
---
-
-.bottom[Solution?
-
-1 value per cell! Correct type for cells!
-<br>
-<br>
-<b>Either</b> keep variables "case" and "population" separate and "rate" only contains the numeric result <br><b>or</b> keep only the numeric result in "rate" (discard the information of "case" and "population").
 ]
 
 ---
 
-<h1>A small survey</h1>
-Would you actually know how to calculate the rate (with base R) in this case?  
+<h2>A small survey</h2>
+
+Would you know how to calculate the rate using base R (and regular expressions) in this case?
 E.g. .highlight["745/19987071"]?  
 .smaller[
 (Without googling?)
@@ -194,7 +184,7 @@ E.g. .highlight["745/19987071"]?
 
 --
 
-Would it look something like the following?  
+Would your code look something like the following?  
 
 ```{r, echo=TRUE}
 rate <- c("745/19987071", "2666/20695360")
@@ -205,7 +195,8 @@ as.numeric(gsub(rate, pattern = "[0-9]+/([0-9]+)",
 ```
 
 ---
-<h2> Seriously?</h2>
+
+## Seriously?
 
 Would you really want to put yourself and others through this?  
 Let's instead provide numeric variables as numbers - not strings!  
@@ -217,22 +208,29 @@ Btw., you'll learn much nicer ways to handle this situtation during this course 
 * string and regular expression operations (package stringr)!
 
 ---
-<h2>Rules for tidy datasets</h2>
 
-There are three interrelated rules which make a dataset tidy:
+# Rules for tidy datasets
 
-- Each variable must have its own column.
-- Each observation must have its own row.
-- Each value must have its own cell.
+The 3 rules of tidy data:
+
+1. Each **variable** is in a separate **column**.
+
+2. Each **observation** is in a separate **row**.
+
+3. Each **value** is in a separate **cell**.
 
 <img src="pics/tidy_data.png" width="100%">
 Source: https://r4ds.had.co.nz/tidy-data.html
+
+NB: In the tidyverse 'tidy data' also means data in long format - where applicable.  
+
 ---
-<h2> Short notes on tibbles </h2>
 
-In the tidyverse we put every dataset into a tibble.
+## A short notes on tibbles 
 
-A tibble is an improved version of base R's dataframe.  
+Most functions from the tidyverse produce a tibble.
+
+A tibble is an improved version of the base R dataframe.  
 They can be used instead of dataframes, in most cases **without** breaking existing code.
 
 Improved because...
@@ -247,7 +245,8 @@ Improved because...
 More on tibbles in session A4. Or via '?tibble'.
 
 ---
-<h2>'Gather' a variable</h2>
+
+## 'Gather' a variable
 
 How to gather/collect a variable that had been spread over 2 columns?  
 
@@ -267,29 +266,29 @@ But sometimes 'long' format is required (e.g. in survival analysis).
 
 ---
 
-```{r echo=TRUE}
-table4a %>%
-  head(n = 1) %>%
-  gather(`1999`, `2000`, key = "year", value = "cases") %>% #<<
-  color_table()
-```
+# 'Gather' a variable
 
 The tidyverse verb 'gather' converts the wide format into long format.  
 
-Here, the two columns "1999" and "2000" are gathered into "year" and the counts into "cases".
-
-.bottom[
-Before: 
 ```{r}
 color_mat <- matrix(c(
   green, yellow, yellow),
   ncol = 3, byrow = TRUE)
 color_table(head(table4a, n = 1), body_bg = color_mat)
 ```
-]
+
+```{r echo=TRUE}
+table4a %>%
+  head(n = 1) %>%
+  gather(`1999`, `2000`, key = "year", value = "cases") %>%
+  color_table()
+```
+
+Here, the two columns "1999" and "2000" are gathered into "year" and the counts into "cases".
 
 ---
-<h2>'Spread' a variable</h2>
+
+## 'Spread' a variable
 
 How to tidy up observations that were spread over two rows?  
 
@@ -311,21 +310,10 @@ By the way, this is **NOT** (an appropriate) long format because the columns are
 
 ---
 
-```{r echo=TRUE}
-table2 %>%
-  head(n = 2) %>%
-  spread(key = type, value = count) %>%  #<<
-  color_table()
-```
-The tidyverse verb 'spread' converts the incohesive selection of values into cohesive vectors/variables.  
+# 'Spread' a variable
 
-Here, the values in "type" become column names of two vectors/variables and the respective values are stored in cells.  
+The tidyverse verb 'spread' converts the incohesive selection of values into cohesive vectors/variables.
 
-Now this could be used for analyses that require long format!  
-
-
-.bottom[
-Before
 ```{r echo=FALSE}
 color_mat <- matrix(c(
   green, green, yellow, yellow,
@@ -333,33 +321,31 @@ color_mat <- matrix(c(
   ncol = 4, byrow = TRUE)
 color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 ```
-]
 
+```{r echo=TRUE}
+table2 %>%
+  head(n = 2) %>%
+  spread(key = type, value = count) %>%  #<<
+  color_table()
+```
+ 
+
+Here, the values in "type" become column names of two vectors/variables and the respective values are stored in cells.  
+
+Now this could be used for analyses that require long format!  
 
 ---
-<h2> Alternatives </h2>
+
+## Alternatives 
 
 Instead of 'gather' and 'spread' you could also use 'pivot_longer' and 'pivot_wider'. See https://tidyr.tidyverse.org/dev/articles/pivot.html.
 
 ---
 
+## Separating intermingled values
 
-<h2>Separating intermingled values</h2>
-Remember 745/19987071?  
+The tidyverse verb 'separate' allows us to separate intermingled values.
 
-```{r echo=TRUE}
-
-table3 %>%
-  head(n = 2) %>%
-  separate(rate, into = c("cases", "population")) %>% #<<
-  color_table()
-
-```
-
-The tidyverse verb 'separate' allows us to separate intermingled values easily. 
-
-.bottom[
-Before:
 ```{r echo=FALSE}
 color_mat <- matrix(c(
   green, green, yellow),
@@ -369,18 +355,19 @@ table3 %>%
   head(n = 1) %>%
   color_table(body_bg = color_mat)
 ```
-]
+
+```{r echo=T}
+table3 %>%
+  head(n = 2) %>%
+  separate(rate, into = c("cases", "population")) %>%
+  color_table()
+```
 
 ---
 
+# Separators
 
-But how does separte() know how to split 745/19987071?  
-
-By default, separate will split on any non-alphanumeric character, i.e. everything that's not a digit or a letter.
-
---
-
-But you can also specific the splitting character yourself with the argument 'sep':  
+By default `separate()` will split on any non-alphanumeric character, but you can also specify the separating character with the argument 'sep':  
 
 ```{r echo=TRUE}
 tibble(mingled = "80/100#1,6_3") %>%
@@ -390,7 +377,6 @@ tibble(mingled = "80/100#1,6_3") %>%
 
 --
 
-
 ```{r echo=TRUE}
 tibble(mingled = "80/100#1,6_3") %>%
   separate(mingled, into = c("value_1", "value_2")) %>%
@@ -399,23 +385,10 @@ tibble(mingled = "80/100#1,6_3") %>%
 
 ---
 
+## 'Uniting' values
 
-<h2>'Uniting' values</h2>
+The tidyverse verb `unite()` lets us concatenate values that were spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
 
-Uniting values that got separated into multiple columns.  
-
-```{r echo=TRUE}
-table5 %>%
-  select(country, century, year) %>%
-  head(n = 1) %>%
-  unite(yyyy, century, year, sep = "") %>% #<<
-  color_table()
-```
-
-The tidyverse verb unite let's us concatenate values that were spread over multiple columns.By default, without specifying 'sep', values are separated by an underscore, '_'.  
-
-.bottom[
-Before:
 ```{r echo=FALSE}
 color_mat <- matrix(c(
   green, yellow, yellow),
@@ -426,11 +399,18 @@ table5 %>%
   head(n = 1) %>%
   color_table(body_bg = color_mat)
 ```
-]
+
+```{r echo=TRUE}
+table5 %>%
+  select(country, century, year) %>%
+  head(n = 1) %>%
+  unite(yyyy, century, year, sep = "") %>%
+  color_table()
+```
 
 ---
 
-<h2> Your turn! Excercises :) </h2>
+## Your turn! Excercises :) 
 
 ```{r}
 gapminder_example <- readxl::read_excel(path = "../data/GDPpercapitaconstant2000US.xlsx", sheet = "Data")
@@ -449,13 +429,14 @@ gapminder_example %>%
 --
 
 Questions
-* What's 'wrong' with this data set?
+* What's 'wrong' with this dataset?
 
 --
 * How do we convert it to long format?
 
 ---
-<h2> Alternative world: Your turn! Excercises :) </h2>
+
+## Alternative world: Your turn! Excercises :) 
 
 ```{r}
 exercise_data <- 
@@ -474,15 +455,15 @@ Source: https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Inte
 --
 
 Question
-* What's 'wrong' with this data set?
+* What's 'wrong' with this dataset?
 
 ---
 
-<h2> Solution </h2>
+## Solution 
 
 Problems
    * the meaning of column 'cases' depends on column 'type'.
-   * (the data set is in wide-format).
+   * (the dataset is in wide-format).
    
 ```{r echo=TRUE}
 exercise_data %>%
@@ -494,7 +475,7 @@ exercise_data %>%
 
 class: center, middle
 
-<h2> Thanks!</h2>
+## Thanks!
 
 Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
 

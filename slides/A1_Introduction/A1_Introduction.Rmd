@@ -259,12 +259,10 @@ install.packages("tidyverse")
 
 ```
 load core tidyverse packages<sup>2</sup>
-.small[
 ```{r load tidyverse, eval = T, echo = T, message = T}
 library("tidyverse")
 
 ```
-]  
 
 .footnote[
 .smaller[

@@ -14,6 +14,9 @@ webshot(file_name, "intro_slides.pdf")
 # Manual printing of HTML slides via Chrome works/looks better
 
 # superhero data ####
+library(readr)
+library(dplyr)
+library(stringr)
 
 publishers <- read_csv("data/other/heroes_information.csv") %>% 
   select(Publisher) %>%
@@ -55,7 +58,9 @@ heroes <- read_csv("data/other/heroes_information.csv") %>%
 heroes
 
 # gapminder data ####
-
+library(readr)
+library(tidyr)
+library(dplyr)
 library(gapminder)
 
 gapminder
@@ -95,3 +100,42 @@ gap_cont <- gapminder %>%
 gap_cont
 gap_cont %>% 
   distinct()
+
+# Titanic data
+library(readr)
+library(dplyr)
+library(stringr)
+library(rebus)
+library(titanic)
+
+titanic <- titanic_train
+titanic2 <- read_csv("data/titanic/titanic.csv")
+
+glimpse(titanic)
+glimpse(titanic2)
+
+titanic_codebook <- read_csv2("data/titanic/titanic_codebook.csv")
+titanic_codebook
+
+# function to move columns in df
+# see https://stackoverflow.com/questions/52096919/move-a-column-conveniently/52096938#52096938
+# also see https://github.com/tidyverse/dplyr/issues/2047
+move <- function(data, cols, ref, side = c("before","after")){
+  if(! requireNamespace("dplyr")) stop("Make sure package 'dplyr' is installed to use function 'move'")
+  side <- match.arg(side)
+  cols <- rlang::enquo(cols)
+  ref  <- rlang::enquo(ref)
+  if(side == "before") dplyr::select(data,1:!!ref,-!!ref,-!!cols,!!cols,dplyr::everything()) else
+    dplyr::select(data,1:!!ref,-!!cols,!!cols,dplyr::everything())
+}
+
+titanic <- titanic %>% 
+  separate(Name, c("last_name", "first_name"), sep =", ", remove = F) %>% 
+  mutate(title = str_extract(first_name, pattern = one_or_more(ALNUM) %R% DOT)) %>% 
+  mutate(first_name = str_remove(first_name, pattern = one_or_more(ALNUM) %R% DOT)) %>% 
+  move(title, first_name, "after")
+
+head(titanic)
+
+table(titanic$title)
+         
