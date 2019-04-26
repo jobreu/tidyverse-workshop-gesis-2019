@@ -50,7 +50,7 @@ But **some ways are** more common and **easier to understand and use** than othe
 
 > Happy families are all alike; every unhappy family is unhappy in its own way (Leo Tolstoy).
 
-> Tidy datasets are all alike, but every messy dataset is messy in its own way ([Hadley Wickham](https://r4ds.had.co.nz/tidy-data.html))
+> Tidy datasets are all alike, but every messy dataset is messy in its own way ([Hadley Wickham](https://r4ds.had.co.nz/tidy-data.html)).
 
 ---
 
@@ -64,19 +64,19 @@ Why?
 
 --
 
-- structure of the dataset not in line with the requirements of the methods/tools we use
+- structure of the dataset not in line with the **requirements of the methods/tools** we use
 
 --
 
-- clean data with standardized structure makes it easier for others to reuse the data
+- clean data with standardized structure makes it **easier for others to reuse the data**
 
 --
 
-- organizing every dataset organized the same way facilitates the reuse of code
+- organizing every dataset organized the same way **facilitates the reuse of code**
 
 --
 
-- R-specific: R works with vectors (hence it makes sense to have 1 column = 1 variable & 1 row = 1 observation)
+- R-specific: **R works with vectors** (hence it makes sense to have 1 column = 1 variable & 1 row = 1 observation)
 
 ---
 
@@ -246,7 +246,7 @@ More on tibbles in session A4. Or via '?tibble'.
 
 ---
 
-## 'Gather' a variable
+# 'Gather' a variable
 
 How to gather/collect a variable that had been spread over 2 columns?  
 
@@ -260,15 +260,15 @@ color_mat <- matrix(c(
 color_table(head(table4a, n = 3), body_bg = color_mat)
 ```
 
-Here, a count variable was spread over 2 columns.  
-This is also known as 'wide' format. It's commonly used and there's nothing inherently wrong with it.  
-But sometimes 'long' format is required (e.g. in survival analysis).
+Here, a count variable is spread over 2 columns.  
+
+This is also known as **'wide' format**. It's commonly used and there's nothing inherently wrong with it.  
+
+But sometimes **'long' format** is required (e.g., for plotting with `ggplot2`).
 
 ---
 
 # 'Gather' a variable
-
-The tidyverse verb 'gather' converts the wide format into long format.  
 
 ```{r}
 color_mat <- matrix(c(
@@ -277,7 +277,19 @@ color_mat <- matrix(c(
 color_table(head(table4a, n = 1), body_bg = color_mat)
 ```
 
-```{r echo=TRUE}
+--
+
+The tidyverse verb 'gather' converts the wide format into long format.
+
+```{r echo = T, eval = F}
+table4a %>%
+  head(n = 1) %>%
+  gather(`1999`, `2000`, key = "year", value = "cases")
+```
+
+--
+
+```{r}
 table4a %>%
   head(n = 1) %>%
   gather(`1999`, `2000`, key = "year", value = "cases") %>%
@@ -300,13 +312,7 @@ color_mat <- matrix(c(
 color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 ```
 
-Here, one observation was spread over 2 rows.  
-This is not ideal either. 
-
---
-
-By the way, this is **NOT** (an appropriate) long format because the columns are still not cohesive selections of values:  
-745 and 19987071 have nothing to do with each other.
+Here, one observation was spread over 2 rows. NB: This is **NOT** an appropriate long format because the columns are not cohesive collections of values.
 
 ---
 
@@ -325,7 +331,7 @@ color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 ```{r echo=TRUE}
 table2 %>%
   head(n = 2) %>%
-  spread(key = type, value = count) %>%  #<<
+  spread(key = type, value = count) %>%
   color_table()
 ```
  
@@ -336,7 +342,7 @@ Now this could be used for analyses that require long format!
 
 ---
 
-## Alternatives 
+# Pivot 
 
 Instead of 'gather' and 'spread' you could also use 'pivot_longer' and 'pivot_wider'. See https://tidyr.tidyverse.org/dev/articles/pivot.html.
 
