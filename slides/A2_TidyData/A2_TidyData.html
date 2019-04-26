@@ -299,7 +299,7 @@ What's the problem here?
 
 &lt;h2&gt;A small survey&lt;/h2&gt;
 
-Would you know how to calculate the rate using base R (and regular expressions) in this case?
+Would you know how to calculate the rate using base R in this case?
 E.g. .highlight["745/19987071"]?  
 .smaller[
 (Without googling?)
@@ -324,19 +324,6 @@ as.numeric(gsub(rate, pattern = "[0-9]+/([0-9]+)",
 
 ---
 
-## Seriously?
-
-Would you really want to put yourself and others through this?  
-Let's instead provide numeric variables as numbers - not strings!  
-
---
-
-Btw., you'll learn much nicer ways to handle this situtation during this course either through 
-* a new tidyverse verb (separate) or - more generally - 
-* string and regular expression operations (package stringr)!
-
----
-
 # Rules for tidy datasets
 
 The 3 rules of tidy data:
@@ -354,11 +341,19 @@ NB: In the tidyverse 'tidy data' also means data in long format - where applicab
 
 ---
 
+# Wide vs. long format
+
+&lt;img src="pics/wide-long.png" width="90%"&gt;
+Source: https://github.com/gadenbuie/tidyexplain#tidy-data
+
+---
+
 ## A short notes on tibbles 
 
 Most functions from the tidyverse produce a tibble.
 
-A tibble is an improved version of the base R dataframe.  
+A tibble is an improved version of the base R dataframe. 
+
 They can be used instead of dataframes, in most cases **without** breaking existing code.
 
 Improved because...
@@ -368,6 +363,7 @@ Improved because...
    * displaying only as many rows and columns as fit the screen
    * telling dimensions of the dataset
    * telling types of columns
+   
 * never changes the data.
 
 More on tibbles in session A4. Or via '?tibble'.
@@ -500,13 +496,12 @@ How to tidy up observations that were spread over two rows?
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-Here, one observation was spread over 2 rows. NB: This is **NOT** an appropriate long format because the columns are not cohesive collections of values.
+Here, one observation was spread over 2 rows.  
+NB: This is **NOT** an appropriate long format because the columns are not cohesive collections of values.
 
 ---
 
 # 'Spread' a variable
-
-The tidyverse verb 'spread' converts the incohesive selection of values into cohesive vectors/variables.
 
 &lt;table&gt;
  &lt;thead&gt;
@@ -533,13 +528,18 @@ The tidyverse verb 'spread' converts the incohesive selection of values into coh
 &lt;/tbody&gt;
 &lt;/table&gt;
 
+--
+
+The tidyverse verb 'spread' converts the incohesive selection of values into cohesive vectors/variables.
+
 
 ```r
 table2 %&gt;%
   head(n = 2) %&gt;%
-  spread(key = type, value = count) %&gt;%
-  color_table()
+  spread(key = type, value = count)
 ```
+
+--
 
 &lt;table&gt;
  &lt;thead&gt;
@@ -559,11 +559,8 @@ table2 %&gt;%
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
- 
 
-Here, the values in "type" become column names of two vectors/variables and the respective values are stored in cells.  
-
-Now this could be used for analyses that require long format!  
+Here, the values in "type" become column names of two vectors/variables and the respective values are stored in cells.
 
 ---
 
