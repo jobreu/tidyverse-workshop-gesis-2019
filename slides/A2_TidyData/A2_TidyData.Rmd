@@ -86,8 +86,6 @@ class: center, middle
 
 In the following, we will compare four different ways of displaying the same data.
 
-Which one(s) make(s) sense?
-
 We will use country-level data on population and cases of a disease.
 
 ---
@@ -130,7 +128,7 @@ color_table(head(table2, n = 3), body_bg = color_mat)
 
 2. R uses vectors internally. Most functions expect a column to represent one cohesive selection of values (e.g. a variable or an observation). Both, "type" and "count" are not.
 
-3. "type" switches the meaning of "count". This is highly unintuitive and not what (most) scientists would expect.
+3. "type" switches the meaning of "count". This is highly unintuitive and not what (most) people would expect.
 ]
 
 ---
@@ -162,14 +160,14 @@ color_table(head(table3, n = 3), body_bg = color_mat)
 **Problems**
 1. Cells contain several values
 
-1. Cells are strings but represent a number (rate)
+2. Cells are strings but represent a number (rate)
 ]
 
 .pull-right[
 **Details**
-1. It's hard to separate the values in a cell.
+1. Rate still has to be computed.
 
-1. It's hard to run numeric operations on string variables.
+2. It's difficult to run numeric operations on string variables.
 ]
 
 ---
@@ -275,7 +273,7 @@ color_table(head(table4a, n = 1), body_bg = color_mat)
 
 --
 
-The tidyverse verb 'gather' converts the wide format into long format.
+The tidyverse verb `gather` converts the wide format into long format.
 
 ```{r echo = T, eval = F}
 table4a %>%
@@ -309,6 +307,7 @@ color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 ```
 
 Here, one observation was spread over 2 rows.  
+
 NB: This is **NOT** an appropriate long format because the columns are not cohesive collections of values.
 
 ---
@@ -325,7 +324,7 @@ color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 
 --
 
-The tidyverse verb 'spread' converts the incohesive selection of values into cohesive vectors/variables.
+The tidyverse verb `spread` converts the incohesive selection of values into cohesive vectors/variables.
 
 ```{r, eval = F, echo = T}
 table2 %>%
@@ -348,7 +347,17 @@ Here, the values in "type" become column names of two vectors/variables and the 
 
 # Pivot 
 
-Instead of 'gather' and 'spread' you could also use 'pivot_longer' and 'pivot_wider'. See https://tidyr.tidyverse.org/dev/articles/pivot.html.
+With the development version of `tidyr` (install with `devtools::install_github("tidyverse/tidyr")`) and in future *CRAN* releases, you can also use `pivot_longer()` and `pivot_wider()` instead of `gather()` and `spread()` (see https://tidyr.tidyverse.org/dev/articles/pivot.html).
+
+```{r eval = F, echo = T}
+table4a %>% 
+  head(n = 1) %>% 
+  pivot_longer(-country, names_to ="year", values_to = "count")
+
+table2 %>% 
+  pivot_wider(names_from = type, values_from = count)
+```
+
 
 ---
 
