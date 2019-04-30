@@ -295,7 +295,7 @@ What's the problem here?
 
 ---
 
-&lt;h2&gt;A small survey&lt;/h2&gt;
+&lt;h1&gt;For the aces of base (R)&lt;/h1&gt;
 
 Would you know how to calculate the rate using base R in this case?
 E.g. .highlight["745/19987071"]?  
@@ -346,25 +346,23 @@ Source: https://github.com/gadenbuie/tidyexplain#tidy-data
 
 ---
 
-## A short notes on tibbles 
+# A short notes on tibbles 
 
 Most functions from the tidyverse produce a tibble.
 
 A tibble is an improved version of the base R dataframe. 
 
-They can be used instead of dataframes, in most cases **without** breaking existing code.
-
-Improved because...
+Improved because tibbles...
 --
 
-* much nicer output in the console 
+* generate much **nicer output in the console** 
    * displaying only as many rows and columns as fit the screen
-   * telling dimensions of the dataset
-   * telling types of columns
+   * printing dimensions of the dataset
+   * providing information on the types of columns
    
-* never changes the data.
+* never change the data (`stringsAsFactors = FALSE`)
 
-More on tibbles in session A4. Or via '?tibble'.
+More on tibbles in session A4 (or via '?tibble')
 
 ---
 
@@ -570,7 +568,6 @@ With the development version of `tidyr` (install with `devtools::install_github(
 
 ```r
 table4a %&gt;% 
-  head(n = 1) %&gt;% 
   pivot_longer(-country, names_to ="year", values_to = "count")
 
 table2 %&gt;% 
@@ -580,9 +577,9 @@ table2 %&gt;%
 
 ---
 
-## Separating intermingled values
+## 'Separate' intermingled values
 
-The tidyverse verb 'separate' allows us to separate intermingled values.
+The tidyverse verb `separate` allows us to separate intermingled values.
 
 &lt;table&gt;
  &lt;thead&gt;
@@ -692,9 +689,9 @@ tibble(mingled = "80/100#1,6_3") %&gt;%
 
 ---
 
-## 'Uniting' values
+## 'Unite' values
 
-The tidyverse verb `unite()` lets us concatenate values that were spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
+The tidyverse verb `unite` lets us concatenate values that are spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
 
 &lt;table&gt;
  &lt;thead&gt;
@@ -739,102 +736,11 @@ table5 %&gt;%
 
 ---
 
-## Your turn! Excercises :) 
-
-
-
-
-```r
-# GDP data, for Germany, from 1960 - 2011
-# (missings in the first few years)
-gapminder_example %&gt;% 
-  rename(country = `Income per person (fixed 2000 US$)`) %&gt;%
-  filter(country == "Germany") %&gt;%
-  select(1:4, last_col())
-```
-
-```
-## # A tibble: 1 x 5
-##   country `1960.0` `1961` `1962` `2011`
-##   &lt;chr&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1 Germany       NA     NA     NA 26207.
-```
-
-
---
-
-Questions
-* What's 'wrong' with this dataset?
-
---
-* How do we convert it to long format?
-
----
-
-## Alternative world: Your turn! Excercises :) 
-
-
-
-
-
-```r
-exercise_data
-```
-
-```
-## # A tibble: 6 x 4
-##   country  type                       year    cases
-##   &lt;chr&gt;    &lt;chr&gt;                     &lt;dbl&gt;    &lt;dbl&gt;
-## 1 Germany  murders                    2010   690   
-## 2 Brazil   murders                    2010 40974   
-## 3 Bulgaria murders                    2010   147   
-## 4 Germany  intentional homicide rate  2011     0.81
-## 5 Brazil   intentional homicide rate  2011    27   
-## 6 Bulgaria intentional homicide rate  2009     1.91
-```
-Source: https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Intentional-homicide-rate and https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Murder-rate
-
---
-
-Question
-* What's 'wrong' with this dataset?
-
----
-
-## Solution 
-
-Problems
-   * the meaning of column 'cases' depends on column 'type'.
-   * (the dataset is in wide-format).
-   
-
-```r
-exercise_data %&gt;%
-  spread(key = "type", value = "cases")
-```
-
-```
-## # A tibble: 6 x 4
-##   country   year `intentional homicide rate` murders
-##   &lt;chr&gt;    &lt;dbl&gt;                       &lt;dbl&gt;   &lt;dbl&gt;
-## 1 Brazil    2010                       NA      40974
-## 2 Brazil    2011                       27         NA
-## 3 Bulgaria  2009                        1.91      NA
-## 4 Bulgaria  2010                       NA        147
-## 5 Germany   2010                       NA        690
-## 6 Germany   2011                        0.81      NA
-```
-
-
----
-
 class: center, middle
 
-## Thanks!
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time 🏋️‍♀️💪🏃🚴
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
-
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

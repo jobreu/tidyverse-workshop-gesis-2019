@@ -19,9 +19,10 @@ layout: true
 if (!require(knitr)) install.packages("knitr")
 if (!require(rmarkdown)) install.packages("rmarkdown")
 if (!require(tidyverse)) install.packages("tidyverse")
-library("knitr")
-library("rmarkdown")
-library("tidyverse")
+library(knitr)
+library(rmarkdown)
+library(tidyverse)
+library(emo)
 options(htmltools.dir.version = FALSE)
 
 opts_chunk$set(echo = FALSE, fig.align = "center")
@@ -172,7 +173,7 @@ color_table(head(table3, n = 3), body_bg = color_mat)
 
 ---
 
-<h2>A small survey</h2>
+<h1>For the aces of base (R)</h1>
 
 Would you know how to calculate the rate using base R in this case?
 E.g. .highlight["745/19987071"]?  
@@ -218,25 +219,23 @@ Source: https://github.com/gadenbuie/tidyexplain#tidy-data
 
 ---
 
-## A short notes on tibbles 
+# A short notes on tibbles 
 
 Most functions from the tidyverse produce a tibble.
 
 A tibble is an improved version of the base R dataframe. 
 
-They can be used instead of dataframes, in most cases **without** breaking existing code.
-
-Improved because...
+Improved because tibbles...
 --
 
-* much nicer output in the console 
+* generate much **nicer output in the console** 
    * displaying only as many rows and columns as fit the screen
-   * telling dimensions of the dataset
-   * telling types of columns
+   * printing dimensions of the dataset
+   * providing information on the types of columns
    
-* never changes the data.
+* never change the data (`stringsAsFactors = FALSE`)
 
-More on tibbles in session A4. Or via '?tibble'.
+More on tibbles in session A4 (or via '?tibble')
 
 ---
 
@@ -351,7 +350,6 @@ With the development version of `tidyr` (install with `devtools::install_github(
 
 ```{r eval = F, echo = T}
 table4a %>% 
-  head(n = 1) %>% 
   pivot_longer(-country, names_to ="year", values_to = "count")
 
 table2 %>% 
@@ -361,9 +359,9 @@ table2 %>%
 
 ---
 
-## Separating intermingled values
+## 'Separate' intermingled values
 
-The tidyverse verb 'separate' allows us to separate intermingled values.
+The tidyverse verb `separate` allows us to separate intermingled values.
 
 ```{r echo=FALSE}
 color_mat <- matrix(c(
@@ -404,9 +402,9 @@ tibble(mingled = "80/100#1,6_3") %>%
 
 ---
 
-## 'Uniting' values
+## 'Unite' values
 
-The tidyverse verb `unite()` lets us concatenate values that were spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
+The tidyverse verb `unite` lets us concatenate values that are spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
 
 ```{r echo=FALSE}
 color_mat <- matrix(c(
@@ -429,73 +427,8 @@ table5 %>%
 
 ---
 
-## Your turn! Excercises :) 
-
-```{r}
-gapminder_example <- readxl::read_excel(path = "../data/GDPpercapitaconstant2000US.xlsx", sheet = "Data")
-```
-
-```{r include=TRUE, echo=TRUE}
-# GDP data, for Germany, from 1960 - 2011
-# (missings in the first few years)
-gapminder_example %>% 
-  rename(country = `Income per person (fixed 2000 US$)`) %>%
-  filter(country == "Germany") %>%
-  select(1:4, last_col())
-```
-
-
---
-
-Questions
-* What's 'wrong' with this dataset?
-
---
-* How do we convert it to long format?
-
----
-
-## Alternative world: Your turn! Excercises :) 
-
-```{r}
-exercise_data <- 
-  tibble::tibble(country = rep(c("Germany", "Brazil", "Bulgaria"), 2),
-                  type = c(rep("murders", 3), rep("intentional homicide rate", 3)),
-                  year = c(rep(2010, 3), 2011, 2011, 2009),
-                  cases = c(690, 40974, 147, 0.81, 27, 1.91))
-```
-
-
-```{r echo=TRUE}
-exercise_data
-```
-Source: https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Intentional-homicide-rate and https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Murder-rate
-
---
-
-Question
-* What's 'wrong' with this dataset?
-
----
-
-## Solution 
-
-Problems
-   * the meaning of column 'cases' depends on column 'type'.
-   * (the dataset is in wide-format).
-   
-```{r echo=TRUE}
-exercise_data %>%
-  spread(key = "type", value = "cases")
-```
-
-
----
-
 class: center, middle
 
-## Thanks!
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
-
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)

@@ -103,6 +103,7 @@ gap_cont %>%
 
 # Titanic data
 library(readr)
+library(tidyr)
 library(dplyr)
 library(stringr)
 library(rebus)
