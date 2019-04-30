@@ -1,9 +1,8 @@
 # Workshop "Data Wrangling & Exploration with the Tidyverse in R", GESIS 2019
 Materials for the 2019 GESIS workshop "Data Wrangling &amp; Exploration with the Tidyverse in R"
 
-Johannes Breuer ([johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [\@MattEagle09](https://twitter.com/MattEagle09));
-Thomas Ebel ([thomas.ebel@gesis.org](mailto:thomas.ebel@gesis.org));
-Stefan Müller ([stefan.mueller@gesis.org](mailto:stefan.mueller@gesis.org))
+[Johannes Breuer](https://www.johannesbreuer.com/) ([johannes.breuer@gesis.org](mailto:johannes.breuer@gesis.org), [\@MattEagle09](https://twitter.com/MattEagle09));
+[Stefan Müller](https://www.gesis.org/en/institute/staff/person/?tx_gextstaffdir_staffdirectory%5Bemail%5D=stefan.mueller%40gesis.org&tx_gextstaffdir_staffdirectory%5Baction%5D=details&tx_gextstaffdir_staffdirectory%5Bcontroller%5D=Index&cHash=69df850753c2a18d91c7c48915241b9a) ([stefan.mueller@gesis.org](mailto:stefan.mueller@gesis.org)); Thomas Ebel
 
 [![](https://licensebuttons.net/l/by/3.0/80x15.png)](https://creativecommons.org/licenses/by/4.0/) 
 Please link to the [workshop GitHub repository](https://github.com/jobreu/tidyverse-workshop-gesis-2019/)
