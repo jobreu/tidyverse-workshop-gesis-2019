@@ -16,6 +16,10 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
                                       box.collapse = TRUE))
 ```
 
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy()
+```
+
 In these exercises you will use some of the functions from the `tidyr` package to make datasets tidy.
 
 In several of our exercises (incl. this one) we will use data on global life expectancy from [*Gapminder*](https://www.gapminder.org/) and the [*Titanic*](https://www.kaggle.com/c/titanic/overview) dataset from *Kaggle*. In addition, for one of the exercises on tidy data, we will use an excerpt from [*NationMaster*](https://www.nationmaster.com/) data on [murder](https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Murder-rate) and [intentional homicide](https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Intentional-homicide-rate) for 2010. 
