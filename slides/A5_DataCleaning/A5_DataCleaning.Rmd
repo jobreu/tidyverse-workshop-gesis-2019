@@ -48,6 +48,13 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
   <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
 </div>
 
+<style type="text/css">
+
+pre {
+  font-size: 10px
+}
+</style>
+
 ---
 
 # Data cleaning
@@ -65,13 +72,19 @@ include_graphics("./pics/hex-dplyr.png")
 .pull-left[
 We split up **wrangling** into...
 - **cleaning** (now)
-    - rename
-    - recode
-    - missings  
+    - renaming variables
+    - creating new variables: basics
+    - recoding variable values
+    - recoding missing values
+    - selecting variables: basics
+    - filtering cases: basics
     
 - **transformation** (1st session tomorrow)
-    - new variables
-    - reshape data
+    - advanced creation of new variables
+    - working with factors
+    - rearranging datasets
+    - advanced selecting
+    - advanced filtering
     ]
 
 .pull-right[
@@ -85,21 +98,9 @@ Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
 
 ---
 
-# Toy data `r ji("kick_scooter")`
-
-```{r create toy data}
-toys <- tibble(
-  name = c("Teddy bear", "Fire truck", "Basketball", "Frog", "Skeletor"), 
-  color = c("brown", "red", "orange", "green", "blue"), 
-  price = c(15, 5, 10, 12, 20)
-)
-```
-
----
-
 # Titanic `r ji("passenger_ship")`
 
-- for the data wrangling parts of the workshop we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
+For some of the data wrangling examples and exercises we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
 
 ```{r titanic data, include = F}
 titanic <- read_csv("../../data/titanic/titanic.csv")
@@ -126,7 +127,7 @@ The `glimpse()` function from `dplyr` is usually a good start as it similar to `
 
 The second thing you could/should do (esp. if you have many/mostly numeric variables) is to use the `summary()` function from base R.  
 
-If you want more detailed summaries, you can have a look at the [`skimr`](https://github.com/ropensci/skimr) and [`summarytools`](https://github.com/dcomtois/summarytools) packages.
+If you want more detailed summaries of your data, you can have a look at the [`skimr`](https://github.com/ropensci/skimr) and [`summarytools`](https://github.com/dcomtois/summarytools) packages.
 
 ---
 
@@ -158,7 +159,139 @@ summary(titanic_num)
 
 - first argument = a data frame  
 
-- output normally also a data frame  
+- output normally also a data frame (tibble) 
 
-- columns (= variables in a tidy data frame) can be referenced without quotation marks
+- columns (= variables in a tidy data frame) can be referenced without quotation marks (non-standard evaluation)
 ]
+
+---
+
+# Renaming variables
+
+```{r titanic head rename, echo = T}
+names(titanic)
+```
+
+Some of the names of in the Titanic dataset are difficult to understand (without consulting the codebook). In addition, it is generally helpful to use a consistent naming scheme. As `R` is case-sensitive, we might want to only use lowercase letters. As spaces in variable names can cause problems (or at least headaches), we could opt for`r ji("snake")` snake_case (`r ji("camel")` camelCase is a common alternative; for a good brief discussion of options for avoiding spaces in variable names, see this [Medium post by Patrick Divine](https://medium.com/@pddivine/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841)).
+
+For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is tidyverse-oriented and includes the function `clean_names()`.  
+
+---
+--- 
+
+# dplyr::rename
+
+```{r titanic rename, echo = T}
+titanic <- titanic %>% 
+  rename(passenger_id = PassengerId,
+         survived = Survived,
+         ticket_class = Pclass,
+         name = Name,
+         sex = Sex,
+         age = Age,
+         nr_of_siblings_spouses_aboard = SibSp,
+         nr_of_parents_children_aboard = Parch,
+         ticket_number = Ticket,
+         fare = Fare,
+         cabin_nr = Cabin,
+         port_of_embarkation = Embarked)
+
+names(titanic)
+```
+
+---
+
+# Selecting variables
+
+Very often we do not need all the variables in a dataset for our analyses. We can create a selection of columns/variables with the `dplyr` verb `select()`.
+
+```{r select, echo = T}
+titanic %>% 
+  select(passenger_id, survived, ticket_class, sex, age)
+```
+
+---
+
+# Filtering cases
+
+With the `filter()` function from `dplyr` you can filter rows/observations dependent on one or more conditions.
+
+You can use the usual operators for 
+- **comparisons**:
+    - **<** (smaller than)
+    - **<=** (smaller than or equal to)
+    - **==** (equal to)
+    - **!=** (not equal to)
+    - **>=** (larger than or equal to)
+    - **>** (larger than)  
+    
+- **logical operators**:
+    - **&** (and)
+    - **|** (or)
+    - **!** (not)
+    - **xor** (either or, not both)
+
+---
+
+# dplyr::filter - one condition
+
+```{r filter 1, echo = T}
+titanic %>% 
+  filter(sex == "male")
+```
+
+---
+
+# dplyr::filter - multiple conditions
+
+```{r filter 2, echo = T}
+titanic %>% 
+  filter(sex == "male", survived == 1, age >= 18)
+```
+
+NB: Multiple conditions in filter are automatically added as & (and).
+
+---
+
+# Creating new variables
+
+In the process of preparing data for analyses we usually want to create new variables (often based on existing ones). For example, in the Titanic dataset, we might want to calculate the total number of relatives aboard the Titanic for each passenger.
+
+```{r Titanic mutate sum relatives, echo = T}
+titanic <- titanic %>% 
+  mutate(nr_of_relatives_aboard = nr_of_siblings_spouses_aboard +
+           nr_of_parents_children_aboard)
+
+titanic %>% 
+  select(nr_of_relatives_aboard) %>% 
+  filter(nr_of_relatives_aboard > 1) %>% 
+  head(n = 5)
+```
+
+---
+
+# Recoding variable values
+
+```{r Titanic embark}
+titanic %>% 
+  select(port_of_embarkation) %>% 
+  head()
+```
+
+Without looking at the codebook, it is not clear what the letters in the *Embarked* variable stand for. If we want to, e.g., produce tables or plots using this variable, it might help to replace the abbreviation by the full name of the port of embarkation.
+
+---
+
+# dplyr::recode
+
+```{r recode, echo = T}
+titanic %>% 
+  mutate(port_of_embarkation = recode(port_of_embarkation,
+         S = "Southampton",
+         C = "Cherbourg",
+         Q = "Queenstown")) %>% 
+  select(port_of_embarkation) %>% 
+  head()
+```
+
+Note that we recode into the same variable here

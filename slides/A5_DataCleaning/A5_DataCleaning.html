@@ -32,6 +32,13 @@ layout: true
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Data Cleaning&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
+&lt;style type="text/css"&gt;
+
+pre {
+  font-size: 10px
+}
+&lt;/style&gt;
+
 ---
 
 # Data cleaning
@@ -47,13 +54,19 @@ In this section, we will focus on the `dplyr` package.
 .pull-left[
 We split up **wrangling** into...
 - **cleaning** (now)
-    - rename
-    - recode
-    - missings  
+    - renaming variables
+    - creating new variables: basics
+    - recoding variable values
+    - recoding missing values
+    - selecting variables: basics
+    - filtering cases: basics
     
 - **transformation** (1st session tomorrow)
-    - new variables
-    - reshape data
+    - advanced creation of new variables
+    - working with factors
+    - rearranging datasets
+    - advanced selecting
+    - advanced filtering
     ]
 
 .pull-right[
@@ -67,15 +80,9 @@ Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
 
 ---
 
-# Toy data 🛴
-
-
-
----
-
 # Titanic 🛳
 
-- for the data wrangling parts of the workshop we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
+For some of the data wrangling examples and exercises we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
 
 
 
@@ -154,7 +161,7 @@ The `glimpse()` function from `dplyr` is usually a good start as it similar to `
 
 The second thing you could/should do (esp. if you have many/mostly numeric variables) is to use the `summary()` function from base R.  
 
-If you want more detailed summaries, you can have a look at the [`skimr`](https://github.com/ropensci/skimr) and [`summarytools`](https://github.com/dcomtois/summarytools) packages.
+If you want more detailed summaries of your data, you can have a look at the [`skimr`](https://github.com/ropensci/skimr) and [`summarytools`](https://github.com/dcomtois/summarytools) packages.
 
 ---
 
@@ -221,10 +228,249 @@ summary(titanic_num)
 
 - first argument = a data frame  
 
-- output normally also a data frame  
+- output normally also a data frame (tibble) 
 
-- columns (= variables in a tidy data frame) can be referenced without quotation marks
+- columns (= variables in a tidy data frame) can be referenced without quotation marks (non-standard evaluation)
 ]
+
+---
+
+# Renaming variables
+
+
+```r
+names(titanic)
+```
+
+```
+##  [1] "PassengerId" "Survived"    "Pclass"      "Name"        "Sex"        
+##  [6] "Age"         "SibSp"       "Parch"       "Ticket"      "Fare"       
+## [11] "Cabin"       "Embarked"
+```
+
+Some of the names of in the Titanic dataset are difficult to understand (without consulting the codebook). In addition, it is generally helpful to use a consistent naming scheme. As `R` is case-sensitive, we might want to only use lowercase letters. As spaces in variable names can cause problems (or at least headaches), we could opt for🐍 snake_case (🐫 camelCase is a common alternative; for a good brief discussion of options for avoiding spaces in variable names, see this [Medium post by Patrick Divine](https://medium.com/@pddivine/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841)).
+
+For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is tidyverse-oriented and includes the function `clean_names()`.  
+
+---
+--- 
+
+# dplyr::rename
+
+
+```r
+titanic &lt;- titanic %&gt;% 
+  rename(passenger_id = PassengerId,
+         survived = Survived,
+         ticket_class = Pclass,
+         name = Name,
+         sex = Sex,
+         age = Age,
+         nr_of_siblings_spouses_aboard = SibSp,
+         nr_of_parents_children_aboard = Parch,
+         ticket_number = Ticket,
+         fare = Fare,
+         cabin_nr = Cabin,
+         port_of_embarkation = Embarked)
+
+names(titanic)
+```
+
+```
+##  [1] "passenger_id"                  "survived"                     
+##  [3] "ticket_class"                  "name"                         
+##  [5] "sex"                           "age"                          
+##  [7] "nr_of_siblings_spouses_aboard" "nr_of_parents_children_aboard"
+##  [9] "ticket_number"                 "fare"                         
+## [11] "cabin_nr"                      "port_of_embarkation"
+```
+
+---
+
+# Selecting variables
+
+Very often we do not need all the variables in a dataset for our analyses. We can create a selection of columns/variables with the `dplyr` verb `select()`.
+
+
+```r
+titanic %&gt;% 
+  select(passenger_id, survived, ticket_class, sex, age)
+```
+
+```
+## # A tibble: 891 x 5
+##    passenger_id survived ticket_class sex      age
+##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1            1        0            3 male      22
+##  2            2        1            1 female    38
+##  3            3        1            3 female    26
+##  4            4        1            1 female    35
+##  5            5        0            3 male      35
+##  6            6        0            3 male      NA
+##  7            7        0            1 male      54
+##  8            8        0            3 male       2
+##  9            9        1            3 female    27
+## 10           10        1            2 female    14
+## # ... with 881 more rows
+```
+
+---
+
+# Filtering cases
+
+With the `filter()` function from `dplyr` you can filter rows/observations dependent on one or more conditions.
+
+You can use the usual operators for 
+- **comparisons**:
+    - **&lt;** (smaller than)
+    - **&lt;=** (smaller than or equal to)
+    - **==** (equal to)
+    - **!=** (not equal to)
+    - **&gt;=** (larger than or equal to)
+    - **&gt;** (larger than)  
+    
+- **logical operators**:
+    - **&amp;** (and)
+    - **|** (or)
+    - **!** (not)
+    - **xor** (either or, not both)
+
+---
+
+# dplyr::filter - one condition
+
+
+```r
+titanic %&gt;% 
+  filter(sex == "male")
+```
+
+```
+## # A tibble: 577 x 12
+##    passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+##  1            1        0            3 Brau~ male     22                1
+##  2            5        0            3 Alle~ male     35                0
+##  3            6        0            3 Mora~ male     NA                0
+##  4            7        0            1 McCa~ male     54                0
+##  5            8        0            3 Pals~ male      2                3
+##  6           13        0            3 Saun~ male     20                0
+##  7           14        0            3 Ande~ male     39                1
+##  8           17        0            3 Rice~ male      2                4
+##  9           18        1            2 Will~ male     NA                0
+## 10           21        0            2 Fynn~ male     35                0
+## # ... with 567 more rows, and 5 more variables:
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
+```
+
+---
+
+# dplyr::filter - multiple conditions
+
+
+```r
+titanic %&gt;% 
+  filter(sex == "male", survived == 1, age &gt;= 18)
+```
+
+```
+## # A tibble: 70 x 12
+##    passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+##  1           22        1            2 Bees~ male     34                0
+##  2           24        1            1 Slop~ male     28                0
+##  3           75        1            3 Bing~ male     32                0
+##  4           82        1            3 Shee~ male     29                0
+##  5           98        1            1 Gree~ male     23                0
+##  6          128        1            3 Mads~ male     24                0
+##  7          147        1            3 "And~ male     27                0
+##  8          188        1            1 "Rom~ male     45                0
+##  9          205        1            3 "Coh~ male     18                0
+## 10          208        1            3 Albi~ male     26                0
+## # ... with 60 more rows, and 5 more variables:
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
+```
+
+NB: Multiple conditions in filter are automatically added as &amp; (and).
+
+---
+
+# Creating new variables
+
+In the process of preparing data for analyses we usually want to create new variables (often based on existing ones). For example, in the Titanic dataset, we might want to calculate the total number of relatives aboard the Titanic for each passenger.
+
+
+```r
+titanic &lt;- titanic %&gt;% 
+  mutate(nr_of_relatives_aboard = nr_of_siblings_spouses_aboard +
+           nr_of_parents_children_aboard)
+
+titanic %&gt;% 
+  select(nr_of_relatives_aboard) %&gt;% 
+  filter(nr_of_relatives_aboard &gt; 1) %&gt;% 
+  head(n = 5)
+```
+
+```
+## # A tibble: 5 x 1
+##   nr_of_relatives_aboard
+##                    &lt;dbl&gt;
+## 1                      4
+## 2                      2
+## 3                      2
+## 4                      6
+## 5                      5
+```
+
+---
+
+# Recoding variable values
+
+
+```
+## # A tibble: 6 x 1
+##   port_of_embarkation
+##   &lt;chr&gt;              
+## 1 S                  
+## 2 C                  
+## 3 S                  
+## 4 S                  
+## 5 S                  
+## 6 Q
+```
+
+Without looking at the codebook, it is not clear what the letters in the *Embarked* variable stand for. If we want to, e.g., produce tables or plots using this variable, it might help to replace the abbreviation by the full name of the port of embarkation.
+
+---
+
+# dplyr::recode
+
+
+```r
+titanic %&gt;% 
+  mutate(port_of_embarkation = recode(port_of_embarkation,
+         S = "Southampton",
+         C = "Cherbourg",
+         Q = "Queenstown")) %&gt;% 
+  select(port_of_embarkation) %&gt;% 
+  head()
+```
+
+```
+## # A tibble: 6 x 1
+##   port_of_embarkation
+##   &lt;chr&gt;              
+## 1 Southampton        
+## 2 Cherbourg          
+## 3 Southampton        
+## 4 Southampton        
+## 5 Southampton        
+## 6 Queenstown
+```
+
+Note that we recode into the same variable here
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

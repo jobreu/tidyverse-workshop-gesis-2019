@@ -1,6 +1,6 @@
 ---
-title: "Data transformation"
-subtitle: "Verbs that came, saw, and conquered?"
+title: "Data Wrangling & Exploration with the Tidyverse in R"
+subtitle: "Data Transformation"
 author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
 date: "2018-05-16"
 location: "GESIS, Mannheim, Germany"
