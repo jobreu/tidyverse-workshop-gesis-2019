@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling & Exploration with the Tidyverse in R"
 subtitle: "Data Transformation"
-author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
+author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger"
 date: "2018-05-16"
 location: "GESIS, Mannheim, Germany"
 output:

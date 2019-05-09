@@ -1,7 +1,7 @@
 ---
 title: "R Crash Course"
 # subtitle: "(according to Hadley Wickham/RStudio)"
-author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
+author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
 output:

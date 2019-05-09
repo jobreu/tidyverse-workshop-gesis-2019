@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling & Exploration with the Tidyverse in R"
 subtitle: "Introduction"
-author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Müller"
+author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
 output:
@@ -81,7 +81,7 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 # About us
 
-### Stefan Müller
+### Stefan Jünger
 
 - senior researcher in the team Data Linking & Data Security at the GESIS Data Archive
     - main area: geo data  
