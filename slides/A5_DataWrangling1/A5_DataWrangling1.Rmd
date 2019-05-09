@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling & Exploration with the Tidyverse in R"
-subtitle: "Data Cleaning"
-author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger"
+subtitle: "Data Wrangling - Part 1"
+author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
 output:
@@ -16,26 +16,10 @@ output:
 layout: true
 
 ```{r setup, include=FALSE}
-packages_to_load <- c("knitr",
-                      "rmarkdown",
-                      "devtools",
-                      "tibble",
-                      "readr",
-                      "kableExtra",
-                      "dplyr")
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
 
-for (i in packages_to_load) {
-  if (!require(i, character.only = TRUE)) {
-    install.packages(i)
-  } else {
-    library(i, character.only = TRUE)
-  }
-}
-
-rm(packages_to_load)
-
-install_github("hadley/emo")
-library(emo)
+packages("knitr", "rmarkdown", "tidyverse", "kableExtra", "hadley/emo", prompt = F)
 
 options(htmltools.dir.version = FALSE)
 
@@ -57,9 +41,9 @@ pre {
 
 ---
 
-# Data cleaning
+# Data wrangling
 
-In this section, we will focus on the `dplyr` package.
+In this section (and the following one), we will focus on the `dplyr` package.
 
 ```{r, out.width = "50%"}
 include_graphics("./pics/hex-dplyr.png")
@@ -70,21 +54,21 @@ include_graphics("./pics/hex-dplyr.png")
 # Data wrangling `r ji("cowboy_hat_face")`
 
 .pull-left[
-We split up **wrangling** into...
-- **cleaning** (now)
+We split up **wrangling** into two parts:
+- **Part 1** (now)
     - renaming variables
+    - selecting variables: basics
+    - filtering cases: basics
     - creating new variables: basics
     - recoding variable values
     - recoding missing values
-    - selecting variables: basics
-    - filtering cases: basics
     
-- **transformation** (1st session tomorrow)
+- **Part 2** (1st session tomorrow)
+    - advanced selecting
+    - advanced filtering
     - advanced creation of new variables
     - working with factors
     - rearranging datasets
-    - advanced selecting
-    - advanced filtering
     ]
 
 .pull-right[
@@ -116,6 +100,18 @@ titanic_codebook %>%
   kable("html") %>%
   kable_styling(font_size = 16)
 ```
+
+---
+
+# Side note: Codebooks
+
+If you want to generate a codebook for your dataset, there are several options:
+
+- The [`codebook` package](https://github.com/rubenarslan/codebook) which includes an *RStudio*-Addin and also offers a [web app](https://rubenarslan.ocpu.io/codebook/www/)
+
+- the `makeCodebook()` function from the [`dataMaid` package](https://github.com/ekstroem/dataMaid) (see this [blog post](http://sandsynligvis.dk/articles/18/codebook.html) for a short tutorial)
+
+- the `codebook()` function from the [`memisc` package](https://github.com/melff/memisc)
 
 ---
 
@@ -152,10 +148,10 @@ summary(titanic_num)
 
 ---
 
-# dplyr functions
+# `dplyr` functions
 
 .large[
-- dplyr functions are verbs that signal an action  
+- `dplyr` functions are verbs that signal an action  
 
 - first argument = a data frame  
 
@@ -174,12 +170,12 @@ names(titanic)
 
 Some of the names of in the Titanic dataset are difficult to understand (without consulting the codebook). In addition, it is generally helpful to use a consistent naming scheme. As `R` is case-sensitive, we might want to only use lowercase letters. As spaces in variable names can cause problems (or at least headaches), we could opt for`r ji("snake")` snake_case (`r ji("camel")` camelCase is a common alternative; for a good brief discussion of options for avoiding spaces in variable names, see this [Medium post by Patrick Divine](https://medium.com/@pddivine/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841)).
 
-For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is tidyverse-oriented and includes the function `clean_names()`.  
+Note: For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is tidyverse-oriented and includes the function `clean_names()`.  
 
 ---
 --- 
 
-# dplyr::rename
+# `dplyr::rename`
 
 ```{r titanic rename, echo = T}
 titanic <- titanic %>% 
@@ -212,6 +208,33 @@ titanic %>%
 
 ---
 
+# Selecting a range of variables
+
+```{r select range, echo = T}
+titanic %>% 
+  select(name:age)
+```
+
+---
+
+# Unselecting variables
+
+```{r unselect, echo = T}
+titanic %>% 
+  select(-survived)
+```
+
+---
+
+# Unselecting a range of variables
+
+```{r unselect range, echo = T}
+titanic %>% 
+  select(-(name:port_of_embarkation))
+```
+
+---
+
 # Filtering cases
 
 With the `filter()` function from `dplyr` you can filter rows/observations dependent on one or more conditions.
@@ -233,7 +256,7 @@ You can use the usual operators for
 
 ---
 
-# dplyr::filter - one condition
+# `dplyr::filter` - one condition
 
 ```{r filter 1, echo = T}
 titanic %>% 
@@ -242,7 +265,7 @@ titanic %>%
 
 ---
 
-# dplyr::filter - multiple conditions
+# `dplyr::filter` - multiple conditions
 
 ```{r filter 2, echo = T}
 titanic %>% 
@@ -282,7 +305,7 @@ Without looking at the codebook, it is not clear what the letters in the *Embark
 
 ---
 
-# dplyr::recode
+# `dplyr::recode`
 
 ```{r recode, echo = T}
 titanic %>% 
@@ -294,4 +317,54 @@ titanic %>%
   head()
 ```
 
-Note that we recode into the same variable here
+Note that we recode into the same variable here. If we wanted to create a new variable with the recoded values, we would simply have to give it a different name.
+
+---
+
+# Missing values
+
+In the real world (of data collection and analysis) it is quite rare to have datasets without missing data. When we prepare our data for analysis there are generally two things we might want/have to do with regard to missing values:
+
+- define specific values as missings
+
+- recode `NA` values into something else (for example, to distinguish between different types of missing values)
+
+Note: An interesting option for exploring and working with missing data is the [`naniar` package](http://naniar.njtierney.com/) which, according to its documentation, "provides principled, tidy ways to summarise, visualise, and manipulate missing data".  
+
+---
+
+# Recode `NA` into something else with `tidyr::replace_na`
+
+```{r missing example}
+titanic %>% 
+  select(cabin_nr) %>% 
+  head(n = 3)
+```
+
+```{r recode NAs, echo = T}
+titanic %>% 
+  mutate(cabin_nr = replace_na(cabin_nr, "unknown")) %>% 
+  select(cabin_nr) %>% 
+  head(n = 3)
+```
+
+---
+
+# Recode specific values as `NA` with `dplyr::na_if`
+
+```{r recode NAs 2}
+titanic <- titanic %>% 
+  mutate(cabin_nr = replace_na(cabin_nr, "unknown"))
+
+titanic %>% 
+  select(cabin_nr) %>% 
+  head(n = 3)
+```
+
+```{r recode as NA, echo = T}
+titanic %>% 
+  mutate(cabin_nr = na_if(cabin_nr, "unknown")) %>% 
+  select(cabin_nr) %>% 
+  head(n = 3)
+```
+

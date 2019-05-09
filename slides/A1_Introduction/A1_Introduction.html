@@ -3,7 +3,7 @@
   <head>
     <title>Data Wrangling &amp; Exploration with the Tidyverse in R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
+    <meta name="author" content="Johannes Breuer Stefan Jünger Thomas Ebel" />
     <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 
 # Data Wrangling &amp; Exploration with the Tidyverse in R
 ## Introduction
-### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
+### Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel
 ### 2019-05-15
 
 ---
@@ -26,7 +26,7 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Thomas Ebel, Stefan Müller&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Stefan Jünger, Thomas Ebel&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Introduction&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -70,7 +70,7 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 # About us
 
-### Stefan Müller
+### Stefan Jünger
 
 - senior researcher in the team Data Linking &amp; Data Security at the GESIS Data Archive
     - main area: geo data  
@@ -151,16 +151,16 @@ install.packages(c("tidyverse", "sf"))
    &lt;td style="text-align:center;"&gt; &lt;i&gt;Coffee break&lt;/i&gt; &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; 11:30 - 13:00 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; Tidy data &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 11:30 - 12:30 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tidyverse terminology: tibbles &amp; pipes &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; 13:00 - 14:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 12:30 - 13:30 &lt;/td&gt;
    &lt;td style="text-align:center;"&gt; &lt;i&gt;Lunch break&lt;/i&gt; &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:center;"&gt; 14:00 - 15:00 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; Importing data &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 13:30 - 15:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tidy data &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; 15:00 - 15:30 &lt;/td&gt;
@@ -168,11 +168,11 @@ install.packages(c("tidyverse", "sf"))
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; 15:30 - 16:30 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; Tidyverse terminology: tibbles &amp; pipes &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Importing data &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; 16:30 - 18:00 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; Data cleaning &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Data wrangling: Part 1 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; 18:00 - 20:00 &lt;/td&gt;
@@ -195,7 +195,7 @@ install.packages(c("tidyverse", "sf"))
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; 09:00 - 10:30 &lt;/td&gt;
-   &lt;td style="text-align:center;"&gt; Data transformation &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Data wrangling: Part 2 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:center;"&gt; 10:30 - 11:00 &lt;/td&gt;
@@ -293,42 +293,35 @@ Tidyverse syntax is designed to increase **human-readability**. This makes it es
 ---
 
 # Lift-off into the tidyverse 🚀
-install all tidyverse packages&lt;sup&gt;1&lt;/sup&gt;
+**install all tidyverse packages** (for the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/))
 
 ```r
 install.packages("tidyverse")
 ```
-load core tidyverse packages&lt;sup&gt;2&lt;/sup&gt;
-.small[
+**load core tidyverse packages** (NB: To save time and reduce namespace conflicts it can make sense to load the tidyverse packages individually)
 
 ```r
 library("tidyverse")
 ```
 
 ```
-## -- Attaching packages -------------------------------------------------------- tidyverse 1.2.1 --
+## -- Attaching packages ------------------------------------------------------------ tidyverse 1.2.1 --
 ```
 
 ```
-## v ggplot2 3.1.0       v purrr   0.3.2  
-## v tibble  2.1.1       v dplyr   0.8.0.1
-## v tidyr   0.8.3       v stringr 1.4.0  
-## v readr   1.3.1       v forcats 0.4.0
+## v tibble  2.1.1       v purrr   0.3.2  
+## v tidyr   0.8.3       v dplyr   0.8.0.1
+## v readr   1.3.1       v stringr 1.4.0  
+## v tibble  2.1.1       v forcats 0.4.0
 ```
 
 ```
-## -- Conflicts ----------------------------------------------------------- tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
+## -- Conflicts --------------------------------------------------------------- tidyverse_conflicts() --
+## x dplyr::filter()         masks stats::filter()
+## x readr::guess_encoding() masks rvest::guess_encoding()
+## x dplyr::lag()            masks stats::lag()
+## x purrr::pluck()          masks rvest::pluck()
 ```
-]  
-
-.footnote[
-.smaller[
-[1] For the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/).  
-[2] To save time and reduce namespace conflicts it often makes sense to install and load the tidyverse packages individually.
-] 
-]
 
 ---
 # Coding in style 😎

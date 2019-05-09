@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Data transformation</title>
-    <meta charset="utf-8">
-    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
+    <title>Data Wrangling &amp; Exploration with the Tidyverse in R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Johannes Breuer Stefan Jünger Thomas Ebel" />
     <meta name="date" content="2018-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
@@ -14,9 +14,9 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Data transformation
-## Verbs that came, saw, and conquered?
-### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
+# Data Wrangling &amp; Exploration with the Tidyverse in R
+## Data Wrangling - Part 2
+### Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel
 ### 2018-05-16
 
 ---
@@ -26,9 +26,9 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Müller&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Stefan Jünger &amp; Thomas Ebel&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-16&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="text-align: center;"&gt;&lt;span&gt;Data transformation&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="text-align: center;"&gt;&lt;span&gt;Data Wrangling &amp; Exploration with the Tidyverse in R&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 ---
@@ -316,15 +316,15 @@ There are nice helper functions/operators for 'select'.
 ## Observations: 10
 ## Variables: 10
 ## $ id   &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-## $ w1_x &lt;int&gt; 3, 8, 5, 9, 10, 1, 6, 9, 6, 5
-## $ w1_y &lt;int&gt; 10, 5, 7, 6, 2, 9, 3, 1, 4, 10
-## $ w1_z &lt;int&gt; 9, 7, 7, 10, 7, 8, 6, 6, 3, 2
-## $ w2_x &lt;int&gt; 10, 10, 7, 8, 1, 5, 8, 3, 4, 3
-## $ w2_y &lt;int&gt; 2, 5, 5, 4, 2, 2, 3, 5, 3, 9
-## $ w2_z &lt;int&gt; 1, 5, 8, 2, 6, 3, 2, 8, 9, 4
-## $ w3_x &lt;int&gt; 7, 1, 4, 3, 9, 5, 9, 9, 8, 5
-## $ w3_y &lt;int&gt; 8, 7, 8, 1, 5, 3, 4, 7, 4, 2
-## $ w3_z &lt;int&gt; 3, 7, 5, 8, 2, 5, 10, 9, 9, 2
+## $ w1_x &lt;int&gt; 3, 3, 10, 2, 6, 5, 4, 6, 9, 10
+## $ w1_y &lt;int&gt; 5, 3, 9, 9, 9, 3, 8, 10, 7, 10
+## $ w1_z &lt;int&gt; 9, 3, 4, 1, 7, 5, 10, 7, 9, 9
+## $ w2_x &lt;int&gt; 10, 7, 5, 7, 5, 6, 9, 2, 5, 8
+## $ w2_y &lt;int&gt; 2, 1, 9, 9, 6, 5, 9, 10, 4, 6
+## $ w2_z &lt;int&gt; 8, 6, 6, 7, 1, 6, 2, 1, 2, 4
+## $ w3_x &lt;int&gt; 5, 6, 3, 9, 4, 6, 9, 9, 7, 3
+## $ w3_y &lt;int&gt; 8, 9, 3, 7, 3, 7, 6, 10, 5, 5
+## $ w3_z &lt;int&gt; 8, 3, 10, 2, 10, 2, 10, 6, 4, 1
 ```
 
 ---
@@ -343,16 +343,16 @@ select(t_startswith, matches("^w\\d_z"))
 ## # A tibble: 10 x 3
 ##     w1_z  w2_z  w3_z
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;
-##  1     9     1     3
-##  2     7     5     7
-##  3     7     8     5
-##  4    10     2     8
-##  5     7     6     2
-##  6     8     3     5
-##  7     6     2    10
-##  8     6     8     9
-##  9     3     9     9
-## 10     2     4     2
+##  1     9     8     8
+##  2     3     6     3
+##  3     4     6    10
+##  4     1     7     2
+##  5     7     1    10
+##  6     5     6     2
+##  7    10     2    10
+##  8     7     1     6
+##  9     9     2     4
+## 10     9     4     1
 ```
 
 --
@@ -867,8 +867,6 @@ gapminder_example_long %&gt;%
 ## 3 Germany 1972  12711.   19190. -6478.
 ```
 
-
-
 ---
 class: center, middle
 
@@ -878,6 +876,7 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 
 The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -887,16 +886,57 @@ The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihu
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
 })();</script>
 
 <script>
 (function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -910,7 +950,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     i++;
   }
-})();
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

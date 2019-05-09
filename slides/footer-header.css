@@ -33,5 +33,7 @@ div.my-footer span {
 }
 
 .remark-slide-number {
-  display: none;
+  font-size: 12pt;
+  margin-bottom: 625px;
+  margin-right: 10px;
 }

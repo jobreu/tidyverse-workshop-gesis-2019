@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling & Exploration with the Tidyverse in R"
 subtitle: "Introduction"
-author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger"
+author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
 output:
@@ -15,25 +15,19 @@ output:
 ---
 layout: true
 
-```{r setup, include=FALSE}
-packages_to_load <- c("knitr", "rmarkdown", "devtools")
+```{r setup, include = F}
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
 
-for (i in packages_to_load) {
-  if (!require(i, character.only = TRUE)) {
-    install.packages(i)
-  } else {
-    library(i, character.only = TRUE)
-  }
-}
-
-rm(packages_to_load)
-
-install_github("hadley/emo")
-library(emo)
+packages("rmarkdown", "knitr", "hadley/emo")
 
 options(htmltools.dir.version = FALSE)
 
 opts_chunk$set(echo = FALSE, fig.align = "center")
+
+# suppress S3 methods overwrite messages (see https://github.com/r-lib/rlang/issues/669)
+suppressMessages(library("ggplot2"))
+suppressMessages(library("rvest"))
 ```
 
 <div class="my-footer">
@@ -146,8 +140,8 @@ install.packages(c("tidyverse", "sf"))
 .center[**Wednesday, May 15th, 2019**]
 ```{r schedule Wed, echo = F}
 schedule <- data.frame(
-  "When?" = c("10:00 - 11:00", "11:00 - 11:30", "11:30 - 13:00", "13:00 - 14:00", "14:00 - 15:00", "15:00 - 15:30", "15:30 - 16:30", "16:30 - 18:00", "18:00 - 20:00")
-  , "What?" = c("Introduction", "<i>Coffee break</i>", "Tidy data", "<i>Lunch break</i>", "Importing data", "<i>Coffee break</i>", "Tidyverse terminology: tibbles & pipes", "Data cleaning", "<i>Wine & cheese</i>")
+  "When?" = c("10:00 - 11:00", "11:00 - 11:30", "11:30 - 12:30", "12:30 - 13:30", "13:30 - 15:00", "15:00 - 15:30", "15:30 - 16:30", "16:30 - 18:00", "18:00 - 20:00")
+  , "What?" = c("Introduction", "<i>Coffee break</i>", "Tidyverse terminology: tibbles & pipes", "<i>Lunch break</i>", "Tidy data", "<i>Coffee break</i>", "Importing data", "Data wrangling: Part 1", "<i>Wine & cheese</i>")
   , stringsAsFactors = FALSE
   , check.names = FALSE
 )
@@ -167,7 +161,7 @@ kable(
 ```{r schedule Thur, echo = F}
 sharing_options <- data.frame(
   "When?" = c("09:00 - 10:30", "10:30 - 11:00", "11:00 - 12:00", "12:00 - 13:00", "13:00 - 14:00", "14:00 - 15:30", "15:30 - 16:00")
-  , "What?" = c("Data transformation", "<i>Coffee break</i>", "Relational data", "<i>Lunch break</i>", "Data exploration I: Summary statistics", "Data exploration II: ggplot2 basics", "Outlook")
+  , "What?" = c("Data wrangling: Part 2", "<i>Coffee break</i>", "Relational data", "<i>Lunch break</i>", "Data exploration I: Summary statistics", "Data exploration II: ggplot2 basics", "Outlook")
   , stringsAsFactors = FALSE
   , check.names = FALSE
 )
@@ -253,23 +247,16 @@ Tidyverse syntax is designed to increase **human-readability**. This makes it es
 ---
 
 # Lift-off into the tidyverse `r ji("rocket")`
-install all tidyverse packages<sup>1</sup>
+**install all tidyverse packages** (for the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/))
 ```{r install tidyverse, eval = F, echo = T}
 install.packages("tidyverse")
 
 ```
-load core tidyverse packages<sup>2</sup>
+**load core tidyverse packages** (NB: To save time and reduce namespace conflicts it can make sense to load the tidyverse packages individually)
 ```{r load tidyverse, eval = T, echo = T, message = T}
 library("tidyverse")
 
 ```
-
-.footnote[
-.smaller[
-[1] For the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/).  
-[2] To save time and reduce namespace conflicts it often makes sense to install and load the tidyverse packages individually.
-] 
-]
 
 ---
 # Coding in style `r ji("sunglasses")`

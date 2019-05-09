@@ -1,7 +1,7 @@
 ---
 title: "Data Wrangling & Exploration with the Tidyverse in R"
 subtitle: "Tidy Data"
-author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger"
+author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
 output:
@@ -15,22 +15,17 @@ output:
 ---
 layout: true
 
-```{r setup, include=FALSE}
-if (!require(knitr)) install.packages("knitr")
-if (!require(rmarkdown)) install.packages("rmarkdown")
-if (!require(tidyverse)) install.packages("tidyverse")
-library(knitr)
-library(rmarkdown)
-library(tidyverse)
-library(emo)
+```{r setup, include = F}
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
+
+packages("rmarkdown", "knitr", "tibble", "tidyr", "dplyr", "hadley/emo", "DavZim/colorTable")
+
 options(htmltools.dir.version = FALSE)
 
 opts_chunk$set(echo = FALSE, fig.align = "center")
 
-# devtools::install_github("DavZim/colorTable")
-library(colorTable)
-
-# define some colors for later
+# define some colors for later use
 green <- "#a6d96a"
 blue  <- "#74add1"
 yellow <- "#f4e842"
@@ -85,7 +80,7 @@ class: center, middle
 
 ## Let's have a look at a few examples
 
-In the following, we will compare four different ways of displaying the same data.
+In the following, we will compare different ways of organizing the same data.
 
 We will use country-level data on population and cases of a disease.
 
@@ -93,7 +88,7 @@ We will use country-level data on population and cases of a disease.
 
 class: center, middle
 
-```{r, echo=FALSE, warning=FALSE, error=FALSE, results='markup'}
+```{r color table 1 setup, message = F, warning = F, error = F, results = 'markup'}
 color_table(head(table2, n = 8), body_bg = green, header_bg = blue)
 ```
 .large[
@@ -102,7 +97,7 @@ What's the problem here?
 
 ---
 
-```{r}
+```{r type var table}
 color_mat <- matrix(c(
   blue, blue, blue, blue,
   green, green, green, yellow,
@@ -136,7 +131,7 @@ color_table(head(table2, n = 3), body_bg = color_mat)
 
 class: center, middle
 
-```{r}
+```{r color table 2 setup}
 color_table(table3, body_bg = green, header_bg = blue)
 ```
 .large[
@@ -145,7 +140,7 @@ What's the problem here?
 
 ---
 
-```{r}
+```{r rate}
 color_mat <- matrix(c(
   blue, blue, blue,
   green, green, yellow,
@@ -185,7 +180,7 @@ E.g. .highlight["745/19987071"]?
 
 Would your code look something like the following?  
 
-```{r, echo=TRUE}
+```{r separate base, echo = T}
 rate <- c("745/19987071", "2666/20695360")
 as.numeric(gsub(rate, pattern = "([0-9]+)/[0-9]+",
                 replacement = "\\1")) /
@@ -219,31 +214,11 @@ Source: https://github.com/gadenbuie/tidyexplain#tidy-data
 
 ---
 
-# A short notes on tibbles 
-
-Most functions from the tidyverse produce a tibble.
-
-A tibble is an improved version of the base R dataframe. 
-
-Improved because tibbles...
---
-
-* generate much **nicer output in the console** 
-   * displaying only as many rows and columns as fit the screen
-   * printing dimensions of the dataset
-   * providing information on the types of columns
-   
-* never change the data (`stringsAsFactors = FALSE`)
-
-More on tibbles in session A4 (or via '?tibble')
-
----
-
 # 'Gather' a variable
 
 How to gather/collect a variable that had been spread over 2 columns?  
 
-```{r}
+```{r wide table}
 color_mat <- matrix(c(
   blue, blue, blue,
   green, yellow, yellow,
@@ -263,7 +238,7 @@ But sometimes **'long' format** is required (e.g., for plotting with `ggplot2`).
 
 # 'Gather' a variable
 
-```{r}
+```{r wide table short}
 color_mat <- matrix(c(
   green, yellow, yellow),
   ncol = 3, byrow = TRUE)
@@ -274,7 +249,7 @@ color_table(head(table4a, n = 1), body_bg = color_mat)
 
 The tidyverse verb `gather` converts the wide format into long format.
 
-```{r echo = T, eval = F}
+```{r gather, echo = T, eval = F}
 table4a %>%
   head(n = 1) %>%
   gather(`1999`, `2000`, key = "year", value = "cases")
@@ -282,7 +257,7 @@ table4a %>%
 
 --
 
-```{r}
+```{r gathered table}
 table4a %>%
   head(n = 1) %>%
   gather(`1999`, `2000`, key = "year", value = "cases") %>%
@@ -293,11 +268,11 @@ Here, the two columns "1999" and "2000" are gathered into "year" and the counts 
 
 ---
 
-## 'Spread' a variable
+# 'Spread' a variable
 
 How to tidy up observations that were spread over two rows?  
 
-```{r}
+```{r type table short}
 color_mat <- matrix(c(
   green, green, yellow, yellow,
   green, green, yellow, yellow),
@@ -313,7 +288,7 @@ NB: This is **NOT** an appropriate long format because the columns are not cohes
 
 # 'Spread' a variable
 
-```{r echo=FALSE}
+```{r spread table}
 color_mat <- matrix(c(
   green, green, yellow, yellow,
   green, green, yellow, yellow),
@@ -325,7 +300,7 @@ color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 
 The tidyverse verb `spread` converts the incohesive selection of values into cohesive vectors/variables.
 
-```{r, eval = F, echo = T}
+```{r spread, eval = F, echo = T}
 table2 %>%
   head(n = 2) %>%
   spread(key = type, value = count)
@@ -333,7 +308,7 @@ table2 %>%
 
 --
 
-```{r}
+```{r spread table result}
 table2 %>%
   head(n = 2) %>%
   spread(key = type, value = count) %>%
@@ -348,7 +323,7 @@ Here, the values in "type" become column names of two vectors/variables and the 
 
 With the development version of `tidyr` (install with `devtools::install_github("tidyverse/tidyr")`) and in future *CRAN* releases, you can also use `pivot_longer()` and `pivot_wider()` instead of `gather()` and `spread()` (see https://tidyr.tidyverse.org/dev/articles/pivot.html).
 
-```{r eval = F, echo = T}
+```{r pivot, eval = F, echo = T}
 table4a %>% 
   pivot_longer(-country, names_to ="year", values_to = "count")
 
@@ -359,11 +334,11 @@ table2 %>%
 
 ---
 
-## 'Separate' intermingled values
+# 'Separate' intermingled values
 
 The tidyverse verb `separate` allows us to separate intermingled values.
 
-```{r echo=FALSE}
+```{r separate table}
 color_mat <- matrix(c(
   green, green, yellow),
   ncol = 3, byrow = TRUE)
@@ -373,7 +348,13 @@ table3 %>%
   color_table(body_bg = color_mat)
 ```
 
-```{r echo=T}
+```{r separate echo, echo = T, eval = F}
+table3 %>%
+  head(n = 2) %>%
+  separate(rate, into = c("cases", "population"))
+```
+
+```{r separate eval}
 table3 %>%
   head(n = 2) %>%
   separate(rate, into = c("cases", "population")) %>%
@@ -386,27 +367,35 @@ table3 %>%
 
 By default `separate()` will split on any non-alphanumeric character, but you can also specify the separating character with the argument 'sep':  
 
-```{r echo=TRUE}
+```{r mingled echo, echo = T, eval = F}
+tibble(mingled = "80/100#1,6_3") %>%
+  separate(mingled, into = c("value_1", "value_2"), sep = "#")
+```
+
+```{r mingled eval}
 tibble(mingled = "80/100#1,6_3") %>%
   separate(mingled, into = c("value_1", "value_2"), sep = "#") %>%
   color_table()
 ```
-
 --
 
-```{r echo=TRUE}
+```{r separate mingled, echo = T, eval = F}
+tibble(mingled = "80/100#1,6_3") %>%
+  separate(mingled, into = c("value_1", "value_2"))
+```
+
+```{r separate mingled eval}
 tibble(mingled = "80/100#1,6_3") %>%
   separate(mingled, into = c("value_1", "value_2")) %>%
   color_table()
 ```
-
 ---
 
-## 'Unite' values
+# 'Unite' values
 
 The tidyverse verb `unite` lets us concatenate values that are spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
 
-```{r echo=FALSE}
+```{r unite table}
 color_mat <- matrix(c(
   green, yellow, yellow),
   ncol = 3, byrow = TRUE)
@@ -415,11 +404,19 @@ table5 %>%
   select(country, century, year) %>%
   head(n = 1) %>%
   color_table(body_bg = color_mat)
+
+table5 <- table5 %>% 
+  select(country, century, year)
 ```
 
-```{r echo=TRUE}
+```{r unite echo, echo = T, eval = F}
 table5 %>%
-  select(country, century, year) %>%
+  head(n = 1) %>%
+  unite(yyyy, century, year, sep = "")
+```
+
+```{r unite eval}
+table5 %>%
   head(n = 1) %>%
   unite(yyyy, century, year, sep = "") %>%
   color_table()

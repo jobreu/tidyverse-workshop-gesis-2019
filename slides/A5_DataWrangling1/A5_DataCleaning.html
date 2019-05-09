@@ -3,7 +3,7 @@
   <head>
     <title>Data Wrangling &amp; Exploration with the Tidyverse in R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
+    <meta name="author" content="Johannes Breuer Stefan Jünger Thomas Ebel" />
     <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
@@ -16,8 +16,8 @@
 class: center, middle, inverse, title-slide
 
 # Data Wrangling &amp; Exploration with the Tidyverse in R
-## Data Cleaning
-### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
+## Data Wrangling - Part 1
+### Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel
 ### 2019-05-15
 
 ---
@@ -27,9 +27,9 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Thomas Ebel, Stefan Müller&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Stefan Jünger, Thomas Ebel&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="text-align: center;"&gt;&lt;span&gt;Data Cleaning&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="text-align: center;"&gt;&lt;span&gt;Data Wrangling - Part 1&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;style type="text/css"&gt;
@@ -41,9 +41,9 @@ pre {
 
 ---
 
-# Data cleaning
+# Data wrangling
 
-In this section, we will focus on the `dplyr` package.
+In this section (and the following one), we will focus on the `dplyr` package.
 
 &lt;img src="./pics/hex-dplyr.png" width="50%" style="display: block; margin: auto;" /&gt;
 
@@ -52,21 +52,21 @@ In this section, we will focus on the `dplyr` package.
 # Data wrangling 🤠
 
 .pull-left[
-We split up **wrangling** into...
-- **cleaning** (now)
+We split up **wrangling** into two parts:
+- **Part 1** (now)
     - renaming variables
+    - selecting variables: basics
+    - filtering cases: basics
     - creating new variables: basics
     - recoding variable values
     - recoding missing values
-    - selecting variables: basics
-    - filtering cases: basics
     
-- **transformation** (1st session tomorrow)
+- **Part 2** (1st session tomorrow)
+    - advanced selecting
+    - advanced filtering
     - advanced creation of new variables
     - working with factors
     - rearranging datasets
-    - advanced selecting
-    - advanced filtering
     ]
 
 .pull-right[
@@ -99,17 +99,22 @@ For some of the data wrangling examples and exercises we will use the Titanic da
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; survival &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Survived &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Survival &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; 0 = No, 1 = Yes &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; pclass &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Pclass &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Ticket class &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; 1 = 1st, 2 = 2nd, 3 = 3rd &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; sex &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Name &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Full name of the passenger &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Sex &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Sex &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
   &lt;/tr&gt;
@@ -119,37 +124,49 @@ For some of the data wrangling examples and exercises we will use the Titanic da
    &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; sibsp &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SibSp &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; # of siblings / spouses aboard the Titanic &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; parch &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Parch &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; # of parents / children aboard the Titanic &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; ticket &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ticket &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Ticket number &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; fare &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Fare &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Passenger fare &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; cabin &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Cabin &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Cabin number &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; embarked &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Embarked &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; Port of Embarkation &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; C = Cherbourg, Q = Queenstown, S = Southampton &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+
+---
+
+# Side note: Codebooks
+
+If you want to generate a codebook for your dataset, there are several options:
+
+- The [`codebook` package](https://github.com/rubenarslan/codebook) which includes an *RStudio*-Addin and also offers a [web app](https://rubenarslan.ocpu.io/codebook/www/)
+
+- the `makeCodebook()` function from the [`dataMaid` package](https://github.com/ekstroem/dataMaid) (see this [blog post](http://sandsynligvis.dk/articles/18/codebook.html) for a short tutorial)
+
+- the `codebook()` function from the [`memisc` package](https://github.com/melff/memisc)
 
 ---
 
@@ -221,10 +238,10 @@ summary(titanic_num)
 
 ---
 
-# dplyr functions
+# `dplyr` functions
 
 .large[
-- dplyr functions are verbs that signal an action  
+- `dplyr` functions are verbs that signal an action  
 
 - first argument = a data frame  
 
@@ -250,12 +267,12 @@ names(titanic)
 
 Some of the names of in the Titanic dataset are difficult to understand (without consulting the codebook). In addition, it is generally helpful to use a consistent naming scheme. As `R` is case-sensitive, we might want to only use lowercase letters. As spaces in variable names can cause problems (or at least headaches), we could opt for🐍 snake_case (🐫 camelCase is a common alternative; for a good brief discussion of options for avoiding spaces in variable names, see this [Medium post by Patrick Divine](https://medium.com/@pddivine/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841)).
 
-For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is tidyverse-oriented and includes the function `clean_names()`.  
+Note: For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is tidyverse-oriented and includes the function `clean_names()`.  
 
 ---
 --- 
 
-# dplyr::rename
+# `dplyr::rename`
 
 
 ```r
@@ -316,6 +333,89 @@ titanic %&gt;%
 
 ---
 
+# Selecting a range of variables
+
+
+```r
+titanic %&gt;% 
+  select(name:age)
+```
+
+```
+## # A tibble: 891 x 3
+##    name                                                sex      age
+##    &lt;chr&gt;                                               &lt;chr&gt;  &lt;dbl&gt;
+##  1 Braund, Mr. Owen Harris                             male      22
+##  2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) female    38
+##  3 Heikkinen, Miss. Laina                              female    26
+##  4 Futrelle, Mrs. Jacques Heath (Lily May Peel)        female    35
+##  5 Allen, Mr. William Henry                            male      35
+##  6 Moran, Mr. James                                    male      NA
+##  7 McCarthy, Mr. Timothy J                             male      54
+##  8 Palsson, Master. Gosta Leonard                      male       2
+##  9 Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)   female    27
+## 10 Nasser, Mrs. Nicholas (Adele Achem)                 female    14
+## # ... with 881 more rows
+```
+
+---
+
+# Unselecting variables
+
+
+```r
+titanic %&gt;% 
+  select(-survived)
+```
+
+```
+## # A tibble: 891 x 11
+##    passenger_id ticket_class name  sex     age nr_of_siblings_~
+##           &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+##  1            1            3 Brau~ male     22                1
+##  2            2            1 Cumi~ fema~    38                1
+##  3            3            3 Heik~ fema~    26                0
+##  4            4            1 Futr~ fema~    35                1
+##  5            5            3 Alle~ male     35                0
+##  6            6            3 Mora~ male     NA                0
+##  7            7            1 McCa~ male     54                0
+##  8            8            3 Pals~ male      2                3
+##  9            9            3 John~ fema~    27                0
+## 10           10            2 Nass~ fema~    14                1
+## # ... with 881 more rows, and 5 more variables:
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
+```
+
+---
+
+# Unselecting a range of variables
+
+
+```r
+titanic %&gt;% 
+  select(-(name:port_of_embarkation))
+```
+
+```
+## # A tibble: 891 x 3
+##    passenger_id survived ticket_class
+##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;
+##  1            1        0            3
+##  2            2        1            1
+##  3            3        1            3
+##  4            4        1            1
+##  5            5        0            3
+##  6            6        0            3
+##  7            7        0            1
+##  8            8        0            3
+##  9            9        1            3
+## 10           10        1            2
+## # ... with 881 more rows
+```
+
+---
+
 # Filtering cases
 
 With the `filter()` function from `dplyr` you can filter rows/observations dependent on one or more conditions.
@@ -337,7 +437,7 @@ You can use the usual operators for
 
 ---
 
-# dplyr::filter - one condition
+# `dplyr::filter` - one condition
 
 
 ```r
@@ -366,7 +466,7 @@ titanic %&gt;%
 
 ---
 
-# dplyr::filter - multiple conditions
+# `dplyr::filter` - multiple conditions
 
 
 ```r
@@ -445,7 +545,7 @@ Without looking at the codebook, it is not clear what the letters in the *Embark
 
 ---
 
-# dplyr::recode
+# `dplyr::recode`
 
 
 ```r
@@ -470,7 +570,81 @@ titanic %&gt;%
 ## 6 Queenstown
 ```
 
-Note that we recode into the same variable here
+Note that we recode into the same variable here. If we wanted to create a new variable with the recoded values, we would simply have to give it a different name.
+
+---
+
+# Missing values
+
+In the real world (of data collection and analysis) it is quite rare to have datasets without missing data. When we prepare our data for analysis there are generally two things we might want/have to do with regard to missing values:
+
+- define specific values as missings
+
+- recode `NA` values into something else (for example, to distinguish between different types of missing values)
+
+Note: An interesting option for exploring and working with missing data is the [`naniar` package](http://naniar.njtierney.com/) which, according to its documentation, "provides principled, tidy ways to summarise, visualise, and manipulate missing data".  
+
+---
+
+# Recode `NA` into something else with `tidyr::replace_na`
+
+
+```
+## # A tibble: 3 x 1
+##   cabin_nr
+##   &lt;chr&gt;   
+## 1 &lt;NA&gt;    
+## 2 C85     
+## 3 &lt;NA&gt;
+```
+
+
+```r
+titanic %&gt;% 
+  mutate(cabin_nr = replace_na(cabin_nr, "unknown")) %&gt;% 
+  select(cabin_nr) %&gt;% 
+  head(n = 3)
+```
+
+```
+## # A tibble: 3 x 1
+##   cabin_nr
+##   &lt;chr&gt;   
+## 1 unknown 
+## 2 C85     
+## 3 unknown
+```
+
+---
+
+# Recode specific values as `NA` with `dplyr::na_if`
+
+
+```
+## # A tibble: 3 x 1
+##   cabin_nr
+##   &lt;chr&gt;   
+## 1 unknown 
+## 2 C85     
+## 3 unknown
+```
+
+
+```r
+titanic %&gt;% 
+  mutate(cabin_nr = na_if(cabin_nr, "unknown")) %&gt;% 
+  select(cabin_nr) %&gt;% 
+  head(n = 3)
+```
+
+```
+## # A tibble: 3 x 1
+##   cabin_nr
+##   &lt;chr&gt;   
+## 1 &lt;NA&gt;    
+## 2 C85     
+## 3 &lt;NA&gt;
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
