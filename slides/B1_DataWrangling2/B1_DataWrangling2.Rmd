@@ -15,36 +15,179 @@ output:
 ---
 layout: true
 
-```{r setup, include=FALSE}
-if (!require(knitr)) install.packages("knitr")
-if (!require(rmarkdown)) install.packages("rmarkdown")
-if (!require(tidyverse)) install.packages("tidyverse")
-library("knitr")
-library("rmarkdown")
-library("tidyverse")
+```{r setup, include = F}
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
+
+packages("knitr", "rmarkdown", "tidyverse", "kableExtra", "hadley/emo", prompt = F)
+
 options(htmltools.dir.version = FALSE)
 
-opts_chunk$set(echo = FALSE, fig.align = "center")#
+opts_chunk$set(echo = FALSE, fig.align = "center")
 set.seed(123)
 ```
 
 <div class="my-footer">
-  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
   <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
-  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
 </div>
 
 ---
 
-```{r, include=FALSE, warning=FALSE, error=FALSE}
-# devtools::install_github("DavZim/colorTable")
-library(colorTable)
+# Data wrangling recap
 
-# define some colors for later
-green <- "#a6d96a"
-blue  <- "#74add1"
-yellow <- "#f4e842"
+```{r recap}
+dplyr_verbs <- tribble(
+  ~ Package, ~Function, ~Effect,
+  "dplyr", "rename", "renames and existing variable (and keeps all others)",
+  "dplyr", "select", "selects columns/variables based on one or more criteria",
+  "dplyr", "filter", "filters rows/observations based on one or more criteria",
+  "dplyr", "mutate", "creates or transforms variables",
+  "dplyr", "recode", "recodes values of a variable",
+  "tidyr", "replace_na", "replaces NAs with some other value(s)",
+  "dplyr", "na_if", "recodes specified values as NAs"
+)
+
+kable(
+  dplyr_verbs
+  , format = "html"
+  , align = "lll"
+  , escape = FALSE
+)
 ```
+
+---
+
+# Advanced ways of selecting variables
+
+Sometimes the basic ways of selecting columns/variables described in the previous session might be difficult or tedious to use, especially if you have datasets with a large number of variables in them.  
+
+Luckily, there are many helper functions that can be used within the `dplyr` `select()` function as well as scoped variants of `select` that can make your life as a professional data wrangler a lot easier. 
+
+We will explore some of those options in the following (for a more exhaustive overview, you can have a look at the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/01/dplyr-tutorial-1/)).
+
+---
+
+# Select variables based on parts of their names
+
+```{r titanic data, include = F}
+titanic <- read_csv("../../data/titanic/titanic.csv")
+
+titanic <- titanic %>% 
+  rename(passenger_id = PassengerId,
+         survived = Survived,
+         ticket_class = Pclass,
+         name = Name,
+         sex = Sex,
+         age = Age,
+         nr_of_siblings_spouses_aboard = SibSp,
+         nr_of_parents_children_aboard = Parch,
+         ticket_number = Ticket,
+         fare = Fare,
+         cabin_nr = Cabin,
+         port_of_embarkation = Embarked) %>% 
+  mutate(port_of_embarkation = recode(port_of_embarkation,
+         S = "Southampton",
+         C = "Cherbourg",
+         Q = "Queenstown"))
+```
+
+
+```{r select starts_with, echo = T}
+titanic %>% 
+  select(starts_with("nr"))
+```
+
+---
+
+# Select variables based on parts of their names
+
+```{r select ends_with, echo = T}
+titanic %>% 
+  select(ends_with("aboard"))
+```
+
+---
+
+# Select variables based on their type
+
+```{r select_if, echo = T}
+titanic %>% 
+  select_if(is.numeric)
+```
+
+You can also use `is.integer`, `is.double`, `is.logical` or `is.factor`.
+
+---
+
+# Advanced ways of filtering observations
+
+Similar to the basic options for `select()` the basic variants of `filter()` might not meet your needs when it comes to more specific or complicated ways of data wrangling.  
+
+Again, there are several helper functions and scoped variants of the function that can help you (and there also is a detailed [tutorial by Suzan Baert](https://suzan.rbind.io/2018/01/dplyr-tutorial-3/) on this).
+
+---
+
+# Filter rows based on a range in a numeric variable
+
+```{r filter between, echo = T}
+titanic %>% 
+  filter(between(age, 18, 30)) %>% 
+  head(n = 5)
+```
+
+Note that the range specified in `between()` is inclusive.
+
+---
+
+# Filter rows based on matches in a character variable
+
+```{r filter %in%, echo = T}
+titanic %>% 
+  filter(port_of_embarkation %in% c("Southampton", "Queenstown")) %>% 
+  select(passenger_id, port_of_embarkation)
+```
+
+---
+
+# Filter rows based on missing values
+
+```{r filter missing, echo = T}
+titanic %>% 
+  filter(is.na(port_of_embarkation))
+```
+
+---
+
+# Filter all variables
+
+Only keep complete cases (without missing values).
+
+```{r filter all, echo = T}
+titanic %>% 
+  filter_all(all_vars(!is.na(.)))
+```
+
+---
+
+# Filter a selection of variables
+
+```{r filter at, echo = T}
+titanic %>% 
+  filter_at(vars(
+    nr_of_parents_children_aboard, nr_of_siblings_spouses_aboard),
+    any_vars(. > 0)) 
+```
+
+---
+
+# Reordering columns in a dataset
+
+You can use the `select()` function from `dplyr` to reorder columns. If you just want to move a few columns to the beginning of your dataframe, you can use `everything()`.
+
+---
+
 class: center, middle
 
 <h1> The tidyverse verbs</h1>

@@ -26,13 +26,312 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Stefan Jünger &amp; Thomas Ebel&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Stefan Jünger, Thomas Ebel&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-16&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="text-align: center;"&gt;&lt;span&gt;Data Wrangling &amp; Exploration with the Tidyverse in R&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="text-align: center;"&gt;&lt;span&gt;Data Wrangling - Part 2&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 ---
 
+# Data wrangling recap
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Package &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Function &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Effect &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; dplyr &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; rename &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; renames and existing variable (and keeps all others) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; dplyr &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; select &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; selects columns/variables based on one or more criteria &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; dplyr &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; filter &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; filters rows/observations based on one or more criteria &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; dplyr &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; mutate &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; creates or transforms variables &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; dplyr &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; recode &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; recodes values of a variable &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; tidyr &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; replace_na &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; replaces NAs with some other value(s) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; dplyr &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; na_if &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; recodes specified values as NAs &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Advanced ways of selecting variables
+
+Sometimes the basic ways of selecting columns/variables described in the previous session might be difficult or tedious to use, especially if you have datasets with a large number of variables in them.  
+
+Luckily, there are many helper functions that can be used within the `dplyr` `select()` function as well as scoped variants of `select` that can make your life as a professional data wrangler a lot easier. 
+
+We will explore some of those options in the following (for a more exhaustive overview, you can have a look at the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/01/dplyr-tutorial-1/)).
+
+---
+
+# Select variables based on parts of their names
+
+
+
+
+
+```r
+titanic %&gt;% 
+  select(starts_with("nr"))
+```
+
+```
+## # A tibble: 891 x 2
+##    nr_of_siblings_spouses_aboard nr_of_parents_children_aboard
+##                            &lt;dbl&gt;                         &lt;dbl&gt;
+##  1                             1                             0
+##  2                             1                             0
+##  3                             0                             0
+##  4                             1                             0
+##  5                             0                             0
+##  6                             0                             0
+##  7                             0                             0
+##  8                             3                             1
+##  9                             0                             2
+## 10                             1                             0
+## # ... with 881 more rows
+```
+
+---
+
+# Select variables based on parts of their names
+
+
+```r
+titanic %&gt;% 
+  select(ends_with("aboard"))
+```
+
+```
+## # A tibble: 891 x 2
+##    nr_of_siblings_spouses_aboard nr_of_parents_children_aboard
+##                            &lt;dbl&gt;                         &lt;dbl&gt;
+##  1                             1                             0
+##  2                             1                             0
+##  3                             0                             0
+##  4                             1                             0
+##  5                             0                             0
+##  6                             0                             0
+##  7                             0                             0
+##  8                             3                             1
+##  9                             0                             2
+## 10                             1                             0
+## # ... with 881 more rows
+```
+
+---
+
+# Select variables based on their type
+
+
+```r
+titanic %&gt;% 
+  select_if(is.numeric)
+```
+
+```
+## # A tibble: 891 x 7
+##    passenger_id survived ticket_class   age nr_of_siblings_~
+##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;            &lt;dbl&gt;
+##  1            1        0            3    22                1
+##  2            2        1            1    38                1
+##  3            3        1            3    26                0
+##  4            4        1            1    35                1
+##  5            5        0            3    35                0
+##  6            6        0            3    NA                0
+##  7            7        0            1    54                0
+##  8            8        0            3     2                3
+##  9            9        1            3    27                0
+## 10           10        1            2    14                1
+## # ... with 881 more rows, and 2 more variables:
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, fare &lt;dbl&gt;
+```
+
+You can also use `is.integer`, `is.double`, `is.logical` or `is.factor`.
+
+---
+
+# Advanced ways of filtering observations
+
+Similar to the basic options for `select()` the basic variants of `filter()` might not meet your needs when it comes to more specific or complicated ways of data wrangling.  
+
+Again, there are several helper functions and scoped variants of the function that can help you (and there also is a detailed [tutorial by Suzan Baert](https://suzan.rbind.io/2018/01/dplyr-tutorial-3/) on this).
+
+---
+
+# Filter rows based on a range in a numeric variable
+
+
+```r
+titanic %&gt;% 
+  filter(between(age, 18, 30)) %&gt;% 
+  head(n = 5)
+```
+
+```
+## # A tibble: 5 x 12
+##   passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##          &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+## 1            1        0            3 Brau~ male     22                1
+## 2            3        1            3 Heik~ fema~    26                0
+## 3            9        1            3 John~ fema~    27                0
+## 4           13        0            3 Saun~ male     20                0
+## 5           24        1            1 Slop~ male     28                0
+## # ... with 5 more variables: nr_of_parents_children_aboard &lt;dbl&gt;,
+## #   ticket_number &lt;chr&gt;, fare &lt;dbl&gt;, cabin_nr &lt;chr&gt;,
+## #   port_of_embarkation &lt;chr&gt;
+```
+
+Note that the range specified in `between()` is inclusive.
+
+---
+
+# Filter rows based on matches in a character variable
+
+
+```r
+titanic %&gt;% 
+  filter(port_of_embarkation %in% c("Southampton", "Queenstown")) %&gt;% 
+  select(passenger_id, port_of_embarkation)
+```
+
+```
+## # A tibble: 721 x 2
+##    passenger_id port_of_embarkation
+##           &lt;dbl&gt; &lt;chr&gt;              
+##  1            1 Southampton        
+##  2            3 Southampton        
+##  3            4 Southampton        
+##  4            5 Southampton        
+##  5            6 Queenstown         
+##  6            7 Southampton        
+##  7            8 Southampton        
+##  8            9 Southampton        
+##  9           11 Southampton        
+## 10           12 Southampton        
+## # ... with 711 more rows
+```
+
+---
+
+# Filter rows based on missing values
+
+
+```r
+titanic %&gt;% 
+  filter(is.na(port_of_embarkation))
+```
+
+```
+## # A tibble: 2 x 12
+##   passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##          &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+## 1           62        1            1 Icar~ fema~    38                0
+## 2          830        1            1 Ston~ fema~    62                0
+## # ... with 5 more variables: nr_of_parents_children_aboard &lt;dbl&gt;,
+## #   ticket_number &lt;chr&gt;, fare &lt;dbl&gt;, cabin_nr &lt;chr&gt;,
+## #   port_of_embarkation &lt;chr&gt;
+```
+
+---
+
+# Filter all variables
+
+Only keep complete cases (without missing values).
+
+
+```r
+titanic %&gt;% 
+  filter_all(all_vars(!is.na(.)))
+```
+
+```
+## # A tibble: 183 x 12
+##    passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+##  1            2        1            1 Cumi~ fema~    38                1
+##  2            4        1            1 Futr~ fema~    35                1
+##  3            7        0            1 McCa~ male     54                0
+##  4           11        1            3 Sand~ fema~     4                1
+##  5           12        1            1 Bonn~ fema~    58                0
+##  6           22        1            2 Bees~ male     34                0
+##  7           24        1            1 Slop~ male     28                0
+##  8           28        0            1 Fort~ male     19                3
+##  9           53        1            1 Harp~ fema~    49                1
+## 10           55        0            1 Ostb~ male     65                0
+## # ... with 173 more rows, and 5 more variables:
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
+```
+
+---
+
+# Filter a selection of variables
+
+
+```r
+titanic %&gt;% 
+  filter_at(vars(
+    nr_of_parents_children_aboard, nr_of_siblings_spouses_aboard),
+    any_vars(. &gt; 0)) 
+```
+
+```
+## # A tibble: 354 x 12
+##    passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+##  1            1        0            3 Brau~ male     22                1
+##  2            2        1            1 Cumi~ fema~    38                1
+##  3            4        1            1 Futr~ fema~    35                1
+##  4            8        0            3 Pals~ male      2                3
+##  5            9        1            3 John~ fema~    27                0
+##  6           10        1            2 Nass~ fema~    14                1
+##  7           11        1            3 Sand~ fema~     4                1
+##  8           14        0            3 Ande~ male     39                1
+##  9           17        0            3 Rice~ male      2                4
+## 10           19        0            3 Vand~ fema~    31                1
+## # ... with 344 more rows, and 5 more variables:
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
+```
+
+---
+
+# Reordering columns in a dataset
+
+You can use the `select()` function from `dplyr` to reorder columns. If you just want to move a few columns to the beginning of your dataframe, you can use `everything()`.
+
+---
 
 class: center, middle
 

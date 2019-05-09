@@ -15,7 +15,7 @@ output:
 ---
 layout: true
 
-```{r setup, include=FALSE}
+```{r setup, include = F}
 if (!require(easypackages)) install.packages("easypackages")
 library(easypackages)
 
@@ -24,6 +24,7 @@ packages("knitr", "rmarkdown", "tidyverse", "kableExtra", "hadley/emo", prompt =
 options(htmltools.dir.version = FALSE)
 
 opts_chunk$set(echo = FALSE, fig.align = "center")
+
 ```
 
 <div class="my-footer">
@@ -367,4 +368,3 @@ titanic %>%
   select(cabin_nr) %>% 
   head(n = 3)
 ```
-
