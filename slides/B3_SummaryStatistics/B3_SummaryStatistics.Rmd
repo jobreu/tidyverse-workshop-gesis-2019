@@ -1,7 +1,7 @@
 ---
 title: "Summary Statistics"
 subtitle: "First inspections - What can we tell about the data?"
-author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger"
+author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
 date: "2018-05-16"
 location: "GESIS, Mannheim, Germany"
 output:
@@ -16,18 +16,22 @@ output:
 layout: true
 
 ```{r setup, include=FALSE}
-if (!require(knitr)) install.packages("knitr")
-if (!require(rmarkdown)) install.packages("rmarkdown")
-if (!require(tidyverse)) install.packages("tidyverse")
-if (!require(datasauRus)) install.packages("datasauRus")
-library("knitr")
-library("rmarkdown")
-library("tidyverse")
-library("datasauRus")
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
+
+packages(
+  "knitr", "rmarkdown", "tidyverse", "readxl", "datasauRus", "hadley/emo", "DavZim/colorTable",
+  prompt = FALSE
+)
+
 options(htmltools.dir.version = FALSE)
 
 opts_chunk$set(echo = FALSE, fig.align = "center")#
 set.seed(123)
+
+green <- "#a6d96a"
+blue  <- "#74add1"
+yellow <- "#f4e842"
 ```
 
 <div class="my-footer">
@@ -37,135 +41,164 @@ set.seed(123)
 </div>
 
 ---
-
-```{r, include=FALSE, warning=FALSE, error=FALSE}
-# devtools::install_github("DavZim/colorTable")
-library(colorTable)
-
-# define some colors for later
-green <- "#a6d96a"
-blue  <- "#74add1"
-yellow <- "#f4e842"
-```
 class: center, middle
 
 <h1>Demystifing unknown knowns</h1>
 <h2>What do we know, what don't we know and why do we care?</h2>
 
 ---
+# Untangling data is hard 
+If we look at raw numbers we might have a really hard time at understanding them.
 
-<h2>Untangling data is hard</h2>
-Humans looking at raw numbers have a really hard time at understanding them.  
-For example, it's almost impossible to say which of those 2 vectors has more variance, or the lower mean, just by looking at them.
+Interpreting single numbers is easy but it's almost impossible, for example, to say which of the following two vectors has
+
+- more variance or
+- the lower mean
+
+just by looking at them:
 
 ```{r echo=FALSE, results='markup'}
-x <- sample(x = 18:65, size = 10, replace = TRUE)
-y <- sample(x = 20:60, size = 10, replace = TRUE)
-untangling <- tibble(
-  x,
-  y
-)
+x = sample(x = 18:65, size = 10, replace = TRUE)
+y = sample(x = 20:60, size = 10, replace = TRUE)
+
 (x)
 (y)
 ```
 
---
+---
+# And now?
 
 ```{r echo=TRUE}
-options(pillar.sigfig = 5)
-untangling %>% summarize(mean_x = mean(x), mean_y = mean(y),
-                         var_x = sd(x)^2, var_y = sd(y)^2)
+tibble(
+  x = sample(x = 18:65, size = 10, replace = TRUE),
+  y = sample(x = 20:60, size = 10, replace = TRUE)
+) %>% 
+  summarize(
+    mean_x = mean(x), 
+    mean_y = mean(y),
+    var_x = sd(x)^2, 
+    var_y = sd(y)^2
+  )
 ```
 
-In the real world, vectors are also too long to conveniently look at.
+The underlying vectors of the tibble are short. In the real world, vectors are also too long to conveniently look at.
+
 
 ---
+# Making sense
+To make sense of data we reduce their information to singular values.
 
-To make sense of data ... we need summarizing functions that produce singular values that give us an understanding of
-* location (e.g. the mean),
-* spread (e.g. standard deviation),
-* shape of distribution (e.g. skewness) and
-* relations between variables (e.g. correlation coefficients)
+.center[**That's statistics**]
+
+As such, we simply use summarizing functions of
+- location (e.g. the mean),
+- spread (e.g. standard deviation),
+- shape of distribution (e.g. skewness) and
+- relations between variables (e.g. correlation coefficients)
 
 ---
+class: middle, center
 
+.large[
 We assume everyone here knows the basics of summary statistics.  
-So instead of repeating that let's see respective Tidyverse code.
 
---
 
-Dataset is from gapminder.  
 
-Income per person (fixed 2000 US$) for 275 countries for the years 1960-2011.
 
-"Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
+
+So instead of their boring repetition let's see respective code from the `tidyverse`.
+]
+
+---
+# Used data
+
+Our data are from gapminder and the focial variable is income per person (fixed 2000 US$) among 275 countries for the years 1960-2011:
+
+
+> "Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
+
 
 ```{r echo=TRUE}
-capita <- readxl::read_excel(
-  path = "../data/GDPpercapitaconstant2000US.xlsx", sheet = "Data",
-  col_names = TRUE)
+capita <- 
+  read_excel(
+    path = "../../data/gapminder/GDPpercapitaconstant2000US.xlsx", 
+    sheet = "Data",
+    col_names = TRUE 
+    )
 ```
 ---
+# A first glimpse at the data
 
-A first glimpse.
 ```{r}
-capita %>% rename(country = 1) %>% glimpse
+capita %>% 
+  rename(country = 1) %>% 
+  glimpse()
 ```
 
 
 ---
-Let's start by reducing the data to 3 countries and converting it to long format.
-```{r echo=TRUE}
-capita %>%
+# Getting order in the data
+
+Let's start by reducing the data to 3 countries and converting them to the long format.
+
+```{r capita_long_subset, eval = TRUE, echo = TRUE}
+capita_long <- 
+  capita %>%
   rename(country = 1) %>%
-  filter(country %in% 
-           c("Germany", "United Kingdom", "United States")) %>%
+  filter(
+    country %in% 
+      c("Germany", "United Kingdom", "United States")
+  ) %>%
   gather(-1, key = "year", value = "income") %>%
   arrange(country, year) %>%
-  tail
+  tail()
 ```
 
---
 
-Showing the tail because Germany has missings up to and including 1969.
-
-```{r echo=FALSE}
-capita_long <- capita %>%
-  rename(country = 1) %>%
-  filter(country %in% 
-           c("Germany", "United Kingdom", "United States")) %>%
-  gather(-1, key = "year", value = "income") %>%
-  arrange(country, year)
-```
 
 ---
+# How does it look?
 
-<h2>Summary statistics</h2>
+Displaying only the tail because Germany which is first in order has missings up to and including the year 1969.
+
+```{r capita_long_subset_look, echo=FALSE}
+capita_long %>%  tail()
+```
+
+In any case, information is reduced and the data look much nicer now.
+
+
+---
+# Time for some summary statistics
 
 ```{r echo=TRUE}
 capita_long %>%
   mutate(change = (income / lag(income) - 1) * 100) %>%
   group_by(country) %>%
-  summarise(n = sum(!is.na(income)), 
-            min_inc = min(income, na.rm = TRUE),
-            max_inc = max(income, na.rm = TRUE), 
-            diff = max_inc - min_inc, has_na = any(is.na(income)),
-            max_change = max(change, na.rm = TRUE))
+  summarise(
+    n = sum(!is.na(income)), 
+    min_inc = min(income, na.rm = TRUE),
+    max_inc = max(income, na.rm = TRUE), 
+    diff = max_inc - min_inc, has_na = any(is.na(income)),
+    max_change = max(change, na.rm = TRUE)
+  )
 ```
 
-'change' is change in percent to previous year
+
+Note: `change` is change of income in percent to the previous year.
+
 
 ---
+# Searching for extreme values
+We may ask in which years the change of income was higher than 2% as the maximum value was `2.1631`
 
 ```{r echo=TRUE}
 capita_long %>%
   mutate(change = (income / lag(income) - 1) * 100) %>%
-  filter(change > 5) 
+  filter(change > 2) 
 ```
 
-.highlight[16277 + (16277*5.2771/100) ~= 17136]
-
---
+It's been 2010.
 
 
 ```{r echo=TRUE}
@@ -174,43 +207,64 @@ capita_long %>%
 ```
 
 
-With  the outcommented code above we could use 'group_by' to just see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
+---
+# Finding the year directly
+
+```{r echo=TRUE}
+capita_long %>% 
+  mutate(change = (income / lag(income) - 1) * 100) %>%  
+  filter(change == max(change, na.rm = TRUE))
+```
+
+
+With this code we see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
 
 ---
+# But, beware: Summary statistics can also be misleading! 
 
-<h2>But, beware: Summary statistics can also be misleading!</h2>
-![](img/pity_the_fool.jpg)
+```{r, out.width = "50%"}
+include_graphics("./pics/pity_the_fool.jpg")
+```
 
-... who takes summary statistics as the complete picture", Mr. T?  
-Well said!
 
 ---
+<h1> Misleading correlation coefficients </h1>
 
-Beautifully illustrated by the 'datasauRus' package, summary statistics can also mislead you about the structure of a dataset/variable.  
+.column-left-half[
+For example, if we do correlation analysis and we encounter a (Pearson's) correlation of close to 0, we often think of relationships as on the right side.
 
---
+- It's noisy
+- There's no observable pattern
+- ...it's just a mess and we question our life decision of becoming statisticians
+]
 
-For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relation like this:
-
-```{r}
+.column-right-half[
+```{r, out.width = "80%"}
 datasauRus::datasaurus_dozen %>% 
   filter(dataset == "h_lines") %>% 
   ggplot(aes(x = x, y = y)) + geom_point() + theme_void()
 ```
+]
 
 ---
+# Do not despair
+The `datasauRus`-package proves to us that various different relations with the same summary statistics are possible.
 
-**But**, datasauRus proves to us that various different relations with the same summary statistics are possible.
+This one here has **the same correlation coefficient (-0.06, Pearson's)** as on the plot before:
 
-This one here has **the same correlation coefficient (-0.06, Pearson's)**.
-```{r}
+```{r, out.width = "40%"}
 datasauRus::datasaurus_dozen %>% 
   filter(dataset == "slant_up") %>% 
-  ggplot(aes(x = x, y = y)) + geom_point() + theme_void()
+  ggplot(aes(x = x, y = y)) + 
+  geom_point() + 
+  theme_void()
 ```
----
 
-As does this one (again, -0.06):
+.center[There's a trajectory, right? `r ji("dollar")`]
+
+---
+# What about this one? (r = -0.06)
+
 ```{r}
 datasauRus::datasaurus_dozen %>% 
   filter(dataset == "dino") %>% 
@@ -218,51 +272,122 @@ datasauRus::datasaurus_dozen %>%
 ```
 
 ---
-In fact, all of these 13 datasets have the same means, standard deviations, and Pearson's correlation coefficients.
+<h1> What about this one? (r = -0.06) </h1>
+
+.column-left-half[  
+```{r, out.width = "60%"}
+include_graphics("./pics/rooooar.png")
+```
+]
+
+.column-right-half[
 ```{r}
-ggplot(datasaurus_dozen, aes(x=x, y=y, colour=dataset))+
-geom_point()+
-theme_void()+
-theme(legend.position = "none")+
-facet_wrap(~dataset, ncol=3)
+datasauRus::datasaurus_dozen %>% 
+  filter(dataset == "dino") %>% 
+  ggplot(aes(x = x, y = y)) + geom_point() + theme_void()
+```
+]
 
+---
+# And it goes on and on
+
+All of these 13 datasets have the same means, standard deviations, and Pearson's correlation coefficients.
+
+```{r, out.width = "55%"}
+ggplot(
+  datasaurus_dozen, 
+  aes(
+    x = x, 
+    y = y, 
+    colour = dataset
+  )
+) +
+  geom_point() +
+  theme_void() +
+  theme(legend.position = "none") +
+  facet_wrap(~dataset, ncol=3)
 ```
 
 ---
+# Let's prove that to ourselves!
 
-<h4>Let's prove that to ourselves!</h4>
-
-Here's how the data set looks like
+Here's how the data look like
 ```{r echo=TRUE}
-datasauRus::datasaurus_dozen %>% glimpse()
-datasauRus::datasaurus_dozen %>% select(dataset) %>% table
+datasauRus::datasaurus_dozen %>% 
+  glimpse()
 ```
 
 ---
-Proving that the points in the various datasets (e.g. dino, away) are not identical.
+# Let's prove that to ourselves!
+Maybe, in this case, it's more convient to count the data points in each dataset.
+
+```{r echo=TRUE}
+datasauRus::datasaurus_dozen %>% 
+  select(dataset) %>% 
+  table()
+```
+
+---
+# Are the points simply identical across the datasets?
+
+Here's how it works:
 
 ```{r echo=TRUE}
 x <- c(1,2,3,4)
 x2 <- c(4,3,2,1)
 identical(sort(x),sort(x2))
+```
 
-dino <- datasauRus::datasaurus_dozen %>%
+
+---
+# Are the points simply identical across the datasets?
+
+And for example, for the dataset `dino` and `away`:
+
+```{r echo=TRUE}
+dino <- 
+  datasaurus_dozen %>%
   filter(dataset == "dino")
-away <- datasauRus::datasaurus_dozen %>%
+
+away <- 
+  datasaurus_dozen %>%
   filter(dataset == "away")
 
 identical(sort(dino$x), sort(away$x))
 ```
 
+
+---
+# Let's compute the statistics
+
+```{r datasaurus_solution, eval = FALSE, echo=TRUE}
+datasaurus_dozen %>% 
+  group_by(dataset) %>%
+  summarise(
+    n = n(), 
+    mean_x = mean(x), 
+    mean_y = mean(y), 
+    sd_x = sd(x), 
+    sd_y = sd(y), 
+    corr = cor(x, y, method = "pearson")
+  )
+```
+
+---
+# Let's compute the statistics
+
+```{r ref.label = "datasaurus_solution", echo=FALSE}
+```
+
 ---
 
-And here's the solution to compute the statistics
-```{r echo=TRUE}
-datasauRus::datasaurus_dozen %>% group_by(dataset) %>%
-  summarise(n = n(), mean_x = mean(x), mean_y = mean(y), 
-            sd_x = sd(x), sd_y = sd(y), 
-            corr = cor(x, y, method = "pearson"))
-```
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
+
+
 
 ---
 
