@@ -1,7 +1,7 @@
 ---
 title: "Terminology"
 # subtitle: "(according to Hadley Wickham/RStudio)"
-author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger"
+author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
 output:
@@ -16,21 +16,17 @@ output:
 layout: true
 
 ```{r setup, include = FALSE}
-packages_to_load <- c("knitr", "rmarkdown", "magrittr", "readr")
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
 
-for (i in packages_to_load) {
-  if (!require(i, character.only = TRUE)) {
-    install.packages(i)
-  } else {
-    library(i, character.only = TRUE)
-  }
-}
-
-rm(packages_to_load)
+packages("knitr", "rmarkdown", "magrittr", "readr", "tibble", "hadley/emo",
+         prompt = FALSE)
 
 options(htmltools.dir.version = FALSE)
 
 opts_chunk$set(echo = FALSE, fig.align = "center")
+
+set.seed(12345)
 ```
 
 <div class="my-footer">
@@ -42,36 +38,48 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 
 ---
 # The Power of Terminology
-It's maybe common sense to know what other people are talking about.
+Maybe it's common sense to know what other people are talking about.
 
 It's not just words, it's the understanding of them.
 
-As you might know, R contains some many terms and concepts
+As you might know, in `R`, we use many different terms and concepts:
 
-- object types
+.column-left-half[
+
+- object types, e.g.,
+  - vectors
+  - matrices
+  - data frames
+  - lists
 - variables types
-- function definitions
 - etc.
+]
 
-tidyverse adds to this a whole new set of terms that have to be clarified
+.column-right-half[
+```{r, out.width = "110%"}
+include_graphics("./pics/9213.1526125966.png")
+```
+]
+https://devopedia.org/r-data-structures 
 
 
 ---
-# Pipes and Tibbles 
-.large[
-.center[
-In this session, we will learn about pipes and tibbles.
+# Terminology of the tidyverse
 
-They are one of the most important terms in the whole uni.. 
+The classic concepts of `R` are not subject of this sessions.
 
-tidyverse.
-]
-]
+But `tidyverse` adds to this a whole new set of terms and concepts that have to be clarified. They may be foreign to us.
+
+The good news is we're good with only three distinct concepts:
+
+1. pipes
+2. tibbles
+3. (tribbles)
 
 
 ---
 # What is a pipe?
-```{r, out.width = "60%"}
+```{r, out.width = "50%"}
 include_graphics("pipe office decoration.jpg")
 ```
 
@@ -111,11 +119,14 @@ This works. But it also has some serious flaws:
 
 - Don't you dare to forget closing a bracket
 - It's not easy to grasp which operation is the most important one
+  - Is it loading the data?
+  - Is it choosing the proper variable?
+  - Or the calculation of the mean value?
 
 
 ---
 # Disentangling and Overwriting
-An easy way is this:
+An easy way would be:
 
 ```{r echo = TRUE, message = FALSE}
 
@@ -140,7 +151,7 @@ Mix to your liking...
 
 ---
 # Pipes as solution?
-Pipes disentangle the whole process in a whole other way and apply each involved function step by step:
+Pipes disentangle the whole process with an alternative approach by applying any involved function step by step:
 
 ```{r echo = TRUE, message = FALSE}
 "mtcars.csv" %>% 
@@ -151,6 +162,8 @@ Pipes disentangle the whole process in a whole other way and apply each involved
 ```
 
 Most importantly, the central dataset is now on top and the starting point of everything.
+
+
 
 
 ---
@@ -208,7 +221,7 @@ x %>% f(y, z = .)
 ---
 # Notes on Pipes' Styling: Indentions
 
-We can write pipes within one line:
+We can write pipes in one line:
 
 ```{r echo = TRUE, eval = FALSE}
 u %>% v %>% w %>% x %>% y %>% z
@@ -229,7 +242,7 @@ u %>%
 ---
 # Notes on Pipes' Styling: Nesting I
 
-As pipes are so convenient you may the tempted to nest operations within pipes and to merge to separate processes, for example:
+As pipes are so convenient you may the tempted to nest operations within pipes and to merge separate processes, for example:
 
 ```{r echo = TRUE, eval = FALSE}
 obj_1 <- 
@@ -258,10 +271,10 @@ z %>%
   y
 ```
 
-While this is cool, it can get cumbersome ro read
+While this is cool, it can get cumbersome to read
 
-- It may be better to let the processes split up in pipes with more than one `%>%` operator 
-- Hadley Wickham himself^{TM} recommends never to use more than ten `%>%` anyway 
+- It may be better to keep the processes be split up in pipes with more than one `%>%` operator 
+- Hadley Wickham recommends never to use more than ten `%>%` anyway: https://r4ds.had.co.nz/pipes.html#when-not-to-use-the-pipe
 
 
 ---
@@ -271,11 +284,10 @@ Pipes are so nice, you may be tempted to use them all the time.
 
 Some of you may even spend hours to create one single data preparation workflow in one single pipe.
 
-While this is cool, it may not be very sufficient and also misses the whole purpose of applying pipes
+This is awesome, however, it's not very sufficient and also misses the whole purpose of applying pipes which are:
 
 - readability
 - reproducibility
-- and stuff
 ]
 
 .column-right-half[
@@ -393,7 +405,7 @@ Other implementations, not discussed here, would be:
 
 ---
 # tibbles
-Tibbles are the data format used in the tidyverse.
+Tibbles are the data format used in the `tidyverse`.
 
 They are basically standard `R data.frame()`s, enriched with some more features and metadata:
 
@@ -413,14 +425,108 @@ example_tibble
 
 ---
 # How to use tibbles?
+
+.middle[
 Usually we don't have to do anything. 
 
 tibbles are the standard output format of all tidyverse applications.
 
-Yet, some old R functions may have some issues with tibbles. Luckily, we just can use `as.data.frame(your_tibble)` on them. Problem solved.
+Yet, some old (or non-compliant) `R` functions may have some issues with tibbles. 
+
+Luckily, we just can use `as.data.frame(your_tibble)` on them. Problem solved.
+]
+
+
+---
+# Creating tibbles
+Occasiaionly, we want to create `tibbles` from standard `data.frames`.
+
+This can be done with the `tibble()`-function from the `tibble`-package.
+
+```{r tibble-pic, out.width = "35%"}
+include_graphics("./pics/tibble.png")
+``` 
+
+.center[https://github.com/rstudio/hex-stickers/blob/master/PNG/tibble.png]
+
+
+---
+# Loading a standard data.frame
+
+```{r standard-data-frame, echo = TRUE, message = FALSE, eval = TRUE}
+titanic_df <- read.csv2("../../data/titanic/titanic.csv", sep = ",")
+titanic_df
+```
+
+
+---
+# Converting to a tibble
+
+```{r convert-to-tibble, echo = TRUE, message = FALSE, eval = TRUE}
+titanic_tibble <- 
+  titanic_df %>% 
+  as_tibble()
+
+titanic_tibble
+```
+
+.center[Voilà!]
+
+
+---
+# Creating tibbles from scratch
+
+Similar to creating `base R data.frames`, we can also create `tibbles` without any previous data input.
+
+```{r from-scratch-tibble, echo = TRUE, message = FALSE, eval = TRUE}
+tibble(
+  a = 1:5,
+  b = 20:16,
+  c = letters[1:10] %>% 
+    sample(., size = 5)
+)
+```
+
+---
+# tribbles
+Using the `tribble`-approach is an way to create `tibbles` for small tables as it resembles the final layout of the table.
+
+```{r tribble, echo = TRUE, message = FALSE, eval = TRUE}
+tribble(
+  ~a, ~b, ~c,
+  1,  20,  "h",
+  2,  19,  "j",
+  3,  18,  "g",
+  4,  17,  "i",
+  5,  16,  "c"
+)
+```
+
+
+---
+# Summary
+
+For now, we have to be familiar with two things when exploring the `tidyverse`:
+
+1. pipes
+  - they disentangle the process of data wrangling in simple chunks
+  - denoted by the operator `%>%`, yet there are alternatives we should be aware of 
+2. tibbles
+  - an easy to read and modern format for datasets in `R`
+  - standard format of the `tidyverse`
 
 
 
+
+
+
+---
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
 
 
 
