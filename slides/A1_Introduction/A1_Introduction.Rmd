@@ -84,7 +84,7 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 - previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geo data
 
-[stefan.mueller@gesis.org](mailto:stefan.mueller@gesis.org)
+[stefan.mueller@gesis.org](mailto:stefan.juenger@gesis.org)
 
 ---
 
