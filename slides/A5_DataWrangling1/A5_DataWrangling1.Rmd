@@ -46,7 +46,7 @@ pre {
 
 In this section (and the following one), we will focus on the `dplyr` package.
 
-```{r, out.width = "50%"}
+```{r dplyr hex, out.width = "50%"}
 include_graphics("./pics/hex-dplyr.png")
 ```
 
@@ -60,16 +60,16 @@ We split up **wrangling** into two parts:
     - renaming variables
     - selecting variables: basics
     - filtering cases: basics
-    - creating new variables: basics
+    - creating variables: basics
     - recoding variable values
     - recoding missing values
+    - rearranging datasets
     
 - **Part 2** (1st session tomorrow)
     - advanced selecting
     - advanced filtering
-    - advanced creation of new variables
-    - working with factors
-    - rearranging datasets
+    - advanced creation & transformation of variables
+    - examples of working with strings & factors
     ]
 
 .pull-right[
@@ -85,7 +85,7 @@ Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
 
 # Titanic `r ji("passenger_ship")`
 
-For some of the data wrangling examples and exercises we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
+For the data wrangling examples in this session and the following one we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
 
 ```{r titanic data, include = F}
 titanic <- read_csv("../../data/titanic/titanic.csv")
@@ -204,7 +204,18 @@ Very often we do not need all the variables in a dataset for our analyses. We ca
 
 ```{r select, echo = T}
 titanic %>% 
-  select(passenger_id, survived, ticket_class, sex, age)
+  select(passenger_id, sex, age, ticket_class, survived)
+```
+
+---
+
+# Select & rename
+
+You can also combine the steps of selecting and renaming variables.
+
+```{r select & rename, echo = T}
+titanic %>% 
+  select(id = passenger_id, survivor = survived, sex, age)
 ```
 
 ---
@@ -273,7 +284,27 @@ titanic %>%
   filter(sex == "male", survived == 1, age >= 18)
 ```
 
-NB: Multiple conditions in filter are automatically added as & (and).
+---
+
+# `dplyr::filter` - multiple conditions
+
+By default, multiple conditions in filter are added as & (and). You can, however, also specify multiple conditions differently.
+
+**or** (cases for which at least one of the conditions is true)
+
+```{r filter or, echo = T, eval = F}
+titanic %>% 
+  filter(nr_of_siblings_spouses_aboard > 0 | 
+           nr_of_parents_children_aboard > 0)
+```
+
+**xor** (cases for which only one of the two conditions is true)
+
+```{r filter xor, echo = T, eval = F}
+titanic %>% 
+  filter(xor(nr_of_siblings_spouses_aboard > 0, 
+             nr_of_parents_children_aboard > 0))
+```
 
 ---
 
@@ -283,14 +314,34 @@ In the process of preparing data for analyses we usually want to create new vari
 
 ```{r Titanic mutate sum relatives, echo = T}
 titanic <- titanic %>% 
-  mutate(nr_of_relatives_aboard = nr_of_siblings_spouses_aboard +
-           nr_of_parents_children_aboard)
+  mutate(nr_of_relatives_aboard = nr_of_siblings_spouses_aboard + #<<
+           nr_of_parents_children_aboard) #<<
 
 titanic %>% 
   select(nr_of_relatives_aboard) %>% 
   filter(nr_of_relatives_aboard > 1) %>% 
   head(n = 5)
 ```
+
+---
+
+# Creating & transforming variables with `dplyr::mutate`
+
+There are many operators and helper functions that you can use to create and transform variables with `mutate()`.
+
+* arithmetic operators: +, -, /, *, ^, %% (modulo/remainder), %/% (integer devision)
+
+* aggregate functions: sum, mean, max, min, ...
+
+* logs: log(), log2(), log10()
+
+* offsets: lead(), lag()
+
+* cumulative aggregates: cumsum, cumprod, cummean, ...
+
+* logical comparisons: <=, <, ==, !=, >, >=
+
+* ranks: min_rank, ntile(), ...
 
 ---
 
@@ -310,10 +361,10 @@ Without looking at the codebook, it is not clear what the letters in the *Embark
 
 ```{r recode, echo = T}
 titanic %>% 
-  mutate(port_of_embarkation = recode(port_of_embarkation,
-         S = "Southampton",
-         C = "Cherbourg",
-         Q = "Queenstown")) %>% 
+  mutate(port_of_embarkation = recode(port_of_embarkation, #<<
+         S = "Southampton", #<<
+         C = "Cherbourg", #<<
+         Q = "Queenstown")) %>% #<< 
   select(port_of_embarkation) %>% 
   head()
 ```
@@ -344,7 +395,7 @@ titanic %>%
 
 ```{r recode NAs, echo = T}
 titanic %>% 
-  mutate(cabin_nr = replace_na(cabin_nr, "unknown")) %>% 
+  mutate(cabin_nr = replace_na(cabin_nr, "unknown")) %>% #<<
   select(cabin_nr) %>% 
   head(n = 3)
 ```
@@ -364,7 +415,102 @@ titanic %>%
 
 ```{r recode as NA, echo = T}
 titanic %>% 
-  mutate(cabin_nr = na_if(cabin_nr, "unknown")) %>% 
+  mutate(cabin_nr = na_if(cabin_nr, "unknown")) %>% #<<
   select(cabin_nr) %>% 
   head(n = 3)
 ```
+
+---
+
+# Rearranging a dataset
+
+There are two dimensions in tabular datasets along which you can (re-)order them: **columns** (variables) and **rows** (observations).  
+
+We have already explored the `tidyr` functions `gather()` and `spread()` for changing data from wide to long format and vice versa.
+
+However, sometimes you just want to change the order of the columns (variables) and/or rows (observations) in your dataset.
+
+---
+
+# Reordering columns in a dataset
+
+As you might have noticed in some the first example for that function, you can use `select()` to reorder columns (the order in which you select them determines their order in the new dataframe). If you just want to move a few columns to the beginning of your dataframe, you can use `everything()`.
+
+```{r select + everything, echo = T}
+titanic %>% 
+  select(port_of_embarkation, everything()) %>% #<<
+  head(n = 5)
+```
+
+---
+
+# Moving columns
+
+When you use `mutate()` to create new variables they are always added after the last column of a dataset. The `mutate()` function does not have an argument for specifying the position of newly created variables in a dataframe (see the discussion about this [`dplyr` issue on GitHub](https://github.com/tidyverse/dplyr/issues/2047) if you are interested in the background).  
+
+However, in some cases you might want to have newly created columns in a different place (e.g., closer to the variables they are based on or related to) or want to move one or more columns for some other reason. In some of these cases it might be inconvenient to do this via `select()`.  
+
+Luckily, someome on [*Stackoverflow*](https://stackoverflow.com/questions/52096919/move-a-column-conveniently/52096938#52096938) has created a nice function for this situation. You can find the function definition in the `move.R` file in the *scripts* folder.   
+
+---
+
+# Move function
+
+```{r source move function}
+source("../../scripts/move.R")
+```
+
+```{r move columns, echo = T}
+titanic %>% 
+  move(cols = port_of_embarkation, ref = passenger_id, side = "after")
+```
+
+---
+
+# Rearrange the order of rows
+
+To rearrange the order of rows/observations in your dataset, you can use the `arrange()` function from `dplyr`. You can arrange your observations by one or more variables and in ascending or descending order.
+
+---
+
+# Arrange by one variable - ascending
+
+```{r arrange 1 asc, echo = T}
+titanic %>% 
+  arrange(age)
+```
+
+---
+
+# Arrange by one variable - descending
+
+```{r arrange 1 desc echo, echo = T, eval = F}
+titanic %>% 
+  arrange(desc(age))
+```
+
+You can also use `-` instead of `desc()` (to save some typing).
+
+```{r arrange 1 desc eval, echo = T}
+titanic %>% 
+  arrange(-age) %>% #<<
+  head(n = 5)
+```
+
+---
+
+# Arrange by multiple variables
+
+```{r arrange >1, echo = T}
+titanic %>% 
+  arrange(ticket_class, desc(fare)) %>% 
+  select(passenger_id, sex, age, ticket_class, fare)
+```
+
+---
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)

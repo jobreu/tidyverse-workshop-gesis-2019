@@ -57,16 +57,16 @@ We split up **wrangling** into two parts:
     - renaming variables
     - selecting variables: basics
     - filtering cases: basics
-    - creating new variables: basics
+    - creating variables: basics
     - recoding variable values
     - recoding missing values
+    - rearranging datasets
     
 - **Part 2** (1st session tomorrow)
     - advanced selecting
     - advanced filtering
-    - advanced creation of new variables
-    - working with factors
-    - rearranging datasets
+    - advanced creation &amp; transformation of variables
+    - examples of working with strings &amp; factors
     ]
 
 .pull-right[
@@ -82,7 +82,7 @@ Artwork by [Allison Horst](https://github.com/allisonhorst/stats-illustrations)
 
 # Titanic 🛳
 
-For some of the data wrangling examples and exercises we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
+For the data wrangling examples in this session and the following one we will use the Titanic dataset from [*Kaggle*](https://www.kaggle.com/c/titanic/overview)
 
 
 
@@ -311,23 +311,52 @@ Very often we do not need all the variables in a dataset for our analyses. We ca
 
 ```r
 titanic %&gt;% 
-  select(passenger_id, survived, ticket_class, sex, age)
+  select(passenger_id, sex, age, ticket_class, survived)
 ```
 
 ```
 ## # A tibble: 891 x 5
-##    passenger_id survived ticket_class sex      age
-##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-##  1            1        0            3 male      22
-##  2            2        1            1 female    38
-##  3            3        1            3 female    26
-##  4            4        1            1 female    35
-##  5            5        0            3 male      35
-##  6            6        0            3 male      NA
-##  7            7        0            1 male      54
-##  8            8        0            3 male       2
-##  9            9        1            3 female    27
-## 10           10        1            2 female    14
+##    passenger_id sex      age ticket_class survived
+##           &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;        &lt;dbl&gt;    &lt;dbl&gt;
+##  1            1 male      22            3        0
+##  2            2 female    38            1        1
+##  3            3 female    26            3        1
+##  4            4 female    35            1        1
+##  5            5 male      35            3        0
+##  6            6 male      NA            3        0
+##  7            7 male      54            1        0
+##  8            8 male       2            3        0
+##  9            9 female    27            3        1
+## 10           10 female    14            2        1
+## # ... with 881 more rows
+```
+
+---
+
+# Select &amp; rename
+
+You can also combine the steps of selecting and renaming variables.
+
+
+```r
+titanic %&gt;% 
+  select(id = passenger_id, survivor = survived, sex, age)
+```
+
+```
+## # A tibble: 891 x 4
+##       id survivor sex      age
+##    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1     1        0 male      22
+##  2     2        1 female    38
+##  3     3        1 female    26
+##  4     4        1 female    35
+##  5     5        0 male      35
+##  6     6        0 male      NA
+##  7     7        0 male      54
+##  8     8        0 male       2
+##  9     9        1 female    27
+## 10    10        1 female    14
 ## # ... with 881 more rows
 ```
 
@@ -493,7 +522,29 @@ titanic %&gt;%
 ## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
 ```
 
-NB: Multiple conditions in filter are automatically added as &amp; (and).
+---
+
+# `dplyr::filter` - multiple conditions
+
+By default, multiple conditions in filter are added as &amp; (and). You can, however, also specify multiple conditions differently.
+
+**or** (cases for which at least one of the conditions is true)
+
+
+```r
+titanic %&gt;% 
+  filter(nr_of_siblings_spouses_aboard &gt; 0 | 
+           nr_of_parents_children_aboard &gt; 0)
+```
+
+**xor** (cases for which only one of the two conditions is true)
+
+
+```r
+titanic %&gt;% 
+  filter(xor(nr_of_siblings_spouses_aboard &gt; 0, 
+             nr_of_parents_children_aboard &gt; 0))
+```
 
 ---
 
@@ -504,8 +555,8 @@ In the process of preparing data for analyses we usually want to create new vari
 
 ```r
 titanic &lt;- titanic %&gt;% 
-  mutate(nr_of_relatives_aboard = nr_of_siblings_spouses_aboard +
-           nr_of_parents_children_aboard)
+* mutate(nr_of_relatives_aboard = nr_of_siblings_spouses_aboard +
+*          nr_of_parents_children_aboard)
 
 titanic %&gt;% 
   select(nr_of_relatives_aboard) %&gt;% 
@@ -523,6 +574,26 @@ titanic %&gt;%
 ## 4                      6
 ## 5                      5
 ```
+
+---
+
+# Creating &amp; transforming variables with `dplyr::mutate`
+
+There are many operators and helper functions that you can use to create and transform variables with `mutate()`.
+
+* arithmetic operators: +, -, /, *, ^, %% (modulo/remainder), %/% (integer devision)
+
+* aggregate functions: sum, mean, max, min, ...
+
+* logs: log(), log2(), log10()
+
+* offsets: lead(), lag()
+
+* cumulative aggregates: cumsum, cumprod, cummean, ...
+
+* logical comparisons: &lt;=, &lt;, ==, !=, &gt;, &gt;=
+
+* ranks: min_rank, ntile(), ...
 
 ---
 
@@ -550,10 +621,10 @@ Without looking at the codebook, it is not clear what the letters in the *Embark
 
 ```r
 titanic %&gt;% 
-  mutate(port_of_embarkation = recode(port_of_embarkation,
-         S = "Southampton",
-         C = "Cherbourg",
-         Q = "Queenstown")) %&gt;% 
+* mutate(port_of_embarkation = recode(port_of_embarkation,
+*        S = "Southampton",
+*        C = "Cherbourg",
+*        Q = "Queenstown")) %&gt;%
   select(port_of_embarkation) %&gt;% 
   head()
 ```
@@ -601,7 +672,7 @@ Note: An interesting option for exploring and working with missing data is the [
 
 ```r
 titanic %&gt;% 
-  mutate(cabin_nr = replace_na(cabin_nr, "unknown")) %&gt;% 
+* mutate(cabin_nr = replace_na(cabin_nr, "unknown")) %&gt;%
   select(cabin_nr) %&gt;% 
   head(n = 3)
 ```
@@ -632,7 +703,7 @@ titanic %&gt;%
 
 ```r
 titanic %&gt;% 
-  mutate(cabin_nr = na_if(cabin_nr, "unknown")) %&gt;% 
+* mutate(cabin_nr = na_if(cabin_nr, "unknown")) %&gt;%
   select(cabin_nr) %&gt;% 
   head(n = 3)
 ```
@@ -645,6 +716,190 @@ titanic %&gt;%
 ## 2 C85     
 ## 3 &lt;NA&gt;
 ```
+
+---
+
+# Rearranging a dataset
+
+There are two dimensions in tabular datasets along which you can (re-)order them: **columns** (variables) and **rows** (observations).  
+
+We have already explored the `tidyr` functions `gather()` and `spread()` for changing data from wide to long format and vice versa.
+
+However, sometimes you just want to change the order of the columns (variables) and/or rows (observations) in your dataset.
+
+---
+
+# Reordering columns in a dataset
+
+As you might have noticed in some the first example for that function, you can use `select()` to reorder columns (the order in which you select them determines their order in the new dataframe). If you just want to move a few columns to the beginning of your dataframe, you can use `everything()`.
+
+
+```r
+titanic %&gt;% 
+* select(port_of_embarkation, everything()) %&gt;%
+  head(n = 5)
+```
+
+```
+## # A tibble: 5 x 13
+##   port_of_embarka~ passenger_id survived ticket_class name  sex     age
+##   &lt;chr&gt;                   &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+## 1 S                           1        0            3 Brau~ male     22
+## 2 C                           2        1            1 Cumi~ fema~    38
+## 3 S                           3        1            3 Heik~ fema~    26
+## 4 S                           4        1            1 Futr~ fema~    35
+## 5 S                           5        0            3 Alle~ male     35
+## # ... with 6 more variables: nr_of_siblings_spouses_aboard &lt;dbl&gt;,
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, nr_of_relatives_aboard &lt;dbl&gt;
+```
+
+---
+
+# Moving columns
+
+When you use `mutate()` to create new variables they are always added after the last column of a dataset. The `mutate()` function does not have an argument for specifying the position of newly created variables in a dataframe (see the discussion about this [`dplyr` issue on GitHub](https://github.com/tidyverse/dplyr/issues/2047) if you are interested in the background).  
+
+However, in some cases you might want to have newly created columns in a different place (e.g., closer to the variables they are based on or related to) or want to move one or more columns for some other reason. In some of these cases it might be inconvenient to do this via `select()`.  
+
+Luckily, someome on [*Stackoverflow*](https://stackoverflow.com/questions/52096919/move-a-column-conveniently/52096938#52096938) has created a nice function for this situation. You can find the function definition in the `move.R` file in the *scripts* folder.   
+
+---
+
+# Move function
+
+
+
+
+```r
+titanic %&gt;% 
+  move(cols = port_of_embarkation, ref = passenger_id, side = "after")
+```
+
+```
+## # A tibble: 891 x 13
+##    passenger_id port_of_embarka~ survived ticket_class name  sex     age
+##           &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1            1 S                       0            3 Brau~ male     22
+##  2            2 C                       1            1 Cumi~ fema~    38
+##  3            3 S                       1            3 Heik~ fema~    26
+##  4            4 S                       1            1 Futr~ fema~    35
+##  5            5 S                       0            3 Alle~ male     35
+##  6            6 Q                       0            3 Mora~ male     NA
+##  7            7 S                       0            1 McCa~ male     54
+##  8            8 S                       0            3 Pals~ male      2
+##  9            9 S                       1            3 John~ fema~    27
+## 10           10 C                       1            2 Nass~ fema~    14
+## # ... with 881 more rows, and 6 more variables:
+## #   nr_of_siblings_spouses_aboard &lt;dbl&gt;,
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, nr_of_relatives_aboard &lt;dbl&gt;
+```
+
+---
+
+# Rearrange the order of rows
+
+To rearrange the order of rows/observations in your dataset, you can use the `arrange()` function from `dplyr`. You can arrange your observations by one or more variables and in ascending or descending order.
+
+---
+
+# Arrange by one variable - ascending
+
+
+```r
+titanic %&gt;% 
+  arrange(age)
+```
+
+```
+## # A tibble: 891 x 13
+##    passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+##  1          804        1            3 Thom~ male   0.42                0
+##  2          756        1            2 Hama~ male   0.67                1
+##  3          470        1            3 Bacl~ fema~  0.75                2
+##  4          645        1            3 Bacl~ fema~  0.75                2
+##  5           79        1            2 Cald~ male   0.83                0
+##  6          832        1            2 Rich~ male   0.83                1
+##  7          306        1            1 Alli~ male   0.92                1
+##  8          165        0            3 Panu~ male   1                   4
+##  9          173        1            3 John~ fema~  1                   1
+## 10          184        1            2 Beck~ male   1                   2
+## # ... with 881 more rows, and 6 more variables:
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;,
+## #   nr_of_relatives_aboard &lt;dbl&gt;
+```
+
+---
+
+# Arrange by one variable - descending
+
+
+```r
+titanic %&gt;% 
+  arrange(desc(age))
+```
+
+You can also use `-` instead of `desc()` (to save some typing).
+
+
+```r
+titanic %&gt;% 
+* arrange(-age) %&gt;%
+  head(n = 5)
+```
+
+```
+## # A tibble: 5 x 13
+##   passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##          &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+## 1          631        1            1 Bark~ male   80                  0
+## 2          852        0            3 Sven~ male   74                  0
+## 3           97        0            1 Gold~ male   71                  0
+## 4          494        0            1 Arta~ male   71                  0
+## 5          117        0            3 Conn~ male   70.5                0
+## # ... with 6 more variables: nr_of_parents_children_aboard &lt;dbl&gt;,
+## #   ticket_number &lt;chr&gt;, fare &lt;dbl&gt;, cabin_nr &lt;chr&gt;,
+## #   port_of_embarkation &lt;chr&gt;, nr_of_relatives_aboard &lt;dbl&gt;
+```
+
+---
+
+# Arrange by multiple variables
+
+
+```r
+titanic %&gt;% 
+  arrange(ticket_class, desc(fare)) %&gt;% 
+  select(passenger_id, sex, age, ticket_class, fare)
+```
+
+```
+## # A tibble: 891 x 5
+##    passenger_id sex      age ticket_class  fare
+##           &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;
+##  1          259 female    35            1  512.
+##  2          680 male      36            1  512.
+##  3          738 male      35            1  512.
+##  4           28 male      19            1  263 
+##  5           89 female    23            1  263 
+##  6          342 female    24            1  263 
+##  7          439 male      64            1  263 
+##  8          312 female    18            1  262.
+##  9          743 female    21            1  262.
+## 10          119 male      24            1  248.
+## # ... with 881 more rows
+```
+
+---
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
