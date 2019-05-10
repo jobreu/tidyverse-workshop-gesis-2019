@@ -85,29 +85,27 @@ The underlying vectors of the tibble are short. In the real world, vectors are a
 
 
 ---
-# Making sense
+<h1> Making sense of data </h1>
+
 To make sense of data we reduce their information to singular values.
 
-.center[**That's statistics**]
+.center[
+~ 
 
-As such, we simply use summarizing functions of
+**That's a simple definition of statistics**
+
+~]
+
+As such, we use summarizing functions of
 - location (e.g. the mean),
 - spread (e.g. standard deviation),
 - shape of distribution (e.g. skewness) and
 - relations between variables (e.g. correlation coefficients)
 
----
-class: middle, center
-
-.large[
 We assume everyone here knows the basics of summary statistics.  
 
-
-
-
-
 So instead of their boring repetition let's see respective code from the `tidyverse`.
-]
+
 
 ---
 # Used data
@@ -126,6 +124,7 @@ capita <-
     col_names = TRUE 
     )
 ```
+
 ---
 # A first glimpse at the data
 
@@ -159,13 +158,13 @@ capita_long <-
 ---
 # How does it look?
 
-Displaying only the tail because Germany which is first in order has missings up to and including the year 1969.
+We display only the tail because Germany, which is first in order, has missings up to and including the year 1969.
 
 ```{r capita_long_subset_look, echo=FALSE}
 capita_long %>%  tail()
 ```
 
-In any case, information is reduced and the data look much nicer now.
+In any case, information is reduced and the data look much nicer now, doesn't them?
 
 
 ---
@@ -184,8 +183,11 @@ capita_long %>%
   )
 ```
 
+<span class="footnote">
+  Note: `change` is change of income in percent to the previous year.
+</span>
 
-Note: `change` is change of income in percent to the previous year.
+
 
 
 ---
@@ -199,12 +201,6 @@ capita_long %>%
 ```
 
 It's been 2010.
-
-
-```{r echo=TRUE}
-# group_by(country) %>%  
-# filter(change == max(change, na.rm = TRUE))  
-```
 
 
 ---
@@ -359,6 +355,10 @@ identical(sort(dino$x), sort(away$x))
 
 ---
 # Let's compute the statistics
+
+<span class="footnote">
+  <span class="red bold">*</span> Important footnote
+</span>
 
 ```{r datasaurus_solution, eval = FALSE, echo=TRUE}
 datasaurus_dozen %>% 
