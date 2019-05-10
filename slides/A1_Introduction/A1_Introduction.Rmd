@@ -84,7 +84,7 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 - previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geo data
 
-[stefan.mueller@gesis.org](mailto:stefan.juenger@gesis.org)
+[stefan.juenger@gesis.org](mailto:stefan.juenger@gesis.org)
 
 ---
 
@@ -111,14 +111,14 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 - Some basic knowledge of R  
 
-- The following packages: `tidyverse`, `sf` 
+- The following packages: `tidyverse`, `gapminder`, `sf` 
 ]  
   
   
 Install the packages with
 
 ```{r, eval = F, echo = T}
-install.packages(c("tidyverse", "sf"))
+install.packages(c("tidyverse", "gapminder", "sf"))
 ```
 
 ---
@@ -178,12 +178,16 @@ kable(
 
 # What to expect
 
-.large[- This is not a statistics workshop!
+- The structure of this workshop largely follows a typical workflow (for tabular data)
+
+- This is not a statistics workshop!
     - Plumbing (skills for wrangling & exploring) instead of engineering (knowledge about stats)
-```{r, out.width = "60%"}
+    
+```{r, out.width = "50%"}
 include_graphics("./pics/mario_brick_3d.png")
 ```
-- You will become a super (data) plumber who knows how to use pipes]
+
+- You will become a super (data) plumber who knows how to use pipes
 
 ---
 # Why do we focus on wrangling & exploring?
@@ -246,6 +250,23 @@ Tidyverse syntax is designed to increase **human-readability**. This makes it es
 
 ---
 
+# The expanding tidyverse
+
+There is a long and continuously growing list of packages that implement/adapt tidyverse principles and workflows for different types of analyses.  
+
+Some examples:
+- [`tidygraph`](https://www.data-imaginist.com/2017/introducing-tidygraph/) for a tidy approach to network analysis
+
+- [`tidytext`](https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html) for a [tidy approach to text mining](https://www.tidytextmining.com/)
+
+- [`tidybayes`](https://mjskay.github.io/tidybayes/index.html) for tidy Bayesian analyses
+
+- [`tidymlm`](https://github.com/mkearney/tidymlm) for tidy multilevel modeling
+
+- [`tidysem`](https://github.com/mkearney/tidysem) for tidy structural equation modeling
+
+---
+
 # Lift-off into the tidyverse `r ji("rocket")`
 **install all tidyverse packages** (for the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/))
 ```{r install tidyverse, eval = F, echo = T}
@@ -259,6 +280,21 @@ library("tidyverse")
 ```
 
 ---
+
+# Cheat sheets
+
+*RStudio* offers a good collection of [cheat sheets for R](https://www.rstudio.com/resources/cheatsheets/).
+
+The following ones are of particular interest for this workshop:
+
+- [Data Import Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+
+- [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+
+- [Data Visualization Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
+
+---
+
 # Coding in style `r ji("sunglasses")`
 
 [The tidyverse style guide](https://style.tidyverse.org/) by Hadley Wickham  

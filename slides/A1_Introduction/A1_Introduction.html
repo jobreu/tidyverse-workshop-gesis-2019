@@ -79,7 +79,7 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 - previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geo data
 
-[stefan.mueller@gesis.org](mailto:stefan.mueller@gesis.org)
+[stefan.juenger@gesis.org](mailto:stefan.juenger@gesis.org)
 
 ---
 
@@ -106,7 +106,7 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 - Some basic knowledge of R  
 
-- The following packages: `tidyverse`, `sf` 
+- The following packages: `tidyverse`, `gapminder`, `sf` 
 ]  
   
   
@@ -114,7 +114,7 @@ Install the packages with
 
 
 ```r
-install.packages(c("tidyverse", "sf"))
+install.packages(c("tidyverse", "gapminder", "sf"))
 ```
 
 ---
@@ -228,10 +228,14 @@ install.packages(c("tidyverse", "sf"))
 
 # What to expect
 
-.large[- This is not a statistics workshop!
+- The structure of this workshop largely follows a typical workflow (for tabular data)
+
+- This is not a statistics workshop!
     - Plumbing (skills for wrangling &amp; exploring) instead of engineering (knowledge about stats)
-&lt;img src="./pics/mario_brick_3d.png" width="60%" style="display: block; margin: auto;" /&gt;
-- You will become a super (data) plumber who knows how to use pipes]
+    
+&lt;img src="./pics/mario_brick_3d.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+- You will become a super (data) plumber who knows how to use pipes
 
 ---
 # Why do we focus on wrangling &amp; exploring?
@@ -292,6 +296,23 @@ Tidyverse syntax is designed to increase **human-readability**. This makes it es
 
 ---
 
+# The expanding tidyverse
+
+There is a long and continuously growing list of packages that implement/adapt tidyverse principles and workflows for different types of analyses.  
+
+Some examples
+- [`tidygraph`](https://www.data-imaginist.com/2017/introducing-tidygraph/) for a tidy approach to network analysis
+
+- [`tidytext`](https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html) for a [tidy approach to text mining](https://www.tidytextmining.com/)
+
+- [`tidybayes`](https://mjskay.github.io/tidybayes/index.html) for tidy Bayesian analyses
+
+- [`tidymlm`](https://github.com/mkearney/tidymlm) for tidy multilevel modeling
+
+- [`tidysem`](https://github.com/mkearney/tidysem) for tidy structural equation modeling
+
+---
+
 # Lift-off into the tidyverse 🚀
 **install all tidyverse packages** (for the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/))
 
@@ -305,7 +326,7 @@ library("tidyverse")
 ```
 
 ```
-## -- Attaching packages ------------------------------------------------------------ tidyverse 1.2.1 --
+## -- Attaching packages ---------------------------------------------------------------------- tidyverse 1.2.1 --
 ```
 
 ```
@@ -316,7 +337,7 @@ library("tidyverse")
 ```
 
 ```
-## -- Conflicts --------------------------------------------------------------- tidyverse_conflicts() --
+## -- Conflicts ------------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter()         masks stats::filter()
 ## x readr::guess_encoding() masks rvest::guess_encoding()
 ## x dplyr::lag()            masks stats::lag()

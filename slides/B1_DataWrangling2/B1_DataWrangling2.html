@@ -4,7 +4,7 @@
     <title>Data Wrangling &amp; Exploration with the Tidyverse in R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Johannes Breuer Stefan Jünger Thomas Ebel" />
-    <meta name="date" content="2018-05-16" />
+    <meta name="date" content="2019-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
@@ -17,7 +17,7 @@ class: center, middle, inverse, title-slide
 # Data Wrangling &amp; Exploration with the Tidyverse in R
 ## Data Wrangling - Part 2
 ### Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel
-### 2018-05-16
+### 2019-05-16
 
 ---
 
@@ -27,7 +27,7 @@ layout: true
 
 &lt;div class="my-footer"&gt;
   &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Stefan Jünger, Thomas Ebel&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-16&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-16&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Data Wrangling - Part 2&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
@@ -79,6 +79,11 @@ layout: true
    &lt;td style="text-align:left;"&gt; na_if &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; recodes specified values as NAs &lt;/td&gt;
   &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; dplyr &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; arrange &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; arrange rows based on the values of one or more variables &lt;/td&gt;
+  &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
@@ -88,7 +93,7 @@ layout: true
 
 Sometimes the basic ways of selecting columns/variables described in the previous session might be difficult or tedious to use, especially if you have datasets with a large number of variables in them.  
 
-Luckily, there are many helper functions that can be used within the `dplyr` `select()` function as well as scoped variants of `select` that can make your life as a professional data wrangler a lot easier. 
+Luckily, there are many helper functions (you can get a complete list of those via ` ?tidyselect::select_helpers`) that can be used within the `dplyr` `select()` function as well as scoped variants of `select` that can make your life as a professional data wrangler a lot easier. 
 
 We will explore some of those options in the following (for a more exhaustive overview, you can have a look at the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/01/dplyr-tutorial-1/)).
 
@@ -185,7 +190,7 @@ You can also use `is.integer`, `is.double`, `is.logical` or `is.factor`.
 
 Similar to the basic options for `select()` the basic variants of `filter()` might not meet your needs when it comes to more specific or complicated ways of data wrangling.  
 
-Again, there are several helper functions and scoped variants of the function that can help you (and there also is a detailed [tutorial by Suzan Baert](https://suzan.rbind.io/2018/01/dplyr-tutorial-3/) on this).
+Again, there are several helper functions and scoped variants of the function that can help you (and there also is a detailed [tutorial by Suzan Baert](https://suzan.rbind.io/2018/02/dplyr-tutorial-3/) on this).
 
 ---
 
@@ -194,7 +199,7 @@ Again, there are several helper functions and scoped variants of the function th
 
 ```r
 titanic %&gt;% 
-  filter(between(age, 18, 30)) %&gt;% 
+* filter(between(age, 18, 30)) %&gt;%
   head(n = 5)
 ```
 
@@ -216,12 +221,12 @@ Note that the range specified in `between()` is inclusive.
 
 ---
 
-# Filter rows based on matches in a character variable
+# Filter rows based on exact matches in a character variable
 
 
 ```r
 titanic %&gt;% 
-  filter(port_of_embarkation %in% c("Southampton", "Queenstown")) %&gt;% 
+* filter(port_of_embarkation %in% c("Southampton", "Queenstown")) %&gt;%
   select(passenger_id, port_of_embarkation)
 ```
 
@@ -267,12 +272,20 @@ titanic %&gt;%
 
 # Filter all variables
 
-Only keep complete cases (without missing values).
+Only keep complete cases (without missing values)
 
 
 ```r
 titanic %&gt;% 
   filter_all(all_vars(!is.na(.)))
+```
+
+However, if you only want to keep complete cases, it is easier to use the `drop_na()` function from `tidyr`.
+
+
+```r
+titanic %&gt;% 
+  drop_na()
 ```
 
 ```
@@ -293,6 +306,7 @@ titanic %&gt;%
 ## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
 ## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
 ```
+
 
 ---
 
@@ -327,9 +341,336 @@ titanic %&gt;%
 
 ---
 
-# Reordering columns in a dataset
+# Conditional filtering
 
-You can use the `select()` function from `dplyr` to reorder columns. If you just want to move a few columns to the beginning of your dataframe, you can use `everything()`.
+Only keep cases without missing values for the numeric variables
+
+
+```r
+titanic %&gt;% 
+  filter_if(is.numeric, all_vars(!is.na(.)))
+```
+
+```
+## # A tibble: 714 x 12
+##    passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##           &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+##  1            1        0            3 Brau~ male     22                1
+##  2            2        1            1 Cumi~ fema~    38                1
+##  3            3        1            3 Heik~ fema~    26                0
+##  4            4        1            1 Futr~ fema~    35                1
+##  5            5        0            3 Alle~ male     35                0
+##  6            7        0            1 McCa~ male     54                0
+##  7            8        0            3 Pals~ male      2                3
+##  8            9        1            3 John~ fema~    27                0
+##  9           10        1            2 Nass~ fema~    14                1
+## 10           11        1            3 Sand~ fema~     4                1
+## # ... with 704 more rows, and 5 more variables:
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
+```
+
+---
+
+# Advanced creation and transformation of variables
+
+While creating a new variable based on one or more numeric variables in your dataset or recoding values of a variable into the same or a new variable are quite straightforward with the `dplyr` functions `mutate()` and `recode()`, there may be situations where you need alternative (and more sophisticated) methods for editing or creating variables, especially if you work with larger and more complex datasets.  
+
+Fortunately, the tidyverse also got you covered for such cases with helper functions for and scoped variants of `mutate()` (also see the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/02/dplyr-tutorial-2/) on transforming columns in your dataset).
+
+We will also briefly focus on two types of variables that are a bit more challenging to work with than numeric and logical variables: character variables (strings) and factors.&lt;sup&gt;1&lt;/sup&gt;
+
+.footnote[
+[1] We will not discuss the special case of time and date variables, but if you work with those, you should check out the [`lubridate` package](https://lubridate.tidyverse.org/).
+]
+
+---
+
+# Mutate all variables of one type
+
+Round all numeric variables to a certain number of decimal places
+
+
+```r
+titanic %&gt;% 
+* mutate_if(is.numeric, round, 2) %&gt;%
+  select(passenger_id, ticket_class, fare)
+```
+
+```
+## # A tibble: 891 x 3
+##    passenger_id ticket_class  fare
+##           &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;
+##  1            1            3  7.25
+##  2            2            1 71.3 
+##  3            3            3  7.92
+##  4            4            1 53.1 
+##  5            5            3  8.05
+##  6            6            3  8.46
+##  7            7            1 51.9 
+##  8            8            3 21.1 
+##  9            9            3 11.1 
+## 10           10            2 30.1 
+## # ... with 881 more rows
+```
+
+---
+
+# Recode missings in all variables of one type
+
+
+```r
+data %&gt;%
+  mutate_if(is.numeric, list(~na_if(., -99))) %&gt;% 
+  mutate_if(is.numeric, list(~na_if(., -88))) %&gt;%
+  mutate_if(is.numeric, list(~na_if(., -77)))
+```
+
+This code might look a bit unusual for you based on what you have seen in this workshop so far. This is because it is based on the principles of functional programming as implemented in the [`purrr` package](https://purrr.tidyverse.org/).  
+
+We do not cover the `purrr` package in this workshop, but you can check out the [tutorial by Jenny Bryan](https://jennybc.github.io/purrr-tutorial/index.html) if you are interested in this. For example, if you use the `apply()` functions from base R, the [family of `map()` functions from `purrr`](https://purrr.tidyverse.org/reference/map.html) might be an interesting alternative.  
+
+Note: The `replace_with_na_if()` function from the `naniar` package provides a good alternative to the above code (see the [package vignette on replacing values with NA](https://cran.r-project.org/web/packages/naniar/vignettes/replace-with-na.html)).
+
+---
+
+# Change specific columns
+
+
+```r
+titanic %&gt;% 
+  filter(is.na(port_of_embarkation) | 
+           is.na(cabin_nr)) %&gt;% 
+* mutate_at(vars(cabin_nr, port_of_embarkation),
+*           list(~replace_na(., "unknown"))) %&gt;%
+  select(name, cabin_nr, port_of_embarkation)
+```
+
+```
+## # A tibble: 689 x 3
+##    name                                         cabin_nr port_of_embarkati~
+##    &lt;chr&gt;                                        &lt;chr&gt;    &lt;chr&gt;             
+##  1 Braund, Mr. Owen Harris                      unknown  Southampton       
+##  2 Heikkinen, Miss. Laina                       unknown  Southampton       
+##  3 Allen, Mr. William Henry                     unknown  Southampton       
+##  4 Moran, Mr. James                             unknown  Queenstown        
+##  5 Palsson, Master. Gosta Leonard               unknown  Southampton       
+##  6 Johnson, Mrs. Oscar W (Elisabeth Vilhelmina~ unknown  Southampton       
+##  7 Nasser, Mrs. Nicholas (Adele Achem)          unknown  Cherbourg         
+##  8 Saundercock, Mr. William Henry               unknown  Southampton       
+##  9 Andersson, Mr. Anders Johan                  unknown  Southampton       
+## 10 Vestrom, Miss. Hulda Amanda Adolfina         unknown  Southampton       
+## # ... with 679 more rows
+```
+
+---
+
+# Strings
+
+Working with strings in R is a topic that would require its own workshop. The tidyverse package [`stringr`](https://stringr.tidyverse.org/index.html) offers a collection of convenient functions for working with strings.
+
+&lt;img src="./pics/hex-stringr.png" width="20%" style="display: block; margin: auto;" /&gt;
+
+We will only cover some exemplary string operations for data wrangling in this workshop, but `stringr` provides a good [introduction vignette](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html), the book *R for Data Science* has a whole section on [strings with `stringr`](https://r4ds.had.co.nz/strings.html), and there also is an [*RStudio* Cheat Sheet for `stringr`](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf).
+
+If you want (or have) to work with regular expressions, you should also check out the [`rebus` package](https://github.com/richierocks/rebus) which allows you to create regular expressions in R in a human-readable way. Another helpful tool is the *RStudio* addin [`RegExplain`](https://www.garrickadenbuie.com/project/regexplain/).  
+
+---
+
+# Extract parts of a string into a new variable
+
+
+```r
+titanic %&gt;% 
+* mutate(port_abbrev = str_sub(port_of_embarkation, end = 1)) %&gt;%
+  select(port_of_embarkation, port_abbrev)
+```
+
+```
+## # A tibble: 891 x 2
+##    port_of_embarkation port_abbrev
+##    &lt;chr&gt;               &lt;chr&gt;      
+##  1 Southampton         S          
+##  2 Cherbourg           C          
+##  3 Southampton         S          
+##  4 Southampton         S          
+##  5 Southampton         S          
+##  6 Queenstown          Q          
+##  7 Southampton         S          
+##  8 Southampton         S          
+##  9 Southampton         S          
+## 10 Cherbourg           C          
+## # ... with 881 more rows
+```
+
+---
+
+# Extract string patterns into new variables
+
+
+```r
+titanic %&gt;% 
+* mutate(title = str_extract(name,
+*                            pattern = one_or_more(ALNUM) %R% DOT)) %&gt;%
+  select(name, title)
+```
+
+```
+## # A tibble: 891 x 2
+##    name                                                title  
+##    &lt;chr&gt;                                               &lt;chr&gt;  
+##  1 Braund, Mr. Owen Harris                             Mr.    
+##  2 Cumings, Mrs. John Bradley (Florence Briggs Thayer) Mrs.   
+##  3 Heikkinen, Miss. Laina                              Miss.  
+##  4 Futrelle, Mrs. Jacques Heath (Lily May Peel)        Mrs.   
+##  5 Allen, Mr. William Henry                            Mr.    
+##  6 Moran, Mr. James                                    Mr.    
+##  7 McCarthy, Mr. Timothy J                             Mr.    
+##  8 Palsson, Master. Gosta Leonard                      Master.
+##  9 Johnson, Mrs. Oscar W (Elisabeth Vilhelmina Berg)   Mrs.   
+## 10 Nasser, Mrs. Nicholas (Adele Achem)                 Mrs.   
+## # ... with 881 more rows
+```
+
+---
+
+# Example: Split Titanic names into parts
+
+
+```r
+titanic %&gt;% 
+  separate(name,
+           c("last_name", "first_name"),
+           sep =", ", 
+           remove = F) %&gt;% 
+  mutate(title = str_extract(
+    first_name,
+    pattern = one_or_more(ALNUM) %R% DOT)) %&gt;% 
+  mutate(first_name = str_remove(
+    first_name,
+    pattern = one_or_more(ALNUM) %R% DOT %R% SPACE))
+```
+
+We use the `rebus` package here to create a regular expression for the pattern matching. Note that we first use the `separate()` function from `tidyr` to split into first and last name.
+
+---
+
+# Example: Split Titanic names into parts
+
+
+```
+## # A tibble: 891 x 4
+##    name                           first_name               last_name title 
+##    &lt;chr&gt;                          &lt;chr&gt;                    &lt;chr&gt;     &lt;chr&gt; 
+##  1 Braund, Mr. Owen Harris        Owen Harris              Braund    Mr.   
+##  2 Cumings, Mrs. John Bradley (F~ John Bradley (Florence ~ Cumings   Mrs.  
+##  3 Heikkinen, Miss. Laina         Laina                    Heikkinen Miss. 
+##  4 Futrelle, Mrs. Jacques Heath ~ Jacques Heath (Lily May~ Futrelle  Mrs.  
+##  5 Allen, Mr. William Henry       William Henry            Allen     Mr.   
+##  6 Moran, Mr. James               James                    Moran     Mr.   
+##  7 McCarthy, Mr. Timothy J        Timothy J                McCarthy  Mr.   
+##  8 Palsson, Master. Gosta Leonard Gosta Leonard            Palsson   Maste~
+##  9 Johnson, Mrs. Oscar W (Elisab~ Oscar W (Elisabeth Vilh~ Johnson   Mrs.  
+## 10 Nasser, Mrs. Nicholas (Adele ~ Nicholas (Adele Achem)   Nasser    Mrs.  
+## # ... with 881 more rows
+```
+
+---
+
+# Factors
+
+Factors are a special type of variable in R. With [`forcats`](https://forcats.tidyverse.org/) the tidyverse has a whole package devoted to handling categorical variables.
+
+&lt;img src="./pics/hex-forcats.png" width="25%" style="display: block; margin: auto;" /&gt;
+
+Again, we can only cover some of the basics of working with factors here, but if you want to learn more, the [introduction by Emily Robinson](https://forcats.tidyverse.org/articles/forcats.html), the *RStudio* Cheat Sheet [*Factors with forcats*](https://github.com/rstudio/cheatsheets/raw/master/factors.pdf), and the [chapter on factors](https://r4ds.had.co.nz/factors.html) in *R for Data Science* are good places to start.
+
+---
+
+# Turn a numeric variable into a factor
+
+
+```r
+titanic %&gt;% 
+  mutate(ticket_class = recode_factor(ticket_class,
+                                      `1` = "First",
+                                      `2` = "Second",
+                                      `3` = "Third"))
+```
+
+If we wanted to create an ordered factor (= special type of variable), we would have to add the argument `.ordered = TRUE`.
+
+
+```
+## # A tibble: 891 x 12
+##    passenger_id survived ticket_class name  sex     age nr_of_siblings_~
+##           &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;        &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;            &lt;dbl&gt;
+##  1            1        0 Third        Brau~ male     22                1
+##  2            2        1 First        Cumi~ fema~    38                1
+##  3            3        1 Third        Heik~ fema~    26                0
+##  4            4        1 First        Futr~ fema~    35                1
+##  5            5        0 Third        Alle~ male     35                0
+##  6            6        0 Third        Mora~ male     NA                0
+##  7            7        0 First        McCa~ male     54                0
+##  8            8        0 Third        Pals~ male      2                3
+##  9            9        1 Third        John~ fema~    27                0
+## 10           10        1 Second       Nass~ fema~    14                1
+## # ... with 881 more rows, and 5 more variables:
+## #   nr_of_parents_children_aboard &lt;dbl&gt;, ticket_number &lt;chr&gt;, fare &lt;dbl&gt;,
+## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
+```
+
+---
+
+# Create a categorical variable based on values of another one
+
+
+```r
+titanic %&gt;% 
+  mutate(age_cat = factor(case_when(
+    age &lt; 12 ~ "child",
+    age &lt; 19 ~ "adolescent",
+    age &lt; 30 ~ "young adult",
+    age &lt; 60 ~ "adult",
+    age &gt; 59 ~ "older adult",
+    TRUE ~ NA_character_)
+  ))
+```
+
+- conditions are evaluated consecutively
+- to understand what `TRUE` means here, you can think of `case_when` as an `ifelse` statement: What happens if the else-condition is true?
+- if you define missings for your outcome variable, you have to be explicit about the type of `NA` you need (`NA_character_`, `NA_integer_`, `NA_real_`)
+- if you wanted to create an ordered factor, you would need to specify this via the `levels` argument of the `factor()` function (see `?factor`)
+
+---
+
+# Create a categorical variable based on values of another one
+
+
+```
+## # A tibble: 891 x 4
+##    passenger_id sex      age age_cat    
+##           &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;fct&gt;      
+##  1            1 male      22 young adult
+##  2            2 female    38 adult      
+##  3            3 female    26 young adult
+##  4            4 female    35 adult      
+##  5            5 male      35 adult      
+##  6            6 male      NA &lt;NA&gt;       
+##  7            7 male      54 adult      
+##  8            8 male       2 child      
+##  9            9 female    27 young adult
+## 10           10 female    14 adolescent 
+## # ... with 881 more rows
+```
+
+---
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
 
 ---
 
@@ -615,15 +956,15 @@ There are nice helper functions/operators for 'select'.
 ## Observations: 10
 ## Variables: 10
 ## $ id   &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-## $ w1_x &lt;int&gt; 3, 3, 10, 2, 6, 5, 4, 6, 9, 10
-## $ w1_y &lt;int&gt; 5, 3, 9, 9, 9, 3, 8, 10, 7, 10
-## $ w1_z &lt;int&gt; 9, 3, 4, 1, 7, 5, 10, 7, 9, 9
-## $ w2_x &lt;int&gt; 10, 7, 5, 7, 5, 6, 9, 2, 5, 8
-## $ w2_y &lt;int&gt; 2, 1, 9, 9, 6, 5, 9, 10, 4, 6
-## $ w2_z &lt;int&gt; 8, 6, 6, 7, 1, 6, 2, 1, 2, 4
-## $ w3_x &lt;int&gt; 5, 6, 3, 9, 4, 6, 9, 9, 7, 3
-## $ w3_y &lt;int&gt; 8, 9, 3, 7, 3, 7, 6, 10, 5, 5
-## $ w3_z &lt;int&gt; 8, 3, 10, 2, 10, 2, 10, 6, 4, 1
+## $ w1_x &lt;int&gt; 6, 7, 10, 4, 8, 5, 2, 1, 2, 2
+## $ w1_y &lt;int&gt; 1, 10, 6, 5, 10, 7, 9, 8, 9, 6
+## $ w1_z &lt;int&gt; 1, 2, 1, 10, 8, 5, 8, 2, 10, 8
+## $ w2_x &lt;int&gt; 10, 10, 1, 9, 10, 5, 6, 4, 6, 6
+## $ w2_y &lt;int&gt; 8, 7, 7, 1, 5, 9, 8, 6, 5, 8
+## $ w2_z &lt;int&gt; 4, 5, 7, 7, 3, 1, 6, 3, 2, 2
+## $ w3_x &lt;int&gt; 9, 8, 3, 9, 1, 10, 9, 6, 5, 2
+## $ w3_y &lt;int&gt; 7, 1, 8, 10, 4, 5, 7, 4, 7, 6
+## $ w3_z &lt;int&gt; 4, 8, 4, 5, 6, 4, 6, 2, 1, 6
 ```
 
 ---
@@ -642,16 +983,16 @@ select(t_startswith, matches("^w\\d_z"))
 ## # A tibble: 10 x 3
 ##     w1_z  w2_z  w3_z
 ##    &lt;int&gt; &lt;int&gt; &lt;int&gt;
-##  1     9     8     8
-##  2     3     6     3
-##  3     4     6    10
-##  4     1     7     2
-##  5     7     1    10
-##  6     5     6     2
-##  7    10     2    10
-##  8     7     1     6
-##  9     9     2     4
-## 10     9     4     1
+##  1     1     4     4
+##  2     2     5     8
+##  3     1     7     4
+##  4    10     7     5
+##  5     8     3     6
+##  6     5     1     4
+##  7     8     6     6
+##  8     2     3     2
+##  9    10     2     1
+## 10     8     2     6
 ```
 
 --

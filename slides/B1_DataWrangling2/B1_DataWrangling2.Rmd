@@ -2,7 +2,7 @@
 title: "Data Wrangling & Exploration with the Tidyverse in R"
 subtitle: "Data Wrangling - Part 2"
 author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
-date: "2018-05-16"
+date: "2019-05-16"
 location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
@@ -19,12 +19,11 @@ layout: true
 if (!require(easypackages)) install.packages("easypackages")
 library(easypackages)
 
-packages("knitr", "rmarkdown", "tidyverse", "kableExtra", "hadley/emo", prompt = F)
+packages("knitr", "rmarkdown", "tidyverse", "rebus", "kableExtra", "hadley/emo", prompt = F)
 
 options(htmltools.dir.version = FALSE)
 
 opts_chunk$set(echo = FALSE, fig.align = "center")
-set.seed(123)
 ```
 
 <div class="my-footer">
@@ -46,7 +45,8 @@ dplyr_verbs <- tribble(
   "dplyr", "mutate", "creates or transforms variables",
   "dplyr", "recode", "recodes values of a variable",
   "tidyr", "replace_na", "replaces NAs with some other value(s)",
-  "dplyr", "na_if", "recodes specified values as NAs"
+  "dplyr", "na_if", "recodes specified values as NAs",
+  "dplyr", "arrange", "arrange rows based on the values of one or more variables"
 )
 
 kable(
@@ -63,7 +63,7 @@ kable(
 
 Sometimes the basic ways of selecting columns/variables described in the previous session might be difficult or tedious to use, especially if you have datasets with a large number of variables in them.  
 
-Luckily, there are many helper functions that can be used within the `dplyr` `select()` function as well as scoped variants of `select` that can make your life as a professional data wrangler a lot easier. 
+Luckily, there are many helper functions (you can get a complete list of those via ` ?tidyselect::select_helpers`) that can be used within the `dplyr` `select()` function as well as scoped variants of `select` that can make your life as a professional data wrangler a lot easier. 
 
 We will explore some of those options in the following (for a more exhaustive overview, you can have a look at the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/01/dplyr-tutorial-1/)).
 
@@ -125,7 +125,7 @@ You can also use `is.integer`, `is.double`, `is.logical` or `is.factor`.
 
 Similar to the basic options for `select()` the basic variants of `filter()` might not meet your needs when it comes to more specific or complicated ways of data wrangling.  
 
-Again, there are several helper functions and scoped variants of the function that can help you (and there also is a detailed [tutorial by Suzan Baert](https://suzan.rbind.io/2018/01/dplyr-tutorial-3/) on this).
+Again, there are several helper functions and scoped variants of the function that can help you (and there also is a detailed [tutorial by Suzan Baert](https://suzan.rbind.io/2018/02/dplyr-tutorial-3/) on this).
 
 ---
 
@@ -133,7 +133,7 @@ Again, there are several helper functions and scoped variants of the function th
 
 ```{r filter between, echo = T}
 titanic %>% 
-  filter(between(age, 18, 30)) %>% 
+  filter(between(age, 18, 30)) %>% #<<
   head(n = 5)
 ```
 
@@ -141,11 +141,11 @@ Note that the range specified in `between()` is inclusive.
 
 ---
 
-# Filter rows based on matches in a character variable
+# Filter rows based on exact matches in a character variable
 
 ```{r filter %in%, echo = T}
 titanic %>% 
-  filter(port_of_embarkation %in% c("Southampton", "Queenstown")) %>% 
+  filter(port_of_embarkation %in% c("Southampton", "Queenstown")) %>% #<<
   select(passenger_id, port_of_embarkation)
 ```
 
@@ -162,12 +162,20 @@ titanic %>%
 
 # Filter all variables
 
-Only keep complete cases (without missing values).
+Only keep complete cases (without missing values)
 
-```{r filter all, echo = T}
+```{r filter all, echo = T, eval = F}
 titanic %>% 
   filter_all(all_vars(!is.na(.)))
 ```
+
+However, if you only want to keep complete cases, it is easier to use the `drop_na()` function from `tidyr`.
+
+```{r drop_na, echo = T}
+titanic %>% 
+  drop_na()
+```
+
 
 ---
 
@@ -182,9 +190,218 @@ titanic %>%
 
 ---
 
-# Reordering columns in a dataset
+# Conditional filtering
 
-You can use the `select()` function from `dplyr` to reorder columns. If you just want to move a few columns to the beginning of your dataframe, you can use `everything()`.
+Only keep cases without missing values for the numeric variables
+
+```{r filter if, echo = T}
+titanic %>% 
+  filter_if(is.numeric, all_vars(!is.na(.)))
+```
+
+---
+
+# Advanced creation and transformation of variables
+
+While creating a new variable based on one or more numeric variables in your dataset or recoding values of a variable into the same or a new variable are quite straightforward with the `dplyr` functions `mutate()` and `recode()`, there may be situations where you need alternative (and more sophisticated) methods for editing or creating variables, especially if you work with larger and more complex datasets.  
+
+Fortunately, the tidyverse also got you covered for such cases with helper functions for and scoped variants of `mutate()` (also see the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/02/dplyr-tutorial-2/) on transforming columns in your dataset).
+
+We will also briefly focus on two types of variables that are a bit more challenging to work with than numeric and logical variables: character variables (strings) and factors.<sup>1</sup>
+
+.footnote[
+[1] We will not discuss the special case of time and date variables, but if you work with those, you should check out the [`lubridate` package](https://lubridate.tidyverse.org/).
+]
+
+---
+
+# Mutate all variables of one type
+
+Round all numeric variables to a certain number of decimal places
+
+```{r mutate if round, echo = T}
+titanic %>% 
+  mutate_if(is.numeric, round, 2) %>% #<<
+  select(passenger_id, ticket_class, fare)
+```
+
+---
+
+# Recode missings in all variables of one type
+
+```{r mutate if missings, eval = F, echo = T}
+data %>%
+  mutate_if(is.numeric, list(~na_if(., -99))) %>% 
+  mutate_if(is.numeric, list(~na_if(., -88))) %>%
+  mutate_if(is.numeric, list(~na_if(., -77)))
+```
+
+This code might look a bit unusual for you based on what you have seen in this workshop so far. This is because it is based on the principles of functional programming as implemented in the [`purrr` package](https://purrr.tidyverse.org/).  
+
+We do not cover the `purrr` package in this workshop, but you can check out the [tutorial by Jenny Bryan](https://jennybc.github.io/purrr-tutorial/index.html) if you are interested in this. For example, if you use the `apply()` functions from base R, the [family of `map()` functions from `purrr`](https://purrr.tidyverse.org/reference/map.html) might be an interesting alternative.  
+
+Note: The `replace_with_na_if()` function from the `naniar` package provides a good alternative to the above code (see the [package vignette on replacing values with NA](https://cran.r-project.org/web/packages/naniar/vignettes/replace-with-na.html)).
+
+---
+
+# Change specific columns
+
+```{r mutate at, echo = T}
+titanic %>% 
+  filter(is.na(port_of_embarkation) | 
+           is.na(cabin_nr)) %>% 
+  mutate_at(vars(cabin_nr, port_of_embarkation), #<<
+            list(~replace_na(., "unknown"))) %>% #<<
+  select(name, cabin_nr, port_of_embarkation)
+```
+
+---
+
+# Strings
+
+Working with strings in R is a topic that would require its own workshop. The tidyverse package [`stringr`](https://stringr.tidyverse.org/index.html) offers a collection of convenient functions for working with strings.
+
+```{r stringr hex, out.width = "20%"}
+include_graphics("./pics/hex-stringr.png")
+```
+
+We will only cover some exemplary string operations for data wrangling in this workshop, but `stringr` provides a good [introduction vignette](https://cran.r-project.org/web/packages/stringr/vignettes/stringr.html), the book *R for Data Science* has a whole section on [strings with `stringr`](https://r4ds.had.co.nz/strings.html), and there also is an [*RStudio* Cheat Sheet for `stringr`](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf).
+
+If you want (or have) to work with regular expressions, you should also check out the [`rebus` package](https://github.com/richierocks/rebus) which allows you to create regular expressions in R in a human-readable way. Another helpful tool is the *RStudio* addin [`RegExplain`](https://www.garrickadenbuie.com/project/regexplain/).  
+
+---
+
+# Extract parts of a string into a new variable
+
+```{r str_sub, echo = T}
+titanic %>% 
+  mutate(port_abbrev = str_sub(port_of_embarkation, end = 1)) %>% #<<
+  select(port_of_embarkation, port_abbrev)
+```
+
+---
+
+# Extract string patterns into new variables
+
+```{r str_extract, echo = T}
+titanic %>% 
+  mutate(title = str_extract(name, #<<
+                             pattern = one_or_more(ALNUM) %R% DOT)) %>% #<< 
+  select(name, title)
+```
+
+---
+
+# Example: Split Titanic names into parts
+
+```{r Titanic names echo, echo = T, eval = F}
+titanic %>% 
+  separate(name,
+           c("last_name", "first_name"),
+           sep =", ", 
+           remove = F) %>% 
+  mutate(title = str_extract(
+    first_name,
+    pattern = one_or_more(ALNUM) %R% DOT)) %>% 
+  mutate(first_name = str_remove(
+    first_name,
+    pattern = one_or_more(ALNUM) %R% DOT %R% SPACE))
+```
+
+We use the `rebus` package here to create a regular expression for the pattern matching. Note that we first use the `separate()` function from `tidyr` to split into first and last name.
+
+---
+
+# Example: Split Titanic names into parts
+
+```{r Titanic names eval}
+titanic %>% 
+  separate(name, c("last_name", "first_name"), sep =", ", remove = F) %>% 
+  mutate(title = str_extract(first_name, pattern = one_or_more(ALNUM) %R% DOT)) %>% 
+  mutate(first_name = str_remove(first_name, pattern = one_or_more(ALNUM) %R% DOT %R% SPACE)) %>% 
+  select(name, first_name, last_name, title)
+```
+
+---
+
+# Factors
+
+Factors are a special type of variable in R. With [`forcats`](https://forcats.tidyverse.org/) the tidyverse has a whole package devoted to handling categorical variables.
+
+```{r forcats hex, out.width = "25%"}
+include_graphics("./pics/hex-forcats.png")
+```
+
+Again, we can only cover some of the basics of working with factors here, but if you want to learn more, the [introduction by Emily Robinson](https://forcats.tidyverse.org/articles/forcats.html), the *RStudio* Cheat Sheet [*Factors with forcats*](https://github.com/rstudio/cheatsheets/raw/master/factors.pdf), and the [chapter on factors](https://r4ds.had.co.nz/factors.html) in *R for Data Science* are good places to start.
+
+---
+
+# Turn a numeric variable into a factor
+
+```{r turn into factor echo, echo = T, eval = F}
+titanic %>% 
+  mutate(ticket_class = recode_factor(ticket_class,
+                                      `1` = "First",
+                                      `2` = "Second",
+                                      `3` = "Third"))
+```
+
+If we wanted to create an ordered factor (= special type of variable), we would have to add the argument `.ordered = TRUE`.
+
+```{r turn into factor eval}
+titanic %>% 
+  mutate(ticket_class = recode_factor(ticket_class,
+                                      `1` = "First",
+                                      `2` = "Second",
+                                      `3` = "Third"))
+```
+
+---
+
+# Create a categorical variable based on values of another one
+
+```{r case_when echo, echo = T, eval = F}
+titanic %>% 
+  mutate(age_cat = factor(case_when(
+    age < 12 ~ "child",
+    age < 19 ~ "adolescent",
+    age < 30 ~ "young adult",
+    age < 60 ~ "adult",
+    age > 59 ~ "older adult",
+    TRUE ~ NA_character_)
+  ))
+```
+
+- conditions are evaluated consecutively
+- to understand what `TRUE` means here, you can think of `case_when` as an `ifelse` statement: What happens if the else-condition is true?
+- if you define missings for your outcome variable, you have to be explicit about the type of `NA` you need (`NA_character_`, `NA_integer_`, `NA_real_`)
+- if you wanted to create an ordered factor, you would need to specify this via the `levels` argument of the `factor()` function (see `?factor`)
+
+---
+
+# Create a categorical variable based on values of another one
+
+```{r case_when eval}
+titanic %>% 
+  mutate(age_cat = factor(
+    case_when(
+    age < 12 ~ "child",
+    age < 19 ~ "adolescent",
+    age < 30 ~ "young adult",
+    age < 60 ~ "adult",
+    age > 59 ~ "older adult",
+    TRUE ~ NA_character_)
+  )) %>% 
+  select(passenger_id, sex, age, age_cat)
+```
+
+---
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
 
 ---
 
