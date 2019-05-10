@@ -16,18 +16,13 @@ output:
 layout: true
 
 ```{r setup, include = FALSE}
-packages_to_load <- c("knitr", "rmarkdown", "tidyverse", "readr", "readxl",
-                      "haven")
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
 
-for (i in packages_to_load) {
-  if (!require(i, character.only = TRUE)) {
-    install.packages(i)
-  } else {
-    library(i, character.only = TRUE)
-  }
-}
-
-rm(packages_to_load)
+packages(
+  "knitr", "rmarkdown", "tidyverse", "readr", "readxl", "haven", "hadley/emo",
+  prompt = FALSE
+)
 
 options(htmltools.dir.version = FALSE)
 
@@ -40,39 +35,40 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
   <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
 </div>
 
+
 ---
-<h1> Data, Data, Data </h1> 
+# Getting data in `R`
 
 .large[
 Thus far, we've already learned that data can be untidy.
 
-This course is all about making them tidy again (...or maybe for the first time?).
+This course is also about making them tidy again.
 
-There's one rather important prerequisite, however:
+There's one important prerequisite:
 
 .center[**We need data!**]
 ]
 
 ```{r, out.width = "50%"}
-include_graphics("./import_data.png")
+include_graphics("./pics/import_data.png")
 ```
 
 ---
-<h1> Getting Data in the tidyverse </h1>
+# Getting Data in the tidyverse
 
 Whether we want to use our own data or that from others, we need to get data into R.
 
-tidyverse provides some nice tools to do so:
+tidyverse provides some nice tools to do exactly this:
 
 - `readr`  (for 'flat' files, such as CSV)
 - `readxl` (for excel spreadsheets)
 - `haven`  (for statistical software files, such as SPSS, Stata, and SAS)
 
 ```{r, out.width = "50%"}
-include_graphics("./hex_all_in_one.png")
+include_graphics("./pics/hex_all_in_one.png")
 ```
 
-The difference to other tool is that tidyverse import functions already prepare the data for being 'tidyed': they are a tibbles
+The difference to other tool is that tidyverse import functions already prepare the data for being 'tidyed': they are a `tibbles`
 
 
 ---
@@ -80,6 +76,12 @@ The difference to other tool is that tidyverse import functions already prepare 
 ```{r readr_example, echo = TRUE}
 titanic <- read_csv("../../data/titanic/titanic.csv")
 ```
+
+Please note the column specification.
+
+- `readr` 'guesses' them based on the first 1000 observations
+- We'll come back to this a little bit later
+
 
 ---
 # A readr example: `read_csv()`
@@ -117,8 +119,8 @@ gesis_panel
 ```
 
 ---
-# There's More
-These were just some very first examples of applying functions from each package.
+# There's more
+These were just some very first examples of applying functions from each package. They comprise even more functions for different data types.
 
 - readr
   - `read_csv()`
@@ -158,13 +160,15 @@ Not to mention all the helper files and options. For example, we can define the 
 
 ---
 # Changing Variable Types
-For example, `read_csv` 'guesses' the variable types
+As mentioned, `read_csv` 'guesses' the variable types
 
-  - it scans the first 1000 oberservations
+- it scans the first 1000 oberservations
+- **This can go wrong!**
 
-This can go wrong!
+Luckily, we can change the variable type
 
-Luckily, we can change the variable type -- before and after loading the data
+- before resp. while loading the data
+- and after loading the data
 
 ---
 # While Loading the data in `read_csv`
@@ -257,16 +261,16 @@ titanic <-
 # Exporting Data
 Sometimes we also have to leave R and its tidy world.
 
-- We share data with colleagues
-- We wanna start where we left the next day
-  - Particularly, when data tidying to a long time
+- If we share data with colleagues
+- If we aim to start where we left the next day
+  - Particularly, when data wrangling took a long time
   
-For these purposes, we also have to need a way to export our data.
+For these purposes, we also need a way to export our data.
 
 All tools presented also have designated functions for that.
 
 ```{r, out.width = "50%"}
-include_graphics("./export_data.png")
+include_graphics("./pics/export_data.png")
 ```
 
 ---
@@ -299,8 +303,14 @@ Several other non-tidyverse packages provide similar benefits as they make use o
 - the good old `foreign` package for spss and stata files 
 - `data.table` for large data tables
 
+
 ---
-# Exercise: Pick One From the Pool of Data
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
 
 
 
