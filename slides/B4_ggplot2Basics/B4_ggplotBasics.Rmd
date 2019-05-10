@@ -45,13 +45,24 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 
 It uses the "grammar of graphics"
 
-- language for multi-dimensional and data
+- language for multi-dimensional data
+
 - accordingly, it expects (a) data (frame) as input
+
 - components of the plot are added as layers
 
 
+```{r, eval = FALSE, echo = TRUE}
+plot_call +
+  layer_1 +
+  layer_2 +
+  ... +
+  layer_n
+```
+
+
 ---
-# Plot examples
+<h1> Plot examples </h1>
 
 .pull-left[
 ```{r}
@@ -67,7 +78,7 @@ knitr::include_graphics("./21_ggplot2_ddensity_plot.png")
 
 
 ---
-# Plot examples
+<h1> Plot examples </h1>
 
 .pull-left[
 ```{r}
@@ -87,47 +98,100 @@ knitr::include_graphics("./328_Hexbin_map_USA_4.png")
 According to Wickham (2010, 8)* a layered plot consists of the following components:
 
 - data and aesthetic mappings,
+
 - geometric objects,
+
 - scales,
+
 - and facet specification
 
 <span class="footnote">
   <span class="red bold">*</span> http://dx.doi.org/10.1198/jcgs.2009.07098
 </span>
 
-  
+--
+```{r, eval = FALSE, echo = TRUE}
+plot_call +
+  data +
+  aesthetics +
+  geometries +
+  scales +
+  facets
+```
+
+
 ---
 # Data requirements
 You can use one single data frame to create a plot in `ggplot2`.
+- everything's on the plot is just data
+- creates a nice and smooth workflow from data wrangling to the final presentation of the results
 
-As such, everything's on the plot is data, which creates a nice and smooth workflow from data wrangling to the final presentation of the results.
+
+```{r data_science_pic, out.width = "70%"}
+knitr::include_graphics("./pics/data-science_man.png")
+```
+
+--
 
 But this makes it difficult to add extra features to your plot.
-
   - There are ways of doing it anyway as we will see later
   - Yet, it requires thinking about what to plot
 
 ---
-# Why the long data format?
-`ggplot2` requires data to be in the long data format.
+<h1>  Why the long data format? </h1>
 
-In some scientific disciplines this format is only used for some specialized analyses, e.g., time series analysis
+.left[ 
+ggplot2 requires data to be in the long data format]
 
-We should get used to it anyway as the long table format has some very important benefits
-- every element we aim to plot is just an observation
-  - no thinking required how a specific variable relates to an observation
+- in some scientific disciplines this format is only used for some specialized analyses, e.g., time series analysis
+
+
+.pull-left[
+We may want to get used to it as this format has some benefits
+
+- every element we aim to plot is an observation
+- no thinking required how a specific variable relates to an observation
+  
 - most importantly, the long format is more parsimonious
-  - it requires less memory and less disk space for processing
+- it requires less memory and less disk space
+]
+
+.pull-right[
+```{r long_pic, out.width = "50%"}
+knitr::include_graphics("./pics/long.png")
+```
+]
   
 ---
-# Enough is enough: I want to create my own plot
+# What if you want to create your own plot?
 
+Theory on plots is boring as creating plots is all about practice...
+
+...and stealing code from others
+
+
+.column-left-half[
+```{r, eval = FALSE, echo = TRUE}
+please +
+  no +
+  more +
+  pseudo +
+  code +
+  man
+```
+]
+
+.column-right-half[
 Three components are important:
 
 - Plot initation
+
 - data input
+
 - aesthetics definition
+
 - so called `geoms`
+]
 
 
 ---
