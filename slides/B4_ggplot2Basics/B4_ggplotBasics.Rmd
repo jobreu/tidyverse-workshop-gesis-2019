@@ -84,12 +84,17 @@ knitr::include_graphics("./328_Hexbin_map_USA_4.png")
 
 ---
 # Going deeper into the components of a plot
-According to Wickham (2010, 8) a layered plot consists of the following components:
+According to Wickham (2010, 8)* a layered plot consists of the following components:
 
 - data and aesthetic mappings,
 - geometric objects,
 - scales,
 - and facet specification
+
+<span class="footnote">
+  <span class="red bold">*</span> http://dx.doi.org/10.1198/jcgs.2009.07098
+</span>
+
   
 ---
 # Data requirements
