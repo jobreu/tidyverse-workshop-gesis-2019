@@ -1,0 +1,106 @@
+---
+title: 'Exercises Summary Statistics - Solutions'
+author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
+date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
+output:
+  unilur::tutorial_html_solution: default
+  unilur::tutorial_html: default
+---
+
+```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
+# custom boxes
+knitr::opts_template$set(clues = list(box.title = "Clues",
+                                      box.body = list(fill = "#fff9dc", colour = "black"),
+                                      box.header = list(fill = "#ffec8b", colour = "black"),
+                                      box.icon = "fa-search",
+                                      box.collapse = TRUE))
+
+library(readxl)
+library(dplyr)
+
+gapminder_example <- 
+  readxl::read_excel(
+    path = "../data/gapminder/GDPpercapitaconstant2000US.xlsx",
+    sheet = "Data"
+    )
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy()
+```
+
+Imagine we're some fancy data scientists exploring - once again - the gapminder data. We're particularly interested in the development of the GDP across time *and* across countries. Some `R`-fanatics from GESIS recommended using this `tidyverse` thing in order to complete our tasks. At the same time, they also hesitate to load all of its `R`-packages at once.
+
+```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load all packages from the `tidyverse` for importing Excel data and for data wrangling.
+```
+
+```{block, opts.label = "clues"}
+You can find them in the slides from A3 and A5.
+```
+
+```{r load_packages_solution, solution = TRUE, message = FALSE}
+library(readxl)
+library(dplyr)
+library(tidyr)
+```
+
+Ok, that wasn't too hard. But data science is about data, so we have to load in the data.
+
+```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Import the GDP gapminder data. Make sure to only import the excel sheet named "Data".
+```
+
+```{block, opts.label = "clues"}
+Individual sheets can be chosen by applying the option `sheet = "name_of_your_sheet"`
+```
+
+```{r load_gapminder_solution, solution = TRUE, message = FALSE}
+gapminder_example <- 
+  readxl::read_excel(
+    path = "../data/gapminder/GDPpercapitaconstant2000US.xlsx",
+    sheet = "Data"
+    )
+```
+
+Have the data been succesfully imported? They should comprise a tibble of 275 x 53. Furthermore, the income per person for Algeria of the years 1960, 1961, and 1962 should be 1280, 1085, and 856.
+
+```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
+Proof that the income per person for Algeria of the years 1960, 1961, and 1962 are 1280, 1085, and 856
+```
+
+```{block, opts.label = "clues"}
+Algeria is in the 5th row of the dataset and the relevant variables are in the first four columns. You can subset datasets also by selecting rows by number with `select()` and by filtering by number with `slice()`.
+```
+
+```{r find_algeria_solution, solution = TRUE, message = FALSE}
+gapminder_example %>% 
+  select(1:4) %>% 
+  slice(n = 5)
+```
+
+
+
+
+```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Task: What is the mean GDP of 1960-1969 over all countries?
+```
+
+```{block, opts.label = "clues"}
+...
+```
+
+```{r mean_all_solution, solution = TRUE}
+gapminder_example %>% 
+  mutate(country = `Income per person (fixed 2000 US$)`) %>% 
+  select(country, starts_with("196")) %>% 
+  gather(-1, key = "year", value = "GDP") %>%
+  filter(!is.na(GDP)) %>% 
+  arrange(year, GDP) %>%
+  group_by(year) %>% 
+  summarise(`GDP_over_all_countries` = mean(GDP))
+```
+
+```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Transform the *gap_life* dataset into a sensible long format.
+```
