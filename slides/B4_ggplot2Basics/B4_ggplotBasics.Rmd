@@ -1,32 +1,27 @@
 ---
 title: "Data exploration: ggplot2 Basics"
-# subtitle: "(according to Hadley Wickham/RStudio)"
 author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
-date: "2019-05-15"
+date: "2019-05-16"
 location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
-  lib_dir: libs
-css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
-nature:
-  highlightStyle: "github"
-highlightLines: true
-countIncrementalSlides: false
+    lib_dir: libs
+    css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
+    nature:
+      highlightStyle: "github"
+      highlightLines: true
+      countIncrementalSlides: false
 ---
 layout: true
 
 ```{r setup, include = FALSE}
-packages_to_load <- c("knitr", "rmarkdown", "magrittr", "readr", "ggplot2")
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
 
-for (i in packages_to_load) {
-  if (!require(i, character.only = TRUE)) {
-    install.packages(i)
-  } else {
-    library(i, character.only = TRUE)
-  }
-}
-
-rm(packages_to_load)
+packages(
+  "knitr", "rmarkdown", "magrittr", "readr", "ggplot2", "hadley/emo",
+  prompt = FALSE
+)
 
 options(htmltools.dir.version = FALSE)
 
@@ -39,9 +34,43 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
   <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
   </div>
   
+  
+---
+# Graphics in `R`
+
+Since its early days `R` has been always pretty nice for creating graphics.
+
+A standard `R` installation doesn't require any additional packages to create graphics.
+
+--
+
+
+```{r, load_titanic, echo= FALSE}
+titanic <- 
+  read_csv(
+    "../../data/titanic/titanic.csv", 
+    col_types = cols()
+    ) %>% 
+  na.omit()
+```
+
+.pull-left[
+```{r graphics_hist, eval = FALSE, echo = TRUE}
+hist(titanic$Age)
+```
+]
+
+--
+
+.pull-right[
+```{r ref.label = "graphics_hist", echo=FALSE}
+```
+]
+
+  
 ---
 # What is ggplot2?
-`ggplot2` is an R-package to create plots.
+`ggplot2` is another R-package to create plots and part of the `tidyverse`.
 
 It uses the "grammar of graphics"
 
@@ -51,6 +80,7 @@ It uses the "grammar of graphics"
 
 - components of the plot are added as layers
 
+--
 
 ```{r, eval = FALSE, echo = TRUE}
 plot_call +
@@ -62,7 +92,7 @@ plot_call +
 
 
 ---
-<h1> Plot examples </h1>
+# Plot examples 
 
 .pull-left[
 ```{r}
@@ -77,8 +107,10 @@ knitr::include_graphics("./21_ggplot2_ddensity_plot.png")
 ]
 
 
+<small><small>Source:</small></small>
+
 ---
-<h1> Plot examples </h1>
+# Plot examples 
 
 .pull-left[
 ```{r}
@@ -92,21 +124,34 @@ knitr::include_graphics("./328_Hexbin_map_USA_4.png")
 ```
 ]
 
+<small><small>Source:</small></small>
 
 ---
-# Going deeper into the components of a plot
+# Histograms as in standard `R`
+
+```{r ggplot_histogram, out.width = "65%"}
+ggplot(titanic, aes(x = Age)) + 
+  geom_histogram(binwidth = 5)
+```
+
+---
+# Components of a plot
 According to Wickham (2010, 8)* a layered plot consists of the following components:
 
+--
 - data and aesthetic mappings,
 
+--
 - geometric objects,
 
+--
 - scales,
 
+--
 - and facet specification
 
 <span class="footnote">
-  <span class="red bold">*</span> http://dx.doi.org/10.1198/jcgs.2009.07098
+<small><small><span class="red bold">*</span> http://dx.doi.org/10.1198/jcgs.2009.07098</small></small>
 </span>
 
 --
@@ -131,6 +176,8 @@ You can use one single data frame to create a plot in `ggplot2`.
 knitr::include_graphics("./pics/data-science_man.png")
 ```
 
+<small><small>Source:</small></small>
+
 --
 
 But this makes it difficult to add extra features to your plot.
@@ -138,12 +185,13 @@ But this makes it difficult to add extra features to your plot.
   - Yet, it requires thinking about what to plot
 
 ---
-<h1>  Why the long data format? </h1>
+# Why the long data format?
 
-.left[ 
-ggplot2 requires data to be in the long data format]
 
-- in some scientific disciplines this format is only used for some specialized analyses, e.g., time series analysis
+ggplot2 requires data to be in the long data format
+
+- in some scientific disciplines this format is only used for specialized analyses 
+- e.g., time series analysis
 
 
 .pull-left[
@@ -151,23 +199,27 @@ We may want to get used to it as this format has some benefits
 
 - every element we aim to plot is an observation
 - no thinking required how a specific variable relates to an observation
-  
 - most importantly, the long format is more parsimonious
 - it requires less memory and less disk space
 ]
+
 
 .pull-right[
 ```{r long_pic, out.width = "50%"}
 knitr::include_graphics("./pics/long.png")
 ```
 ]
+
+<small><small>Source:</small></small>
+  
   
 ---
-# What if you want to create your own plot?
+# Creating your own plot
 
-Theory on plots is boring as creating plots is all about practice...
+Theory on plots is boring
 
-...and stealing code from others
+- creating plots is all about practice
+- ...and stealing code from others
 
 
 .column-left-half[
@@ -185,17 +237,15 @@ please +
 Three components are important:
 
 - Plot initation
-
 - data input
-
 - aesthetics definition
-
 - so called `geoms`
 ]
 
 
 ---
 # Plot initation
+
 .pull-left[
 `ggplot()` is the most basic command to create a plot:
 
@@ -204,16 +254,21 @@ ggplot()
 ```
 ]
 
+--
+
 .pull-right[
 ```{r ref.label = "ggplot_basic", echo=FALSE}
 ```
 ]
 
-But it doesn't show anything...
+--
+
+**But it doesn't show anything...**
 
 
 ---
 # Data input
+
 .pull-left[
 As we've already learned `ggplot()` expects data as input
 
@@ -229,74 +284,94 @@ ggplot(data = titanic)
 ```
 ]
 
+--
+
 .pull-right[
 ```{r ref.label = "ggplot_data", echo=FALSE}
 ```
 ]
 
-Still nothing there...
+--
+
+**Still nothing there...**
 
 
 ---
-# Aesthetics!
+# Aesthetics! 
+
 .pull-left[
-`ggplot()` is the most basic command to create a plot:
+`ggplot` requires information about the variables to plot
 
 ```{r ggplot_aes, eval = FALSE, echo = TRUE}
 ggplot(data = titanic) +
-  aes(x = Age, y = Fare)
+  aes(x = Age, y = Fare) #<<
 ```
 ]
+
+--
 
 .pull-right[
 ```{r ref.label = "ggplot_aes", echo=FALSE}
 ```
 ]
 
-That's a little bit better, right?
+--
+
+**That's a little bit better, right?**
 
 
 ---
-# geoms!
+# `geoms`!
+
 .pull-left[
-`ggplot()` is the most basic command to create a plot:
+Finally, `ggplot` needs information *how* to plot the variables
 
 ```{r ggplot_geom, eval = FALSE, echo = TRUE}
 ggplot(data = titanic) +
   aes(x = Age, y = Fare) +
-  geom_point()
+  geom_point() #<<
 ```
 ]
+
+--
 
 .pull-right[
 ```{r ref.label = "ggplot_geom", echo=FALSE}
 ```
 ]
 
-A scatter plot!
+--
+
+**A scatter plot!**
 
 ---
 # Add a line
+
 .pull-left[
-`ggplot()` is the most basic command to create a plot:
+We can also add more than one `geom`
 
 ```{r ggplot_line, eval = FALSE, echo = TRUE}
 ggplot(data = titanic) +
   aes(x = Age, y = Fare) +
   geom_point() +
-  geom_smooth(method='lm')
+  geom_smooth() #<<
 ```
 ]
+
+--
 
 .pull-right[
 ```{r ref.label = "ggplot_line", echo=FALSE}
 ```
 ]
 
-...and a regression line!
+--
+
+**A regression line!**
 
 ---
-#  Going further: add group asthetics
+# Going further: add group asthetics
+
 .pull-left[
 `ggplot()` is the most basic command to create a plot:
 
@@ -306,21 +381,23 @@ ggplot(
   aes(
     x = Age, 
     y = Fare, 
-    color = Sex
+    color = Sex #<<
     )
   ) +
   geom_point()
 ```
 ]
 
+--
+
 .pull-right[
 ```{r ref.label = "ggplot_group", echo=FALSE}
 ```
 ]
 
-
 ---
 # Manipulate group asthetics
+
 .pull-left[
 `ggplot()` is the most basic command to create a plot:
 
@@ -334,11 +411,13 @@ ggplot(
     )
   ) +
   geom_point() +
-  scale_color_brewer(
-    palette = "Accent"
-    )
+  scale_color_brewer( #<<
+    palette = "Accent" #<<
+    ) #<<
 ```
 ]
+
+--
 
 .pull-right[
 ```{r ref.label = "ggplot_group_man", echo=FALSE}
@@ -349,18 +428,86 @@ ggplot(
 ---
 # A note on manipulations
 
+.pull-left[
 Working with combined aesthetics and different data inputs can become cumbersome.
 
-Particularly, when plotting similar aesthetics interferring the automatic procedures can create conflicts.
+Particularly, plotting similar aesthetics which interfer the automatic procedures can create conflicts.
 
 My 'favorite' ones are:
 
 - Multiple legends
-  - and multiple color scales for similar `geoms` 
-- 
+- and multiple color scales for similar `geoms` 
+- there's more!
+]
+
+.pull-right[
+```{r der_schrei}
+knitr::include_graphics("./pics/800px-The_Scream.jpg")
+```
+]
+
+.right[
+<small><small>Source: https://de.wikipedia.org/wiki/Der_Schrei#/media/File:The_Scream.jpg</small></small>
+]
 
 
-  
+---
+# Shortcuts
+
+`ggplot` is powerful
+
+- yet, it's complicated
+- it has a steep learning curve
+
+
+---
+# `qplot()` or `quickplot()`
+
+.pull-left[
+```{r qplot_example, eval = FALSE, echo = TRUE}
+qplot(
+  x = titanic$Age, 
+  y = titanic$Fare,
+  geom = "point"
+  )
+```
+]
+
+--
+
+.pull-right[
+```{r ref.label = "qplot_example", echo=FALSE}
+```
+]
+
+
+---
+# `qplot()` or `quickplot()`
+
+.pull-left[
+```{r qplot_example_2, eval = FALSE, echo = TRUE}
+qplot(
+  x = titanic$Age, 
+  y = titanic$Fare,
+  geom = c("point", "smooth") #<<
+  )
+```
+]
+
+--
+
+.pull-right[
+```{r ref.label = "qplot_example_2", echo=FALSE}
+```
+]
+
+---
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
   
   
   
