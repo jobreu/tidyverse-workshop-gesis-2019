@@ -20,3 +20,126 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
 klippy::klippy()
 ```
 
+```{r load_tidyverse_solution, solution = TRUE, message = FALSE}
+if (!require(tidyverse)) install.packages("tidyverse")
+library(tidyverse)
+```
+
+
+```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the gapminder GDP data in the long format as in the Summary Statistics exercise. Make sure not to exclude the time period between 1970 and 2001.
+```
+
+```{block, opts.label = "clues"}
+Remember that we applied the `filter()`-function for choosing the individual time periods.
+```
+
+```{r data_file_solution, solution = TRUE}
+gapminder_ggplot_input <- 
+  readxl::read_excel(
+    path = "../data/gapminder/GDPpercapitaconstant2000US.xlsx",
+    sheet = "Data"
+    ) %>% 
+  rename(country = `Income per person (fixed 2000 US$)`) %>%
+  gather(-country, key = "year", value = "GDP") %>% 
+  filter(!is.na(GDP)) %>% 
+  arrange(year, GDP) %>%
+  group_by(year) %>% 
+  summarise(GDP_over_all_countries = mean(GDP))
+```
+
+```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
+Plot the gapminder data as a line plot to get a time series.
+```
+
+```{block, opts.label = "clues"}
+Instead of `geom_point` as in the slides the `geom`'s name is `geom_line`. Moreover, in the aesthetics defintion `aes()` you may want to define a grouping variable `group = 1`; otherwise ggplot thinks you want to plot one line for each year.
+```
+
+```{r line_plot_solution, solution = TRUE}
+ggplot(
+  data = gapminder_ggplot_input,
+  aes(x = year, y = GDP_over_all_countries, group = 1)
+) +
+  geom_line()
+```
+
+
+
+```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Create an indicator variable for the time periods 1960-1969, 2002-2011 and the time inbetween.
+```
+
+```{block, opts.label = "clues"}
+A combination between `mutate()` and the `if_else` lets you create new variables rather easily.
+```
+
+```{r indicator_variable_solution, solution = TRUE}
+gapminder_ggplot_input <-
+  gapminder_ggplot_input %>% 
+  mutate(
+    period = 
+      if_else(
+        year >= 1960 & year <= 1969, 
+        "1960-1969",
+        if_else(
+          year >= 2002 & year <= 2011, 
+          "2002-2011", 
+          "1970-2001")
+      )
+  )
+```
+
+
+
+
+```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
+Plot the line plot once again with different colors for the different time periods.
+```
+
+```{block, opts.label = "clues"}
+In the aesthetics defintion `aes()`, you can choose the option `color = indicator_variable` to define the grouping.
+```
+
+```{r line_plot_periods_solution, solution = TRUE}
+ggplot(
+  data = gapminder_ggplot_input,
+  aes(
+    x = year, 
+    y = GDP_over_all_countries, 
+    color = period, 
+    group = 1
+  )
+) +
+  geom_line()
+```
+
+
+
+```{block, box.title = "6", box.body = list(fill = "white"), box.icon = "fa-star"}
+Create some prettier, i.e., more sensible breaks for the x-axis.
+```
+
+```{block, opts.label = "clues"}
+You can modify the x-axis with `scale_x_discrete()` and its breaks with the option `breaks = breaks_vector`.
+```
+
+```{r line_plot_breaks_solution, solution = TRUE}
+ggplot(
+  data = gapminder_ggplot_input,
+  aes(
+    x = year, 
+    y = GDP_over_all_countries, 
+    color = period, 
+    group = 1
+  )
+) +
+  geom_line() +
+  scale_x_discrete(
+    breaks = seq(
+      from = 1960, 
+      to = 2011,
+      by = 10
+    )
+  )
+```

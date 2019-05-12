@@ -35,6 +35,83 @@ If the `tidyverse` library has not been installed yet, you can install it with t
 ```
 
 ```{r load_tidyverse_solution, solution = TRUE, message = FALSE}
-if (!require(easypackages)) install.packages("easypackages")
-library(easypackages)
+if (!require(tidyverse)) install.packages("tidyverse")
+library(tidyverse)
 ```
+
+```{r to_pipe, message=FALSE}
+mean(sqrt(as.numeric(read.csv2("../data/titanic/titanic.csv", sep = ",")$Fare)))
+```
+
+
+
+```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Create a nice pipe from this nested `base-R` command.
+```
+
+```{block, opts.label = "clues"}
+You can call individual columns of a piped object with `.$col_name`.
+```
+
+```{r to_pipe_solution, , solution = TRUE}
+read.csv2("../data/titanic/titanic.csv", sep = ",") %>% 
+  .$Fare %>% 
+  as.numeric() %>% 
+  sqrt() %>% 
+  mean()
+```
+
+
+```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the `titanic` dataset and convert it immediatly to a `tibble`. 
+```
+
+```{block, opts.label = "clues"}
+`base-R`'s `read.csv2()` is your friend. Also, you may want to do it all at once in one pipe.
+```
+
+```{r titanic_to_tibble_solution, , solution = TRUE}
+titanic_tibble <-
+  read.csv2("../data/titanic/titanic.csv", sep = ",") %>% 
+  as_tibble()
+```
+
+```{r to_tribble, message = FALSE}
+x <- 1:10
+y <- 100:91
+z <- c(rep("bla", 5), rep("blubb", 5))
+
+binded <- cbind(x, y, z)
+
+binded_df <- as.data.frame(binded)
+```
+
+
+```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Use the `tribble()`-function to directly rebuild the data frame as a tibble
+```
+
+```{block, opts.label = "clues"}
+Remember defining new columns with a preceding `~`. 
+```
+
+```{r to_tribble_solution, message = FALSE}
+
+binded_tribble <-
+  tribble(
+    ~x,  ~y,   ~z, 
+     1,   100,  "bla",
+     2,    99,  "bla",
+     3,    98,  "bla",
+     4,    97,  "bla",
+     5,    96,  "bla",
+     6,    95,  "blubb",
+     7,    94,  "blubb",
+     8,    93,  "blubb",
+     9,    92,  "blubb",
+     10,   91,  "blubb"
+  )
+```
+
+
+
