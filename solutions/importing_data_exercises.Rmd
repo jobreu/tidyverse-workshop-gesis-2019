@@ -24,3 +24,74 @@ After succesfully accomplishing the exercises on tidy data and listening to leng
 
 We prepared some datasets which you can use to play with some of the functions, e.g., from `readr`. You can find them in the `../data` folder. However, importing data often implies firing up only one command and that's it. For this reason, in these exercises, we prepared some special tasks you can work on.
 
+
+```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the titanic data.
+```
+
+```{block, opts.label = "clues"}
+The file format is CSV, accordingly you need the `readr` library and the function `read_...`
+```
+
+```{r load_titanic, solution = TRUE}
+library(readr)
+
+titanic <-
+  read_csv("../data/titanic/titanic.csv")
+```
+
+
+
+```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Convert the variable `Sex` to a factor.
+```
+
+```{block, opts.label = "clues"}
+You can do that while importing the data or after loading them.
+```
+
+```{r convert_sex, solution = TRUE}
+titanic <-
+  read_csv(
+    "../data/titanic/titanic.csv",
+    col_types = cols(
+      Sex = col_factor()
+    )
+  )
+```
+
+
+```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the gapminder GDP data.
+```
+
+```{block, opts.label = "clues"}
+I have no clue.
+```
+
+```{r load_gapminder_gdp, solution = TRUE}
+library(readxl)
+
+gapminder_GDP <-
+  read_excel("../data/gapminder/GDPpercapitaconstant2000US.xlsx")
+```
+
+
+
+```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the unicorn sales data file. As we are not interested in the `total_turnover` variable only read in the cell range `A1:C43`
+```
+
+```{block, opts.label = "clues"}
+You can define ranges with the option `range = range_definition`.
+```
+
+```{r load_unicorn_sales, solution = TRUE}
+library(readxl)
+
+unicorn_sales <-
+  read_excel(
+    "../data/unicorns/sales.xlsx",
+    range = "A1:C43"
+      )
+```
