@@ -3,8 +3,8 @@ title: 'Exercises Summary Statistics - Solutions'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
-  unilur::tutorial_html_solution: default
   unilur::tutorial_html: default
+  unilur::tutorial_html_solution: default
 ---
 
 ```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
@@ -79,28 +79,74 @@ gapminder_example %>%
   slice(n = 5)
 ```
 
+Let's say we're interested in the earliest 10 years of development in all countries and in the most recent 10 years. The idea is that there might be some differences between the early days and the new days of GDP development. At first, we'd like to compute such statistics across all countries. Unfortunately, the data are in the wide format.
 
-
-
-```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
-Task: What is the mean GDP of 1960-1969 over all countries?
+```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Re-arrange the data such that they are in the long format.
 ```
 
 ```{block, opts.label = "clues"}
-...
+Remember that the command for converting wide format data to long format is `gather()`. Additionally, you might want to create a more convenient column name for the variable `Income per person (fixed 2000 US$)` with `rename()` as its really messy.
 ```
 
-```{r mean_all_solution, solution = TRUE}
+```{r long_format_solution, solution = TRUE}
 gapminder_example %>% 
-  mutate(country = `Income per person (fixed 2000 US$)`) %>% 
-  select(country, starts_with("196")) %>% 
-  gather(-1, key = "year", value = "GDP") %>%
-  filter(!is.na(GDP)) %>% 
-  arrange(year, GDP) %>%
-  group_by(year) %>% 
-  summarise(`GDP_over_all_countries` = mean(GDP))
+  rename(country = `Income per person (fixed 2000 US$)`) %>%
+  gather(-country, key = "year", value = "GDP")
 ```
 
-```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
-Transform the *gap_life* dataset into a sensible long format.
+Ok, did it work out? There are still a lot of missing values we might get rid of, and the data are not arranged in a proper way. They make the data untidy, distract us and are not part of any mean calculations anyway. For the next upcoming tasks, simply re-use your code and add the next commands with the `%>%`. 
+
+```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
+Remove all missing values and arrange the data in ascending years and the GDP.
+```
+
+```{block, opts.label = "clues"}
+There are several ways to exclude missing values. The most convenient one is to use `filter()` in combination with `!is.na`.
+```
+
+```{r arrange_solution, solution = TRUE}
+gapminder_example %>% 
+  rename(country = `Income per person (fixed 2000 US$)`) %>%
+  gather(-country, key = "year", value = "GDP") %>% 
+  filter(!is.na(GDP)) %>% 
+  arrange(year, GDP)
+```
+
+Nice. Now we got a - more or less - clean dataset for our actual task: calculating the mean values across all countries for each of the first ten years and each of the last ten years. What's still a little bit distracting is that we still got the values for all years between these two time periods in the data. But we decided that we leave them there for some future analyses. As such, we do all analysis on the fly. Let's start with the first time period.
+
+```{block, box.title = "6", box.body = list(fill = "white"), box.icon = "fa-star"}
+Calculate the mean value of `GDP` across all countries for each of the first ten years.
+```
+
+```{block, opts.label = "clues"}
+As the year variable is a `double` you can simply filter the range of years you are interested in.
+```
+
+```{r mean_first_solution, solution = TRUE}
+gapminder_example %>% 
+  rename(country = `Income per person (fixed 2000 US$)`) %>%
+  gather(-country, key = "year", value = "GDP") %>% 
+  filter(!is.na(GDP)) %>% 
+  arrange(year, GDP) %>% 
+  filter(year >= 1960 & year <= 1969) %>% 
+  group_by(year) %>% 
+  summarise(GDP_over_all_countries = mean(GDP))
+```
+
+After this was done, you might know how to do that for the 10 most recent years...
+
+```{block, box.title = "7", box.body = list(fill = "white"), box.icon = "fa-star"}
+Calculate the mean value of `GDP` across all countries for each of the last ten years.
+```
+
+```{r mean_last_solution, solution = TRUE}
+gapminder_example %>% 
+  rename(country = `Income per person (fixed 2000 US$)`) %>%
+  gather(-country, key = "year", value = "GDP") %>% 
+  filter(!is.na(GDP)) %>% 
+  arrange(year, GDP) %>% 
+  filter(year >= 2002 & year <= 2011) %>% 
+  group_by(year) %>% 
+  summarise(GDP_over_all_countries = mean(GDP))
 ```
