@@ -144,13 +144,13 @@ Not to mention all the helper files and options. For example, we can define the 
   - indicated by `<chr>`
   - specified by `col_character()`
 - integers
-  - indicated by `XXX`
+  - indicated by `<int>`
   - specified by `col_integer()`
 - doubles
   - indicated by `<dbl>`
   - specified by `col_double()`
 - factors
-  - indicated by `XXX`
+  - indicated by `<fct>`
   - specified by `col_factor()`
 - logical
   - indicated by `<lgl>`
