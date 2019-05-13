@@ -22,31 +22,25 @@ klippy::klippy()
 
 In the following exercises we will wrangle some data on population from [*Gapminder*](https://www.gapminder.org/).
 
-```{r load data, message=FALSE}
-library(tidyverse)
-
-gap_life <- read_csv("../data/gapminder/life_expectancy_years.csv")
-titanic <- read_csv("../data/titanic/titanic.csv")
-
-crime <- tibble(country = rep(c("Germany", "Brazil", "Norway"), 2),
-                  crime = c(rep("murders", 3), rep("intentional homicide rate", 3)),
-                  year = 2010,
-                  value = c(690, 40974, 29, 0.84, 27, 0.68))
-```
-
 ```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
 Read in the *Gapminder* population data and store it as a new object called *gap_pop*.
 ```
 
 ```{block, opts.label = "clues"}
-The data we need is stored in a .csv file which you can find in the folder *data/gapminder*.
+The data we need is stored in a .csv file which you can find in the folder *data/gapminder*. NB: We will keep it in the wide format for now.
 ```
 
 ```{r read gap_pop, solution = TRUE}
-gap_life_long <- gap_life %>% 
-  gather(-country, key = "year", value = "life_exp")
+gap_pop <- read_csv("../data/gapminder/population_total.csv")
+```
 
-gap_life_long
+```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Rename the variable *Total population* to *country* and store the result in an object with the same name (*gap_pop*).
+```
+
+```{r rename, solution = TRUE}
+gap_pop <- gap_pop %>% 
+  rename(country = "Total population")
 ```
 
 ```{block, solution = TRUE}
