@@ -65,7 +65,7 @@ include_graphics("./pics/9213.1526125966.png")
 ---
 # Terminology of the tidyverse
 
-The classic concepts of `R` are not subject of this sessions.
+The classic concepts of `R` are not subject to this sessions.
 
 --
 
@@ -88,7 +88,7 @@ The good news is we're good with only three distinct concepts:
 ---
 # What is a pipe?
 ```{r, out.width = "40%"}
-include_graphics("pipe office decoration.jpg")
+include_graphics("./pics/pipe office decoration.jpg")
 ```
 .center[<small><small>Source: Johannes' office </small></small>]
 
@@ -125,7 +125,7 @@ Pretty, isn't it? Well...
 
 ---
 # Make it Prettier with Base R
-We can use indentions to workaround issues with readablity:
+We can use indentions to workaround issues with readability:
 
 --
 
@@ -191,7 +191,7 @@ Mix to your liking...
 
 
 ---
-# Pipes as solution?
+# Pipes as a solution?
 Pipes disentangle the whole process with an alternative approach by applying any involved function step by step:
 
 --
@@ -212,7 +212,7 @@ Most importantly, the central dataset is now on top and the starting point of ev
 
 
 ---
-# Formal Defintion of Pipes: Basic Logic
+# Formal Definition of Pipes: Basic Logic
 
 Usually, in `R` we apply functions as follows:
 
@@ -234,7 +234,7 @@ Thus, the inner argument/object is placed before the actual function call.
 
 
 ---
-# Formal Defintion of Pipes: First Argument
+# Formal Definition of Pipes: First Argument
 
 In cases of multiple arguments `x` is always the first argument of the function.
 
@@ -258,7 +258,7 @@ x %>% f(y)
 
 
 ---
-# Formal Defintion of Pipes: . as Placeholder
+# Formal Definition of Pipes: . as Placeholder
 
 Previously, we learned that `x` always refers to the first argument. We can also make this explicit:
 
@@ -336,7 +336,7 @@ z %>%
 
 --
 
-While this is cool, it can get cumbersome to read
+While this is cool, it can get cumbersome to read.
 
 --
 - It may be better to keep the processes be split up in pipes with more than one `%>%` operator 
@@ -352,7 +352,7 @@ Pipes are so nice, you may be tempted to use them all the time.
 
 Some of you may even spend hours to create one single data preparation workflow in one single pipe.
 
-This is awesome, however, it's not very sufficient and also misses the whole purpose of applying pipes which are:
+This is awesome. However, it's not very sufficient and also misses the whole purpose of applying pipes which are:
 
 - readability
 - reproducibility
@@ -360,7 +360,7 @@ This is awesome, however, it's not very sufficient and also misses the whole pur
 
 .column-right-half[
 ```{r, out.width = "100%"}
-include_graphics("./crazy_pipes.png")
+include_graphics("./pics/crazy_pipes.png")
 ```
 ]
 
@@ -377,7 +377,7 @@ include_graphics("./crazy_pipes.png")
 ---
 # t-Pipes
 ```{r, out.width = "100%"}
-include_graphics("./mr_t_pipes.png")
+include_graphics("./pics/mr_t_pipes.png")
 ```
 
 <!-- ![](Mr._T_HS_Yearbook.jpg) ![](drainage-pipes-2471293_960_720.jpg) -->
@@ -416,7 +416,7 @@ Moreover, they stop the inheritance of the output of the current command.
 ---
 # Exploding Pipes 
 ```{r, out.width = "100%"}
-include_graphics("./exploding_pipes.png")
+include_graphics("./pics/exploding_pipes.png")
 ``` 
 
 <!-- https://pixabay.com/vectors/explosion-detonation-blast-burst-147909/-->
@@ -445,7 +445,7 @@ This produces an error because piping always expects whole objects, such as data
 ---
 # `{}` Brackets
 
-Another workaround for our problem are curly brackets.
+Another workaround for our problem is using curly brackets.
 
 They prevent the first argument to be `.`
 
@@ -456,7 +456,7 @@ They prevent the first argument to be `.`
   { cor(.$disp, .$mpg) }
 ```
 
-They are what you may know from other languages being called lamda-functions.
+They are what you may know from other languages being called lambda-functions.
 
 
 ---
@@ -467,7 +467,7 @@ They are based on the implementation of the `magrittr` package.
 
 Other implementations, not discussed here, would be:
 
-- assignment pipes `%<>%`as an alternative to `<-`
+- assignment pipes `%<>%` as an alternative to `<-`
 - `pipeR`'s `%>>%` pipes
 
 
@@ -480,7 +480,7 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 - information about size (rows x columns) of data
 - information about variable types
 - better readability
-  - they fit to the screen automatically
+  - they fit the screen automatically
 
 
 ---
@@ -495,8 +495,8 @@ example_tibble
 # How to use tibbles?
 
 .middle[
-Usually we don't have to do anything. 
-
+Usually, we don't have to do anything. 
+s
 tibbles are the standard output format of all tidyverse applications.
 
 Yet, some old (or non-compliant) `R` functions may have some issues with tibbles. 
@@ -515,8 +515,7 @@ This can be done with the `tibble()`-function from the `tibble`-package.
 include_graphics("./pics/tibble.png")
 ``` 
 
-.center[https://github.com/rstudio/hex-stickers/blob/master/PNG/tibble.png]
-
+.center[<small><small>Source: https://github.com/rstudio/hex-stickers/blob/master/PNG/tibble.png </small></small>]
 
 ---
 # Loading a standard data.frame
@@ -557,7 +556,7 @@ tibble(
 
 ---
 # tribbles
-Using the `tribble`-approach is an way to create `tibbles` for small tables as it resembles the final layout of the table.
+Using the `tribble`-approach, is a way to create `tibbles` for small tables as it resembles the final layout of the table.
 
 ```{r tribble, echo = TRUE, message = FALSE, eval = TRUE}
 tribble(
@@ -581,7 +580,7 @@ For now, we have to be familiar with two things when exploring the `tidyverse`:
   - denoted by the operator `%>%`, yet there are alternatives we should be aware of 
 2. tibbles
   - an easy to read and modern format for datasets in `R`
-  - standard format of the `tidyverse`
+  - the standard format of the `tidyverse`
 
 
 
@@ -595,9 +594,3 @@ class: center, middle
 # [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A2_Terminology_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
 ## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A2_Terminology_exercises_solution.html)
-
-
-
-
-
-
