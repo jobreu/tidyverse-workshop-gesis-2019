@@ -30,7 +30,7 @@ gapminder_example <-
 klippy::klippy()
 ```
 
-Imagine we're some fancy data scientists exploring - once again - the gapminder data. We're particularly interested in the development of the GDP across time *and* across countries. Some `R`-fanatics from GESIS recommended using this `tidyverse` thing in order to complete our tasks. At the same time, they also hesitate to load all of its `R`-packages at once.
+Imagine we're some fancy data scientists exploring - once again - the gapminder data. We're particularly interested in the development of the GDP across time *and* across countries. Some `R`-fanatics from GESIS recommended using this `tidyverse` thing to complete our tasks. At the same time, they also hesitate to load all of its `R`-packages at once.
 
 ```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
 Load all packages from the `tidyverse` for importing Excel data and for data wrangling.
@@ -64,14 +64,14 @@ gapminder_example <-
     )
 ```
 
-Have the data been succesfully imported? They should comprise a tibble of 275 x 53. Furthermore, the income per person for Algeria of the years 1960, 1961, and 1962 should be 1280, 1085, and 856.
+Have the data been successfully imported? They should comprise a tibble of 275 x 53. Furthermore, the income per person for Algeria of the years 1960, 1961, and 1962 should be 1280, 1085, and 856.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Proof that the income per person for Algeria of the years 1960, 1961, and 1962 are 1280, 1085, and 856
 ```
 
 ```{block, opts.label = "clues"}
-Algeria is in the 5th row of the dataset and the relevant variables are in the first four columns. You can subset datasets also by selecting rows by number with `select()` and by filtering by number with `slice()`.
+Algeria is in the 5th row of the dataset, and the relevant variables are in the first four columns. You can subset datasets also by selecting rows by number with `select()` and by filtering by number with `slice()`.
 ```
 
 ```{r find_algeria_solution, solution = TRUE, message = FALSE}
@@ -96,7 +96,7 @@ gapminder_example %>%
   gather(-country, key = "year", value = "GDP")
 ```
 
-Ok, did it work out? There are still a lot of missing values we might get rid of, and the data are not arranged in a proper way. They make the data untidy, distract us and are not part of any mean calculations anyway. For the next upcoming tasks, simply re-use your code and add the next commands with the `%>%`. 
+Ok, did it work out? There are still a lot of missing values we might get rid of, and the data are not arranged properly. They make the data untidy, distract us and are not part of any mean calculations anyway. For the next upcoming tasks, simply re-use your code and add the following commands with the `%>%`. 
 
 ```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
 Remove all missing values and arrange the data in ascending years and the GDP.
@@ -114,14 +114,14 @@ gapminder_example %>%
   arrange(year, GDP)
 ```
 
-Nice. Now we got a - more or less - clean dataset for our actual task: calculating the mean values across all countries for each of the first ten years and each of the last ten years. What's still a little bit distracting is that we still got the values for all years between these two time periods in the data. But we decided that we leave them there for some future analyses. As such, we do all analysis on the fly. Let's start with the first time period.
+Nice. Now we got a - more or less - clean dataset for our actual task: calculating the mean values across all countries for each of the first ten years and each of the last ten years. What's still a little bit distracting is that we got the values for all years between these two periods in the data. But we decided that we leave them there for some future analyses. As such, we do all analyses on the fly. Let's start with the first period.
 
 ```{block, box.title = "6", box.body = list(fill = "white"), box.icon = "fa-star"}
 Calculate the mean value of `GDP` across all countries for each of the first ten years.
 ```
 
 ```{block, opts.label = "clues"}
-As the year variable is a `double` you can simply filter the range of years you are interested in.
+As the year variable is a `double`, you can simply filter the range of years you are interested in.
 ```
 
 ```{r mean_first_solution, solution = TRUE}
