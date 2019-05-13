@@ -1,9 +1,10 @@
 ---
-title: 'Exercises Terminology - Solutions'
+# title: 'Exercises Terminology - Solutions'
+title: 'Exercises Terminology'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
-  unilur::tutorial_html_solution: default
+  # unilur::tutorial_html_solution: default
   unilur::tutorial_html: default
 ---
   
@@ -20,7 +21,7 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
 klippy::klippy()
 ```
 
-This is the very firt exercise of this course. It's not too hard, its purpose is rather to get used to our exercise format - this HTML file, for instance - and more importantly, to get used to the `tidyverse` world.
+This is the very first exercise of this course. It's not too hard, its purpose is rather to get used to our exercise format - this HTML file, for instance - and more importantly, to get used to the `tidyverse` world.
 
 Consequently, this exercise is really short and just let you play around with some pipes and tibbles. It's a mini-exercise!
 
@@ -39,14 +40,32 @@ if (!require(tidyverse)) install.packages("tidyverse")
 library(tidyverse)
 ```
 
-```{r to_pipe, message=FALSE}
+After successfully loading the `tidyverse` library we turn to the magic world of pipes. Remember, pipes are a convenient way to disentangle nested `R` functions and to write cleaner `R` code. First, have a look at the code in the following block:
+
+```{r to_pipe, message=FALSE, results = "hide"}
 mean(sqrt(as.numeric(read.csv2("../data/titanic/titanic.csv", sep = ",")$Fare)))
 ```
 
-
-
 ```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
-Create a nice pipe from this nested `base-R` command.
+What do you think is the command doing?
+```
+
+```{block, opts.label = "clues"}
+It's always a good approach to start from the inner command to the outer ones.
+```
+
+```{block to_pipe_purpose_solution, solution = TRUE, message = FALSE}
+1. The `titanic` data are imported with `read.csv2()`
+2. Only the `Fare` variable is extracted using the `$`-sign
+3. The variable is converted to the numeric format with `as.numeric()`
+4. A square root transformation is applied with `sqrt()`
+5. The mean is calculated with `mean()`
+```
+
+Using the commands in such a way is not very clear, isn't it? You have already learned that pipes provide an easy approach to navigate this issue.
+
+```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
+Create a nice pipe from this nested command.
 ```
 
 ```{block, opts.label = "clues"}
@@ -61,8 +80,9 @@ read.csv2("../data/titanic/titanic.csv", sep = ",") %>%
   mean()
 ```
 
+As we've learned, tidyverse is not all about pipes, it's about tidy data. The default data format to have access to tidy data in `tidyverse` is the `tibble` format. In the previous task, you have already imported the `titanic` data, but it's in the standard `data.frame` format.
 
-```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
+```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
 Load the `titanic` dataset and convert it immediatly to a `tibble`. 
 ```
 
@@ -70,47 +90,43 @@ Load the `titanic` dataset and convert it immediatly to a `tibble`.
 `base-R`'s `read.csv2()` is your friend. Also, you may want to do it all at once in one pipe.
 ```
 
-```{r titanic_to_tibble_solution, , solution = TRUE}
+```{r titanic_to_tibble_solution, solution = TRUE}
 titanic_tibble <-
   read.csv2("../data/titanic/titanic.csv", sep = ",") %>% 
   as_tibble()
 ```
 
-```{r to_tribble, message = FALSE}
-x <- 1:10
-y <- 100:91
-z <- c(rep("bla", 5), rep("blubb", 5))
+Now look at the following `data.frame`. It's been created with the standard `base-R` tools. tidyverse also provides a feature, the `tribble()` command, to create small data tables as tibbles from scratch.
 
-binded <- cbind(x, y, z)
 
-binded_df <- as.data.frame(binded)
+```{r to_tribble, echo=FALSE, message=FALSE}
+as.data.frame(
+  cbind(
+    day           = 1:5,
+    amount_coffee = c(2, 5, 1, 8, 4),
+    words_written = c(245, 691, 10, 2100, 490)
+  )
+)
 ```
 
 
-```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
-Use the `tribble()`-function to directly rebuild the data frame as a tibble
+```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
+Use the `tribble()`-function to directly rebuild the data frame as a tibble.
 ```
 
 ```{block, opts.label = "clues"}
 Remember defining new columns with a preceding `~`. 
 ```
 
-```{r to_tribble_solution, message = FALSE}
-
-binded_tribble <-
-  tribble(
-    ~x,  ~y,   ~z, 
-     1,   100,  "bla",
-     2,    99,  "bla",
-     3,    98,  "bla",
-     4,    97,  "bla",
-     5,    96,  "bla",
-     6,    95,  "blubb",
-     7,    94,  "blubb",
-     8,    93,  "blubb",
-     9,    92,  "blubb",
-     10,   91,  "blubb"
-  )
+```{r to_tribble_solution, solution = TRUE}
+tribble(
+  ~day,  ~amount_coffee,   ~words_written, 
+  1,                 2,              245,
+  2,                 5,              691,
+  3,                 1,               10,
+  4,                 8,             2100,
+  5,                 4,              490
+)
 ```
 
 

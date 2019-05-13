@@ -1,9 +1,10 @@
 ---
 title: 'Exercises Summary Statistics - Solutions'
+# title: 'Exercises Summary Statistics'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
-  unilur::tutorial_html: default
+  # unilur::tutorial_html: default
   unilur::tutorial_html_solution: default
 ---
 
