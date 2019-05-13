@@ -72,12 +72,17 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 ### Stefan Jünger
 
-- senior researcher in the team Data Linking &amp; Data Security at the GESIS Data Archive
-    - main area: geo data  
+- postdoctoal researcher in the team Data Linking &amp; Data Security at the GESIS Data Archive
+    - main area: geospatial data/georeferencing  
     
-- studied Sociology, Ethnology and Philosophy at the University of Cologne (M.A.)  
+- Ph.D. (well, not yet... book is in print) in social sciences, University of Cologne
 
-- previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geo data
+- previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geospatial data data
+
+- other research interests:
+    - quantitative methods
+    - social inequalities &amp; attitudes towards minorities research
+    - data management &amp; data privacy
 
 [stefan.juenger@gesis.org](mailto:stefan.juenger@gesis.org)
 
@@ -240,10 +245,14 @@ install.packages(c("tidyverse", "gapminder", "sf"))
 ---
 # Why do we focus on wrangling &amp; exploring?
 
-.large[The (in)famous **80/20-rule**: 80% wrangling, 20% analysis]  
+.large[The (in)famous **80/20-rule**: 80% wrangling, 20% analysis]&lt;sup&gt;1&lt;/sup&gt;  
   
   
 &gt; Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
+
+.footnote[
+[1] Of course, this ratio relates to the time the working time of the analyst, not computing time.
+]  
 
 ---
 # What we want to avoid
@@ -300,7 +309,7 @@ Tidyverse syntax is designed to increase **human-readability**. This makes it es
 
 There is a long and continuously growing list of packages that implement/adapt tidyverse principles and workflows for different types of analyses.  
 
-Some examples
+Some examples:
 - [`tidygraph`](https://www.data-imaginist.com/2017/introducing-tidygraph/) for a tidy approach to network analysis
 
 - [`tidytext`](https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html) for a [tidy approach to text mining](https://www.tidytextmining.com/)
@@ -345,6 +354,21 @@ library("tidyverse")
 ```
 
 ---
+
+# Cheat sheets
+
+*RStudio* offers a good collection of [cheat sheets for R](https://www.rstudio.com/resources/cheatsheets/).
+
+The following ones are of particular interest for this workshop:
+
+- [Data Import Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+
+- [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+
+- [Data Visualization Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
+
+---
+
 # Coding in style 😎
 
 [The tidyverse style guide](https://style.tidyverse.org/) by Hadley Wickham  
