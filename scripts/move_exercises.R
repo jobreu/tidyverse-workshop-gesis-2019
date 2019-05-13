@@ -7,14 +7,11 @@ question_files <-
     )
 
 for (i in question_files) {
-  paste0(
-    "./solutions/", 
-    i
-  ) %>%
-  filesstrings::file.move(
-    ., 
-    "./exercises/",
-    overwrite = TRUE
-  )
+  paste0("./solutions/", i) %>%
+    filesstrings::file.move(
+      ., 
+      "./exercises/",
+      overwrite = TRUE
+    )
 }
 
