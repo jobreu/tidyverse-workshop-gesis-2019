@@ -21,9 +21,9 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
 klippy::klippy()
 ```
 
-After succesfully accomplishing the exercises on tidy data and listening to lengthy lectures on data formats as well as specifics of importing them, it's now your turn to get used to importing data in the `tidyverse`.
+After successfully accomplishing the exercises on tidy data and listening to lengthy lectures on data formats as well as specifics of importing them, it's now your turn to get used to importing data in the `tidyverse`.
 
-We prepared some datasets, for example, the [*Titanic*](https://www.kaggle.com/c/titanic/overview) dataset from *Kaggle*, which you can use to play with some of the functions from `readr` and related packages. You can find them in the `../data` folder. However, importing data often implies firing up only one command and that's it. For this reason, in these exercises, we prepared some special tasks you can work on.
+We prepared some datasets, for example, the [*Titanic*](https://www.kaggle.com/c/titanic/overview) dataset from *Kaggle*, which you can use to play with some of the functions from `readr` and related packages. You can find them in the `../data` folder. However, importing data often implies firing up only one command, and that's it. For this reason, in these exercises, we prepared some individual tasks you can work on.
 
 This being said, let's start with some easy data importing.
 
@@ -62,7 +62,7 @@ titanic <-
   )
 ```
 
-After working on the `titanic` data we got bored. Now we want to work on some longitudinal and cross-country level data. The gapminder GDP data comes to our mind!
+After working on the `titanic` data, we got bored. Now we want to work on some longitudinal and cross-country level data. The gapminder GDP data comes to our mind!
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Load the gapminder GDP data.
@@ -79,7 +79,7 @@ gapminder_GDP <-
   read_excel("../data/gapminder/GDPpercapitaconstant2000US.xlsx")
 ```
 
-Although you had to apply two different importing functions, the outcome is no different: what you got are tibbles. However, especially the file format of the latter dataset is more complex. In the last exercise we expand on that and apply some more options with the help of the `unicorn` data.
+Although you had to apply two different importing functions, the outcome is no different: what you got are tibbles. However, especially the file format of the latter dataset is more complex. In the last exercise, we expand on that and apply some more options with the help of the `unicorn` data.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
 Load the unicorn sales data file. As we are not interested in the `total_turnover` variable only read in the cell range `A1:C43`
