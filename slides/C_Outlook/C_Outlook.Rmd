@@ -1,0 +1,75 @@
+---
+title: "Outlook"
+author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
+date: "2019-05-16"
+location: "GESIS, Mannheim, Germany"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
+    nature:
+      highlightStyle: "github"
+      highlightLines: true
+      countIncrementalSlides: false
+---
+layout: true
+
+```{r setup, include = FALSE}
+if (!require(easypackages)) install.packages("easypackages")
+library(easypackages)
+
+packages(
+  "knitr", "rmarkdown", "magrittr", "readr", "ggplot2", "hadley/emo",
+  prompt = FALSE
+)
+
+options(htmltools.dir.version = FALSE)
+
+opts_chunk$set(echo = FALSE, fig.align = "center")
+```
+
+<div class="my-footer">
+  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+  </div>
+  
+---
+# Course recap
+```{r schedule Wed, echo = F}
+schedule <- data.frame(
+  "Content" = c(
+    "Introduction", "Tidyverse terminology: tibbles & pipes", "Tidy data", 
+    "Importing data", "Data wrangling: Part 1", "Data wrangling: Part 2", 
+    "Relational data", "Data exploration I: Summary statistics", 
+    "Data exploration II: ggplot2 basics", "Outlook"
+    ),
+  "Highlights" = c(
+    "", "", "", "", "", "", 
+    "", "", "", ""
+  ),
+  "Missing/Next Steps" = c(
+    "", "", "", "", "foreign data, e.g., geospatial data", "", 
+    "", "multi-format tables", "multi-layer plots, maps, annotations", ""
+  )
+  , stringsAsFactors = FALSE
+  , check.names = FALSE
+)
+
+kable(
+  schedule
+  , format = "html"
+  , align = "ll"
+  , escape = FALSE
+)
+```
+
+---
+# What is missing?
+
+---
+# Your next steps
+
+---
+# Acknowledgements
+
