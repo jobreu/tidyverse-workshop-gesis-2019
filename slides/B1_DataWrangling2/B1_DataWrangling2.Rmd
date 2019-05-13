@@ -358,7 +358,7 @@ titanic %>%
 
 ---
 
-# Create a categorical variable based on values of another one
+# Create a categorical variable based on values of another variable
 
 ```{r case_when echo, echo = T, eval = F}
 titanic %>% 
@@ -379,7 +379,7 @@ titanic %>%
 
 ---
 
-# Create a categorical variable based on values of another one
+# Create a categorical variable based on values of another variable
 
 ```{r case_when eval}
 titanic %>% 

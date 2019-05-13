@@ -197,10 +197,14 @@ include_graphics("./pics/mario_brick_3d.png")
 ---
 # Why do we focus on wrangling & exploring?
 
-.large[The (in)famous **80/20-rule**: 80% wrangling, 20% analysis]  
+.large[The (in)famous **80/20-rule**: 80% wrangling, 20% analysis]<sup>1</sup>  
   
   
 > Given almost every data task, you’ll almost certainly need to .highlight[clean your data, visualize it, and do some exploratory data analysis] Moreover, .highlight[they are also important as you move into more advanced topics.] Do you want to start doing machine learning, artificial intelligence, and deep learning? You had better know how to clean and explore a dataset. If you can’t, you’ll basically be lost ([Sharp Sight Labs, 2017](https://www.sharpsightlabs.com/blog/first-step-data-science-top-performer/)).
+
+.footnote[
+[1] Of course, this ratio relates to the time the working time of the analyst, not computing time.
+]  
 
 ---
 # What we want to avoid
