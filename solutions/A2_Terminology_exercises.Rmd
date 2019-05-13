@@ -1,11 +1,11 @@
 ---
-# title: 'Exercises Terminology - Solutions'
-title: 'Exercises Terminology'
+title: 'Exercises Terminology - Solutions'
+# title: 'Exercises Terminology'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
-  # unilur::tutorial_html_solution: default
-  unilur::tutorial_html: default
+  unilur::tutorial_html_solution: default
+  # unilur::tutorial_html: default
 ---
   
   ```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
