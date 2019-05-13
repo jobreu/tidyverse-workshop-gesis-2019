@@ -1,0 +1,150 @@
+---
+title: 'Exercises Data Wrangling 2 - Solutions'
+author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
+date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
+output:
+  unilur::tutorial_html_solution: default
+  #unilur::tutorial_html: default
+---
+
+```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
+# custom boxes
+knitr::opts_template$set(clues = list(box.title = "Clues",
+                                      box.body = list(fill = "#fff9dc", colour = "black"),
+                                      box.header = list(fill = "#ffec8b", colour = "black"),
+                                      box.icon = "fa-search",
+                                      box.collapse = TRUE))
+
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy()
+```
+
+For the following exercises we will also data from [*Gapminder*](https://www.gapminder.org/); this time on life expectancy.
+
+As per usual, we first need to read in the data. You can just copy, paste and run the following code in(to) your script.
+
+```{r read gap_life}
+library(readr)
+
+gap_life <- read_csv("../data/gapminder/life_expectancy_years.csv")
+```
+
+Again, the data are currently in wide format.
+
+```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
+Select only data for the 20th century, but this time use a helper function instead of specifying a range columns.
+```
+
+```{block, opts.label = "clues"}
+The helper function you should use here is `starts_with()`. We also want to keep the country column.
+```
+
+```{r starts with, solution = TRUE}
+library(dplyr)
+
+gap_life %>% 
+  select(country, starts_with("19"))
+```
+
+As you may have already noticed, the dataset some missing data points. Before we start analyzing the data we might want to know for how many countries we have complete data.
+
+```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Using the dataset in wide format, find out for how many countries we have complete data?
+```
+
+```{block, opts.label = "clues"}
+To answer this question you should use the `drop_na()` function from `tidyr`.
+```
+
+```{r drop_na gather, solution = TRUE}
+library(tidyr)
+
+gap_life %>% 
+  drop_na() %>% 
+  nrow()
+```
+
+As in the previous set of data wrangling exercises, we now want to transform the data into long format.
+
+```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
+Transform the *gap_life* dataset into a sensible long format. Name the variable representing the values for life expectancy *lifeExp* and store the resulting dataframe in a name with the same object as before (*gap_life*).
+```
+
+```{block, opts.label = "clues"}
+This is just a repetition from the Tidy Data exercises. What we want to do is to gather the columns with the years into a year variable.
+```
+
+```{r gap_life gather, solution = TRUE}
+library(tidyr)
+
+gap_life <- gap_life %>% 
+  gather(-country, key = "year", value = "lifeExp")
+```
+
+Now let's apply some of the advanced filtering options we discussed in the *Data Wrangling - Part 2* session.
+
+```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Create two new dataframes that include different subets of the *gap_life* data: 1. Data for all countries for 1990s (name this one *gap_life_1990s*), 2. Data for all years but only for Germany (name this one *gap_life_ger*). NB: There are different Germanies in the dataset: *West Germany*. *East Germany*, and *Germany*. Before we can create the first new dataset, we need to ensure that the *year* variable is of the right type. To achieve this you can just copy, paste, and execute the following lines of code.
+```
+
+```{r data for exercise file, include = F}
+library(tidyr)
+library(dplyr)
+
+gap_life <- gap_life %>% 
+  gather(-country, key = "year", value = "lifeExp")
+```
+
+
+```{r gap_life change var type}
+gap_life <- gap_life %>% 
+  mutate(country = as.factor(country),
+         year = as.integer(year))
+```
+
+
+```{block, opts.label = "clues"}
+You need to use a helper function from `dplyr` to create the first new dataframe and a specific matching operator to create the second one. 
+```
+
+```{r gap_life filter advanced, solution = TRUE}
+gap_life_1990s <- gap_life %>% 
+  filter(between(year, 1990, 1999))
+
+gap_life_1990s
+
+gap_life_ger <- gap_life %>% 
+  filter(country %in% 
+           c("Germany", "West Germany", "East Germany"))
+
+gap_life_ger
+```
+
+For some comparisons (especially via plots), it might help to know which continent the country is located on. For this purpose, we will create a new *continent* variable. As it would be quite tedious to create this variable manually for all of the countries in the dataset, we will do this only for a subset in this exercise. Just run the following code in your local script to create this subset.
+
+```{r gap_life countries subset}
+gap_life_subset <- gap_life %>% 
+  filter(country %in% 
+           c("Netherlands", "Brazil", "China", "Algeria", "New Zealand"))
+```
+
+```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
+Create a *cotinent* variable for the countries in *gap_life_subset*. The variable should be a factor and its values the following: *Africa*, *Americas*, *Asia*, *Europe*, *Oceania*.
+```
+
+```{block, opts.label = "clues"}
+You should use the `case_when()` to create this new variable.
+```
+
+```{r gap_life case_when, solution = TRUE}
+gap_life_subset %>% 
+  mutate(continent = factor(case_when(
+    country == "Algeria" ~ "Africa",
+    country == "Brazil" ~ "Americas",
+    country == "China" ~ "Asia",
+    country == "Netherlands" ~ "Europe",
+    country == "New Zealand" ~ "Oceania")
+    ))
+```

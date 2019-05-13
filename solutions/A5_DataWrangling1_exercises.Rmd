@@ -14,6 +14,7 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
                                       box.header = list(fill = "#ffec8b", colour = "black"),
                                       box.icon = "fa-search",
                                       box.collapse = TRUE))
+
 ```
 
 ```{r klippy, echo=FALSE, include=TRUE}
@@ -27,77 +28,161 @@ Read in the *Gapminder* population data and store it as a new object called *gap
 ```
 
 ```{block, opts.label = "clues"}
-The data we need is stored in a .csv file which you can find in the folder *data/gapminder*. NB: We will keep it in the wide format for now.
+The data we need is stored in a .csv file which you can find in the folder *data/gapminder*.
 ```
 
 ```{r read gap_pop, solution = TRUE}
+library(readr)
+
 gap_pop <- read_csv("../data/gapminder/population_total.csv")
 ```
+
+As you may have noticed, the name of the first column in the dataset does not match its content. 
 
 ```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
 Rename the variable *Total population* to *country* and store the result in an object with the same name (*gap_pop*).
 ```
 
 ```{r rename, solution = TRUE}
+library(dplyr)
+
 gap_pop <- gap_pop %>% 
   rename(country = "Total population")
+
+gap_pop
 ```
 
-```{block, solution = TRUE}
-The dataset is in *wide format* with each year as a column/variable. To increase human-readability and to facilitate further data wrangling and exploration steps, it makes sense to transform it into *long format*.
-```
-
-```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
-Transform the *gap_life* dataset into a sensible long format.
-```
-
-```{block, opts.label = "clues"}
-You should `gather` the years into one column/variable. If you are unsure about the arguments of a function, you can always consult the help files by typing (and running) a ? directly followed by the function name (e.g., `?glimpse`). NB: This only works if you have previously loaded the package that includes the function.
-
-Be aware that there is one column in the dataset that you do not want to gather. You can specify this by adding -variablename as the second argument (or first if you use pipes) to the `gather()` function.
-```
-
-```{r gap long, solution = TRUE}
-gap_life_long <- gap_life %>% 
-  gather(-country, key = "year", value = "life_exp")
-
-gap_life_long
-```
+As you have probably noticed, the data are currently in wide format.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
-Have a look at the *crime* dataset. What do you notice?
+Using the data in wide format, select only data for the years 1990 to 1999.
 ```
 
-```{block, solution = TRUE}
-Observations are spread across two rows. The intepretation of the *value* column depends on the value of *crime*.
+```{block, opts.label = "clues"}
+As the values for each year are in separate columns, you need to use the `select()` function.
 ```
+
+```{r select, solution = TRUE}
+gap_pop %>% 
+  select(country, "1990":"1999")
+```
+
+For the next data wrangling steps it is more convenient to have the data in long format.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
-Tidy the *crime* dataset, so that there is only one observation/row for each country.
+Transform the *gap_pop* dataset into a sensible long format. Name the variable representing the values for population *pop* and store the resulting dataframe in a name with the same object as before (*gap_pop*).
 ```
 
 ```{block, opts.label = "clues"}
-You should `spread` the *crime* variable.
+This is just a repetition from the Tidy Data exercises. What we want to do is to gather the columns with the years into a year variable.
 ```
 
-```{r crime spread, solution = TRUE}
-crime_spread <- crime %>% 
-  spread(key = "crime", value = "value")
+```{r gap_pop gather, solution = TRUE}
+library(tidyr)
 
-crime_spread
+gap_pop <- gap_pop %>% 
+  gather(-country, key = "year", value = "pop")
 ```
 
-```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
-Split the *Name* variable in the *titanic* dataset into two variables: one that contains only the last name, and one that contains the first name(s) plus title (Mr., Mrs., Dr., etc.).
+For some analyses it might help (or even be necessary) to only work with a specific subset of observations.
+
+```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Create two new dataframes that include different subets of the *gap_pop* data: 1. Data for all countries for the 19th century (name this one *gap_pop_19thcen*), 2. Data for Germany for the years from 2000 onwards (name this one *gap_gop_ger_21stcen*).
 ```
 
 ```{block, opts.label = "clues"}
-When looking at the *Name* variable in the *titanic* dataset you should notice that the last name is separated from the rest of the name by a comma plus a space.
+There are several ways to filter the observations according to the above instructions. However, some require more typing than others.
 ```
 
-```{r titanic names, solution = TRUE}
-titanic <- titanic %>% 
-  separate(Name, c("last_name", "first_name"), sep =", ")
+```{r gap_pop filter, solution = TRUE}
+gap_pop_19thcen <- gap_pop %>% 
+  filter(year < 1900)
 
-titanic
+gap_pop_19thcen
+
+gap_pop_ger_21stcen <- gap_pop %>% 
+  filter(country == "Germany", year > 1999)
+
+gap_pop_ger_21stcen
+```
+
+For some analyses as well as for plotting the data, it makes sense to define the *country* variable as a factor.
+
+```{block, box.title = "6", box.body = list(fill = "white"), box.icon = "fa-star"}
+Change the variable types of the dataset: *country* should be a factor, *year* and *pop* should be integers. Again, keep the object name for the resulting dataframe.
+```
+
+```{block, opts.label = "clues"}
+You need to use the `mutate()` function for this.
+```
+
+```{r change var types, solution = TRUE}
+gap_pop <- gap_pop %>% 
+  mutate(country = as.factor(country),
+         year = as.integer(year),
+         pop = as.integer(pop))
+
+gap_pop
+```
+
+Let's imagine that we want to combine the population data that we have with some other country-level data (we will discuss joining datasets in session **B2** on relational data tomorrow). If the data come from different sources, it is quite likely that the names of the countries differ between them. If we want to join the datasets, we need to harmonize the country names.
+
+```{block, box.title = "7", box.body = list(fill = "white"), box.icon = "fa-star"}
+The *gap_pop* dataset contains data for the countries *Cook Is*, *Kyrgyz Republic*, and *Micronesia, Fed. Sts.*. Rename them to *Cook Island*, *Kyrgyzstan*, and *Micronesia*.
+```
+
+```{block, opts.label = "clues"}
+As we want to use the *country* variable for joining the datasets in this hypothetical example, we should recode into the same variable.
+```
+
+```{r recode, solution = TRUE}
+gap_pop %>% 
+  mutate(country = recode(country,
+                          "Cook Is" = "Cook Island",
+                          "Kyrgyz Republic" = "Kyrgyzstan",
+                          "Micronesia, Fed. Sts." = "Micronesia"))
+```
+
+Of course, instead of changing the variable types at this point, we could have also specified the column types when reading in the data (see the session and exercises on *importing data*).  
+
+In the next step, we want to create some new variables based on ones that already exist in the dataset.
+
+```{block, box.title = "8", box.body = list(fill = "white"), box.icon = "fa-star"}
+1. Create the variable *Population in thousands* in the *gap_pop* dataset (name the new variable *pop_in_thousands*).  
+
+2. Compute the percentage change in population since the previous year for the *gap_pop_ger_21stcen* dataset (name this new variable *pop_perc_change*).
+```
+
+```{block, opts.label = "clues"}
+To compute the percentage change variable you need the `lag()` function.
+```
+
+```{r new vars, solution = TRUE}
+gap_pop %>% 
+  mutate(pop_in_thousands = pop/1000)
+
+gap_pop_ger_21stcen %>% 
+  mutate(pop_perc_change = (pop - lag(pop))/pop*100)
+```
+
+Finally, let's combine two basic data wrangling steps to answer an actual question with the data.
+
+```{block, box.title = "9", box.body = list(fill = "white"), box.icon = "fa-star"}
+Which 5 countries were the most and least populous ones in 2015?
+```
+
+```{block, opts.label = "clues"}
+To answer this question you need to filter and arrange the *gap_pop* dataset.
+```
+
+```{r arrange, solution = TRUE}
+gap_pop %>% 
+  filter(year == 2015) %>% 
+  arrange(-pop) %>% 
+  head(n = 5)
+
+gap_pop %>% 
+  filter(year == 2015) %>% 
+  arrange(pop) %>% 
+  head(n = 5)
 ```
