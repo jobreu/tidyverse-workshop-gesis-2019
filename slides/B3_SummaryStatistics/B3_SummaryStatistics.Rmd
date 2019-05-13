@@ -48,9 +48,9 @@ class: center, middle
 
 ---
 # Untangling data is hard 
-If we look at raw numbers we might have a really hard time at understanding them.
+If we look at raw numbers, we might have a tough time understanding them.
 
-Interpreting single numbers is easy but it's almost impossible, for example, to say which of the following two vectors has
+Interpreting single numbers is easy, but it's almost impossible, for example, to say which of the following two vectors has
 
 - more variance or
 - the lower mean
@@ -87,7 +87,7 @@ The underlying vectors of the tibble are short. In the real world, vectors are a
 ---
 <h1> Making sense of data </h1>
 
-To make sense of data we reduce their information to singular values.
+To make sense of data we reduce their information to unique values.
 
 .center[
 ~ 
@@ -97,20 +97,20 @@ To make sense of data we reduce their information to singular values.
 ~]
 
 As such, we use summarizing functions of
-- location (e.g. the mean),
-- spread (e.g. standard deviation),
-- shape of distribution (e.g. skewness) and
-- relations between variables (e.g. correlation coefficients)
+- location (e.g., the mean),
+- spread (e.g., standard deviation),
+- the shape of the distribution (e.g., skewness) and
+- relations between variables (e.g., correlation coefficients)
 
 We assume everyone here knows the basics of summary statistics.  
 
-So instead of their boring repetition let's see respective code from the `tidyverse`.
+So instead of their monotonous repetition let's see corresponding code from the `tidyverse`.
 
 
 ---
 # Used data
 
-Our data are from gapminder and the focial variable is income per person (fixed 2000 US$) among 275 countries for the years 1960-2011:
+Our data are from gapminder, and the focal variable is income per person (fixed 2000 US$) among 275 countries for the years 1960-2011:
 
 
 > "Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
@@ -164,7 +164,7 @@ We display only the tail because Germany, which is first in order, has missings 
 capita_long %>%  tail()
 ```
 
-In any case, information is reduced and the data look much nicer now, doesn't them?
+In any case, information is reduced, and the data look much nicer now, doesn't them?
 
 
 ---
@@ -184,7 +184,7 @@ capita_long %>%
 ```
 
 <span class="footnote">
-  Note: `change` is change of income in percent to the previous year.
+  Note: `change` is the change of income in percent to the previous year.
 </span>
 
 
@@ -213,7 +213,7 @@ capita_long %>%
 ```
 
 
-With this code we see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
+With this code, we see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
 
 ---
 # But, beware: Summary statistics can also be misleading! 
@@ -231,7 +231,7 @@ For example, if we do correlation analysis and we encounter a (Pearson's) correl
 
 - It's noisy
 - There's no observable pattern
-- ...it's just a mess and we question our life decision of becoming statisticians
+- ...it's just a mess, and we question our life decision of becoming statisticians
 ]
 
 .column-right-half[
@@ -315,7 +315,7 @@ datasauRus::datasaurus_dozen %>%
 
 ---
 # Let's prove that to ourselves!
-Maybe, in this case, it's more convient to count the data points in each dataset.
+Maybe, in this case, it's more convenient to count the data points in each dataset.
 
 ```{r echo=TRUE}
 datasauRus::datasaurus_dozen %>% 
@@ -324,7 +324,7 @@ datasauRus::datasaurus_dozen %>%
 ```
 
 ---
-# Are the points simply identical across the datasets?
+# Are the points only identical across the datasets?
 
 Here's how it works:
 
@@ -336,7 +336,7 @@ identical(sort(x),sort(x2))
 
 
 ---
-# Are the points simply identical across the datasets?
+# Are the points only identical across the datasets?
 
 And for example, for the dataset `dino` and `away`:
 
