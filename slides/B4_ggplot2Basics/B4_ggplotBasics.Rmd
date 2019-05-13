@@ -505,9 +505,9 @@ qplot(
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/B4_ggplot2Basics_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/B4_ggplot2Basics_exercises_solution.html)
   
   
   
