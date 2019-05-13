@@ -38,7 +38,7 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 ---
 # Graphics in `R`
 
-Since its early days `R` has been always pretty nice for creating graphics.
+Since its early days `R` has always been pretty helpful for creating graphics.
 
 A standard `R` installation doesn't require any additional packages to create graphics.
 
@@ -169,7 +169,7 @@ plot_call +
 # Data requirements
 You can use one single data frame to create a plot in `ggplot2`.
 - everything's on the plot is just data
-- creates a nice and smooth workflow from data wrangling to the final presentation of the results
+- creates a pleasant and smooth workflow from data wrangling to the final presentation of the results
 
 
 ```{r data_science_pic, out.width = "70%"}
@@ -190,7 +190,7 @@ But this makes it difficult to add extra features to your plot.
 
 ggplot2 requires data to be in the long data format
 
-- in some scientific disciplines this format is only used for specialized analyses 
+- in some scientific disciplines, this format is only used for specialized analyses 
 - e.g., time series analysis
 
 
@@ -216,7 +216,7 @@ knitr::include_graphics("./pics/long.png")
 ---
 # Creating your own plot
 
-Theory on plots is boring
+Theory on plots is boring.
 
 - creating plots is all about practice
 - ...and stealing code from others
@@ -236,15 +236,15 @@ please +
 .column-right-half[
 Three components are important:
 
-- Plot initation
+- Plot initiation
 - data input
 - aesthetics definition
-- so called `geoms`
+- so-called `geoms`
 ]
 
 
 ---
-# Plot initation
+# Plot initiation
 
 .pull-left[
 `ggplot()` is the most basic command to create a plot:
@@ -370,7 +370,7 @@ ggplot(data = titanic) +
 **A regression line!**
 
 ---
-# Going further: add group asthetics
+# Going further: add group aesthetics
 
 .pull-left[
 `ggplot()` is the most basic command to create a plot:
@@ -396,7 +396,7 @@ ggplot(
 ]
 
 ---
-# Manipulate group asthetics
+# Manipulate group aesthetics
 
 .pull-left[
 `ggplot()` is the most basic command to create a plot:
@@ -431,12 +431,12 @@ ggplot(
 .pull-left[
 Working with combined aesthetics and different data inputs can become cumbersome.
 
-Particularly, plotting similar aesthetics which interfer the automatic procedures can create conflicts.
+Particularly, plotting similar aesthetics which interfere the automatic procedures can create conflicts.
 
 My 'favorite' ones are:
 
 - Multiple legends
-- and multiple color scales for similar `geoms` 
+- and various color scales for similar `geoms` 
 - there's more!
 ]
 
@@ -454,7 +454,7 @@ knitr::include_graphics("./pics/800px-The_Scream.jpg")
 ---
 # Shortcuts
 
-`ggplot` is powerful
+`ggplot2` is powerful.
 
 - yet, it's complicated
 - it has a steep learning curve
@@ -508,10 +508,3 @@ class: center, middle
 # [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/B4_ggplot2Basics_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
 ## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/B4_ggplot2Basics_exercises_solution.html)
-  
-  
-  
-  
-  
-  
-  
