@@ -1,11 +1,11 @@
 ---
-# title: 'Exercises Importing Data - Solutions'
-title: 'Exercises Importing Data'
+title: 'Exercises Importing Data - Solutions'
+# title: 'Exercises Importing Data'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
-  unilur::tutorial_html: default
-  # unilur::tutorial_html_solution: default
+  # unilur::tutorial_html: default
+  unilur::tutorial_html_solution: default
 ---
 
 ```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
@@ -79,7 +79,15 @@ gapminder_GDP <-
   read_excel("../data/gapminder/GDPpercapitaconstant2000US.xlsx")
 ```
 
-Although you had to apply two different importing functions, the outcome is no different: what you got are tibbles. However, especially the file format of the latter dataset is more complex. In the last exercise, we expand on that and apply some more options with the help of the `unicorn` data.
+Although you had to apply two different importing functions, the outcome is no different: what you got are tibbles. However, especially the file format of the latter dataset is more complex. In the last exercise, we expand on that and apply some more options with the help of the `unicorns on unicycles` data. What we know about these data is this little story:
+
+> The documents were recently unearthed from a hidden chest in Delft and seem to be written by Rudolphus Hogervorstus, my great great great uncle, in 1681. These documents show that he was a scientist studying the then roaming herds of unicorns in the area around Delft. Unfortunately these animals are extinct now.
+> His work contains multiple tables, carefully written down, documenting the population of unicorns over time in multiple places and related to that the sales and numbers of unicycles in those countries.
+> According to Rudolphus the unicorn populations and unicycles are related "The presence of the cone on the unicorn hints at a very defined sense of equilibrium, it is therefore only natural to assume unicorns ride unicycles".
+> As part of the archival process these tables were copied, as Rudolphus himself would say: "with the black magic, so vile it could not be discussed for hell would come descent upon us" into satans own spawn: Microsoft Excel.
+> This 'raw' data gives us a nice example of typical dirty data you would find in the wild. The goal is to combine the sales data of unicycles and the populations of unicorns into a single 'tidy' dataframe.
+
+Source: https://github.com/RMHogervorst/unicorns_on_unicycles
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
 Load the unicorn sales data file. As we are not interested in the `total_turnover` variable only read in the cell range `A1:C43`
