@@ -68,7 +68,7 @@ tidyverse provides some nice tools to do exactly this:
 include_graphics("./pics/hex_all_in_one.png")
 ```
 
-The difference to other tool is that tidyverse import functions already prepare the data for being 'tidyed': they are a `tibbles`
+The difference to other tool is that tidyverse import functions already prepare the data for being 'tidied': they are a `tibbles`
 
 
 ---
@@ -162,12 +162,12 @@ Not to mention all the helper files and options. For example, we can define the 
 # Changing Variable Types
 As mentioned, `read_csv` 'guesses' the variable types
 
-- it scans the first 1000 oberservations
+- it scans the first 1000 observations
 - **This can go wrong!**
 
-Luckily, we can change the variable type
+Luckily, we can change the variable type.
 
-- before resp. while loading the data
+- Before resp. while loading the data
 - and after loading the data
 
 ---
@@ -291,7 +291,7 @@ list.files()
 
 ---
 # Additional Packages
-The great benefit of tidyverse import functions is the import of the data as tibbles: the data are potentially more tidy.
+The great benefit of tidyverse import functions is the import of the data as tibbles: the data are potentially tidier.
 
 Several other non-tidyverse packages provide similar benefits as they make use of this universal data format:
 - `sf` for geospatial data
@@ -311,10 +311,3 @@ class: center, middle
 # [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A3_ImportingData_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
 ## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A3_ImportingData_exercises_solution.html)
-
-
-
-
-
-
-
