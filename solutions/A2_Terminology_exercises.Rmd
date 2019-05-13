@@ -1,11 +1,11 @@
 ---
-# title: 'Exercises Terminology - Solutions'
-title: 'Exercises Terminology'
+title: 'Exercises Terminology - Solutions'
+# title: 'Exercises Terminology'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
-  # unilur::tutorial_html_solution: default
-  unilur::tutorial_html: default
+  unilur::tutorial_html_solution: default
+  # unilur::tutorial_html: default
 ---
   
   ```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
@@ -23,7 +23,12 @@ klippy::klippy()
 
 This is the very first exercise of this course. It's not too hard, its purpose is instead to get used to our exercise format - this HTML file, for instance - and more importantly, to get used to the `tidyverse` world.
 
-Consequently, this exercise is really short and just let you play around with some pipes and tibbles. It's a mini-exercise!
+Just two short notes on conducting exercises in this course in general:
+
+1. We'd like to ask you to perform all tasks by writing them in your own `R` code file. This ensures that all of your solutions are reproducible, and that you can re-use solutions from earlier exercises in later ones.
+2. All exercises and their solutions think they are in the `./solutions` folder of this repository. This way they can make use, for example, of the data folder using this relative path `"../data/`. Please make sure to follow this concept by copying your scripts in the solutions folder and set the working directory accordingly using `setwd()`. 
+
+Again, for starters, the exercise now is really short and just let you play around with some pipes and tibbles. It's a mini-exercise!
 
 First things first: To work with the 'tidyverse', we have to have access to its packages.
 
