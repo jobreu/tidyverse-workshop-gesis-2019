@@ -23,7 +23,7 @@ library(tidyverse)
 klippy::klippy()
 ```
 
-Data exploration is not only about creating numbers and summary statistics. Sometimes a nice plot reveals more interesting intsights into data. In this exercise, we exploit what we've just learned about plots in `R` and in particular in `ggplot2`. Now we're going to use all of the gapminder GDP data!
+Data exploration is not only about creating numbers and summary statistics. Sometimes a beautiful plot reveals more exciting insights into data. In this exercise, we exploit what we've just learned about plots in `R` and in particular in `ggplot2`. Now we're going to use all of the gapminder GDP data!
 
 ```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
 Load the gapminder GDP data in the long format as in the Summary Statistics exercise. Make sure *not* to exclude the time period between 1970 and 2001.
@@ -47,14 +47,14 @@ gapminder_ggplot_input <-
   summarise(GDP_over_all_countries = mean(GDP))
 ```
 
-Previously, we only have analyzed how the time period of 1960-1969 compares to the period of 2002-2011. The nice thing about plots is that we can make use of the whole range of years and still identify differences between various periods. Our plot of choice therefore is a line plot to create a nice time series.
+Previously, we only have analyzed how the period of 1960-1969 compares to the period of 2002-2011. The nice thing about plots is that we can make use of the whole range of years and still identify differences between various periods. Our plot of choice, therefore, is a line plot to create a nice time series.
 
 ```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
 Plot the gapminder data as a line plot to get a time series.
 ```
 
 ```{block, opts.label = "clues"}
-Instead of `geom_point` as in the slides the `geom`'s name is `geom_line`. Moreover, in the aesthetics defintion `aes()` you may want to define a grouping variable `group = 1`; otherwise ggplot thinks you want to plot one line for each year.
+Instead of `geom_point` as in the slides, the `geom`'s name is `geom_line`. Moreover, in the aesthetics definition `aes()` you may want to define a grouping variable `group = 1`; otherwise, ggplot thinks you want to plot one line for each year.
 ```
 
 ```{r line_plot_solution, solution = TRUE}
@@ -65,7 +65,7 @@ ggplot(
   geom_line()
 ```
 
-Admittedly, this may not be the best approach to identify differences between the time periods directly. We don't know when our time periods start and when they end. Luckily, this can be fixed using at least two approaches. Let's start with the first one: using colors for different time periods. For this purpose, we need an indicator variable as a grouping variable that applies different colors to the line at each time period.
+Admittedly, this may not be the best approach to identify differences between the periods directly. We don't know when our periods start and when they end. Luckily, this can be fixed using at least two approaches. Let's start with the first one: using colors for different periods. For this purpose, we need an indicator variable as a grouping variable that applies different colors to the line at each period.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create an indicator variable for the time periods 1960-1969, 2002-2011 and the time inbetween.
@@ -91,7 +91,7 @@ gapminder_ggplot_input <-
   )
 ```
 
-After we're set up with our indicator variable, it's plotting time again. We can simply re-use our code from before and define a gouping color in the aestetics defintion. Try it out!
+After we're set up with our indicator variable, it's plotting time again. We can simply re-use our code from before and define a grouping color in the aesthetics definition. Try it out!
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
 Plot the line plot once again with different colors for the different time periods.
@@ -114,7 +114,7 @@ ggplot(
   geom_line()
 ```
 
-Now we can see some visual differences between the different time periods. One last thing, however, is that there are way too many labels on the x-axis. Maybe a more sensible labeling approach would be to create axis breaks for every ten years steps.
+Now we can see some visual differences between the different periods. One last thing, however, is that there are way too many labels on the x-axis. Maybe a more sensible labeling approach would be to create axis breaks for every ten years steps.
 
 ```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create some prettier, i.e., more sensible breaks for the x-axis.
