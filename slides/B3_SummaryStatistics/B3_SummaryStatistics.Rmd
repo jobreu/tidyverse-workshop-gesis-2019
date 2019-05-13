@@ -7,7 +7,7 @@ location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -383,47 +383,6 @@ datasaurus_dozen %>%
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/B3_SummaryStatistics_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
-
-
-
----
-
-<h2> Your turn! Excercises :) </h2>
-
-```{r echo=TRUE}
-gapminder_example <- 
-  readxl::read_excel(
-    path = "../data/GDPpercapitaconstant2000US.xlsx",
-    sheet = "Data")
-gapminder_example %>% select(1:4) %>% head(n = 4)
-```
-
-Task: Compute the mean GDP of 1960-1969 over all countries?
-
----
-
-Solution
-
-```{r echo=TRUE}
-gapminder_example %>% 
-  mutate(country = `Income per person (fixed 2000 US$)`) %>% 
-  select(country, starts_with("196")) %>% 
-  gather(-1, key = "year", value = "GDP") %>%
-  filter(!is.na(GDP)) %>% 
-  arrange(year, GDP) %>%
-  group_by(year) %>% 
-  summarise(`GDP_over_all_countries` = mean(GDP))
-```
-
----
-class: center, middle
-
-<h2> Thanks!</h2>
-
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
-
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
-
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/B3_SummaryStatistics_exercises_solution.html)
