@@ -77,12 +77,17 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 ### Stefan Jünger
 
-- senior researcher in the team Data Linking & Data Security at the GESIS Data Archive
-    - main area: geo data  
+- postdoctoal researcher in the team Data Linking & Data Security at the GESIS Data Archive
+    - main area: geospatial data/georeferencing  
     
-- studied Sociology, Ethnology and Philosophy at the University of Cologne (M.A.)  
+- Ph.D. (well, not yet... book is in print) in social sciences, University of Cologne
 
-- previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geo data
+- previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geospatial data data
+
+- other research interests:
+    - quantitative methods
+    - social inequalities & attitudes towards minorities research
+    - data management & data privacy
 
 [stefan.juenger@gesis.org](mailto:stefan.juenger@gesis.org)
 
