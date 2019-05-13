@@ -21,11 +21,11 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
 klippy::klippy()
 ```
 
-This is the very first exercise of this course. It's not too hard, its purpose is rather to get used to our exercise format - this HTML file, for instance - and more importantly, to get used to the `tidyverse` world.
+This is the very first exercise of this course. It's not too hard, its purpose is instead to get used to our exercise format - this HTML file, for instance - and more importantly, to get used to the `tidyverse` world.
 
 Consequently, this exercise is really short and just let you play around with some pipes and tibbles. It's a mini-exercise!
 
-First things first: To work with the 'tidyverse' we have to have access to its packages.
+First things first: To work with the 'tidyverse', we have to have access to its packages.
 
 ```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
 Load the `tidyverse` library.
@@ -62,7 +62,7 @@ It's always a good approach to start from the inner command to the outer ones.
 5. The mean is calculated with `mean()`
 ```
 
-Using the commands in such a way is not very clear, isn't it? You have already learned that pipes provide an easy approach to navigate this issue.
+Using the commands in such a way is not very clear, isn't it? You have already learned that pipes provide a straightforward approach to navigate this issue.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create a nice pipe from this nested command.
@@ -96,7 +96,7 @@ titanic_tibble <-
   as_tibble()
 ```
 
-Now look at the following `data.frame`. It's been created with the standard `base-R` tools. tidyverse also provides a feature, the `tribble()` command, to create small data tables as tibbles from scratch.
+Now, look at the following `data.frame`. It's been created with the standard `base-R` tools. tidyverse also provides a feature, the `tribble()` command, to create small data tables as tibbles from scratch.
 
 
 ```{r to_tribble, echo=FALSE, message=FALSE}
