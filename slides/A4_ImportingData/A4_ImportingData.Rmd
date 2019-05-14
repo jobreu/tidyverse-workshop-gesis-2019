@@ -1,13 +1,13 @@
 ---
-title: "Importing Data"
-# subtitle: "(according to Hadley Wickham/RStudio)"
+title: "Data Wrangling & Exploration with the Tidyverse in R"
+subtitle: "Importing Data"
 author: "Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -30,19 +30,19 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 ```
 
 <div class="my-footer">
-  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
   <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
-  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
 </div>
 
 
 ---
-# Getting data in `R`
+# Getting data into `R`
 
 .large[
 Thus far, we've already learned that data can be untidy.
 
-This course is also about making them tidy again.
+This course is also about making them tidy (as well as 'wrangling' and exploring them).
 
 There's one important prerequisite:
 
@@ -56,9 +56,9 @@ include_graphics("./pics/import_data.png")
 ---
 # Getting Data in the tidyverse
 
-Whether we want to use our own data or that from others, we need to get data into R.
+Whether we want to use our own data or data from others, we need to get data into R.
 
-tidyverse provides some nice tools to do exactly this:
+The `tidyverse` provides some nice tools to do exactly that:
 
 - `readr`  (for 'flat' files, such as CSV)
 - `readxl` (for excel spreadsheets)
@@ -68,7 +68,7 @@ tidyverse provides some nice tools to do exactly this:
 include_graphics("./pics/hex_all_in_one.png")
 ```
 
-The difference to other tool is that tidyverse import functions already prepare the data for being 'tidied': they are a `tibbles`
+A key difference between these packages and others is that `tidyverse` import functions already prepare the data for being 'tidied': they are a `tibbles`
 
 
 ---
@@ -77,10 +77,7 @@ The difference to other tool is that tidyverse import functions already prepare 
 titanic <- read_csv("../../data/titanic/titanic.csv")
 ```
 
-Please note the column specification.
-
-- `readr` 'guesses' them based on the first 1000 observations
-- We'll come back to this a little bit later
+Note the column specifications. `readr` 'guesses' them based on the first 1000 observations (we will come back to this later).
 
 
 ---
@@ -89,7 +86,7 @@ Please note the column specification.
 titanic
 ```
 
-It's that easy.
+It's that easy!
 
 ---
 # A readxl example: `read_excel()`
@@ -97,7 +94,7 @@ It's that easy.
 unicorns <- read_xlsx("../../data/unicorns/observations.xlsx")
 ```
 
-No output :-(
+No output `r ji("frowning_face")`
 
 ---
 # A readxl example: `read_excel()`
@@ -134,7 +131,7 @@ These were just some very first examples of applying functions from each package
   - `read_spss()`
   - `read_stata()`
 
-Not to mention all the helper files and options. For example, we can define the cells to read from an excel file by applying the option `range = "C1:E4"` in
+Not to mention all the helper functions and options. For example, we can define the cells to read from an excel file by specifying the option `range = "C1:E4"` in
 `read_excel()`
 
 
@@ -156,18 +153,16 @@ Not to mention all the helper files and options. For example, we can define the 
   - indicated by `<lgl>`
   - specified by `col_logical()`
   
-.center[**There's more, but we'll leave it for now.**]
+.center[**There's more, but we'll leave it at that for now.**]
 
 ---
 # Changing Variable Types
-As mentioned, `read_csv` 'guesses' the variable types
+As mentioned before, `read_csv` 'guesses' the variable types by scanning the first 1000 observations. NB: **This can go wrong!**
 
-- it scans the first 1000 observations
-- **This can go wrong!**
+Luckily, we can change the variable type...
 
-Luckily, we can change the variable type.
+- before/while loading the data
 
-- Before resp. while loading the data
 - and after loading the data
 
 ---
@@ -210,7 +205,7 @@ titanic <-
       Survived = col_double(),
       Pclass = col_double(),
       Name = col_character(),
-      Sex = col_factor(), # This one's now changed!
+      Sex = col_factor(), # This one changed!
       Age = col_double(),
       SibSp = col_double(),
       Parch = col_double(),
@@ -238,14 +233,14 @@ titanic <- read_csv("../../data/titanic/titanic.csv")
 # After Loading the data
 ```{r readr_example_col_changeD_after, echo = TRUE}
 titanic <-
-  type_convert(
+  type_convert( #<<
     titanic,
     col_types = cols(
       PassengerId = col_double(),
       Survived = col_double(),
       Pclass = col_double(),
       Name = col_character(),
-      Sex = col_factor(), # This one's now changed!
+      Sex = col_factor(),
       Age = col_double(),
       SibSp = col_double(),
       Parch = col_double(),
@@ -259,27 +254,26 @@ titanic <-
 
 ---
 # Exporting Data
-Sometimes we also have to leave R and its tidy world.
+Sometimes our data have to leave the `tidyverse` (or even `R`), for example, if we....
 
-- If we share data with colleagues
-- If we aim to start where we left the next day
-  - Particularly, when data wrangling took a long time
+- share data with colleagues who do not use `R`
+- want to continue where we left off
+  - particularly, if data wrangling took a long time
   
-For these purposes, we also need a way to export our data.
+For such purposes we also need a way to export our data.
 
-All tools presented also have designated functions for that.
+All of the packages we have discussed in this session also have designated functions for that.
 
 ```{r, out.width = "50%"}
 include_graphics("./pics/export_data.png")
 ```
 
 ---
-# Example: CSV and Stata files
+# Examples: CSV and Stata files
 ```{r export_csv, echo = TRUE}
 write_csv(titanic, "titanic_own.csv")
 ```
 
-Maybe more relevant:
 ```{r export_stata, echo = TRUE}
 write_dta(titanic, "titanic_own.dta")
 ```
@@ -291,23 +285,27 @@ list.files()
 
 ---
 # Additional Packages
-The great benefit of tidyverse import functions is the import of the data as tibbles: the data are potentially tidier.
+The great benefit of `tidyverse` import functions is the import of the data as tibbles: the data are potentially tidier.
 
 Several other non-tidyverse packages provide similar benefits as they make use of this universal data format:
-- `sf` for geospatial data
-- `sjlabelled` to work with labelled data, e.g., from SPSS or Stata
+- [`sf`](https://github.com/r-spatial/sf) for geospatial data
+
+- [`sjlabelled`](https://cran.r-project.org/web/packages/sjlabelled/index.html) to work with labelled data, e.g., from SPSS or Stata
 
 ---
 # Alternative Packages
+
 - `base` R
-- the good old `foreign` package for spss and stata files 
-- `data.table` for large data tables
+
+- the [`foreign` package](https://cran.r-project.org/web/packages/foreign/index.html) for SPSS and Stata files
+
+- [`data.table`](https://cran.r-project.org/web/packages/data.table/index.html) for large datasets
 
 
 ---
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A3_ImportingData_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A4_TidyData_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A3_ImportingData_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A4_ImportingData_exercises_solution.html)
