@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
     <title>Importing Data</title>
-    <meta charset="utf-8">
-    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
+    <meta charset="utf-8" />
+    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Jünger" />
     <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/robot-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
-    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+    <link rel="stylesheet" href="../footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="../mycss.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
 # Importing Data
-### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
+### Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger
 ### 2019-05-15
 
 ---
@@ -25,99 +25,97 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Müller&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Jünger&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Importing Data&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
----
-# Data, Data, Data
 
---
+---
+# Getting data in `R`
+
+.large[
 Thus far, we've already learned that data can be untidy.
 
+This course is also about making them tidy again.
 
---
-This course is all about making them tidy again (...or maybe for the first time?).
+There's one important prerequisite:
 
+.center[**We need data!**]
+]
 
---
-There's one rather important prerequisite, however:
-
-
---
-.center[We need data!]
+&lt;img src="./pics/import_data.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
-&lt;h2&gt; Getting Data in the tidyverse &lt;/h2&gt;
+# Getting Data in the tidyverse
 
 Whether we want to use our own data or that from others, we need to get data into R.
 
-tidyverse provides some nice tools to do so:
+tidyverse provides some nice tools to do exactly this:
 
-- readr  (for 'flat' files, such as CSV)
-- readxl (for excel spreadsheets)
-- haven  (for statistical software files, such as SPSS, Stata, and SAS)
+- `readr`  (for 'flat' files, such as CSV)
+- `readxl` (for excel spreadsheets)
+- `haven`  (for statistical software files, such as SPSS, Stata, and SAS)
 
-The difference to other tool is that tidyverse import functions already prepare the data for being 'tidyed': they are a tibbles
+&lt;img src="./pics/hex_all_in_one.png" width="50%" style="display: block; margin: auto;" /&gt;
 
-&lt;img src="readr.png" width="15%" style="display: block; margin: auto;" /&gt;&lt;img src="readxl.png" width="15%" style="display: block; margin: auto;" /&gt;&lt;img src="haven.png" width="15%" style="display: block; margin: auto;" /&gt;
+The difference to other tool is that tidyverse import functions already prepare the data for being 'tidied': they are a `tibbles`
 
-
-
-.right[![](readr.png) ![](readxl.png) ![](haven.png)]
 
 ---
 # A readr example: `read_csv()`
 
 ```r
-mtcars &lt;- 
-  "mtcars.csv" %&gt;% 
-  readr_example() %&gt;% 
-  read_csv()
+titanic &lt;- read_csv("../../data/titanic/titanic.csv")
 ```
 
 ```
 ## Parsed with column specification:
 ## cols(
-##   mpg = col_double(),
-##   cyl = col_double(),
-##   disp = col_double(),
-##   hp = col_double(),
-##   drat = col_double(),
-##   wt = col_double(),
-##   qsec = col_double(),
-##   vs = col_double(),
-##   am = col_double(),
-##   gear = col_double(),
-##   carb = col_double()
+##   PassengerId = col_double(),
+##   Survived = col_double(),
+##   Pclass = col_double(),
+##   Name = col_character(),
+##   Sex = col_character(),
+##   Age = col_double(),
+##   SibSp = col_double(),
+##   Parch = col_double(),
+##   Ticket = col_character(),
+##   Fare = col_double(),
+##   Cabin = col_character(),
+##   Embarked = col_character()
 ## )
 ```
+
+Please note the column specification.
+
+- `readr` 'guesses' them based on the first 1000 observations
+- We'll come back to this a little bit later
+
 
 ---
 # A readr example: `read_csv()`
 
 ```r
-mtcars
+titanic
 ```
 
 ```
-## # A tibble: 32 x 11
-##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-## # ... with 22 more rows
+## # A tibble: 891 x 12
+##    PassengerId Survived Pclass Name  Sex     Age SibSp Parch Ticket  Fare
+##          &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1           1        0      3 Brau… male     22     1     0 A/5 2…  7.25
+##  2           2        1      1 Cumi… fema…    38     1     0 PC 17… 71.3 
+##  3           3        1      3 Heik… fema…    26     0     0 STON/…  7.92
+##  4           4        1      1 Futr… fema…    35     1     0 113803 53.1 
+##  5           5        0      3 Alle… male     35     0     0 373450  8.05
+##  6           6        0      3 Mora… male     NA     0     0 330877  8.46
+##  7           7        0      1 McCa… male     54     0     0 17463  51.9 
+##  8           8        0      3 Pals… male      2     3     1 349909 21.1 
+##  9           9        1      3 John… fema…    27     0     2 347742 11.1 
+## 10          10        1      2 Nass… fema…    14     1     0 237736 30.1 
+## # … with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;, Embarked &lt;chr&gt;
 ```
-
 
 It's that easy.
 
@@ -125,10 +123,7 @@ It's that easy.
 # A readxl example: `read_excel()`
 
 ```r
-datasets &lt;- 
-  "datasets.xlsx" %&gt;% 
-  readxl_example() %&gt;% 
-  read_excel()
+unicorns &lt;- read_xlsx("../../data/unicorns/observations.xlsx")
 ```
 
 No output :-(
@@ -137,100 +132,94 @@ No output :-(
 # A readxl example: `read_excel()`
 
 ```r
-datasets
+unicorns
 ```
 
 ```
-## # A tibble: 150 x 5
-##    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
-##  1          5.1         3.5          1.4         0.2 setosa 
-##  2          4.9         3            1.4         0.2 setosa 
-##  3          4.7         3.2          1.3         0.2 setosa 
-##  4          4.6         3.1          1.5         0.2 setosa 
-##  5          5           3.6          1.4         0.2 setosa 
-##  6          5.4         3.9          1.7         0.4 setosa 
-##  7          4.6         3.4          1.4         0.3 setosa 
-##  8          5           3.4          1.5         0.2 setosa 
-##  9          4.4         2.9          1.4         0.2 setosa 
-## 10          4.9         3.1          1.5         0.1 setosa 
-## # ... with 140 more rows
+## # A tibble: 42 x 3
+##    countryname  year   pop
+##    &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt;
+##  1 Austria      1670    85
+##  2 Austria      1671    83
+##  3 Austria      1674    75
+##  4 Austria      1675    82
+##  5 Austria      1676    79
+##  6 Austria      1677    70
+##  7 Austria      1678    81
+##  8 Austria      1680    80
+##  9 France       1673    70
+## 10 France       1674    79
+## # … with 32 more rows
 ```
-
-Just iris?
 
 ---
-# A readxl example: `read_excel()`
+# A haven example: `read_stata()` 
 
 ```r
-"datasets.xlsx" %&gt;% 
-  readxl_example() %&gt;% 
-  excel_sheets()
+gesis_panel &lt;- 
+  read_stata("../../data/gesis_panel_campusfile/ZA5666_v1-0-0_Stata14.dta")
 ```
-
-```
-## [1] "iris"     "mtcars"   "chickwts" "quakes"
-```
-
 
 ---
-# A readxl example: `read_excel()`
+# A haven example: `read_stata()` 
 
 ```r
-mtcars &lt;- 
-  "datasets.xlsx" %&gt;% 
-  readxl_example() %&gt;% 
-  read_excel(sheet = "mtcars")
-mtcars
+gesis_panel
 ```
 
 ```
-## # A tibble: 32 x 11
-##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
-##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
-##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
-##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
-##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
-##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
-##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
-##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
-##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
-## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-## # ... with 22 more rows
+## # A tibble: 1,222 x 1,192
+##    z000001z z000002z z000003z z000005z a11c019a a11c020a a11c021a a11c022a
+##       &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt;
+##  1   1.98e8 ZA5666   1-0-0 2… 10.4232… 1        1        1        2       
+##  2   4.36e8 ZA5666   1-0-0 2… 10.4232… 1        1        1        2       
+##  3   8.57e8 ZA5666   1-0-0 2… 10.4232… 2        2        2        2       
+##  4   1.17e8 ZA5666   1-0-0 2… 10.4232… 1        1        1        2       
+##  5   9.43e8 ZA5666   1-0-0 2… 10.4232… 1        1        4        2       
+##  6   2.66e8 ZA5666   1-0-0 2… 10.4232… 1        1        1        2       
+##  7   2.76e8 ZA5666   1-0-0 2… 10.4232… 1        1        3        2       
+##  8   6.78e8 ZA5666   1-0-0 2… 10.4232… 1        2        1        3       
+##  9   4.64e8 ZA5666   1-0-0 2… 10.4232… 2        2        1        3       
+## 10   4.79e8 ZA5666   1-0-0 2… 10.4232… 1        1        2        2       
+## # … with 1,212 more rows, and 1,184 more variables: a11c023a &lt;dbl+lbl&gt;,
+## #   a11c024a &lt;dbl+lbl&gt;, a11c025a &lt;dbl+lbl&gt;, a11c026a &lt;dbl+lbl&gt;,
+## #   a11c027a &lt;dbl+lbl&gt;, a11c028a &lt;dbl+lbl&gt;, a11c029a &lt;dbl+lbl&gt;,
+## #   a11c030a &lt;dbl+lbl&gt;, a11c031a &lt;dbl+lbl&gt;, a11c032a &lt;dbl+lbl&gt;,
+## #   a11c033a &lt;dbl+lbl&gt;, a11c034a &lt;dbl+lbl&gt;, a11c035a &lt;dbl+lbl&gt;,
+## #   a11c036a &lt;dbl+lbl&gt;, a11c037a &lt;dbl+lbl&gt;, a11c038a &lt;dbl+lbl&gt;,
+## #   a11c039a &lt;dbl+lbl&gt;, a11c040a &lt;dbl+lbl&gt;, a11c041a &lt;dbl+lbl&gt;,
+## #   a11c042a &lt;dbl+lbl&gt;, a11c043a &lt;dbl+lbl&gt;, a11c044a &lt;dbl+lbl&gt;,
+## #   a11c045a &lt;dbl+lbl&gt;, a11c046a &lt;dbl+lbl&gt;, a11c047a &lt;dbl+lbl&gt;,
+## #   a11c048a &lt;dbl+lbl&gt;, a11c049a &lt;dbl+lbl&gt;, a11c050a &lt;dbl+lbl&gt;,
+## #   a11c051a &lt;dbl+lbl&gt;, a11c052a &lt;dbl+lbl&gt;, a11c053a &lt;dbl+lbl&gt;,
+## #   a11d054a &lt;dbl+lbl&gt;, a11d056z &lt;dbl+lbl&gt;, a11d057d &lt;dbl+lbl&gt;,
+## #   a11d072d &lt;dbl+lbl&gt;, a11d074b &lt;dbl+lbl&gt;, a11d075d &lt;dbl+lbl&gt;,
+## #   a11d077d &lt;dbl+lbl&gt;, a11d079b &lt;dbl+lbl&gt;, a11d080a &lt;dbl+lbl&gt;,
+## #   a11d081a &lt;dbl+lbl&gt;, a11d082b &lt;dbl+lbl&gt;, a11d086b &lt;dbl+lbl&gt;,
+## #   a11d089c &lt;dbl+lbl&gt;, a11d090b &lt;dbl+lbl&gt;, a11d092a &lt;dbl+lbl&gt;,
+## #   a11d093b &lt;dbl+lbl&gt;, a11d094a &lt;dbl+lbl&gt;, a11d095b &lt;dbl+lbl&gt;,
+## #   a11d096b &lt;dbl+lbl&gt;, a11d097c &lt;dbl+lbl&gt;, a11c098a &lt;dbl+lbl&gt;,
+## #   a11c099a &lt;dbl+lbl&gt;, a11c100a &lt;dbl+lbl&gt;, a11c101a &lt;dbl+lbl&gt;,
+## #   a11c102a &lt;dbl+lbl&gt;, a11c103a &lt;dbl+lbl&gt;, a11c104a &lt;dbl+lbl&gt;,
+## #   a11c105a &lt;dbl+lbl&gt;, a11c106a &lt;dbl+lbl&gt;, a11c107a &lt;dbl+lbl&gt;,
+## #   a11c108a &lt;dbl+lbl&gt;, a11c109a &lt;dbl+lbl&gt;, a11c110a &lt;dbl+lbl&gt;,
+## #   a11c111a &lt;dbl+lbl&gt;, a11c112a &lt;dbl+lbl&gt;, a11c113a &lt;dbl+lbl&gt;,
+## #   a11c114a &lt;dbl+lbl&gt;, a11c115a &lt;dbl+lbl&gt;, a11c116a &lt;dbl+lbl&gt;,
+## #   a11c117a &lt;dbl+lbl&gt;, a11c118a &lt;dbl+lbl&gt;, a11c119a &lt;dbl+lbl&gt;,
+## #   a11c132a &lt;dbl+lbl&gt;, a11a167a &lt;dbl+lbl&gt;, a11a169b &lt;dbl+lbl&gt;,
+## #   a12c001a &lt;dbl+lbl&gt;, a12c002a &lt;dbl+lbl&gt;, a12c003a &lt;dbl+lbl&gt;,
+## #   a12c004a &lt;dbl+lbl&gt;, a12c005a &lt;dbl+lbl&gt;, a12c006a &lt;dbl+lbl&gt;,
+## #   a12c007a &lt;dbl+lbl&gt;, a12c008a &lt;dbl+lbl&gt;, a12c009a &lt;dbl+lbl&gt;,
+## #   a12c010a &lt;dbl+lbl&gt;, a12c011a &lt;dbl+lbl&gt;, a12c012a &lt;dbl+lbl&gt;,
+## #   a12c013a &lt;dbl+lbl&gt;, a12c014a &lt;dbl+lbl&gt;, a12c015a &lt;dbl+lbl&gt;,
+## #   a12c016a &lt;dbl+lbl&gt;, a12c017a &lt;dbl+lbl&gt;, a12c018a &lt;dbl+lbl&gt;,
+## #   a12c019a &lt;dbl+lbl&gt;, a12c020a &lt;dbl+lbl&gt;, a12d021b &lt;dbl+lbl&gt;,
+## #   a12c022b &lt;dbl+lbl&gt;, a12c023a &lt;dbl+lbl&gt;, a12c025a &lt;dbl+lbl&gt;, …
 ```
 
 ---
-# A haven example: `read_stata()`
-
-```r
-mtcars &lt;-
-system.file("examples", "iris.dta", package = "haven") %&gt;% 
-  read_stata()
-mtcars
-```
-
-```
-## # A tibble: 150 x 5
-##    sepallength sepalwidth petallength petalwidth species
-##          &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;  
-##  1        5.10       3.5         1.40      0.200 setosa 
-##  2        4.90       3           1.40      0.200 setosa 
-##  3        4.70       3.20        1.30      0.200 setosa 
-##  4        4.60       3.10        1.5       0.200 setosa 
-##  5        5          3.60        1.40      0.200 setosa 
-##  6        5.40       3.90        1.70      0.400 setosa 
-##  7        4.60       3.40        1.40      0.300 setosa 
-##  8        5          3.40        1.5       0.200 setosa 
-##  9        4.40       2.90        1.40      0.200 setosa 
-## 10        4.90       3.10        1.5       0.100 setosa 
-## # ... with 140 more rows
-```
-
----
-# There's More
-These were just some very first examples of applying functions from each package.
+# There's more
+These were just some very first examples of applying functions from each package. They comprise even more functions for different data types.
 
 - readr
   - `read_csv()`
@@ -251,56 +240,242 @@ Not to mention all the helper files and options. For example, we can define the 
 ---
 # Data Specifics
 - characters
+  - indicated by `&lt;chr&gt;`
+  - specified by `col_character()`
 - integers
+  - indicated by `&lt;int&gt;`
+  - specified by `col_integer()`
 - doubles
+  - indicated by `&lt;dbl&gt;`
+  - specified by `col_double()`
+- factors
+  - indicated by `&lt;fct&gt;`
+  - specified by `col_factor()`
+- logical
+  - indicated by `&lt;lgl&gt;`
+  - specified by `col_logical()`
+  
+.center[**There's more, but we'll leave it for now.**]
 
 ---
 # Changing Variable Types
-For example, `read_csv` 'guesses' the variable types which can go wrong.
+As mentioned, `read_csv` 'guesses' the variable types
 
-Luckily, we can change the variable type -- before and after loading the data
+- it scans the first 1000 observations
+- **This can go wrong!**
+
+Luckily, we can change the variable type.
+
+- Before resp. while loading the data
+- and after loading the data
 
 ---
 # While Loading the data in `read_csv`
 
+```r
+titanic &lt;-
+  read_csv(
+    "../../data/titanic/titanic.csv",
+    col_types = cols(
+      PassengerId = col_double(),
+      Survived = col_double(),
+      Pclass = col_double(),
+      Name = col_character(),
+      Sex = col_character(),
+      Age = col_double(),
+      SibSp = col_double(),
+      Parch = col_double(),
+      Ticket = col_character(),
+      Fare = col_double(),
+      Cabin = col_character(),
+      Embarked = col_character()
+    )
+  )
+```
+
+---
+# While Loading the data in `read_csv`
+
+```r
+titanic
+```
+
+```
+## # A tibble: 891 x 12
+##    PassengerId Survived Pclass Name  Sex     Age SibSp Parch Ticket  Fare
+##          &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1           1        0      3 Brau… male     22     1     0 A/5 2…  7.25
+##  2           2        1      1 Cumi… fema…    38     1     0 PC 17… 71.3 
+##  3           3        1      3 Heik… fema…    26     0     0 STON/…  7.92
+##  4           4        1      1 Futr… fema…    35     1     0 113803 53.1 
+##  5           5        0      3 Alle… male     35     0     0 373450  8.05
+##  6           6        0      3 Mora… male     NA     0     0 330877  8.46
+##  7           7        0      1 McCa… male     54     0     0 17463  51.9 
+##  8           8        0      3 Pals… male      2     3     1 349909 21.1 
+##  9           9        1      3 John… fema…    27     0     2 347742 11.1 
+## 10          10        1      2 Nass… fema…    14     1     0 237736 30.1 
+## # … with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;, Embarked &lt;chr&gt;
+```
+
+---
+# While Loading the data in `read_csv`
+
+```r
+titanic &lt;-
+  read_csv(
+    "../../data/titanic/titanic.csv",
+    col_types = cols(
+      PassengerId = col_double(),
+      Survived = col_double(),
+      Pclass = col_double(),
+      Name = col_character(),
+      Sex = col_factor(), # This one's now changed!
+      Age = col_double(),
+      SibSp = col_double(),
+      Parch = col_double(),
+      Ticket = col_character(),
+      Fare = col_double(),
+      Cabin = col_character(),
+      Embarked = col_character()
+    )
+  )
+```
+
+---
+# While Loading the data in `read_csv`
+
+```r
+titanic
+```
+
+```
+## # A tibble: 891 x 12
+##    PassengerId Survived Pclass Name  Sex     Age SibSp Parch Ticket  Fare
+##          &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1           1        0      3 Brau… male     22     1     0 A/5 2…  7.25
+##  2           2        1      1 Cumi… fema…    38     1     0 PC 17… 71.3 
+##  3           3        1      3 Heik… fema…    26     0     0 STON/…  7.92
+##  4           4        1      1 Futr… fema…    35     1     0 113803 53.1 
+##  5           5        0      3 Alle… male     35     0     0 373450  8.05
+##  6           6        0      3 Mora… male     NA     0     0 330877  8.46
+##  7           7        0      1 McCa… male     54     0     0 17463  51.9 
+##  8           8        0      3 Pals… male      2     3     1 349909 21.1 
+##  9           9        1      3 John… fema…    27     0     2 347742 11.1 
+## 10          10        1      2 Nass… fema…    14     1     0 237736 30.1 
+## # … with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;, Embarked &lt;chr&gt;
+```
+
 ---
 # After Loading the data
+
+```r
+titanic &lt;- read_csv("../../data/titanic/titanic.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   PassengerId = col_double(),
+##   Survived = col_double(),
+##   Pclass = col_double(),
+##   Name = col_character(),
+##   Sex = col_character(),
+##   Age = col_double(),
+##   SibSp = col_double(),
+##   Parch = col_double(),
+##   Ticket = col_character(),
+##   Fare = col_double(),
+##   Cabin = col_character(),
+##   Embarked = col_character()
+## )
+```
+
+---
+# After Loading the data
+
+```r
+titanic &lt;-
+  type_convert(
+    titanic,
+    col_types = cols(
+      PassengerId = col_double(),
+      Survived = col_double(),
+      Pclass = col_double(),
+      Name = col_character(),
+      Sex = col_factor(), # This one's now changed!
+      Age = col_double(),
+      SibSp = col_double(),
+      Parch = col_double(),
+      Ticket = col_character(),
+      Fare = col_double(),
+      Cabin = col_character(),
+      Embarked = col_character()
+    )
+  )
+```
 
 ---
 # Exporting Data
 Sometimes we also have to leave R and its tidy world.
 
-- We share data with colleagues
-- We wanna start where we left the next day
-  - Particularly, when data tidying to a long time
+- If we share data with colleagues
+- If we aim to start where we left the next day
+  - Particularly, when data wrangling took a long time
   
-For these purposes, we also have to need a way to export our data.
+For these purposes, we also need a way to export our data.
 
 All tools presented also have designated functions for that.
 
----
-# Example: CSV files
+&lt;img src="./pics/export_data.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
-# Maybe More Relevant: Stata Files
+# Example: CSV and Stata files
+
+```r
+write_csv(titanic, "titanic_own.csv")
+```
+
+Maybe more relevant:
+
+```r
+write_dta(titanic, "titanic_own.dta")
+```
+
+Proof that they have been exported:
+
+```r
+list.files() 
+```
+
+```
+## [1] "A3_ImportingData.html" "A3_ImportingData.Rmd"  "libs"                 
+## [4] "pics"                  "titanic_own.csv"       "titanic_own.dta"
+```
 
 ---
 # Additional Packages
-The great benefit of tidyverse import functions is the import of the data as tibbles: the data are potentially more tidy.
+The great benefit of tidyverse import functions is the import of the data as tibbles: the data are potentially tidier.
 
 Several other non-tidyverse packages provide similar benefits as they make use of this universal data format:
-- sf (for geospatial data)
-- ...
+- `sf` for geospatial data
+- `sjlabelled` to work with labelled data, e.g., from SPSS or Stata
 
 ---
 # Alternative Packages
+- `base` R
+- the good old `foreign` package for spss and stata files 
+- `data.table` for large data tables
 
-- base R
-- data.table
 
 ---
-# Exercise: Pick One From the Pool of Data
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A3_ImportingData_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A3_ImportingData_exercises_solution.html)
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -310,16 +485,57 @@ Several other non-tidyverse packages provide similar benefits as they make use o
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
 })();</script>
 
 <script>
 (function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -333,7 +549,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     i++;
   }
-})();
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

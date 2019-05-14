@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
     <title>Summary Statistics</title>
-    <meta charset="utf-8">
-    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
+    <meta charset="utf-8" />
+    <meta name="author" content="Johannes Breuer Stefan Jünger Thomas Ebel" />
     <meta name="date" content="2018-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
-    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+    <link href="libs/remark-css/robot-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="../mycss.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 
 # Summary Statistics
 ## First inspections - What can we tell about the data?
-### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
+### Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel
 ### 2018-05-16
 
 ---
@@ -26,24 +26,27 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Müller&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Stefan Jünger &amp; Thomas Ebel&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2018-05-16&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Summary Statistics&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 ---
-
-
 class: center, middle
 
 &lt;h1&gt;Demystifing unknown knowns&lt;/h1&gt;
 &lt;h2&gt;What do we know, what don't we know and why do we care?&lt;/h2&gt;
 
 ---
+# Untangling data is hard 
+If we look at raw numbers, we might have a tough time understanding them.
 
-&lt;h2&gt;Untangling data is hard&lt;/h2&gt;
-Humans looking at raw numbers have a really hard time at understanding them.  
-For example, it's almost impossible to say which of those 2 vectors has more variance, or the lower mean, just by looking at them.
+Interpreting single numbers is easy, but it's almost impossible, for example, to say which of the following two vectors has
+
+- more variance or
+- the lower mean
+
+just by looking at them:
 
 
 ```
@@ -54,126 +57,164 @@ For example, it's almost impossible to say which of those 2 vectors has more var
 ##  [1] 59 38 47 43 24 56 30 21 33 59
 ```
 
---
+---
+# And now?
 
 
 ```r
-options(pillar.sigfig = 5)
-untangling %&gt;% summarize(mean_x = mean(x), mean_y = mean(y),
-                         var_x = sd(x)^2, var_y = sd(y)^2)
+tibble(
+  x = sample(x = 18:65, size = 10, replace = TRUE),
+  y = sample(x = 20:60, size = 10, replace = TRUE)
+) %&gt;% 
+  summarize(
+    mean_x = mean(x), 
+    mean_y = mean(y),
+    var_x = sd(x)^2, 
+    var_y = sd(y)^2
+  )
 ```
 
 ```
 ## # A tibble: 1 x 4
-##   mean_x mean_y  var_x  var_y
-##    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1   45.2     41 199.96 199.56
+##   mean_x mean_y var_x var_y
+##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1   47.1   41.6  143.  177.
 ```
 
-In the real world, vectors are also too long to conveniently look at.
+The underlying vectors of the tibble are short. In the real world, vectors are also too long to conveniently look at.
+
 
 ---
+&lt;h1&gt; Making sense of data &lt;/h1&gt;
 
-To make sense of data ... we need summarizing functions that produce singular values that give us an understanding of
-* location (e.g. the mean),
-* spread (e.g. standard deviation),
-* shape of distribution (e.g. skewness) and
-* relations between variables (e.g. correlation coefficients)
+To make sense of data we reduce their information to unique values.
 
----
+.center[
+~ 
+
+**That's a simple definition of statistics**
+
+~]
+
+As such, we use summarizing functions of
+- location (e.g., the mean),
+- spread (e.g., standard deviation),
+- the shape of the distribution (e.g., skewness) and
+- relations between variables (e.g., correlation coefficients)
 
 We assume everyone here knows the basics of summary statistics.  
-So instead of repeating that let's see respective Tidyverse code.
 
---
+So instead of their monotonous repetition let's see corresponding code from the `tidyverse`.
 
-Dataset is from gapminder.  
 
-Income per person (fixed 2000 US$) for 275 countries for the years 1960-2011.
+---
+# Used data
 
-"Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
+Our data are from gapminder, and the focal variable is income per person (fixed 2000 US$) among 275 countries for the years 1960-2011:
+
+
+&gt; "Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
+
 
 
 ```r
-capita &lt;- readxl::read_excel(
-  path = "../data/GDPpercapitaconstant2000US.xlsx", sheet = "Data",
-  col_names = TRUE)
+capita &lt;- 
+  read_excel(
+    path = "../../data/gapminder/GDPpercapitaconstant2000US.xlsx", 
+    sheet = "Data",
+    col_names = TRUE 
+    )
 ```
----
 
-A first glimpse.
+---
+# A first glimpse at the data
+
 
 ```
 ## Observations: 275
 ## Variables: 53
-## $ country  &lt;chr&gt; "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "...
-## $ `1960.0` &lt;dbl&gt; NA, NA, NA, NA, 1280.3848, NA, NA, NA, NA, NA, 5251.8...
-## $ `1961`   &lt;dbl&gt; NA, NA, NA, NA, 1085.4146, NA, NA, NA, NA, NA, 5448.3...
-## $ `1962`   &lt;dbl&gt; NA, NA, NA, NA, 855.9480, NA, NA, NA, NA, NA, 5316.57...
-## $ `1963`   &lt;dbl&gt; NA, NA, NA, NA, 1128.4158, NA, NA, NA, NA, NA, 4956.2...
-## $ `1964`   &lt;dbl&gt; NA, NA, NA, NA, 1170.3239, NA, NA, NA, NA, NA, 5375.4...
-## $ `1965`   &lt;dbl&gt; NA, NA, NA, NA, 1215.0158, NA, NA, NA, NA, NA, 5855.6...
-## $ `1966`   &lt;dbl&gt; NA, NA, NA, NA, 1127.6143, NA, NA, NA, NA, NA, 5733.3...
-## $ `1967`   &lt;dbl&gt; NA, NA, NA, NA, 1200.5582, NA, NA, NA, NA, NA, 5833.0...
-## $ `1968`   &lt;dbl&gt; NA, NA, NA, NA, 1291.8640, NA, NA, NA, NA, NA, 6028.1...
-## $ `1969`   &lt;dbl&gt; NA, NA, NA, NA, 1359.4910, NA, NA, NA, NA, NA, 6515.3...
-## $ `1970`   &lt;dbl&gt; NA, NA, NA, NA, 1436.1298, NA, 18256.2701, NA, NA, NA...
-## $ `1971`   &lt;dbl&gt; NA, NA, NA, NA, 1235.6638, NA, 18142.9851, NA, NA, NA...
-## $ `1972`   &lt;dbl&gt; NA, NA, NA, NA, 1527.6464, NA, 18646.9449, NA, NA, NA...
-## $ `1973`   &lt;dbl&gt; NA, NA, NA, NA, 1538.306, NA, 19135.297, NA, NA, NA, ...
-## $ `1974`   &lt;dbl&gt; NA, NA, NA, NA, 1603.3496, NA, 19304.3735, NA, NA, NA...
-## $ `1975`   &lt;dbl&gt; NA, NA, NA, NA, 1632.2960, NA, 18607.4095, NA, NA, NA...
-## $ `1976`   &lt;dbl&gt; NA, NA, NA, NA, 1714.0701, NA, 18511.4011, NA, NA, NA...
-## $ `1977`   &lt;dbl&gt; NA, NA, NA, NA, 1747.6651, NA, 18394.4620, NA, NA, 38...
-## $ `1978`   &lt;dbl&gt; NA, NA, NA, NA, 1848.4375, NA, 18038.5998, NA, NA, 39...
-## $ `1979`   &lt;dbl&gt; NA, NA, NA, NA, 1923.2906, NA, 17379.3280, NA, NA, 42...
-## $ `1980`   &lt;dbl&gt; NA, NA, NA, 1060.6846, 1876.0756, NA, 17013.6985, NA,...
-## $ `1981`   &lt;dbl&gt; NA, NA, NA, 1099.5127, 1869.6213, NA, 16169.0217, NA,...
-## $ `1982`   &lt;dbl&gt; NA, NA, NA, 1110.5123, 1924.6141, NA, 15514.6576, NA,...
-## $ `1983`   &lt;dbl&gt; NA, NA, NA, 1101.3357, 1963.3651, NA, 14976.5906, NA,...
-## $ `1984`   &lt;dbl&gt; NA, NA, NA, 1065.2353, 2008.4722, NA, 14554.7628, NA,...
-## $ `1985`   &lt;dbl&gt; NA, NA, NA, 1059.8657, 2020.0872, NA, 14354.9066, 362...
-## $ `1986`   &lt;dbl&gt; NA, NA, NA, 1091.5606, 1969.7642, NA, 14444.4621, 362...
-## $ `1987`   &lt;dbl&gt; NA, NA, NA, 1054.2478, 1902.0611, NA, 14983.6322, 381...
-## $ `1988`   &lt;dbl&gt; NA, NA, NA, 1013.6290, 1833.1529, NA, 15517.4947, 392...
-## $ `1989`   &lt;dbl&gt; NA, NA, NA, 1092.4746, 1864.7126, NA, 15947.4902, 384...
-## $ `1990`   &lt;dbl&gt; NA, NA, NA, 977.7655, 1832.7434, NA, 16070.0658, 372....
-## $ `1991`   &lt;dbl&gt; NA, NA, NA, 687.9919, 1766.6608, NA, 15813.1016, 357....
-## $ `1992`   &lt;dbl&gt; NA, NA, NA, 643.2858, 1755.9737, NA, 15194.4592, 322....
-## $ `1993`   &lt;dbl&gt; NA, NA, NA, 714.2414, 1680.3799, NA, 14318.1890, 234....
-## $ `1994`   &lt;dbl&gt; NA, NA, NA, 784.5831, 1630.3815, NA, 14092.4241, 235....
-## $ `1995`   &lt;dbl&gt; NA, NA, NA, 899.7829, 1660.0042, NA, 14125.5934, 251....
-## $ `1996`   &lt;dbl&gt; NA, NA, NA, 990.6532, 1698.3338, NA, 14662.7364, 272....
-## $ `1997`   &lt;dbl&gt; NA, NA, NA, 895.5610, 1690.2375, NA, 16071.6449, 286....
-## $ `1998`   &lt;dbl&gt; NA, NA, NA, 1013.5143, 1750.6509, NA, 16755.2207, 297...
-## $ `1999`   &lt;dbl&gt; NA, NA, NA, 1118.1715, 1781.1425, NA, 17513.1782, 298...
-## $ `2000`   &lt;dbl&gt; NA, NA, NA, 1200.1374, 1794.4052, NA, 17539.4420, 298...
-## $ `2001`   &lt;dbl&gt; NA, NA, NA, 1281.8428, 1814.4151, NA, 19085.3641, 297...
-## $ `2002`   &lt;dbl&gt; NA, NA, NA, 1313.7227, 1871.9220, NA, 19430.0548, 329...
-## $ `2003`   &lt;dbl&gt; NA, NA, NA, 1381.0408, 1971.5128, NA, 19834.6326, 328...
-## $ `2004`   &lt;dbl&gt; NA, NA, NA, 1454.0229, 2043.1357, NA, 20254.3463, 353...
-## $ `2005`   &lt;dbl&gt; NA, NA, NA, 1525.7236, 2115.1860, NA, 20737.9451, 404...
-## $ `2006`   &lt;dbl&gt; NA, NA, NA, 1594.4951, 2124.9578, NA, 21595.3955, 473...
-## $ `2007`   &lt;dbl&gt; NA, NA, NA, 1681.6139, 2155.4852, NA, 21495.8051, 562...
-## $ `2008`   &lt;dbl&gt; NA, NA, NA, 1804.4194, 2173.7879, NA, 21943.3399, 622...
-## $ `2009`   &lt;dbl&gt; NA, NA, NA, 1857.3529, 2192.7040, NA, NA, 619.8186, N...
-## $ `2010`   &lt;dbl&gt; NA, NA, NA, 1915.4245, 2231.9802, NA, NA, 623.2453, N...
-## $ `2011`   &lt;dbl&gt; NA, NA, NA, 1965.7072, 2255.2255, NA, NA, 629.9553, N...
+## $ country  &lt;chr&gt; "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "Al…
+## $ `1960.0` &lt;dbl&gt; NA, NA, NA, NA, 1280.3848, NA, NA, NA, NA, NA, 5251.876…
+## $ `1961`   &lt;dbl&gt; NA, NA, NA, NA, 1085.4146, NA, NA, NA, NA, NA, 5448.303…
+## $ `1962`   &lt;dbl&gt; NA, NA, NA, NA, 855.9480, NA, NA, NA, NA, NA, 5316.5790…
+## $ `1963`   &lt;dbl&gt; NA, NA, NA, NA, 1128.4158, NA, NA, NA, NA, NA, 4956.216…
+## $ `1964`   &lt;dbl&gt; NA, NA, NA, NA, 1170.3239, NA, NA, NA, NA, NA, 5375.463…
+## $ `1965`   &lt;dbl&gt; NA, NA, NA, NA, 1215.0158, NA, NA, NA, NA, NA, 5855.611…
+## $ `1966`   &lt;dbl&gt; NA, NA, NA, NA, 1127.6143, NA, NA, NA, NA, NA, 5733.311…
+## $ `1967`   &lt;dbl&gt; NA, NA, NA, NA, 1200.5582, NA, NA, NA, NA, NA, 5833.052…
+## $ `1968`   &lt;dbl&gt; NA, NA, NA, NA, 1291.8640, NA, NA, NA, NA, NA, 6028.124…
+## $ `1969`   &lt;dbl&gt; NA, NA, NA, NA, 1359.4910, NA, NA, NA, NA, NA, 6515.364…
+## $ `1970`   &lt;dbl&gt; NA, NA, NA, NA, 1436.1298, NA, 18256.2701, NA, NA, NA, …
+## $ `1971`   &lt;dbl&gt; NA, NA, NA, NA, 1235.6638, NA, 18142.9851, NA, NA, NA, …
+## $ `1972`   &lt;dbl&gt; NA, NA, NA, NA, 1527.6464, NA, 18646.9449, NA, NA, NA, …
+## $ `1973`   &lt;dbl&gt; NA, NA, NA, NA, 1538.306, NA, 19135.297, NA, NA, NA, 69…
+## $ `1974`   &lt;dbl&gt; NA, NA, NA, NA, 1603.3496, NA, 19304.3735, NA, NA, NA, …
+## $ `1975`   &lt;dbl&gt; NA, NA, NA, NA, 1632.2960, NA, 18607.4095, NA, NA, NA, …
+## $ `1976`   &lt;dbl&gt; NA, NA, NA, NA, 1714.0701, NA, 18511.4011, NA, NA, NA, …
+## $ `1977`   &lt;dbl&gt; NA, NA, NA, NA, 1747.6651, NA, 18394.4620, NA, NA, 3815…
+## $ `1978`   &lt;dbl&gt; NA, NA, NA, NA, 1848.4375, NA, 18038.5998, NA, NA, 3962…
+## $ `1979`   &lt;dbl&gt; NA, NA, NA, NA, 1923.2906, NA, 17379.3280, NA, NA, 4254…
+## $ `1980`   &lt;dbl&gt; NA, NA, NA, 1060.6846, 1876.0756, NA, 17013.6985, NA, N…
+## $ `1981`   &lt;dbl&gt; NA, NA, NA, 1099.5127, 1869.6213, NA, 16169.0217, NA, N…
+## $ `1982`   &lt;dbl&gt; NA, NA, NA, 1110.5123, 1924.6141, NA, 15514.6576, NA, N…
+## $ `1983`   &lt;dbl&gt; NA, NA, NA, 1101.3357, 1963.3651, NA, 14976.5906, NA, N…
+## $ `1984`   &lt;dbl&gt; NA, NA, NA, 1065.2353, 2008.4722, NA, 14554.7628, NA, N…
+## $ `1985`   &lt;dbl&gt; NA, NA, NA, 1059.8657, 2020.0872, NA, 14354.9066, 362.4…
+## $ `1986`   &lt;dbl&gt; NA, NA, NA, 1091.5606, 1969.7642, NA, 14444.4621, 362.3…
+## $ `1987`   &lt;dbl&gt; NA, NA, NA, 1054.2478, 1902.0611, NA, 14983.6322, 381.1…
+## $ `1988`   &lt;dbl&gt; NA, NA, NA, 1013.6290, 1833.1529, NA, 15517.4947, 392.7…
+## $ `1989`   &lt;dbl&gt; NA, NA, NA, 1092.4746, 1864.7126, NA, 15947.4902, 384.4…
+## $ `1990`   &lt;dbl&gt; NA, NA, NA, 977.7655, 1832.7434, NA, 16070.0658, 372.79…
+## $ `1991`   &lt;dbl&gt; NA, NA, NA, 687.9919, 1766.6608, NA, 15813.1016, 357.31…
+## $ `1992`   &lt;dbl&gt; NA, NA, NA, 643.2858, 1755.9737, NA, 15194.4592, 322.09…
+## $ `1993`   &lt;dbl&gt; NA, NA, NA, 714.2414, 1680.3799, NA, 14318.1890, 234.66…
+## $ `1994`   &lt;dbl&gt; NA, NA, NA, 784.5831, 1630.3815, NA, 14092.4241, 235.20…
+## $ `1995`   &lt;dbl&gt; NA, NA, NA, 899.7829, 1660.0042, NA, 14125.5934, 251.89…
+## $ `1996`   &lt;dbl&gt; NA, NA, NA, 990.6532, 1698.3338, NA, 14662.7364, 272.29…
+## $ `1997`   &lt;dbl&gt; NA, NA, NA, 895.5610, 1690.2375, NA, 16071.6449, 286.00…
+## $ `1998`   &lt;dbl&gt; NA, NA, NA, 1013.5143, 1750.6509, NA, 16755.2207, 297.4…
+## $ `1999`   &lt;dbl&gt; NA, NA, NA, 1118.1715, 1781.1425, NA, 17513.1782, 298.5…
+## $ `2000`   &lt;dbl&gt; NA, NA, NA, 1200.1374, 1794.4052, NA, 17539.4420, 298.4…
+## $ `2001`   &lt;dbl&gt; NA, NA, NA, 1281.8428, 1814.4151, NA, 19085.3641, 297.9…
+## $ `2002`   &lt;dbl&gt; NA, NA, NA, 1313.7227, 1871.9220, NA, 19430.0548, 329.5…
+## $ `2003`   &lt;dbl&gt; NA, NA, NA, 1381.0408, 1971.5128, NA, 19834.6326, 328.7…
+## $ `2004`   &lt;dbl&gt; NA, NA, NA, 1454.0229, 2043.1357, NA, 20254.3463, 353.2…
+## $ `2005`   &lt;dbl&gt; NA, NA, NA, 1525.7236, 2115.1860, NA, 20737.9451, 404.2…
+## $ `2006`   &lt;dbl&gt; NA, NA, NA, 1594.4951, 2124.9578, NA, 21595.3955, 473.1…
+## $ `2007`   &lt;dbl&gt; NA, NA, NA, 1681.6139, 2155.4852, NA, 21495.8051, 562.9…
+## $ `2008`   &lt;dbl&gt; NA, NA, NA, 1804.4194, 2173.7879, NA, 21943.3399, 622.5…
+## $ `2009`   &lt;dbl&gt; NA, NA, NA, 1857.3529, 2192.7040, NA, NA, 619.8186, NA,…
+## $ `2010`   &lt;dbl&gt; NA, NA, NA, 1915.4245, 2231.9802, NA, NA, 623.2453, NA,…
+## $ `2011`   &lt;dbl&gt; NA, NA, NA, 1965.7072, 2255.2255, NA, NA, 629.9553, NA,…
 ```
 
 
 ---
-Let's start by reducing the data to 3 countries and converting it to long format.
+# Getting order in the data
+
+Let's start by reducing the data to 3 countries and converting them to the long format.
+
 
 ```r
-capita %&gt;%
+capita_long &lt;- 
+  capita %&gt;%
   rename(country = 1) %&gt;%
-  filter(country %in% 
-           c("Germany", "United Kingdom", "United States")) %&gt;%
+  filter(
+    country %in% 
+      c("Germany", "United Kingdom", "United States")
+  ) %&gt;%
   gather(-1, key = "year", value = "income") %&gt;%
   arrange(country, year) %&gt;%
-  tail
+  tail()
 ```
+
+
+
+---
+# How does it look?
+
+We display only the tail because Germany, which is first in order, has missings up to and including the year 1969.
+
 
 ```
 ## # A tibble: 6 x 3
@@ -187,127 +228,162 @@ capita %&gt;%
 ## 6 United States 2011  37691.
 ```
 
---
-
-Showing the tail because Germany has missings up to and including 1969.
-
+In any case, information is reduced, and the data look much nicer now, doesn't them?
 
 
 ---
-
-&lt;h2&gt;Summary statistics&lt;/h2&gt;
+# Time for some summary statistics
 
 
 ```r
 capita_long %&gt;%
   mutate(change = (income / lag(income) - 1) * 100) %&gt;%
   group_by(country) %&gt;%
-  summarise(n = sum(!is.na(income)), 
-            min_inc = min(income, na.rm = TRUE),
-            max_inc = max(income, na.rm = TRUE), 
-            diff = max_inc - min_inc, has_na = any(is.na(income)),
-            max_change = max(change, na.rm = TRUE))
+  summarise(
+    n = sum(!is.na(income)), 
+    min_inc = min(income, na.rm = TRUE),
+    max_inc = max(income, na.rm = TRUE), 
+    diff = max_inc - min_inc, has_na = any(is.na(income)),
+    max_change = max(change, na.rm = TRUE)
+  )
 ```
 
 ```
-## # A tibble: 3 x 7
-##   country            n min_inc max_inc   diff has_na max_change
-##   &lt;chr&gt;          &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
-## 1 Germany           42  11895.  26207. 14311. TRUE       5.4002
-## 2 United Kingdom    52  10025.  29771. 19746. FALSE      7.1064
-## 3 United States     52  13723.  38711. 24988. FALSE      6.2707
+## # A tibble: 1 x 7
+##   country           n min_inc max_inc  diff has_na max_change
+##   &lt;chr&gt;         &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
+## 1 United States     6  36539.  38711. 2172. FALSE        2.16
 ```
 
-'change' is change in percent to previous year
+&lt;span class="footnote"&gt;
+  Note: `change` is the change of income in percent to the previous year.
+&lt;/span&gt;
+
+
+
 
 ---
+# Searching for extreme values
+We may ask in which years the change of income was higher than 2% as the maximum value was `2.1631`
 
 
 ```r
 capita_long %&gt;%
   mutate(change = (income / lag(income) - 1) * 100) %&gt;%
-  filter(change &gt; 5) 
+  filter(change &gt; 2) 
 ```
 
 ```
-## # A tibble: 6 x 4
-##   country        year  income change
-##   &lt;chr&gt;          &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1 Germany        1976  14043. 5.4002
-## 2 United Kingdom 1970  13042. 6.4929
-## 3 United Kingdom 1973  14654. 7.1064
-## 4 United States  1965  16277. 5.0781
-## 5 United States  1966  17136. 5.2771
-## 6 United States  1984  24554. 6.2707
+## # A tibble: 1 x 4
+##   country       year  income change
+##   &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 United States 2010  37330.   2.16
 ```
 
-.highlight[16277 + (16277*5.2771/100) ~= 17136]
+It's been 2010.
 
---
 
+---
+# Finding the year directly
 
 
 ```r
-# group_by(country) %&gt;%  
-# filter(change == max(change, na.rm = TRUE))  
+capita_long %&gt;% 
+  mutate(change = (income / lag(income) - 1) * 100) %&gt;%  
+  filter(change == max(change, na.rm = TRUE))
+```
+
+```
+## # A tibble: 1 x 4
+##   country       year  income change
+##   &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 United States 2010  37330.   2.16
 ```
 
 
-With  the outcommented code above we could use 'group_by' to just see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
+With this code, we see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
 
 ---
+# But, beware: Summary statistics can also be misleading! 
 
-&lt;h2&gt;But, beware: Summary statistics can also be misleading!&lt;/h2&gt;
-![](img/pity_the_fool.jpg)
+&lt;img src="./pics/pity_the_fool.jpg" width="50%" style="display: block; margin: auto;" /&gt;
 
-... who takes summary statistics as the complete picture", Mr. T?  
-Well said!
 
 ---
+&lt;h1&gt; Misleading correlation coefficients &lt;/h1&gt;
 
-Beautifully illustrated by the 'datasauRus' package, summary statistics can also mislead you about the structure of a dataset/variable.  
+.column-left-half[
+For example, if we do correlation analysis and we encounter a (Pearson's) correlation of close to 0, we often think of relationships as on the right side.
 
---
+- It's noisy
+- There's no observable pattern
+- ...it's just a mess, and we question our life decision of becoming statisticians
+]
 
-For example, with a (Pearson's) correlation coefficient between two variables close to 0 we often immediately think of a relation like this:
+.column-right-half[
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-9-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Do not despair
+The `datasauRus`-package proves to us that various different relations with the same summary statistics are possible.
+
+This one here has **the same correlation coefficient (-0.06, Pearson's)** as on the plot before:
+
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-10-1.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+.center[There's a trajectory, right? 💵]
+
+---
+# What about this one? (r = -0.06)
 
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
+&lt;h1&gt; What about this one? (r = -0.06) &lt;/h1&gt;
 
-**But**, datasauRus proves to us that various different relations with the same summary statistics are possible.
+.column-left-half[  
+&lt;img src="./pics/rooooar.png" width="60%" style="display: block; margin: auto;" /&gt;
+]
 
-This one here has **the same correlation coefficient (-0.06, Pearson's)**.
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
----
-
-As does this one (again, -0.06):
+.column-right-half[
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+]
 
 ---
-In fact, all of these 13 datasets have the same means, standard deviations, and Pearson's correlation coefficients.
-&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+# And it goes on and on
+
+All of these 13 datasets have the same means, standard deviations, and Pearson's correlation coefficients.
+
+&lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-14-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
+# Let's prove that to ourselves!
 
-&lt;h4&gt;Let's prove that to ourselves!&lt;/h4&gt;
-
-Here's how the data set looks like
+Here's how the data look like
 
 ```r
-datasauRus::datasaurus_dozen %&gt;% glimpse()
+datasauRus::datasaurus_dozen %&gt;% 
+  glimpse()
 ```
 
 ```
 ## Observations: 1,846
 ## Variables: 3
-## $ dataset &lt;chr&gt; "dino", "dino", "dino", "dino", "dino", "dino", "dino"...
-## $ x       &lt;dbl&gt; 55.3846, 51.5385, 46.1538, 42.8205, 40.7692, 38.7179, ...
-## $ y       &lt;dbl&gt; 97.1795, 96.0256, 94.4872, 91.4103, 88.3333, 84.8718, ...
+## $ dataset &lt;chr&gt; "dino", "dino", "dino", "dino", "dino", "dino", "dino", …
+## $ x       &lt;dbl&gt; 55.3846, 51.5385, 46.1538, 42.8205, 40.7692, 38.7179, 35…
+## $ y       &lt;dbl&gt; 97.1795, 96.0256, 94.4872, 91.4103, 88.3333, 84.8718, 79…
 ```
 
+---
+# Let's prove that to ourselves!
+Maybe, in this case, it's more convenient to count the data points in each dataset.
+
+
 ```r
-datasauRus::datasaurus_dozen %&gt;% select(dataset) %&gt;% table
+datasauRus::datasaurus_dozen %&gt;% 
+  select(dataset) %&gt;% 
+  table()
 ```
 
 ```
@@ -321,7 +397,9 @@ datasauRus::datasaurus_dozen %&gt;% select(dataset) %&gt;% table
 ```
 
 ---
-Proving that the points in the various datasets (e.g. dino, away) are not identical.
+# Are the points only identical across the datasets?
+
+Here's how it works:
 
 
 ```r
@@ -334,10 +412,20 @@ identical(sort(x),sort(x2))
 ## [1] TRUE
 ```
 
+
+---
+# Are the points only identical across the datasets?
+
+And for example, for the dataset `dino` and `away`:
+
+
 ```r
-dino &lt;- datasauRus::datasaurus_dozen %&gt;%
+dino &lt;- 
+  datasaurus_dozen %&gt;%
   filter(dataset == "dino")
-away &lt;- datasauRus::datasaurus_dozen %&gt;%
+
+away &lt;- 
+  datasaurus_dozen %&gt;%
   filter(dataset == "away")
 
 identical(sort(dino$x), sort(away$x))
@@ -347,102 +435,60 @@ identical(sort(dino$x), sort(away$x))
 ## [1] FALSE
 ```
 
----
 
-And here's the solution to compute the statistics
+---
+# Let's compute the statistics
+
+&lt;span class="footnote"&gt;
+  &lt;span class="red bold"&gt;*&lt;/span&gt; Important footnote
+&lt;/span&gt;
+
 
 ```r
-datasauRus::datasaurus_dozen %&gt;% group_by(dataset) %&gt;%
-  summarise(n = n(), mean_x = mean(x), mean_y = mean(y), 
-            sd_x = sd(x), sd_y = sd(y), 
-            corr = cor(x, y, method = "pearson"))
+datasaurus_dozen %&gt;% 
+  group_by(dataset) %&gt;%
+  summarise(
+    n = n(), 
+    mean_x = mean(x), 
+    mean_y = mean(y), 
+    sd_x = sd(x), 
+    sd_y = sd(y), 
+    corr = cor(x, y, method = "pearson")
+  )
 ```
+
+---
+# Let's compute the statistics
+
 
 ```
 ## # A tibble: 13 x 7
-##    dataset        n mean_x mean_y   sd_x   sd_y      corr
-##    &lt;chr&gt;      &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;
-##  1 away         142 54.266 47.835 16.770 26.940 -0.064128
-##  2 bullseye     142 54.269 47.831 16.769 26.936 -0.068586
-##  3 circle       142 54.267 47.838 16.760 26.930 -0.068343
-##  4 dino         142 54.263 47.832 16.765 26.935 -0.064472
-##  5 dots         142 54.260 47.840 16.768 26.930 -0.060341
-##  6 h_lines      142 54.261 47.830 16.766 26.940 -0.061715
-##  7 high_lines   142 54.269 47.835 16.767 26.940 -0.068504
-##  8 slant_down   142 54.268 47.836 16.767 26.936 -0.068980
-##  9 slant_up     142 54.266 47.831 16.769 26.939 -0.068609
-## 10 star         142 54.267 47.840 16.769 26.930 -0.062961
-## 11 v_lines      142 54.270 47.837 16.770 26.938 -0.069446
-## 12 wide_lines   142 54.267 47.832 16.770 26.938 -0.066575
-## 13 x_shape      142 54.260 47.840 16.770 26.930 -0.065583
+##    dataset        n mean_x mean_y  sd_x  sd_y    corr
+##    &lt;chr&gt;      &lt;int&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1 away         142   54.3   47.8  16.8  26.9 -0.0641
+##  2 bullseye     142   54.3   47.8  16.8  26.9 -0.0686
+##  3 circle       142   54.3   47.8  16.8  26.9 -0.0683
+##  4 dino         142   54.3   47.8  16.8  26.9 -0.0645
+##  5 dots         142   54.3   47.8  16.8  26.9 -0.0603
+##  6 h_lines      142   54.3   47.8  16.8  26.9 -0.0617
+##  7 high_lines   142   54.3   47.8  16.8  26.9 -0.0685
+##  8 slant_down   142   54.3   47.8  16.8  26.9 -0.0690
+##  9 slant_up     142   54.3   47.8  16.8  26.9 -0.0686
+## 10 star         142   54.3   47.8  16.8  26.9 -0.0630
+## 11 v_lines      142   54.3   47.8  16.8  26.9 -0.0694
+## 12 wide_lines   142   54.3   47.8  16.8  26.9 -0.0666
+## 13 x_shape      142   54.3   47.8  16.8  26.9 -0.0656
 ```
 
 ---
 
-&lt;h2&gt; Your turn! Excercises :) &lt;/h2&gt;
-
-
-```r
-gapminder_example &lt;- 
-  readxl::read_excel(
-    path = "../data/GDPpercapitaconstant2000US.xlsx",
-    sheet = "Data")
-gapminder_example %&gt;% select(1:4) %&gt;% head(n = 4)
-```
-
-```
-## # A tibble: 4 x 4
-##   `Income per person (fixed 2000 US$)` `1960.0` `1961` `1962`
-##   &lt;chr&gt;                                   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1 Abkhazia                                   NA     NA     NA
-## 2 Afghanistan                                NA     NA     NA
-## 3 Akrotiri and Dhekelia                      NA     NA     NA
-## 4 Albania                                    NA     NA     NA
-```
-
-Task: Compute the mean GDP of 1960-1969 over all countries?
-
----
-
-Solution
-
-
-```r
-gapminder_example %&gt;% 
-  mutate(country = `Income per person (fixed 2000 US$)`) %&gt;% 
-  select(country, starts_with("196")) %&gt;% 
-  gather(-1, key = "year", value = "GDP") %&gt;%
-  filter(!is.na(GDP)) %&gt;% 
-  arrange(year, GDP) %&gt;%
-  group_by(year) %&gt;% 
-  summarise(`GDP_over_all_countries` = mean(GDP))
-```
-
-```
-## # A tibble: 10 x 2
-##    year   GDP_over_all_countries
-##    &lt;chr&gt;                   &lt;dbl&gt;
-##  1 1960.0                 2862.7
-##  2 1961                   2936.3
-##  3 1962                   3033.7
-##  4 1963                   3127.4
-##  5 1964                   3297.2
-##  6 1965                   3479.1
-##  7 1966                   3561.8
-##  8 1967                   3643.8
-##  9 1968                   3827.4
-## 10 1969                   4014.6
-```
-
----
 class: center, middle
 
-&lt;h2&gt; Thanks!&lt;/h2&gt;
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/B3_SummaryStatistics_exercises_question.html) time 🏋️‍♀️💪🏃🚴
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
-
-The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihui.name/knitr), and [R Markdown](https://rmarkdown.rstudio.com).
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/B3_SummaryStatistics_exercises_solution.html)
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
@@ -452,16 +498,57 @@ The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihu
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
 })();</script>
 
 <script>
 (function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -475,7 +562,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     i++;
   }
-})();
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

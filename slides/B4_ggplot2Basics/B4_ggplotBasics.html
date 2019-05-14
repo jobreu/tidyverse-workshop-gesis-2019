@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
     <title>Data exploration: ggplot2 Basics</title>
-    <meta charset="utf-8">
-    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Müller" />
-    <meta name="date" content="2019-05-15" />
-    <link href="B4_ggplotBasics_files/remark-css/default.css" rel="stylesheet" />
-    <link href="B4_ggplotBasics_files/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="default" type="text/css" />
-    <link rel="stylesheet" href="robot-fonts" type="text/css" />
+    <meta charset="utf-8" />
+    <meta name="author" content="Johannes Breuer Stefan Jünger Thomas Ebel" />
+    <meta name="date" content="2019-05-16" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/robot-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="../footer-header.css" type="text/css" />
     <link rel="stylesheet" href="../mycss.css" type="text/css" />
   </head>
@@ -17,60 +15,546 @@
 class: center, middle, inverse, title-slide
 
 # Data exploration: ggplot2 Basics
-### Johannes Breuer<br />Thomas Ebel<br />Stefan Müller
-### 2019-05-15
+### Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel
+### 2019-05-16
 
 ---
 
-  layout: true
+layout: true
 
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Müller&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
-  &lt;div style="text-align: center;"&gt;&lt;span&gt;Terminology&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Stefan Jünger &amp; Thomas Ebel&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-16&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="text-align: center;"&gt;&lt;span&gt;Data exploration: ggplot2 Basics&lt;/span&gt;&lt;/div&gt;
   &lt;/div&gt;
+  
+  
+---
+# Graphics in `R`
+
+Since its early days `R` has always been pretty helpful for creating graphics.
+
+A standard `R` installation doesn't require any additional packages to create graphics.
+
+--
+
+
+
+
+.pull-left[
+
+```r
+hist(titanic$Age)
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
+]
+
   
 ---
 # What is ggplot2?
-`ggplot2` is an R-package to create plots.
+`ggplot2` is another R-package to create plots and part of the `tidyverse`.
 
 It uses the "grammar of graphics"
 
-- language for multi-dimensional and data
+- language for multi-dimensional data
+
 - accordingly, it expects (a) data (frame) as input
+
 - components of the plot are added as layers
 
----
-# Going deeper into the components of a plot
-According to Wickham (2010, 8) a layered plot consists of the following components:
+--
 
+
+```r
+plot_call +
+  layer_1 +
+  layer_2 +
+  ... +
+  layer_n
+```
+
+
+---
+# Plot examples 
+
+.pull-left[
+&lt;img src="./143_radar_chart_multi_indiv_2.png" width="640" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="./21_ggplot2_ddensity_plot.png" width="640" style="display: block; margin: auto;" /&gt;
+]
+
+
+&lt;small&gt;&lt;small&gt;Source:&lt;/small&gt;&lt;/small&gt;
+
+---
+# Plot examples 
+
+.pull-left[
+&lt;img src="./51_scatterplot_linear_model_with_CI_ggplot2.png" width="640" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="./328_Hexbin_map_USA_4.png" width="800" style="display: block; margin: auto;" /&gt;
+]
+
+&lt;small&gt;&lt;small&gt;Source:&lt;/small&gt;&lt;/small&gt;
+
+---
+# Histograms as in standard `R`
+
+&lt;img src="B4_ggplotBasics_files/figure-html/ggplot_histogram-1.png" width="65%" style="display: block; margin: auto;" /&gt;
+
+---
+# Components of a plot
+According to Wickham (2010, 8)* a layered plot consists of the following components:
+
+--
 - data and aesthetic mappings,
+
+--
 - geometric objects,
+
+--
 - scales,
+
+--
 - and facet specification
-  
+
+&lt;span class="footnote"&gt;
+&lt;small&gt;&lt;small&gt;&lt;span class="red bold"&gt;*&lt;/span&gt; http://dx.doi.org/10.1198/jcgs.2009.07098&lt;/small&gt;&lt;/small&gt;
+&lt;/span&gt;
+
+--
+
+```r
+plot_call +
+  data +
+  aesthetics +
+  geometries +
+  scales +
+  facets
+```
 
 
 ---
-# Exercise: plots
+# Data requirements
+You can use one single data frame to create a plot in `ggplot2`.
+- everything's on the plot is just data
+- creates a pleasant and smooth workflow from data wrangling to the final presentation of the results
+
+
+&lt;img src="./pics/data-science_man.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+&lt;small&gt;&lt;small&gt;Source:&lt;/small&gt;&lt;/small&gt;
+
+--
+
+But this makes it difficult to add extra features to your plot.
+  - There are ways of doing it anyway as we will see later
+  - Yet, it requires thinking about what to plot
+
+---
+# Why the long data format?
+
+
+ggplot2 requires data to be in the long data format
+
+- in some scientific disciplines, this format is only used for specialized analyses 
+- e.g., time series analysis
+
+
+.pull-left[
+We may want to get used to it as this format has some benefits
+
+- every element we aim to plot is an observation
+- no thinking required how a specific variable relates to an observation
+- most importantly, the long format is more parsimonious
+- it requires less memory and less disk space
+]
+
+
+.pull-right[
+&lt;img src="./pics/long.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+&lt;small&gt;&lt;small&gt;Source:&lt;/small&gt;&lt;/small&gt;
+  
+  
+---
+# Creating your own plot
+
+Theory on plots is boring.
+
+- creating plots is all about practice
+- ...and stealing code from others
+
+
+.column-left-half[
+
+```r
+please +
+  no +
+  more +
+  pseudo +
+  code +
+  man
+```
+]
+
+.column-right-half[
+Three components are important:
+
+- Plot initiation
+- data input
+- aesthetics definition
+- so-called `geoms`
+]
+
+
+---
+# Plot initiation
+
+.pull-left[
+`ggplot()` is the most basic command to create a plot:
+
+
+```r
+ggplot()
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+**But it doesn't show anything...**
+
+
+---
+# Data input
+
+.pull-left[
+As we've already learned `ggplot()` expects data as input
+
+
+```r
+titanic &lt;- 
+  read_csv(
+    "../../data/titanic/titanic.csv", 
+    col_types = cols()
+    ) %&gt;% 
+  na.omit()
+
+ggplot(data = titanic)
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+**Still nothing there...**
+
+
+---
+# Aesthetics! 
+
+.pull-left[
+`ggplot` requires information about the variables to plot
+
+
+```r
+ggplot(data = titanic) +
+* aes(x = Age, y = Fare)
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+**That's a little bit better, right?**
+
+
+---
+# `geoms`!
+
+.pull-left[
+Finally, `ggplot` needs information *how* to plot the variables
+
+
+```r
+ggplot(data = titanic) +
+  aes(x = Age, y = Fare) +
+* geom_point()
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+**A scatter plot!**
+
+---
+# Add a line
+
+.pull-left[
+We can also add more than one `geom`
+
+
+```r
+ggplot(data = titanic) +
+  aes(x = Age, y = Fare) +
+  geom_point() +
+* geom_smooth()
+```
+]
+
+--
+
+.pull-right[
+
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+--
+
+**A regression line!**
+
+---
+# Going further: add group aesthetics
+
+.pull-left[
+`ggplot()` is the most basic command to create a plot:
+
+
+```r
+ggplot(
+  data = titanic,
+  aes(
+    x = Age, 
+    y = Fare, 
+*   color = Sex
+    )
+  ) +
+  geom_point()
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# Manipulate group aesthetics
+
+.pull-left[
+`ggplot()` is the most basic command to create a plot:
+
+
+```r
+ggplot(
+  data = titanic,
+  aes(
+    x = Age, 
+    y = Fare, 
+    color = Sex
+    )
+  ) +
+  geom_point() +
+* scale_color_brewer(
+*   palette = "Accent"
+*   )
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# A note on manipulations
+
+.pull-left[
+Working with combined aesthetics and different data inputs can become cumbersome.
+
+Particularly, plotting similar aesthetics which interfere the automatic procedures can create conflicts.
+
+My 'favorite' ones are:
+
+- Multiple legends
+- and various color scales for similar `geoms` 
+- there's more!
+]
+
+.pull-right[
+&lt;img src="./pics/800px-The_Scream.jpg" width="1065" style="display: block; margin: auto;" /&gt;
+]
+
+.right[
+&lt;small&gt;&lt;small&gt;Source: https://de.wikipedia.org/wiki/Der_Schrei#/media/File:The_Scream.jpg&lt;/small&gt;&lt;/small&gt;
+]
+
+
+---
+# Shortcuts
+
+`ggplot2` is powerful.
+
+- yet, it's complicated
+- it has a steep learning curve
+
+
+---
+# `qplot()` or `quickplot()`
+
+.pull-left[
+
+```r
+qplot(
+  x = titanic$Age, 
+  y = titanic$Fare,
+  geom = "point"
+  )
+```
+]
+
+--
+
+.pull-right[
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# `qplot()` or `quickplot()`
+
+.pull-left[
+
+```r
+qplot(
+  x = titanic$Age, 
+  y = titanic$Fare,
+* geom = c("point", "smooth")
+  )
+```
+]
+
+--
+
+.pull-right[
+
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+class: center, middle
+
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/B4_ggplot2Basics_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/B4_ggplot2Basics_exercises_solution.html)
     </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-<script>var slideshow = remark.create();
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
-(function() {
-  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
   if (!r) return;
   s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
   d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
 })();</script>
 
 <script>
 (function() {
-  var i, text, code, codes = document.getElementsByTagName('code');
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
   for (i = 0; i < codes.length;) {
     code = codes[i];
     if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
@@ -84,7 +568,8 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     i++;
   }
-})();
+};
+slideshow._releaseMath(document);
 </script>
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
