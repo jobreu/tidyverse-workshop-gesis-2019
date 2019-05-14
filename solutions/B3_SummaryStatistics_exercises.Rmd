@@ -15,8 +15,8 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
                                       box.header = list(fill = "#ffec8b", colour = "black"),
                                       box.icon = "fa-search",
                                       box.collapse = TRUE))
-
 ```
+
 
 ```{r klippy, echo=FALSE, include=TRUE}
 klippy::klippy()
@@ -54,6 +54,10 @@ gap_gdp <-
     path = "../data/gapminder/GDPpercapitaconstant2000US.xlsx",
     sheet = "Data"
     )
+
+# OR: as csv for a cleaner version
+# gap_gdp <-
+#   readr::read_csv("../data/gapminder/gdppercapita_us_inflation_adjusted.csv")
 ```
 
 Have the data been successfully imported? They should be in a tibble with the dimensions 275 x 53. As a further check: The income per person for Algeria for the years 1960, 1961, and 1962 should be 1280, 1085, and 856.
