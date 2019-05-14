@@ -47,7 +47,7 @@ gapminder_ggplot_input <-
   group_by(year) %>% 
   summarise(GDP_over_all_countries = mean(GDP))
 
-# OR: as csv for a cleaner version
+# OR: alternatively, you can also read in the data from the csv file
 # gapminder_ggplot_input <- 
 #   readr::read_csv("../data/gapminder/gdppercapita_us_inflation_adjusted.csv") %>% 
 #   gather(-country, key = "year", value = "GDP") %>% 
@@ -57,7 +57,7 @@ gapminder_ggplot_input <-
 #   summarise(GDP_over_all_countries = mean(GDP))
 ```
 
-In the previous exercises we only analyzed how the period from 1960 to 1969 compares to the period from 2002 to 2011. The nice thing about plots is that we can make use of the whole range of years and still identify differences between various periods. Our plot of choice, therefore, is a line plot to create a nice time series.
+In the previous exercises we only analyzed how the period from 1960 to 1969 compares to the period from 2002 to 2011. The nice thing about plots is that we can make use of the whole range of years and still identify differences between various periods. Our plot of choice, therefore, is a line plot to visualize the data as a time series.
 
 ```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
 Plot the gapminder data as a line plot to display a time series.
@@ -75,7 +75,7 @@ ggplot(
   geom_line()
 ```
 
-Admittedly, this may not be the best approach to identify differences between the periods directly. We don't know when our periods start and when they end. Luckily, this can be done at least two different ways. Let's start with the first one: using colors for different periods. For this purpose, we need an indicator variable as a grouping variable, so that we can use different colors for the line at each period.
+Admittedly, this may not be the best approach to identify differences between the periods directly. We don't know when our periods start and when they end. Luckily, this can be done in two relatively straightforward steps. Let's start with the first one: using different colors for different time periods. For this purpose, we need an indicator variable as a grouping variable, so that we can use different colors for the line at each period.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create an indicator variable for the time periods 1960-1969, 2002-2011 and the time inbetween.
@@ -124,7 +124,7 @@ ggplot(
   geom_line()
 ```
 
-Now we can see some visual differences between the different periods. One last thing, however, is that there are way too many labels on the x-axis. Maybe a more sensible axis labeling approach would be to create axis breaks for every ten years steps. **However, this is an advanced exercise as we did not talk about manipulating axes before. If you're not feeling adventurous just jump to the next exercise which is also optional.**
+Now we can see some visual differences between the different periods. One last thing, however, is that there are way too many labels on the x-axis. Maybe a more sensible axis labeling approach would be to create axis breaks for every ten years steps. **However, this is an advanced exercise as we did not talk about manipulating axes before. If you're not feeling adventurous just jump to the next exercise which is also optional but probably more exciting.**
 
 ```{block, box.title = "5 (advanced)", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create some prettier, i.e., more sensible breaks for the x-axis.
@@ -154,7 +154,7 @@ ggplot(
   )
 ```
 
-Thus far, we only looked at univariate relationships. But the power of data visualization lies in revealing multivariate relationships. Have a look at the following code:
+So far, we have only looked at bivariate relationships (in this case between time and global GDP). However, the true power of data visualization with `ggplot2` lies in the exploration of multivariate relationships. Have a look at the following code:
 
 ```{r load_gapminder_again, message=FALSE, eval=FALSE}
 library(gapminder)
@@ -169,22 +169,22 @@ gapminder %>%
 ```
 
 ```{block, box.title = "6 (optional)", box.body = list(fill = "white"), box.icon = "fa-star"}
-Please fill in the missing parts marked by a ???. Say, we aim to
+Fill in the missing parts marked by ???. Say that we want to...
 
-1. plot data of the year 2007,
+1. plot data for the year 2007,
 
-2. the relationship between GDP per capita and life expectancy,
+2. visualize the relationship between GDP per capita and life expectancy,
 
-3. adjust the visualizations by population size,
+3. use population size to determine the size of the points in the plot,
 
-5. maybe have different colors for continents,
+5. have different colors for different continents,
 
-6. and choose a proper to `geom` to plot everything.
+6. and choose a proper to `geom` for plotting everything.
 
 ```
 
 ```{block, opts.label = "clues"}
-Think about in which kind of plot different sizes of `geom`-types actually make sense and are on point.
+Think about in which kind of plot different sizes of `geom`-types actually make sense and are 'on point'.
 ```
 
 ```{r load_gapminder_again_solution, solution=TRUE}
@@ -197,27 +197,4 @@ gapminder %>%
              size = pop,
              color = continent)) +
   geom_point()
-```
-
-There's always more. Here's one more as you may have noticed that the scaling of the x axis is a little bit odd, we see a non-linear relationship. `ggplot2` makes it really easy with some built-in functions to rescale axes.
-
-```{block, box.title = "7 (optional)", box.body = list(fill = "white"), box.icon = "fa-star"}
-Transform the x-axis to a log10 scale.
-```
-
-```{block, opts.label = "clues"}
-Have a look at the function `scale_x_log10()`.
-```
-
-```{r load_gapminder_again_solution_log, solution=TRUE}
-library(gapminder)
-
-gapminder %>% 
-  filter(year == 2007) %>% 
-  ggplot(aes(x = gdpPercap,
-             y = lifeExp,
-             size = pop,
-             color = continent)) +
-  geom_point() +
-  scale_x_log10()
 ```
