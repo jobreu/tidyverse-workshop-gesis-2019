@@ -305,7 +305,7 @@ u %>%
 
 ---
 
-# Notes on pipes' styling: nesting I
+# Notes on pipes' styling: nesting
 
 As pipes are so convenient you may be tempted to nest operations within pipes and to merge separate processes. For example:
 
@@ -324,7 +324,7 @@ z %>%
 
 ---
 
-# Notes on pipes' styling: nesting II
+# Notes on pipes' styling: nesting
 To:
 
 ```{r pipe_nested_2, echo = TRUE, eval = FALSE}
@@ -506,10 +506,12 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 
 - better readability
   - they fit the screen automatically
+  
+- no strings as factors by default
 
 ---
 
-# You've seen them already...
+# This is how they look
 
 ```{r tibble_example, echo = FALSE, message = FALSE, eval = TRUE}
 example_tibble <- read_csv("../../data/titanic/titanic.csv")
@@ -523,7 +525,7 @@ example_tibble
 
 .middle[
 Usually, we don't have to do anything. 
-s
+
 tibbles are the standard output format of all tidyverse applications.
 
 Yet, some old (or non-compliant) `R` functions may have some issues with tibbles. 
@@ -542,8 +544,6 @@ This can be done with the `tibble()`-function from the `tibble`-package.
 ```{r tibble-pic, out.width = "35%"}
 include_graphics("./pics/tibble.png")
 ``` 
-
-.center[<small><small>Source: https://github.com/rstudio/hex-stickers/blob/master/PNG/tibble.png </small></small>]
 
 ---
 

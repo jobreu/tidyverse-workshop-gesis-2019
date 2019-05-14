@@ -331,7 +331,7 @@ u %&gt;%
 
 ---
 
-# Notes on pipes' styling: nesting I
+# Notes on pipes' styling: nesting
 
 As pipes are so convenient you may be tempted to nest operations within pipes and to merge separate processes. For example:
 
@@ -351,7 +351,7 @@ z %&gt;%
 
 ---
 
-# Notes on pipes' styling: nesting II
+# Notes on pipes' styling: nesting
 To:
 
 
@@ -453,7 +453,7 @@ Moreover, they stop the inheritance of the output of the current command.
   mean()
 ```
 
-&lt;img src="A2_Terminology_files/figure-html/t_pip_plot-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="A2_Terminology_files/figure-html/t_pipe_plot-1.png" style="display: block; margin: auto;" /&gt;
 
 ```
 ## [1] 20.09062
@@ -546,10 +546,12 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 
 - better readability
   - they fit the screen automatically
+  
+- no strings as factors by default
 
 ---
 
-# You've seen them already...
+# This is how they look
 
 
 ```
@@ -576,7 +578,7 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 
 .middle[
 Usually, we don't have to do anything. 
-s
+
 tibbles are the standard output format of all tidyverse applications.
 
 Yet, some old (or non-compliant) `R` functions may have some issues with tibbles. 
@@ -593,8 +595,6 @@ Occasionally, we want to create `tibbles` from standard `data.frames`.
 This can be done with the `tibble()`-function from the `tibble`-package.
 
 &lt;img src="./pics/tibble.png" width="35%" style="display: block; margin: auto;" /&gt;
-
-.center[&lt;small&gt;&lt;small&gt;Source: https://github.com/rstudio/hex-stickers/blob/master/PNG/tibble.png &lt;/small&gt;&lt;/small&gt;]
 
 ---
 
@@ -4228,10 +4228,10 @@ tibble(
 ##       a     b c    
 ##   &lt;int&gt; &lt;int&gt; &lt;chr&gt;
 ## 1     1    20 b    
-## 2     2    19 f    
-## 3     3    18 h    
-## 4     4    17 g    
-## 5     5    16 d
+## 2     2    19 a    
+## 3     3    18 g    
+## 4     4    17 f    
+## 5     5    16 j
 ```
 
 ---
