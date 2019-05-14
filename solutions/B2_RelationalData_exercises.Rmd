@@ -27,7 +27,7 @@ There is an `R` package named [`gapminder`](https://cran.r-project.org/web/packa
 
 Our aim for the following exercises is to use the individual data files from *Gapminder* that we have used in some of the previous exercises to create combined datasets that resemble the one contained in the `gapminder` package.
 
-Before we can begin with these exercises, we need to load the datasets. To do this you can simply use the following chunks (that repeats some parts of the previous exercises).
+Before we can begin with these exercises, we need to load the datasets. To do this, you can simply use the following chunks (that repeats some parts of the previous exercises).
 
 ```{r load gapminder datasets, message = F}
 library(readr)
@@ -50,7 +50,7 @@ Load the `gapminder` package and have a look at the dataset it contains. The dat
 ```
 
 ```{block, opts.label = "clues"}
-In order to print the dataset you can just type its name and run that line.
+In order to print the dataset, you can just type its name and run that line.
 ```
 
 ```{r gapminder pkg, solution = TRUE}
@@ -61,7 +61,7 @@ gapminder
 
 In the following, we will use different joins to create datasets that contain the same set of variables. We will create two versions of the combined dataset.  
 
-Before we do this, however, we want to explore the overlap and discrepancies between the individual datasets. This is somewhat easier to do with the datsets in wide format (as each country name only appears in one row in thise).
+Before we do this, however, we want to explore the overlap and discrepancies between the individual datasets. This is somewhat easier to do with the datasets in wide format (as each country name only appears in one row in those).
 
 ```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
 Using a filtering join, determine which countries are in *gap_pop* but not in *gap_life* and vice versa. Do the same for *gap_gdp* and *gap_life*.
@@ -91,7 +91,7 @@ gap_life %>%
   select(country)
 ```
 
-For the following series of joins we want the data in long format again. Just copy, paste, and run the code below to transform the datasets accordingly.
+For the following series of joins, we want the data in the long format again. Just copy, paste, and run the code below to transform the datasets accordingly.
 
 ```{r wrangle gapminder datasets}
 library(tidyr)
@@ -111,14 +111,14 @@ gap_gdp <- gap_gdp %>%
 
 ```
 
-As stated above, we want to create two different versions of the combined datasets: One without missing data andone with as many observations (rows) as possible.
+As stated above, we want to create two different versions of the combined datasets: One without missing data and one with as many observations (rows) as possible.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create the two versions of the combined dataset described above using one type of mutating join for each one.  
 
 For the one without missing data you should start with the dataset with the largest number of countries in it (*gap_pop*), and then join the other datasets in descending order of the number of countries they contain (*gap_life*, *gap_gdp*, *gap_cont*). This datasets also requires to additional (pipe) steps to ensure that a) it contains no NAs and b) its variables are in the same order as in the `gapminder` package dataset.  
 
-For the dataset with the maximum amount of observations (rows) it does not matter which datset you start from. Name the resulting datasets *gap_nomiss* and *gap_full*.
+For the dataset with the maximum amount of observations (rows), it does not matter which dataset you start from. Name the resulting datasets *gap_nomiss* and *gap_full*.
 ```
 
 ```{block, opts.label = "clues"}
@@ -141,7 +141,7 @@ gap_nomiss <- gap_pop %>%
   select(country, continent, year, lifeExp, pop, gdpPercap)
 ```
 
-Now that we have created the two combined datasets, let's see how much they differ from each other.
+Now that we have created the two combined datasets let's see how much they differ from each other.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
 Using a set operation, determine how many observations from the *gap_full* dataset are missing from *gap_nomiss*.
