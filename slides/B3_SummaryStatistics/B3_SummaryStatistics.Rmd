@@ -7,7 +7,7 @@ location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../workshop.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
