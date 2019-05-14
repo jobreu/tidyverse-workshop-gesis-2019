@@ -82,11 +82,11 @@ In this course you will learn how to **wrangle and explore data in R using packa
     
 - Ph.D. (well, not yet... book is in print) in social sciences, University of Cologne
 
-- previously worked in the area of data ingest and curator of the data repository datorium and two DFG research projects on geospatial data data
+- previously worked in the area of data ingest and as a curator of the data repository datorium and two DFG research projects on geospatial data data
 
 - other research interests:
     - quantitative methods
-    - social inequalities & attitudes towards minorities research
+    - social inequalities & attitudes towards minorities
     - data management & data privacy
 
 [stefan.juenger@gesis.org](mailto:stefan.juenger@gesis.org)
