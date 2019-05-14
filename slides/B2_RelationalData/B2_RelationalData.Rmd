@@ -53,7 +53,7 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 
 # Combining datasets
 
-In most cases researchers/analysts work with more than one data file.  
+In most cases, researchers/analysts work with more than one data file.  
 
 The simplest way two combine tabular datasets is to use `bind_cols()` or `bind_rows()` from `dplyr`.  
   
@@ -71,7 +71,7 @@ However, to use **`bind_cols()`**, you need to make sure that the datasets conta
 
 # Superhero data `r ji("bat")``r ji("zap")``r ji("spider_web")``r ji("merman")`
 
-- to illustrate the different joins from `dlpyr` we will use data from the Super Heroes dataset from [*Kaggle*](https://www.kaggle.com/claudiodavi/superhero-set)
+- to illustrate the different joins from `dlpyr`, we will use data from the Super Heroes dataset from [*Kaggle*](https://www.kaggle.com/claudiodavi/superhero-set)
 
 ```{r superhero data, include = F}
 heroes <- read_csv("../../data/other/heroes_information.csv") %>% 
