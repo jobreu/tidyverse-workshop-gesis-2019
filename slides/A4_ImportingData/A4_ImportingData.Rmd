@@ -325,6 +325,6 @@ Several other non-tidyverse packages provide similar benefits as they make use o
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A4_TidyData_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A4_ImportingData_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
 ## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A4_ImportingData_exercises_solution.html)
