@@ -41,16 +41,12 @@ yellow <- "#f4e842"
 </div>
 
 ---
-class: center, middle
-
-# Demystifing unknown knowns
-## What do we know, what don't we know and why do we care?
-
----
 
 # Untangling data is hard 
 
 If we look at raw numbers, we might have a hard time understanding them.
+
+--
 
 Interpreting single numbers is easy, but it's almost impossible, for example, to say which of the following two vectors has
 
@@ -58,6 +54,8 @@ Interpreting single numbers is easy, but it's almost impossible, for example, to
 - the lower mean
 
 just by looking at them:
+
+--
 
 ```{r echo=FALSE, results='markup'}
 x = sample(x = 18:65, size = 10, replace = TRUE)
@@ -68,7 +66,47 @@ y = sample(x = 20:60, size = 10, replace = TRUE)
 ```
 
 ---
-# And now?
+
+# Making sense of data
+
+To make sense of data we reduce their information to unique values.
+
+--
+
+.center[
+~ 
+
+**That's a simple definition of summary statistics**
+
+~]
+
+--
+
+As such, we use summarizing functions of
+- location (e.g., the mean),
+- spread (e.g., standard deviation),
+- the shape of the distribution (e.g., skewness), and
+- relations between variables (e.g., correlation coefficients)
+
+--
+
+We assume everyone here knows the basics of summary statistics. So instead of their repeating them, let's see how to create them with tools from the `tidyverse`.
+
+---
+# The `summarize()` function
+
+`tidyverse` provides a nice function to create summary statistics called `summarize()`.
+
+--
+
+It's a vecorized tool to create statistics on variables in the non-standard evaluation format for all standard R functions, such as:
+
+- mean()
+- sd()
+
+
+---
+# What do you think?
 
 ```{r echo=TRUE}
 tibble(
@@ -83,28 +121,9 @@ tibble(
   )
 ```
 
+--
+
 The underlying vectors of this tibble are short. In the real world, vectors are also tend to be too long to be eyeballed conveniently.
-
----
-
-# Making sense of data
-
-To make sense of data we reduce their information to unique values.
-
-.center[
-~ 
-
-**That's a simple definition of summary statistics**
-
-~]
-
-As such, we use summarizing functions of
-- location (e.g., the mean),
-- spread (e.g., standard deviation),
-- the shape of the distribution (e.g., skewness), and
-- relations between variables (e.g., correlation coefficients)
-
-We assume everyone here knows the basics of summary statistics. So instead of their repeating them, let's see how to create them with tools from the `tidyverse`.
 
 ---
 
@@ -115,6 +134,7 @@ As in many of the previous exercises we will use data from [*Gapminder*](https:/
 
 > "Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
 
+--
 
 ```{r echo=TRUE}
 capita <- 
@@ -141,6 +161,8 @@ capita %>%
 
 Let's start by reducing the data to 3 countries and converting them to the long format.
 
+--
+
 ```{r capita_long_subset, eval = TRUE, echo = TRUE}
 capita_long <- 
   capita %>%
@@ -160,9 +182,13 @@ capita_long <-
 
 We display only the tail (last 6 observations here) because Germany, which appears at the head of the new dataframe, has missings up to and including the year 1969.
 
+--
+
 ```{r capita_long_subset_look, echo=FALSE}
-capita_long %>%  tail()
+capita_long %>% tail()
 ```
+
+--
 
 In any case, information is reduced, and the data look much nicer now.
 
@@ -173,7 +199,7 @@ In any case, information is reduced, and the data look much nicer now.
 ```{r echo=TRUE}
 capita_long %>%
   mutate(change = (income / lag(income) - 1) * 100) %>%
-  group_by(country) %>%
+  group_by(country) %>% #<<
   summarise(
     n = sum(!is.na(income)), 
     min_inc = min(income, na.rm = TRUE),
@@ -182,6 +208,8 @@ capita_long %>%
     max_change = max(change, na.rm = TRUE)
   )
 ```
+
+--
 
 This code might be a bit difficult to understand for you now, but don't worry: We will discuss the individual functions included here in the following.
 
@@ -194,6 +222,8 @@ This code might be a bit difficult to understand for you now, but don't worry: W
 # Searching for extreme values
 
 We may, for example, want to find years in which the change in income was higher than 2% (as the maximum value was `2.16`).
+
+--
 
 ```{r echo=TRUE}
 capita_long %>%
@@ -211,6 +241,7 @@ capita_long %>%
   filter(change == max(change, na.rm = TRUE))
 ```
 
+--
 
 With this code, we see data for the year in the country's GDP showed the highest increase. This is helpful even if we do not care about (other) summary statistics at all.
 
@@ -249,6 +280,8 @@ datasauRus::datasaurus_dozen %>%
 # Do not despair
 The [`datasauRus` package](https://github.com/lockedata/datasauRus) proves to us that various different relations with the same summary statistics are possible.
 
+--
+
 This dataset has **the same correlation coefficient (-0.06, Pearson's)** as the one in the previous plot:
 
 ```{r, out.width = "40%"}
@@ -258,6 +291,8 @@ datasauRus::datasaurus_dozen %>%
   geom_point() + 
   theme_void()
 ```
+
+--
 
 .center[But there's a trajectory, right? `r ji("dollar")`]
 
@@ -314,6 +349,7 @@ ggplot(
 # Let's prove that to ourselves!
 
 Here's what the data look like
+
 ```{r echo=TRUE}
 datasauRus::datasaurus_dozen %>% 
   glimpse()

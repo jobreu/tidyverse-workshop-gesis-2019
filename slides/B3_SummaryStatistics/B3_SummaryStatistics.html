@@ -7,8 +7,8 @@
     <meta name="date" content="2018-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
-    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+    <link rel="stylesheet" href="../footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="../mycss.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -32,16 +32,12 @@ layout: true
 &lt;/div&gt;
 
 ---
-class: center, middle
-
-# Demystifing unknown knowns
-## What do we know, what don't we know and why do we care?
-
----
 
 # Untangling data is hard 
 
 If we look at raw numbers, we might have a hard time understanding them.
+
+--
 
 Interpreting single numbers is easy, but it's almost impossible, for example, to say which of the following two vectors has
 
@@ -50,17 +46,59 @@ Interpreting single numbers is easy, but it's almost impossible, for example, to
 
 just by looking at them:
 
+--
+
 
 ```
-##  [1] 48 32 31 20 59 60 54 31 42 43
+##  [1] 31 55 37 60 63 20 43 60 44 39
 ```
 
 ```
-##  [1] 46 24 46 47 28 48 54 27 45 26
+##  [1] 59 38 47 43 24 56 30 21 33 59
 ```
 
 ---
-# And now?
+
+# Making sense of data
+
+To make sense of data we reduce their information to unique values.
+
+--
+
+.center[
+~ 
+
+**That's a simple definition of summary statistics**
+
+~]
+
+--
+
+As such, we use summarizing functions of
+- location (e.g., the mean),
+- spread (e.g., standard deviation),
+- the shape of the distribution (e.g., skewness), and
+- relations between variables (e.g., correlation coefficients)
+
+--
+
+We assume everyone here knows the basics of summary statistics. So instead of their repeating them, let's see how to create them with tools from the `tidyverse`.
+
+---
+# The `summarize()` function
+
+`tidyverse` provides a nice function to create summary statistics called `summarize()`.
+
+--
+
+It's a vecorized tool to create statistics on variables in the non-standard evaluation format for all standard R functions, such as:
+
+- mean()
+- sd()
+
+
+---
+# What do you think?
 
 
 ```r
@@ -80,31 +118,12 @@ tibble(
 ## # A tibble: 1 x 4
 ##   mean_x mean_y var_x var_y
 ##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1   41.6   40.5  186.  152.
+## 1   47.1   41.6  143.  177.
 ```
 
+--
+
 The underlying vectors of this tibble are short. In the real world, vectors are also tend to be too long to be eyeballed conveniently.
-
----
-
-# Making sense of data
-
-To make sense of data we reduce their information to unique values.
-
-.center[
-~ 
-
-**That's a simple definition of summary statistics**
-
-~]
-
-As such, we use summarizing functions of
-- location (e.g., the mean),
-- spread (e.g., standard deviation),
-- the shape of the distribution (e.g., skewness), and
-- relations between variables (e.g., correlation coefficients)
-
-We assume everyone here knows the basics of summary statistics. So instead of their repeating them, let's see how to create them with tools from the `tidyverse`.
 
 ---
 
@@ -115,6 +134,7 @@ As in many of the previous exercises we will use data from [*Gapminder*](https:/
 
 &gt; "Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
 
+--
 
 
 ```r
@@ -134,59 +154,59 @@ capita &lt;-
 ```
 ## Observations: 275
 ## Variables: 53
-## $ country  &lt;chr&gt; "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "...
-## $ `1960.0` &lt;dbl&gt; NA, NA, NA, NA, 1280.3848, NA, NA, NA, NA, NA, 5251.8...
-## $ `1961`   &lt;dbl&gt; NA, NA, NA, NA, 1085.4146, NA, NA, NA, NA, NA, 5448.3...
-## $ `1962`   &lt;dbl&gt; NA, NA, NA, NA, 855.9480, NA, NA, NA, NA, NA, 5316.57...
-## $ `1963`   &lt;dbl&gt; NA, NA, NA, NA, 1128.4158, NA, NA, NA, NA, NA, 4956.2...
-## $ `1964`   &lt;dbl&gt; NA, NA, NA, NA, 1170.3239, NA, NA, NA, NA, NA, 5375.4...
-## $ `1965`   &lt;dbl&gt; NA, NA, NA, NA, 1215.0158, NA, NA, NA, NA, NA, 5855.6...
-## $ `1966`   &lt;dbl&gt; NA, NA, NA, NA, 1127.6143, NA, NA, NA, NA, NA, 5733.3...
-## $ `1967`   &lt;dbl&gt; NA, NA, NA, NA, 1200.5582, NA, NA, NA, NA, NA, 5833.0...
-## $ `1968`   &lt;dbl&gt; NA, NA, NA, NA, 1291.8640, NA, NA, NA, NA, NA, 6028.1...
-## $ `1969`   &lt;dbl&gt; NA, NA, NA, NA, 1359.4910, NA, NA, NA, NA, NA, 6515.3...
-## $ `1970`   &lt;dbl&gt; NA, NA, NA, NA, 1436.1298, NA, 18256.2701, NA, NA, NA...
-## $ `1971`   &lt;dbl&gt; NA, NA, NA, NA, 1235.6638, NA, 18142.9851, NA, NA, NA...
-## $ `1972`   &lt;dbl&gt; NA, NA, NA, NA, 1527.6464, NA, 18646.9449, NA, NA, NA...
-## $ `1973`   &lt;dbl&gt; NA, NA, NA, NA, 1538.306, NA, 19135.297, NA, NA, NA, ...
-## $ `1974`   &lt;dbl&gt; NA, NA, NA, NA, 1603.3496, NA, 19304.3735, NA, NA, NA...
-## $ `1975`   &lt;dbl&gt; NA, NA, NA, NA, 1632.2960, NA, 18607.4095, NA, NA, NA...
-## $ `1976`   &lt;dbl&gt; NA, NA, NA, NA, 1714.0701, NA, 18511.4011, NA, NA, NA...
-## $ `1977`   &lt;dbl&gt; NA, NA, NA, NA, 1747.6651, NA, 18394.4620, NA, NA, 38...
-## $ `1978`   &lt;dbl&gt; NA, NA, NA, NA, 1848.4375, NA, 18038.5998, NA, NA, 39...
-## $ `1979`   &lt;dbl&gt; NA, NA, NA, NA, 1923.2906, NA, 17379.3280, NA, NA, 42...
-## $ `1980`   &lt;dbl&gt; NA, NA, NA, 1060.6846, 1876.0756, NA, 17013.6985, NA,...
-## $ `1981`   &lt;dbl&gt; NA, NA, NA, 1099.5127, 1869.6213, NA, 16169.0217, NA,...
-## $ `1982`   &lt;dbl&gt; NA, NA, NA, 1110.5123, 1924.6141, NA, 15514.6576, NA,...
-## $ `1983`   &lt;dbl&gt; NA, NA, NA, 1101.3357, 1963.3651, NA, 14976.5906, NA,...
-## $ `1984`   &lt;dbl&gt; NA, NA, NA, 1065.2353, 2008.4722, NA, 14554.7628, NA,...
-## $ `1985`   &lt;dbl&gt; NA, NA, NA, 1059.8657, 2020.0872, NA, 14354.9066, 362...
-## $ `1986`   &lt;dbl&gt; NA, NA, NA, 1091.5606, 1969.7642, NA, 14444.4621, 362...
-## $ `1987`   &lt;dbl&gt; NA, NA, NA, 1054.2478, 1902.0611, NA, 14983.6322, 381...
-## $ `1988`   &lt;dbl&gt; NA, NA, NA, 1013.6290, 1833.1529, NA, 15517.4947, 392...
-## $ `1989`   &lt;dbl&gt; NA, NA, NA, 1092.4746, 1864.7126, NA, 15947.4902, 384...
-## $ `1990`   &lt;dbl&gt; NA, NA, NA, 977.7655, 1832.7434, NA, 16070.0658, 372....
-## $ `1991`   &lt;dbl&gt; NA, NA, NA, 687.9919, 1766.6608, NA, 15813.1016, 357....
-## $ `1992`   &lt;dbl&gt; NA, NA, NA, 643.2858, 1755.9737, NA, 15194.4592, 322....
-## $ `1993`   &lt;dbl&gt; NA, NA, NA, 714.2414, 1680.3799, NA, 14318.1890, 234....
-## $ `1994`   &lt;dbl&gt; NA, NA, NA, 784.5831, 1630.3815, NA, 14092.4241, 235....
-## $ `1995`   &lt;dbl&gt; NA, NA, NA, 899.7829, 1660.0042, NA, 14125.5934, 251....
-## $ `1996`   &lt;dbl&gt; NA, NA, NA, 990.6532, 1698.3338, NA, 14662.7364, 272....
-## $ `1997`   &lt;dbl&gt; NA, NA, NA, 895.5610, 1690.2375, NA, 16071.6449, 286....
-## $ `1998`   &lt;dbl&gt; NA, NA, NA, 1013.5143, 1750.6509, NA, 16755.2207, 297...
-## $ `1999`   &lt;dbl&gt; NA, NA, NA, 1118.1715, 1781.1425, NA, 17513.1782, 298...
-## $ `2000`   &lt;dbl&gt; NA, NA, NA, 1200.1374, 1794.4052, NA, 17539.4420, 298...
-## $ `2001`   &lt;dbl&gt; NA, NA, NA, 1281.8428, 1814.4151, NA, 19085.3641, 297...
-## $ `2002`   &lt;dbl&gt; NA, NA, NA, 1313.7227, 1871.9220, NA, 19430.0548, 329...
-## $ `2003`   &lt;dbl&gt; NA, NA, NA, 1381.0408, 1971.5128, NA, 19834.6326, 328...
-## $ `2004`   &lt;dbl&gt; NA, NA, NA, 1454.0229, 2043.1357, NA, 20254.3463, 353...
-## $ `2005`   &lt;dbl&gt; NA, NA, NA, 1525.7236, 2115.1860, NA, 20737.9451, 404...
-## $ `2006`   &lt;dbl&gt; NA, NA, NA, 1594.4951, 2124.9578, NA, 21595.3955, 473...
-## $ `2007`   &lt;dbl&gt; NA, NA, NA, 1681.6139, 2155.4852, NA, 21495.8051, 562...
-## $ `2008`   &lt;dbl&gt; NA, NA, NA, 1804.4194, 2173.7879, NA, 21943.3399, 622...
-## $ `2009`   &lt;dbl&gt; NA, NA, NA, 1857.3529, 2192.7040, NA, NA, 619.8186, N...
-## $ `2010`   &lt;dbl&gt; NA, NA, NA, 1915.4245, 2231.9802, NA, NA, 623.2453, N...
-## $ `2011`   &lt;dbl&gt; NA, NA, NA, 1965.7072, 2255.2255, NA, NA, 629.9553, N...
+## $ country  &lt;chr&gt; "Abkhazia", "Afghanistan", "Akrotiri and Dhekelia", "Al…
+## $ `1960.0` &lt;dbl&gt; NA, NA, NA, NA, 1280.3848, NA, NA, NA, NA, NA, 5251.876…
+## $ `1961`   &lt;dbl&gt; NA, NA, NA, NA, 1085.4146, NA, NA, NA, NA, NA, 5448.303…
+## $ `1962`   &lt;dbl&gt; NA, NA, NA, NA, 855.9480, NA, NA, NA, NA, NA, 5316.5790…
+## $ `1963`   &lt;dbl&gt; NA, NA, NA, NA, 1128.4158, NA, NA, NA, NA, NA, 4956.216…
+## $ `1964`   &lt;dbl&gt; NA, NA, NA, NA, 1170.3239, NA, NA, NA, NA, NA, 5375.463…
+## $ `1965`   &lt;dbl&gt; NA, NA, NA, NA, 1215.0158, NA, NA, NA, NA, NA, 5855.611…
+## $ `1966`   &lt;dbl&gt; NA, NA, NA, NA, 1127.6143, NA, NA, NA, NA, NA, 5733.311…
+## $ `1967`   &lt;dbl&gt; NA, NA, NA, NA, 1200.5582, NA, NA, NA, NA, NA, 5833.052…
+## $ `1968`   &lt;dbl&gt; NA, NA, NA, NA, 1291.8640, NA, NA, NA, NA, NA, 6028.124…
+## $ `1969`   &lt;dbl&gt; NA, NA, NA, NA, 1359.4910, NA, NA, NA, NA, NA, 6515.364…
+## $ `1970`   &lt;dbl&gt; NA, NA, NA, NA, 1436.1298, NA, 18256.2701, NA, NA, NA, …
+## $ `1971`   &lt;dbl&gt; NA, NA, NA, NA, 1235.6638, NA, 18142.9851, NA, NA, NA, …
+## $ `1972`   &lt;dbl&gt; NA, NA, NA, NA, 1527.6464, NA, 18646.9449, NA, NA, NA, …
+## $ `1973`   &lt;dbl&gt; NA, NA, NA, NA, 1538.306, NA, 19135.297, NA, NA, NA, 69…
+## $ `1974`   &lt;dbl&gt; NA, NA, NA, NA, 1603.3496, NA, 19304.3735, NA, NA, NA, …
+## $ `1975`   &lt;dbl&gt; NA, NA, NA, NA, 1632.2960, NA, 18607.4095, NA, NA, NA, …
+## $ `1976`   &lt;dbl&gt; NA, NA, NA, NA, 1714.0701, NA, 18511.4011, NA, NA, NA, …
+## $ `1977`   &lt;dbl&gt; NA, NA, NA, NA, 1747.6651, NA, 18394.4620, NA, NA, 3815…
+## $ `1978`   &lt;dbl&gt; NA, NA, NA, NA, 1848.4375, NA, 18038.5998, NA, NA, 3962…
+## $ `1979`   &lt;dbl&gt; NA, NA, NA, NA, 1923.2906, NA, 17379.3280, NA, NA, 4254…
+## $ `1980`   &lt;dbl&gt; NA, NA, NA, 1060.6846, 1876.0756, NA, 17013.6985, NA, N…
+## $ `1981`   &lt;dbl&gt; NA, NA, NA, 1099.5127, 1869.6213, NA, 16169.0217, NA, N…
+## $ `1982`   &lt;dbl&gt; NA, NA, NA, 1110.5123, 1924.6141, NA, 15514.6576, NA, N…
+## $ `1983`   &lt;dbl&gt; NA, NA, NA, 1101.3357, 1963.3651, NA, 14976.5906, NA, N…
+## $ `1984`   &lt;dbl&gt; NA, NA, NA, 1065.2353, 2008.4722, NA, 14554.7628, NA, N…
+## $ `1985`   &lt;dbl&gt; NA, NA, NA, 1059.8657, 2020.0872, NA, 14354.9066, 362.4…
+## $ `1986`   &lt;dbl&gt; NA, NA, NA, 1091.5606, 1969.7642, NA, 14444.4621, 362.3…
+## $ `1987`   &lt;dbl&gt; NA, NA, NA, 1054.2478, 1902.0611, NA, 14983.6322, 381.1…
+## $ `1988`   &lt;dbl&gt; NA, NA, NA, 1013.6290, 1833.1529, NA, 15517.4947, 392.7…
+## $ `1989`   &lt;dbl&gt; NA, NA, NA, 1092.4746, 1864.7126, NA, 15947.4902, 384.4…
+## $ `1990`   &lt;dbl&gt; NA, NA, NA, 977.7655, 1832.7434, NA, 16070.0658, 372.79…
+## $ `1991`   &lt;dbl&gt; NA, NA, NA, 687.9919, 1766.6608, NA, 15813.1016, 357.31…
+## $ `1992`   &lt;dbl&gt; NA, NA, NA, 643.2858, 1755.9737, NA, 15194.4592, 322.09…
+## $ `1993`   &lt;dbl&gt; NA, NA, NA, 714.2414, 1680.3799, NA, 14318.1890, 234.66…
+## $ `1994`   &lt;dbl&gt; NA, NA, NA, 784.5831, 1630.3815, NA, 14092.4241, 235.20…
+## $ `1995`   &lt;dbl&gt; NA, NA, NA, 899.7829, 1660.0042, NA, 14125.5934, 251.89…
+## $ `1996`   &lt;dbl&gt; NA, NA, NA, 990.6532, 1698.3338, NA, 14662.7364, 272.29…
+## $ `1997`   &lt;dbl&gt; NA, NA, NA, 895.5610, 1690.2375, NA, 16071.6449, 286.00…
+## $ `1998`   &lt;dbl&gt; NA, NA, NA, 1013.5143, 1750.6509, NA, 16755.2207, 297.4…
+## $ `1999`   &lt;dbl&gt; NA, NA, NA, 1118.1715, 1781.1425, NA, 17513.1782, 298.5…
+## $ `2000`   &lt;dbl&gt; NA, NA, NA, 1200.1374, 1794.4052, NA, 17539.4420, 298.4…
+## $ `2001`   &lt;dbl&gt; NA, NA, NA, 1281.8428, 1814.4151, NA, 19085.3641, 297.9…
+## $ `2002`   &lt;dbl&gt; NA, NA, NA, 1313.7227, 1871.9220, NA, 19430.0548, 329.5…
+## $ `2003`   &lt;dbl&gt; NA, NA, NA, 1381.0408, 1971.5128, NA, 19834.6326, 328.7…
+## $ `2004`   &lt;dbl&gt; NA, NA, NA, 1454.0229, 2043.1357, NA, 20254.3463, 353.2…
+## $ `2005`   &lt;dbl&gt; NA, NA, NA, 1525.7236, 2115.1860, NA, 20737.9451, 404.2…
+## $ `2006`   &lt;dbl&gt; NA, NA, NA, 1594.4951, 2124.9578, NA, 21595.3955, 473.1…
+## $ `2007`   &lt;dbl&gt; NA, NA, NA, 1681.6139, 2155.4852, NA, 21495.8051, 562.9…
+## $ `2008`   &lt;dbl&gt; NA, NA, NA, 1804.4194, 2173.7879, NA, 21943.3399, 622.5…
+## $ `2009`   &lt;dbl&gt; NA, NA, NA, 1857.3529, 2192.7040, NA, NA, 619.8186, NA,…
+## $ `2010`   &lt;dbl&gt; NA, NA, NA, 1915.4245, 2231.9802, NA, NA, 623.2453, NA,…
+## $ `2011`   &lt;dbl&gt; NA, NA, NA, 1965.7072, 2255.2255, NA, NA, 629.9553, NA,…
 ```
 
 ---
@@ -194,6 +214,8 @@ capita &lt;-
 # Tidying &amp; wrangling the data
 
 Let's start by reducing the data to 3 countries and converting them to the long format.
+
+--
 
 
 ```r
@@ -215,6 +237,8 @@ capita_long &lt;-
 
 We display only the tail (last 6 observations here) because Germany, which appears at the head of the new dataframe, has missings up to and including the year 1969.
 
+--
+
 
 ```
 ## # A tibble: 6 x 3
@@ -228,6 +252,8 @@ We display only the tail (last 6 observations here) because Germany, which appea
 ## 6 United States 2011  37691.
 ```
 
+--
+
 In any case, information is reduced, and the data look much nicer now.
 
 ---
@@ -238,7 +264,7 @@ In any case, information is reduced, and the data look much nicer now.
 ```r
 capita_long %&gt;%
   mutate(change = (income / lag(income) - 1) * 100) %&gt;%
-  group_by(country) %&gt;%
+* group_by(country) %&gt;%
   summarise(
     n = sum(!is.na(income)), 
     min_inc = min(income, na.rm = TRUE),
@@ -255,6 +281,8 @@ capita_long %&gt;%
 ## 1 United States     6  36539.  38711. 2172. FALSE        2.16
 ```
 
+--
+
 This code might be a bit difficult to understand for you now, but don't worry: We will discuss the individual functions included here in the following.
 
 &lt;span class="footnote"&gt;
@@ -265,7 +293,9 @@ This code might be a bit difficult to understand for you now, but don't worry: W
 
 # Searching for extreme values
 
-We may, for example, want to find years in which the change in income was higher than 2% (as the maximum value was `2.1631`).
+We may, for example, want to find years in which the change in income was higher than 2% (as the maximum value was `2.16`).
+
+--
 
 
 ```r
@@ -283,7 +313,7 @@ capita_long %&gt;%
 
 ---
 
-# Finding the year directly
+# Finding the year with the maximum value
 
 
 ```r
@@ -299,24 +329,29 @@ capita_long %&gt;%
 ## 1 United States 2010  37330.   2.16
 ```
 
+--
 
-With this code, we see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
+With this code, we see data for the year in the country's GDP showed the highest increase. This is helpful even if we do not care about (other) summary statistics at all.
 
 ---
+
 # But, beware: Summary statistics can also be misleading! 
 
 &lt;img src="./pics/pity_the_fool.jpg" width="50%" style="display: block; margin: auto;" /&gt;
 
 
 ---
-&lt;h1&gt; Misleading correlation coefficients &lt;/h1&gt;
+
+# Misleading correlation coefficients
 
 .column-left-half[
-For example, if we do correlation analysis and we encounter a (Pearson's) correlation of close to 0, we often think of relationships as on the right side.
+For example, if we do correlation analysis and we encounter a (Pearson's) correlation coefficient close to 0, we often think of relationships as pictured on the right side.
 
 - It's noisy
+
 - There's no observable pattern
-- ...it's just a mess, and we question our life decision of becoming statisticians
+
+- ...it's just a mess, and we question our life decision of working with data
 ]
 
 .column-right-half[
@@ -325,21 +360,27 @@ For example, if we do correlation analysis and we encounter a (Pearson's) correl
 
 ---
 # Do not despair
-The `datasauRus`-package proves to us that various different relations with the same summary statistics are possible.
+The [`datasauRus` package](https://github.com/lockedata/datasauRus) proves to us that various different relations with the same summary statistics are possible.
 
-This one here has **the same correlation coefficient (-0.06, Pearson's)** as on the plot before:
+--
+
+This dataset has **the same correlation coefficient (-0.06, Pearson's)** as the one in the previous plot:
 
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-10-1.png" width="40%" style="display: block; margin: auto;" /&gt;
 
-.center[There's a trajectory, right? 💵]
+--
+
+.center[But there's a trajectory, right? 💵]
 
 ---
+
 # What about this one? (r = -0.06)
 
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-&lt;h1&gt; What about this one? (r = -0.06) &lt;/h1&gt;
+
+# What about this one? (r = -0.06)
 
 .column-left-half[  
 &lt;img src="./pics/rooooar.png" width="60%" style="display: block; margin: auto;" /&gt;
@@ -350,16 +391,18 @@ This one here has **the same correlation coefficient (-0.06, Pearson's)** as on 
 ]
 
 ---
-# And it goes on and on
+# And it goes on and on...
 
 All of these 13 datasets have the same means, standard deviations, and Pearson's correlation coefficients.
 
 &lt;img src="B3_SummaryStatistics_files/figure-html/unnamed-chunk-14-1.png" width="55%" style="display: block; margin: auto;" /&gt;
 
 ---
+
 # Let's prove that to ourselves!
 
-Here's how the data look like
+Here's what the data look like
+
 
 ```r
 datasauRus::datasaurus_dozen %&gt;% 
@@ -369,12 +412,13 @@ datasauRus::datasaurus_dozen %&gt;%
 ```
 ## Observations: 1,846
 ## Variables: 3
-## $ dataset &lt;chr&gt; "dino", "dino", "dino", "dino", "dino", "dino", "dino"...
-## $ x       &lt;dbl&gt; 55.3846, 51.5385, 46.1538, 42.8205, 40.7692, 38.7179, ...
-## $ y       &lt;dbl&gt; 97.1795, 96.0256, 94.4872, 91.4103, 88.3333, 84.8718, ...
+## $ dataset &lt;chr&gt; "dino", "dino", "dino", "dino", "dino", "dino", "dino", …
+## $ x       &lt;dbl&gt; 55.3846, 51.5385, 46.1538, 42.8205, 40.7692, 38.7179, 35…
+## $ y       &lt;dbl&gt; 97.1795, 96.0256, 94.4872, 91.4103, 88.3333, 84.8718, 79…
 ```
 
 ---
+
 # Let's prove that to ourselves!
 Maybe, in this case, it's more convenient to count the data points in each dataset.
 
@@ -396,7 +440,7 @@ datasauRus::datasaurus_dozen %&gt;%
 ```
 
 ---
-# Are the points only identical across the datasets?
+# Are the points identical across the datasets?
 
 Here's how it works:
 
@@ -413,7 +457,7 @@ identical(sort(x),sort(x2))
 
 
 ---
-# Are the points only identical across the datasets?
+# Are the points identical across the datasets?
 
 And for example, for the dataset `dino` and `away`:
 
@@ -436,11 +480,7 @@ identical(sort(dino$x), sort(away$x))
 
 
 ---
-# Let's compute the statistics
-
-&lt;span class="footnote"&gt;
-  &lt;span class="red bold"&gt;*&lt;/span&gt; Important footnote
-&lt;/span&gt;
+# Let's compute the summary statistics
 
 
 ```r
@@ -457,7 +497,7 @@ datasaurus_dozen %&gt;%
 ```
 
 ---
-# Let's compute the statistics
+# Let's compute the summary statistics
 
 
 ```
