@@ -264,13 +264,19 @@ x %>% f(y)
 
 # Formal definition of pipes: `.` as placeholder
 
-Previously, we learned that `x` always refers to the first argument. We can also make this explicit:
+Previously, we have learned that `x` always refers to the first argument. We can also make this explicit:
+
+--
 
 ```{r formal_pipe, echo = TRUE, eval = FALSE}
 x %>% f(., y)
 ```
 
+--
+
 This is useful in cases in which `x` does not refer to the first argument:
+
+--
 
 ```{r formal_pipe_argument, echo = TRUE, eval = FALSE}
 x %>% f(y, z = .)
@@ -325,6 +331,7 @@ z %>%
 ---
 
 # Notes on pipes' styling: nesting
+
 To:
 
 ```{r pipe_nested_2, echo = TRUE, eval = FALSE}
@@ -366,6 +373,8 @@ This is awesome. However, it's not very efficient and also misses the whole purp
 - reproducibility
 ]
 
+--
+
 .column-right-half[
 ```{r crazy_pipes, out.width = "100%"}
 include_graphics("./pics/crazy_pipes.png")
@@ -376,9 +385,15 @@ include_graphics("./pics/crazy_pipes.png")
 
 # Alternative pipe operators and related tools from `magrittr`
 
+--
+
 - t(ee)-pipes: `%T>%`
 
+--
+
 - exploding-pipes: `%$%`
+
+--
 
 - ...
 
@@ -402,9 +417,15 @@ include_graphics("./pics/mr_t_pipes.png")
 
 t-Pipes create some kind of a loophole during a piping process.
 
+--
+
 They pause the current relationship between previous commands and the current one.
 
+--
+
 Moreover, they stop the inheritance of the output of the current command.
+
+--
 
 **t-Pipes can create intermediate results** such as
 
@@ -452,7 +473,11 @@ include_graphics("./pics/exploding_pipes.png")
   cor(.$disp, .$mpg)
 ```
 
+--
+
 This produces an error because piping always expects complete objects, such as data frames, and not single vectors.
+
+--
 
 ```{r exploding_2, echo = TRUE, message = FALSE, eval = TRUE, fig.height = 4}
 "mtcars.csv" %>% 
@@ -467,6 +492,8 @@ This produces an error because piping always expects complete objects, such as d
 
 Another workaround for this problem is the use of curly brackets.
 
+--
+
 They prevent the first argument to be `.`
 
 ```{r curly_brackets, echo = TRUE, message = FALSE, eval = TRUE, fig.height = 4}
@@ -475,6 +502,8 @@ They prevent the first argument to be `.`
   read_csv() %>% 
   { cor(.$disp, .$mpg) }
 ```
+
+--
 
 They are what you may know as *lambda-functions* from other languages.
 
@@ -485,6 +514,8 @@ They are what you may know as *lambda-functions* from other languages.
 tidyverse pipes are only one implementation of pipes in R.
 
 They are based on the implementation of the `magrittr` package.
+
+--
 
 Other implementations, not discussed here, include:
 
@@ -498,14 +529,24 @@ Other implementations, not discussed here, include:
 
 Tibbles are the data format used in the `tidyverse`.
 
+--
+
 They are basically standard `R data.frame()`s, enriched with some more features and metadata:
+
+--
 
 - information about size (rows x columns) of dataframes
 
+--
+
 - information about variable types
+
+--
 
 - better readability
   - they fit the screen automatically
+  
+--
   
 - no strings as factors by default
 
@@ -523,15 +564,19 @@ example_tibble
 
 # How to use tibbles?
 
-.middle[
 Usually, we don't have to do anything. 
+
+--
 
 tibbles are the standard output format of all tidyverse applications.
 
+--
+
 Yet, some old (or non-compliant) `R` functions may have some issues with tibbles. 
 
+--
+
 Luckily, we just can use `as.data.frame(your_tibble)` on them. Problem solved.
-]
 
 ---
 
@@ -572,6 +617,8 @@ titanic_tibble
 
 Similar to creating `base R data.frames`, we can also create `tibbles` without any previous data input.
 
+--
+
 ```{r from-scratch-tibble, echo = TRUE, message = FALSE, eval = TRUE}
 tibble(
   a = 1:5,
@@ -586,6 +633,8 @@ tibble(
 # tribbles
 
 Using the `tribble`-approach, is a convenient way to create `tibbles` for small tables as it resembles the final layout of the dataframe.
+
+--
 
 ```{r tribble, echo = TRUE, message = FALSE, eval = TRUE}
 tribble(
@@ -604,10 +653,14 @@ tribble(
 
 For now, we should be familiar with two concepts for out further exploration of the `tidyverse`:
 
+--
+
 1. pipes
   - they disentangle the process of data wrangling in simple chunks
   
   - denoted by the operator `%>%` (yet there are alternatives we should be aware of)
+  
+--
   
 2. tibbles
   - an easy to read and modern format for datasets in `R`

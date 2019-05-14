@@ -285,14 +285,20 @@ x %&gt;% f(y)
 
 # Formal definition of pipes: `.` as placeholder
 
-Previously, we learned that `x` always refers to the first argument. We can also make this explicit:
+Previously, we have learned that `x` always refers to the first argument. We can also make this explicit:
+
+--
 
 
 ```r
 x %&gt;% f(., y)
 ```
 
+--
+
 This is useful in cases in which `x` does not refer to the first argument:
+
+--
 
 
 ```r
@@ -351,6 +357,7 @@ z %&gt;%
 ---
 
 # Notes on pipes' styling: nesting
+
 To:
 
 
@@ -393,6 +400,8 @@ This is awesome. However, it's not very efficient and also misses the whole purp
 - reproducibility
 ]
 
+--
+
 .column-right-half[
 &lt;img src="./pics/crazy_pipes.png" width="100%" style="display: block; margin: auto;" /&gt;
 ]
@@ -401,9 +410,15 @@ This is awesome. However, it's not very efficient and also misses the whole purp
 
 # Alternative pipe operators and related tools from `magrittr`
 
+--
+
 - t(ee)-pipes: `%T&gt;%`
 
+--
+
 - exploding-pipes: `%$%`
+
+--
 
 - ...
 
@@ -425,9 +440,15 @@ This is awesome. However, it's not very efficient and also misses the whole purp
 
 t-Pipes create some kind of a loophole during a piping process.
 
+--
+
 They pause the current relationship between previous commands and the current one.
 
+--
+
 Moreover, they stop the inheritance of the output of the current command.
+
+--
 
 **t-Pipes can create intermediate results** such as
 
@@ -481,7 +502,11 @@ Moreover, they stop the inheritance of the output of the current command.
   cor(.$disp, .$mpg)
 ```
 
+--
+
 This produces an error because piping always expects complete objects, such as data frames, and not single vectors.
+
+--
 
 
 ```r
@@ -501,6 +526,8 @@ This produces an error because piping always expects complete objects, such as d
 
 Another workaround for this problem is the use of curly brackets.
 
+--
+
 They prevent the first argument to be `.`
 
 
@@ -515,6 +542,8 @@ They prevent the first argument to be `.`
 ## [1] -0.8475514
 ```
 
+--
+
 They are what you may know as *lambda-functions* from other languages.
 
 ---
@@ -524,6 +553,8 @@ They are what you may know as *lambda-functions* from other languages.
 tidyverse pipes are only one implementation of pipes in R.
 
 They are based on the implementation of the `magrittr` package.
+
+--
 
 Other implementations, not discussed here, include:
 
@@ -537,14 +568,24 @@ Other implementations, not discussed here, include:
 
 Tibbles are the data format used in the `tidyverse`.
 
+--
+
 They are basically standard `R data.frame()`s, enriched with some more features and metadata:
+
+--
 
 - information about size (rows x columns) of dataframes
 
+--
+
 - information about variable types
+
+--
 
 - better readability
   - they fit the screen automatically
+  
+--
   
 - no strings as factors by default
 
@@ -575,15 +616,19 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 
 # How to use tibbles?
 
-.middle[
 Usually, we don't have to do anything. 
+
+--
 
 tibbles are the standard output format of all tidyverse applications.
 
+--
+
 Yet, some old (or non-compliant) `R` functions may have some issues with tibbles. 
 
+--
+
 Luckily, we just can use `as.data.frame(your_tibble)` on them. Problem solved.
-]
 
 ---
 
@@ -4212,6 +4257,8 @@ titanic_tibble
 
 Similar to creating `base R data.frames`, we can also create `tibbles` without any previous data input.
 
+--
+
 
 ```r
 tibble(
@@ -4227,10 +4274,10 @@ tibble(
 ##       a     b c    
 ##   &lt;int&gt; &lt;int&gt; &lt;chr&gt;
 ## 1     1    20 g    
-## 2     2    19 i    
-## 3     3    18 c    
-## 4     4    17 e    
-## 5     5    16 j
+## 2     2    19 j    
+## 3     3    18 b    
+## 4     4    17 c    
+## 5     5    16 e
 ```
 
 ---
@@ -4238,6 +4285,8 @@ tibble(
 # tribbles
 
 Using the `tribble`-approach, is a convenient way to create `tibbles` for small tables as it resembles the final layout of the dataframe.
+
+--
 
 
 ```r
@@ -4268,10 +4317,14 @@ tribble(
 
 For now, we should be familiar with two concepts for out further exploration of the `tidyverse`:
 
+--
+
 1. pipes
   - they disentangle the process of data wrangling in simple chunks
   
   - denoted by the operator `%&gt;%` (yet there are alternatives we should be aware of)
+  
+--
   
 2. tibbles
   - an easy to read and modern format for datasets in `R`
