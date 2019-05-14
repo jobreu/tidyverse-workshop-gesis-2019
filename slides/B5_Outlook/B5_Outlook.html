@@ -7,7 +7,7 @@
     <meta name="date" content="2019-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../workshop.css" type="text/css" />
+    <link rel="stylesheet" href="..\workshop.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -31,82 +31,104 @@ layout: true
   &lt;/div&gt;
   
 ---
+
 # Course recap
+
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Content &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; Highlights &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; Missing/Next Steps &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Session &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Example content &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Introduction &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; What is the tidyverse and what is it good for? &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Tidyverse terminology: tibbles &amp; pipes &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; %&gt;% operator &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; advanced use of {} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; %&gt;% operator &amp; tibbles &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Tidy data &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Gathering and spreading from wide to long and back, separating &amp; uniting values &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Importing data &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; data are tibbles! &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; foreign data, e.g., geospatial data &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Importing csv, Excel, SPSS, and Stata files &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Data wrangling: Part 1 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Data wrangling: Part 2 &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Relational data &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Data exploration I: Summary statistics &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; group_by() &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; multi-format tables &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Data exploration II: ggplot2 basics &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; flexible use of geom_* &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; multi-layer plots, maps, annotations &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Outlook &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; this presentation &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; you tell us &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Renaming, filtering, selecting, new variables, recoding, missing values, arranging &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
 ---
 
-class: middle, center
+# Course recap
 
-# Acknowledgements
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Session &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Example content &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Data wrangling: Part 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Advanced selecting, filtering, creation and transformation of variables, strings and factors &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Relational data &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Mutating joins, filtering joins, set operations &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Data exploration I: Summary statistics &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Grouping and summarizing data &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Data exploration II: ggplot2 basics &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Layers: Data, aesthetics, and geoms &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Outlook &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; What we did and what we did not cover in this workshop &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 ---
 
-class: center, middle
+# Where to go from here?
 
-Slides created via the `R` package [`xaringan`](https://github.com/yihui/xaringan)
+Some topics that we did not cover or only brielfy touched upon that you might want to explore next/further:
 
-The chakra comes from [`remark.js`](https://remarkjs.com), [`knitr`](http://yihui.name/knitr), and [`R Markdown`](https://rmarkdown.rstudio.com)
+- working with strings (with [`stringr`](https://stringr.tidyverse.org/index.html))
+
+- working with factors (with [`forcats`](https://forcats.tidyverse.org/))
+
+- working with times and dates (with [`lubridate`](https://lubridate.tidyverse.org/))
+
+- advanced plotting with [`ggplot2`](https://ggplot2.tidyverse.org/)
+
+- tidy modeling (using the [`broom`](https://github.com/tidymodels/broom) package)
+
+- reporting &amp; publishing (with [`RMarkdown`](https://rmarkdown.rstudio.com) and [`knitr`](http://yihui.name/knitr))
+
+- functional programming (with the [`purrr` package](https://purrr.tidyverse.org/))
+
+---
+
+# Acknowledgements ❤️
+
+All slides were created with the `R` package [`xaringan`](https://github.com/yihui/xaringan) which builds on [`remark.js`](https://remarkjs.com), [`knitr`](http://yihui.name/knitr), and [`R Markdown`](https://rmarkdown.rstudio.com). The exercises were created with the [`unilur` package](https://github.com/koncina/unilur).  
+
+The `workshop.css` file we used for the layout of the slides includes elements from `CSS` files for `xaringan` presentations by [Frederik Aust](https://github.com/crsh) and [David Zimmer](https://github.com/DavZim).  
+
+We thank Anne Carome from *RStudio* for sending us some nice hex stickers for this workshop, Claudia O'Donovan-Bellante and her team for taking good care of the organization of this workshop, and all of you for participating!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
