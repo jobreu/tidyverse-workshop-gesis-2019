@@ -8,7 +8,7 @@ output:
   # unilur::tutorial_html: default
 ---
   
-  ```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
+```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
 # custom boxes
 knitr::opts_template$set(clues = list(box.title = "Clues",
                                       box.body = list(fill = "#fff9dc", colour = "black"),
@@ -21,14 +21,15 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
 klippy::klippy()
 ```
 
-This is the very first exercise of this course. It's not too hard, its purpose is instead to get used to our exercise format - this HTML file, for instance - and more importantly, to get used to the `tidyverse` world.
+As this is the very first exercise in this workshop it is not that hard. Its purpose is also to get used to this exercise format and, more importantly, to get first feeling for working in the `tidyverse`.
 
-Just two short notes on conducting exercises in this course in general:
+Just two short notes on working with the exercise files in this workshop:
 
-1. We'd like to ask you to perform all tasks by writing them in your own `R` code file. This ensures that all of your solutions are reproducible, and that you can re-use solutions from earlier exercises in later ones.
-2. All exercises and their solutions think they are in the `./solutions` folder of this repository. This way they can make use, for example, of the data folder using this relative path `"../data/`. Please make sure to follow this concept by copying your scripts in the solutions folder and set the working directory accordingly using `setwd()`. 
+1. We would like to ask you to solve all tasks by writing them into your own `R` script files. This ensures that all of your solutions are reproducible, and that you can (re-)use solutions from earlier exercises in later ones.
 
-Again, for starters, the exercise now is really short and just let you play around with some pipes and tibbles. It's a mini-exercise!
+2. All exercises and their solutions 'assume' they are in the `./solutions` folder of this repository. This way they can make use of files in other folders using relative paths. In order for your scripts to run properly, we suggest that you create (and save) them either in the *exercises* or *solutions* folder and set your working directory for the exercises accordingly (you can check your working directory with `getwd()` and change it with `setwd()`). 
+
+Again, the following exercise is really short and just supposed to let you play around with some pipes and tibbles. It's a mini-exercise!
 
 First things first: To work with the 'tidyverse', we have to have access to its packages.
 
@@ -56,21 +57,21 @@ What do you think is the command doing?
 ```
 
 ```{block, opts.label = "clues"}
-It's always a good approach to start from the inner command to the outer ones.
+It's always a good approach to start reading/interpreting code from the inner command and continue to the outer ones.
 ```
 
 ```{block to_pipe_purpose_solution, solution = TRUE, message = FALSE}
 1. The `titanic` data are imported with `read.csv2()`
-2. Only the `Fare` variable is extracted using the `$`-sign
+2. Only the `Fare` variable is extracted using the `$` operator
 3. The variable is converted to the numeric format with `as.numeric()`
 4. A square root transformation is applied with `sqrt()`
 5. The mean is calculated with `mean()`
 ```
 
-Using the commands in such a way is not very clear, isn't it? You have already learned that pipes provide a straightforward approach to navigate this issue.
+Using the commands in such a way makes the code somewhat difficult to read and understand. You have already learned that pipes provide a straightforward approach to address this issue.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
-Create a nice pipe from this nested command.
+Create a pipe from this nested command.
 ```
 
 ```{block, opts.label = "clues"}
@@ -85,10 +86,10 @@ read.csv2("../data/titanic/titanic.csv", sep = ",") %>%
   mean()
 ```
 
-As we've learned, tidyverse is not all about pipes, it's about tidy data. The default data format to have access to tidy data in `tidyverse` is the `tibble` format. In the previous task, you have already imported the `titanic` data, but it's in the standard `data.frame` format.
+As we have already learned, the `tidyverse` is not only about pipes, it's also about specific formats of data. The default data format in the `tidyverse` is the `tibble` format. In the previous task, you have already imported the `titanic` data, but it is in the standard `data.frame` format.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
-Load the `titanic` dataset and convert it immediatly to a `tibble`. 
+Load the `titanic` dataset and convert it to a `tibble`. 
 ```
 
 ```{block, opts.label = "clues"}
@@ -101,7 +102,7 @@ titanic_tibble <-
   as_tibble()
 ```
 
-Now, look at the following `data.frame`. It's been created with the standard `base-R` tools. tidyverse also provides a feature, the `tribble()` command, to create small data tables as tibbles from scratch.
+Now, look at the following `data.frame`. It's been created with the standard `base-R` tools. The `tibble` package also provides the `tribble()` command to create small data tables as tibbles from scratch.
 
 
 ```{r to_tribble, echo=FALSE, message=FALSE}
@@ -116,11 +117,11 @@ as.data.frame(
 
 
 ```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
-Use the `tribble()`-function to directly rebuild the data frame as a tibble.
+Use the `tribble()`-function to recreate the above dataframe as a tibble.
 ```
 
 ```{block, opts.label = "clues"}
-Remember defining new columns with a preceding `~`. 
+Remember to define columns names by preceding them with a `~` (tilde). 
 ```
 
 ```{r to_tribble_solution, solution = TRUE}
