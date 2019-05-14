@@ -46,6 +46,15 @@ gapminder_ggplot_input <-
   arrange(year, GDP) %>%
   group_by(year) %>% 
   summarise(GDP_over_all_countries = mean(GDP))
+
+# OR: as csv for a cleaner version
+# gapminder_ggplot_input <- 
+#   readr::read_csv("../data/gapminder/gdppercapita_us_inflation_adjusted.csv") %>% 
+#   gather(-country, key = "year", value = "GDP") %>% 
+#   filter(!is.na(GDP)) %>% 
+#   arrange(year, GDP) %>%
+#   group_by(year) %>% 
+#   summarise(GDP_over_all_countries = mean(GDP))
 ```
 
 In the previous exercises we only analyzed how the period from 1960 to 1969 compares to the period from 2002 to 2011. The nice thing about plots is that we can make use of the whole range of years and still identify differences between various periods. Our plot of choice, therefore, is a line plot to create a nice time series.
@@ -115,9 +124,9 @@ ggplot(
   geom_line()
 ```
 
-Now we can see some visual differences between the different periods. One last thing, however, is that there are way too many labels on the x-axis. Maybe a more sensible axis labeling approach would be to create axis breaks for every ten years steps.
+Now we can see some visual differences between the different periods. One last thing, however, is that there are way too many labels on the x-axis. Maybe a more sensible axis labeling approach would be to create axis breaks for every ten years steps. **However, this is an advanced exercise as we did not talk about manipulating axes before. If you're not feeling adventurous just jump to the next exercise which is also optional.**
 
-```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
+```{block, box.title = "5 (advanced)", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create some prettier, i.e., more sensible breaks for the x-axis.
 ```
 
@@ -143,4 +152,72 @@ ggplot(
       by = 10
     )
   )
+```
+
+Thus far, we only looked at univariate relationships. But the power of data visualization lies in revealing multivariate relationships. Have a look at the following code:
+
+```{r load_gapminder_again, message=FALSE, eval=FALSE}
+library(gapminder)
+
+gapminder %>% 
+  filter(??? == ???) %>% 
+  ggplot(aes(x = ???,
+             y = ???,
+             size = ???,
+             color = ???)) +
+  geom_???()
+```
+
+```{block, box.title = "6 (optional)", box.body = list(fill = "white"), box.icon = "fa-star"}
+Please fill in the missing parts marked by a ???. Say, we aim to
+
+1. plot data of the year 2007,
+
+2. the relationship between GDP per capita and life expectancy,
+
+3. adjust the visualizations by population size,
+
+5. maybe have different colors for continents,
+
+6. and choose a proper to `geom` to plot everything.
+
+```
+
+```{block, opts.label = "clues"}
+Think about in which kind of plot different sizes of `geom`-types actually make sense and are on point.
+```
+
+```{r load_gapminder_again_solution, solution=TRUE}
+library(gapminder)
+
+gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap,
+             y = lifeExp,
+             size = pop,
+             color = continent)) +
+  geom_point()
+```
+
+There's always more. Here's one more as you may have noticed that the scaling of the x axis is a little bit odd, we see a non-linear relationship. `ggplot2` makes it really easy with some built-in functions to rescale axes.
+
+```{block, box.title = "7 (optional)", box.body = list(fill = "white"), box.icon = "fa-star"}
+Transform the x-axis to a log10 scale.
+```
+
+```{block, opts.label = "clues"}
+Have a look at the function `scale_x_log10()`.
+```
+
+```{r load_gapminder_again_solution_log, solution=TRUE}
+library(gapminder)
+
+gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap,
+             y = lifeExp,
+             size = pop,
+             color = continent)) +
+  geom_point() +
+  scale_x_log10()
 ```
