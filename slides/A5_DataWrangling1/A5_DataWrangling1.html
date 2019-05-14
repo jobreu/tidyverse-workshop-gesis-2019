@@ -8,8 +8,7 @@
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <script src="libs/kePrint/kePrint.js"></script>
-    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
-    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+    <link rel="stylesheet" href="..\workshop.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -174,7 +173,7 @@ If you want to generate a codebook for your dataset, there are several options:
 
 It's always good to first check how clean or messy your data is and whether or where it needs cleaning.  
 
-The `glimpse()` function from `dplyr` is usually a good start as it similar to `str()` base R but tries to display as many data points as possible (in the Console).  
+The `glimpse()` function from `dplyr` is usually a good start as it is similar to `str()` base R but tries to display as many data points as possible (in the Console).  
 
 The second thing you could/should do (esp. if you have many/mostly numeric variables) is to use the `summary()` function from base R.  
 
@@ -265,9 +264,15 @@ names(titanic)
 ## [11] "Cabin"       "Embarked"
 ```
 
-Some of the names of in the Titanic dataset are difficult to understand (without consulting the codebook). In addition, it is generally helpful to use a consistent naming scheme. As `R` is case-sensitive, we might want to only use lowercase letters. As spaces in variable names can cause problems (or at least headaches), we could opt for🐍 snake_case (🐫 camelCase is a common alternative; for a good brief discussion of options for avoiding spaces in variable names, see this [Medium post by Patrick Divine](https://medium.com/@pddivine/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841)).
+Some of the names of in the Titanic dataset are difficult to understand (without consulting the codebook).
 
-Note: For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is tidyverse-oriented and includes the function `clean_names()`.  
+---
+
+# Renaming variables
+
+It is generally helpful to use a consistent naming scheme. As `R` is case-sensitive, we might want to only use lowercase letters. As spaces in variable names can cause problems (or at least headaches), we could opt for 🐍 snake_case (🐫 camelCase is a common alternative; for a good brief discussion of options for avoiding spaces in variable names, see this [Medium post by Patrick Divine](https://medium.com/@pddivine/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841)).
+
+Note: For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is `tidyverse`-oriented and includes the function `clean_names()`.  
 
 ---
 --- 
@@ -387,6 +392,16 @@ titanic %&gt;%
 ## # ... with 881 more rows
 ```
 
+.small[
+Note: You can also select variables by their index
+
+
+```r
+titanic %&gt;% 
+  select(4:6)
+```
+]
+
 ---
 
 # Unselecting variables
@@ -493,6 +508,9 @@ titanic %&gt;%
 ## #   cabin_nr &lt;chr&gt;, port_of_embarkation &lt;chr&gt;
 ```
 
+.small[
+Note: If you want to filter rows based on their index, you need to use `slice()` instead of `filter()`.
+]
 ---
 
 # `dplyr::filter` - multiple conditions
@@ -526,7 +544,7 @@ titanic %&gt;%
 
 # `dplyr::filter` - multiple conditions
 
-By default, multiple conditions in filter are added as &amp; (and). You can, however, also specify multiple conditions differently.
+By default, multiple conditions in `filter()` are added as &amp; (and). You can, however, also specify multiple conditions differently.
 
 **or** (cases for which at least one of the conditions is true)
 
@@ -550,7 +568,7 @@ titanic %&gt;%
 
 # Creating new variables
 
-In the process of preparing data for analyses we usually want to create new variables (often based on existing ones). For example, in the Titanic dataset, we might want to calculate the total number of relatives aboard the Titanic for each passenger. You can do this with the `mutate()` function.
+In the process of preparing data for analyses, we usually want to create new variables (often based on existing ones). For example, in the Titanic dataset, we might want to calculate the total number of relatives aboard the Titanic for each passenger. You can do this with the `mutate()` function.
 
 
 ```r
@@ -733,7 +751,7 @@ However, sometimes you just want to change the order of the columns (variables) 
 
 # Reordering columns in a dataset
 
-As you might have noticed in some the first example for that function, you can use `select()` to reorder columns (the order in which you select them determines their order in the new dataframe). If you just want to move a few columns to the beginning of your dataframe, you can use `everything()`.
+As you might have noticed in some of the first examples for that function, you can use `select()` to reorder columns (the order in which you select them determines their order in the new dataframe). If you just want to move a few columns to the beginning of your dataframe, you can use `everything()`.
 
 
 ```r
@@ -760,11 +778,11 @@ titanic %&gt;%
 
 # Moving columns
 
-When you use `mutate()` to create new variables they are always added after the last column of a dataset. The `mutate()` function does not have an argument for specifying the position of newly created variables in a dataframe (see the discussion about this [`dplyr` issue on GitHub](https://github.com/tidyverse/dplyr/issues/2047) if you are interested in the background).  
+When you use `mutate()` to create new variables they are always added after the last column of a dataset. The `mutate()` function does not have an argument for specifying the position of newly created variables in a data frame (see the discussion about this [`dplyr` issue on GitHub](https://github.com/tidyverse/dplyr/issues/2047) if you are interested in the background).  
 
-However, in some cases you might want to have newly created columns in a different place (e.g., closer to the variables they are based on or related to) or want to move one or more columns for some other reason. In some of these cases it might be inconvenient to do this via `select()`.  
+However, in some cases, you might want to have newly created columns in a different place (e.g., closer to the variables they are based on or related to) or want to move one or more columns for some other reason. In some of these cases, it might be inconvenient to do this via `select()`.  
 
-Luckily, someome on [*Stackoverflow*](https://stackoverflow.com/questions/52096919/move-a-column-conveniently/52096938#52096938) has created a nice function for this situation. You can find the function definition in the `move.R` file in the *scripts* folder.   
+Luckily, someone on [*Stackoverflow*](https://stackoverflow.com/questions/52096919/move-a-column-conveniently/52096938#52096938) has created a nice function for this situation. You can find the function definition in the `move.R` file in the *scripts* folder.   
 
 ---
 
@@ -899,9 +917,9 @@ titanic %&gt;%
 
 class: center, middle
 
-# [Exercise](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/exercises/A5_DataWrangling1_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A5_DataWrangling1_exercises_question.html) time 🏋️‍♀️💪🏃🚴
 
-## [Solutions](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/solutions/A5_DataWrangling1_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A5_DataWrangling1_exercises_solution.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

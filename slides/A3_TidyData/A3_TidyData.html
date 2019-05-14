@@ -7,8 +7,7 @@
     <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
-    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+    <link rel="stylesheet" href="..\workshop.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -30,6 +29,7 @@ layout: true
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Tidy Data&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
+
 ---
 
 # The diversity of data
@@ -54,7 +54,7 @@ Why?
 
 --
 
-- structure of the dataset not in line with the **requirements of the methods/tools** we use
+- structure of the dataset is not in line with the **requirements of the methods/tools** we use
 
 --
 
@@ -194,7 +194,7 @@ What's the problem here?
 **Details**
 1. The interpretation of 745 depends on the value of "type".
 
-2. R uses vectors internally. Most functions expect a column to represent one cohesive selection of values (e.g. a variable or an observation). Both, "type" and "count" are not.
+2. R uses vectors internally. Most functions expect a column to represent one cohesive selection of values (e.g., a variable or an observation). Both, "type" and "count" are not.
 
 3. "type" switches the meaning of "count". This is highly unintuitive and not what (most) people would expect.
 ]
@@ -335,7 +335,7 @@ The 3 rules of tidy data:
 &lt;img src="pics/tidy_data.png" width="100%"&gt;
 Source: https://r4ds.had.co.nz/tidy-data.html
 
-NB: In the tidyverse 'tidy data' also means data in long format - where applicable.  
+NB: In the `tidyverse` 'tidy data' also means data in long format - where applicable.  
 
 ---
 
@@ -406,7 +406,7 @@ But sometimes **'long' format** is required (e.g., for plotting with `ggplot2`).
 
 --
 
-The tidyverse verb `gather` converts the wide format into long format.
+The `tidyr` verb `gather` converts the wide format into the long format.
 
 
 ```r
@@ -507,7 +507,7 @@ NB: This is **NOT** an appropriate long format because the columns are not cohes
 
 --
 
-The tidyverse verb `spread` converts the incohesive selection of values into cohesive vectors/variables.
+The `tidyr` verb `spread` converts the incohesive selection of values into cohesive vectors/variables.
 
 
 ```r
@@ -559,7 +559,7 @@ table2 %&gt;%
 
 # 'Separate' intermingled values
 
-The tidyverse verb `separate` allows us to separate intermingled values.
+The `tidyr` verb `separate` allows us to separate intermingled values.
 
 &lt;table&gt;
  &lt;thead&gt;
@@ -667,7 +667,7 @@ tibble(mingled = "80/100#1,6_3") %&gt;%
 
 # 'Unite' values
 
-The tidyverse verb `unite` lets us concatenate values that are spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
+The `tidyr` verb `unite` lets us concatenate values that are spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
 
 &lt;table&gt;
  &lt;thead&gt;
@@ -712,9 +712,9 @@ table5 %&gt;%
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A3_TidyData_exercises_question.html) time 🏋️‍♀️💪🏃🚴
 
-## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A3_TidyData_exercises_solution.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

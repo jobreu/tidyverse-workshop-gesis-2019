@@ -7,7 +7,7 @@ location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../workshop.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -48,7 +48,7 @@ pre {
 # About this course
 
 .larger[
-In this course you will learn how to **wrangle and explore data in R using packages from the tidyverse**. At the end of the course, you should be be familiar with the concepts of **tidy data** and the **pipe operator**, able to **import, transform, and explore** data with the tidyverse, and comfortable rewriting base R syntax in **tidyverse syntax**.
+In this course you will learn how to **wrangle and explore data in R using packages from the `tidyverse`**. At the end of the course, you should be be familiar with the concepts of **tidy data** and the **pipe operator**, able to **import, transform, and explore** data with the `tidyverse`, and comfortable rewriting base R syntax in **`tidyverse` syntax**.
 ]
 
 ---
@@ -102,9 +102,9 @@ In this course you will learn how to **wrangle and explore data in R using packa
 
 - What do you work on?  
 
-- What are your experiences with R and the tidyverse?  
+- What are your experiences with `R` and the `tidyverse`?  
 
-- What do you want to use the tidyverse for?
+- What do you want to use the `tidyverse` for?
 ]
 
 ---
@@ -112,9 +112,9 @@ In this course you will learn how to **wrangle and explore data in R using packa
 # Prerequisites for this course
 
 .large[
-- Working version of R and RStudio  
+- Working version of `R` and *RStudio*  
 
-- Some basic knowledge of R  
+- Some basic knowledge of `R`  
 
 - The following packages: `tidyverse`, `gapminder`
 ]  
@@ -140,6 +140,7 @@ install.packages(c("tidyverse", "gapminder"))
 .center[`https://github.com/jobreu/tidyverse-workshop-gesis-2019`]
 
 ---
+
 # Course schedule
 
 .center[**Wednesday, May 15th, 2019**]
@@ -160,6 +161,7 @@ kable(
 ```
 
 ---
+
 # Course schedule
 
 .center[**Thursday, May 16th, 2019**]
@@ -195,6 +197,7 @@ include_graphics("./pics/mario_brick_3d.png")
 - You will become a super (data) plumber who knows how to use pipes
 
 ---
+
 # Why do we focus on wrangling & exploring?
 
 .large[The (in)famous **80/20-rule**: 80% wrangling, 20% analysis]<sup>1</sup>  
@@ -214,11 +217,12 @@ include_graphics("./pics/mario_brick_3d.png")
 
 
 ---
-# What is the tidyverse?
 
-> The tidyverse is an .highlight[opinionated collection of R packages designed for data science]. All packages share an .highlight[underlying design philosophy, grammar, and data structures] ([Tidyverse website](https://www.tidyverse.org/)).
+# What is the `tidyverse`?
 
-> The tidyverse is a .highlight[coherent system of packages for data manipulation, exploration and visualization] that share a .highlight[common design philosophy] ([Rickert, 2017](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/)).
+> The `tidyverse` is an .highlight[opinionated collection of R packages designed for data science]. All packages share an .highlight[underlying design philosophy, grammar, and data structures] ([Tidyverse website](https://www.tidyverse.org/)).
+
+> The `tidyverse` is a .highlight[coherent system of packages for data manipulation, exploration and visualization] that share a .highlight[common design philosophy] ([Rickert, 2017](https://rviews.rstudio.com/2017/06/08/what-is-the-tidyverse/)).
 
 ```{r, out.width = "25%"}
 include_graphics("./pics/hex-tidyverse.png")
@@ -226,11 +230,11 @@ include_graphics("./pics/hex-tidyverse.png")
 
 ---
 
-# Benefits of the tidyverse
+# Benefits of the `tidyverse`
 
-.large[Most of the things we are going to show you can also be achieved with base R. However, the syntax for this is typically (more) verbose and not intuitive and, hence, difficult to learn, remember, and read (plus many tidyverse operations are faster than their base R equivalents).  
+.large[Most of the things we are going to show you can also be achieved with base R. However, the syntax for this is typically (more) verbose and not intuitive and, hence, difficult to learn, remember, and read (plus many `tidyverse` operations are faster than their base R equivalents).  
   
-Tidyverse syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)). The tidyverse also aims for **consistency** (e.g., data frame as first argument and output) and uses **smarter defaults** (e.g., `stringsAsFactors = FALSE` & no partial matching of data frame and column names).]
+`Tidyverse` syntax is designed to increase **human-readability**. This makes it especially **attractive for R novices** as it can facilitate the experience of **self-efficacy** (see [Robinson, 2017](http://varianceexplained.org/r/teach-tidyverse/)). The `tidyverse` also aims for **consistency** (e.g., data frame as first argument and output) and uses **smarter defaults** (e.g., `stringsAsFactors = FALSE` & no partial matching of data frame and column names).]
 
 
 ---
@@ -250,7 +254,7 @@ Tidyverse syntax is designed to increase **human-readability**. This makes it es
 
 ---
 
-# Tidyverse workflow
+# `Tidyverse` workflow
 
 .center[
 <img src="./pics/tidyverse-1200x484.png">
@@ -259,9 +263,9 @@ Tidyverse syntax is designed to increase **human-readability**. This makes it es
 
 ---
 
-# The expanding tidyverse
+# The expanding `tidyverse`
 
-There is a long and continuously growing list of packages that implement/adapt tidyverse principles and workflows for different types of analyses.  
+There is a long and continuously growing list of packages that implement/adapt `tidyverse` principles and workflows for different types of analyses.  
 
 Some examples:
 - [`tidygraph`](https://www.data-imaginist.com/2017/introducing-tidygraph/) for a tidy approach to network analysis
@@ -276,13 +280,13 @@ Some examples:
 
 ---
 
-# Lift-off into the tidyverse `r ji("rocket")`
-**install all tidyverse packages** (for the full list of tidyverse packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/))
+# Lift-off into the `tidyverse` `r ji("rocket")`
+**install all `tidyverse` packages** (for the full list of `tidyverse` packages see [https://www.tidyverse.org/packages/](https://www.tidyverse.org/packages/))
 ```{r install tidyverse, eval = F, echo = T}
 install.packages("tidyverse")
 
 ```
-**load core tidyverse packages** (NB: To save time and reduce namespace conflicts it can make sense to load the tidyverse packages individually)
+**load core `tidyverse` packages** (NB: To save time and reduce namespace conflicts it can make sense to load the `tidyverse` packages individually)
 ```{r load tidyverse, eval = T, echo = T, message = T}
 library("tidyverse")
 
@@ -306,7 +310,7 @@ The following ones are of particular interest for this workshop:
 
 # Coding in style `r ji("sunglasses")`
 
-[The tidyverse style guide](https://style.tidyverse.org/) by Hadley Wickham  
+[The `tidyverse` style guide](https://style.tidyverse.org/) by Hadley Wickham  
   
 [`styler`](http://styler.r-lib.org/) package (incl. RStudio add-in)
 

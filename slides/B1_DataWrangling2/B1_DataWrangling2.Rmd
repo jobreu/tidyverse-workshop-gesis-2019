@@ -7,7 +7,7 @@ location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../workshop.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -205,7 +205,7 @@ titanic %>%
 
 While creating a new variable based on one or more numeric variables and recoding values of a variable are quite straightforward with the `dplyr` functions `mutate()` and `recode()`, there may be situations where you need alternative (and more sophisticated) methods for editing or creating variables, especially if you work with larger and more complex datasets.  
 
-Fortunately, the tidyverse also got you covered for such cases with helper functions for and scoped variants of `mutate()` (also see the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/02/dplyr-tutorial-2/) on transforming columns in your dataset). <sup>1</sup>
+Fortunately, the `tidyverse` also got you covered for such cases with helper functions for and scoped variants of `mutate()` (also see the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/02/dplyr-tutorial-2/) on transforming columns in your dataset). <sup>1</sup>
 
 We will also briefly focus on two types of variables that are a bit more challenging to work with: character variables (strings) and factors.<sup>2</sup>
 
@@ -263,7 +263,7 @@ titanic %>%
 
 # Strings
 
-Working with strings in R is a topic that would require its own workshop. The tidyverse package [`stringr`](https://stringr.tidyverse.org/index.html) offers a collection of convenient functions for working with strings.
+Working with strings in R is a topic that would require its own workshop. The `tidyverse` package [`stringr`](https://stringr.tidyverse.org/index.html) offers a collection of convenient functions for working with strings.
 
 ```{r stringr hex, out.width = "20%"}
 include_graphics("./pics/hex-stringr.png")
@@ -293,6 +293,10 @@ titanic %>%
                              pattern = one_or_more(ALNUM) %R% DOT)) %>% #<< 
   select(name, title)
 ```
+
+.small[
+Note: The regular expression used for the `pattern` argument was created with the `rebus` package.
+]
 
 ---
 
@@ -334,7 +338,7 @@ You can combine the `mutate()` function with a simple `ifelse()` statement to cr
 
 ```{r dummy, echo = T}
 titanic %>%
-  mutate(age_dic = ifelse(age > 17, "adult", "child")) %>% #<<
+  mutate(age_dic = if_else(age > 17, "adult", "child")) %>% #<<
   select(passenger_id, sex, age, age_dic)
 ```
 
@@ -342,7 +346,7 @@ titanic %>%
 
 # Factors
 
-Factors are a special type of variable in R. With [`forcats`](https://forcats.tidyverse.org/) the tidyverse has a whole package devoted to handling categorical variables.
+Factors are a special type of variable in R. With [`forcats`](https://forcats.tidyverse.org/) the `tidyverse` has a whole package devoted to handling categorical variables.
 
 ```{r forcats hex, out.width = "25%"}
 include_graphics("./pics/hex-forcats.png")
@@ -415,6 +419,6 @@ titanic %>%
 
 class: center, middle
 
-# [Exercise](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/exercises/B1_DataWrangling2_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/B1_DataWrangling2_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/solutions/B1_DataWrangling2_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/B1_DataWrangling2_exercises_solution.html)

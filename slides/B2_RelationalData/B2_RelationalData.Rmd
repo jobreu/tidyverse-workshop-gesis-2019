@@ -7,7 +7,7 @@ location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../workshop.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -115,7 +115,7 @@ publishers <- read_csv("../../data/other/heroes_information.csv") %>%
 .pull-left[
 .center[
 **Superheroes**
-```{r superhero table, echo = FALSE}
+```{r superhero table}
 heroes %>%
   kable("html") %>% 
   kable_styling(font_size = 16)
@@ -126,7 +126,7 @@ heroes %>%
 .pull-right[
 .center[
 **Publishers**
-```{r publishers table, echo = FALSE}
+```{r publishers table}
 publishers %>%
   kable("html") %>% 
   kable_styling(font_size = 16)
@@ -168,7 +168,7 @@ Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
 
 .pull-left[
 .center[
-```{r superhero table 2, echo = FALSE}
+```{r superhero table 2}
 heroes %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -178,7 +178,7 @@ heroes %>%
 
 .pull-right[
 .center[
-```{r publishers table 2, echo = FALSE}
+```{r publishers table 2}
 publishers %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -191,7 +191,7 @@ heroes %>%
   inner_join(publishers, by = "Publisher")
 ```
 
-```{r inner join, echo = F}
+```{r inner join}
 heroes %>% 
   inner_join(publishers, by = "Publisher") %>%
   kable("html") %>% 
@@ -216,7 +216,7 @@ Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
 
 .pull-left[
 .center[
-```{r superhero table 3, echo = FALSE}
+```{r superhero table 3}
 heroes %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -226,7 +226,7 @@ heroes %>%
 
 .pull-right[
 .center[
-```{r publishers table 3, echo = FALSE}
+```{r publishers table 3}
 publishers %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -239,7 +239,7 @@ heroes %>%
   left_join(publishers, by = "Publisher")
 ```
 
-```{r left join, echo = F}
+```{r left join}
 heroes %>% 
   left_join(publishers, by = "Publisher") %>%
   kable("html") %>% 
@@ -264,7 +264,7 @@ Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
 
 .pull-left[
 .center[
-```{r superhero table 4, echo = FALSE}
+```{r superhero table 4}
 heroes %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -274,7 +274,7 @@ heroes %>%
 
 .pull-right[
 .center[
-```{r publishers table 4, echo = FALSE}
+```{r publishers table 4}
 publishers %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -287,7 +287,7 @@ heroes %>%
   right_join(publishers, by = "Publisher")
 ```
 
-```{r right join, echo = F}
+```{r right join}
 heroes %>% 
   right_join(publishers, by = "Publisher") %>%
   kable("html") %>% 
@@ -312,7 +312,7 @@ Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
 
 .pull-left[
 .center[
-```{r superhero table 5, echo = FALSE}
+```{r superhero table 5}
 heroes %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -322,7 +322,7 @@ heroes %>%
 
 .pull-right[
 .center[
-```{r publishers table 5, echo = FALSE}
+```{r publishers table 5}
 publishers %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -335,7 +335,7 @@ heroes %>%
   full_join(publishers, by = "Publisher")
 ```
 
-```{r full join, echo = F}
+```{r full join}
 heroes %>% 
   full_join(publishers, by = "Publisher") %>%
   kable("html") %>% 
@@ -372,7 +372,7 @@ Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
 
 .pull-left[
 .center[
-```{r superhero table 6, echo = FALSE}
+```{r superhero table 6}
 heroes %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -382,7 +382,7 @@ heroes %>%
 
 .pull-right[
 .center[
-```{r publishers table 6, echo = FALSE}
+```{r publishers table 6}
 publishers %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -395,7 +395,7 @@ heroes %>%
   semi_join(publishers, by = "Publisher")
 ```
 
-```{r semi join, echo = F}
+```{r semi join}
 heroes %>% 
   semi_join(publishers, by = "Publisher") %>%
   kable("html") %>% 
@@ -420,7 +420,7 @@ Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
 
 .pull-left[
 .center[
-```{r superhero table 7, echo = FALSE}
+```{r superhero table 7}
 heroes %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -430,7 +430,7 @@ heroes %>%
 
 .pull-right[
 .center[
-```{r publishers table 7, echo = FALSE}
+```{r publishers table 7}
 publishers %>%
   kable("html") %>% 
   kable_styling(font_size = 10)
@@ -443,7 +443,7 @@ heroes %>%
   anti_join(publishers, by = "Publisher")
 ```
 
-```{r anti join, echo = F}
+```{r anti join}
 heroes %>% 
   anti_join(publishers, by = "Publisher") %>%
   kable("html") %>% 
@@ -539,6 +539,6 @@ Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
 
 class: center, middle
 
-# [Exercise](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/exercises/B2_RelationalData_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/B2_RelationalData_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/solutions/B2_RelationalData_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/B2_RelationalData_exercises_solution.html)

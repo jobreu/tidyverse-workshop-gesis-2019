@@ -7,8 +7,7 @@
     <meta name="date" content="2019-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
-    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
+    <link rel="stylesheet" href="..\workshop.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -376,7 +375,7 @@ titanic %&gt;%
 
 While creating a new variable based on one or more numeric variables and recoding values of a variable are quite straightforward with the `dplyr` functions `mutate()` and `recode()`, there may be situations where you need alternative (and more sophisticated) methods for editing or creating variables, especially if you work with larger and more complex datasets.  
 
-Fortunately, the tidyverse also got you covered for such cases with helper functions for and scoped variants of `mutate()` (also see the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/02/dplyr-tutorial-2/) on transforming columns in your dataset). &lt;sup&gt;1&lt;/sup&gt;
+Fortunately, the `tidyverse` also got you covered for such cases with helper functions for and scoped variants of `mutate()` (also see the [tutorial by Suzan Baert](https://suzan.rbind.io/2018/02/dplyr-tutorial-2/) on transforming columns in your dataset). &lt;sup&gt;1&lt;/sup&gt;
 
 We will also briefly focus on two types of variables that are a bit more challenging to work with: character variables (strings) and factors.&lt;sup&gt;2&lt;/sup&gt;
 
@@ -471,7 +470,7 @@ titanic %&gt;%
 
 # Strings
 
-Working with strings in R is a topic that would require its own workshop. The tidyverse package [`stringr`](https://stringr.tidyverse.org/index.html) offers a collection of convenient functions for working with strings.
+Working with strings in R is a topic that would require its own workshop. The `tidyverse` package [`stringr`](https://stringr.tidyverse.org/index.html) offers a collection of convenient functions for working with strings.
 
 &lt;img src="./pics/hex-stringr.png" width="20%" style="display: block; margin: auto;" /&gt;
 
@@ -536,6 +535,10 @@ titanic %&gt;%
 ## # ... with 881 more rows
 ```
 
+.small[
+Note: The regular expression used for the `pattern` argument was created with the `rebus` package.
+]
+
 ---
 
 # Example: Split Titanic names into parts
@@ -583,12 +586,12 @@ We use the `rebus` package here to create a regular expression for the pattern m
 
 # Dummy variables
 
-You can combine the `mutate()` function with a simple `ifelse` statement to create a dummy variable based on a numeric one. For more advanced creation of dummy variables (e.g., for categorical variables) you should check out the [`fastDummies` package](https://github.com/jacobkap/fastDummies).
+You can combine the `mutate()` function with a simple `ifelse()` statement to create a dummy variable based on a numeric one. For more advanced creation of dummy variables (e.g., for categorical variables) you should check out the [`fastDummies` package](https://github.com/jacobkap/fastDummies).
 
 
 ```r
 titanic %&gt;%
-* mutate(age_dic = ifelse(age &gt; 17, "adult", "child")) %&gt;%
+* mutate(age_dic = if_else(age &gt; 17, "adult", "child")) %&gt;%
   select(passenger_id, sex, age, age_dic)
 ```
 
@@ -613,7 +616,7 @@ titanic %&gt;%
 
 # Factors
 
-Factors are a special type of variable in R. With [`forcats`](https://forcats.tidyverse.org/) the tidyverse has a whole package devoted to handling categorical variables.
+Factors are a special type of variable in R. With [`forcats`](https://forcats.tidyverse.org/) the `tidyverse` has a whole package devoted to handling categorical variables.
 
 &lt;img src="./pics/hex-forcats.png" width="25%" style="display: block; margin: auto;" /&gt;
 
@@ -672,7 +675,7 @@ titanic %&gt;%
 ```
 
 - conditions are evaluated consecutively
-- to understand what `TRUE` means here, you can think of `case_when` as an `ifelse` statement: What happens if the else-condition is true?
+- to understand what `TRUE` means here, you can think of `case_when` as an `ifelse()` statement: What happens if the else-condition is true?
 - if you define missings for your outcome variable, you have to be explicit about the type of `NA` you need (`NA_character_`, `NA_integer_`, `NA_real_`)
 - if you wanted to create an ordered factor, you would need to specify this via the `levels` argument of the `factor()` function (see `?factor`)
 
@@ -702,9 +705,9 @@ titanic %&gt;%
 
 class: center, middle
 
-# [Exercise](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/exercises/B1_DataWrangling2_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/B1_DataWrangling2_exercises_question.html) time 🏋️‍♀️💪🏃🚴
 
-## [Solutions](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/solutions/B1_DataWrangling2_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/B1_DataWrangling2_exercises_solution.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

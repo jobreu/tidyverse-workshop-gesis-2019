@@ -7,7 +7,7 @@ location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../workshop.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -92,11 +92,11 @@ titanic <- read_csv("../../data/titanic/titanic.csv")
 ```
 
 
-```{r read titanic codebook, include = FALSE}
+```{r read titanic codebook, include = F}
 titanic_codebook <- read_csv2("../../data/titanic/titanic_codebook.csv")
 ```
 
-```{r titanic codebook, echo = FALSE}
+```{r titanic codebook}
 titanic_codebook %>%
   kable("html") %>%
   kable_styling(font_size = 16)
@@ -169,9 +169,15 @@ summary(titanic_num)
 names(titanic)
 ```
 
-Some of the names of in the Titanic dataset are difficult to understand (without consulting the codebook). In addition, it is generally helpful to use a consistent naming scheme. As `R` is case-sensitive, we might want to only use lowercase letters. As spaces in variable names can cause problems (or at least headaches), we could opt for `r ji("snake")` snake_case (`r ji("camel")` camelCase is a common alternative; for a good brief discussion of options for avoiding spaces in variable names, see this [Medium post by Patrick Divine](https://medium.com/@pddivine/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841)).
+Some of the names of in the Titanic dataset are difficult to understand (without consulting the codebook).
 
-Note: For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is tidyverse-oriented and includes the function `clean_names()`.  
+---
+
+# Renaming variables
+
+It is generally helpful to use a consistent naming scheme. As `R` is case-sensitive, we might want to only use lowercase letters. As spaces in variable names can cause problems (or at least headaches), we could opt for `r ji("snake")` snake_case (`r ji("camel")` camelCase is a common alternative; for a good brief discussion of options for avoiding spaces in variable names, see this [Medium post by Patrick Divine](https://medium.com/@pddivine/string-case-styles-camel-pascal-snake-and-kebab-case-981407998841)).
+
+Note: For common data cleaning tasks, you might also want to have a look at the [`janitor` package](https://github.com/sfirke/janitor) which is `tidyverse`-oriented and includes the function `clean_names()`.  
 
 ---
 --- 
@@ -227,6 +233,15 @@ titanic %>%
   select(name:age)
 ```
 
+.small[
+Note: You can also select variables by their index
+
+```{r select index, eval = F, echo = T}
+titanic %>% 
+  select(4:6)
+```
+]
+
 ---
 
 # Unselecting variables
@@ -275,6 +290,9 @@ titanic %>%
   filter(sex == "male")
 ```
 
+.small[
+Note: If you want to filter rows based on their index, you need to use `slice()` instead of `filter()`.
+]
 ---
 
 # `dplyr::filter` - multiple conditions
@@ -513,6 +531,6 @@ titanic %>%
 
 class: center, middle
 
-# [Exercise](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/exercises/A5_DataWrangling1_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A5_DataWrangling1_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/solutions/A5_DataWrangling1_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A5_DataWrangling1_exercises_solution.html)

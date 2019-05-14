@@ -7,7 +7,7 @@ location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../workshop.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -36,6 +36,7 @@ yellow <- "#f4e842"
   <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
   <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
 </div>
+
 ---
 
 # The diversity of data
@@ -203,7 +204,7 @@ The 3 rules of tidy data:
 <img src="pics/tidy_data.png" width="100%">
 Source: https://r4ds.had.co.nz/tidy-data.html
 
-NB: In the tidyverse 'tidy data' also means data in long format - where applicable.  
+NB: In the `tidyverse` 'tidy data' also means data in long format - where applicable.  
 
 ---
 
@@ -247,7 +248,7 @@ color_table(head(table4a, n = 1), body_bg = color_mat)
 
 --
 
-The tidyverse verb `gather` converts the wide format into the long format.
+The `tidyr` verb `gather` converts the wide format into the long format.
 
 ```{r gather, echo = T, eval = F}
 table4a %>%
@@ -298,7 +299,7 @@ color_table(head(table2, n = 2), body_bg = color_mat, header_bg = blue)
 
 --
 
-The tidyverse verb `spread` converts the incohesive selection of values into cohesive vectors/variables.
+The `tidyr` verb `spread` converts the incohesive selection of values into cohesive vectors/variables.
 
 ```{r spread, eval = F, echo = T}
 table2 %>%
@@ -336,7 +337,7 @@ table2 %>%
 
 # 'Separate' intermingled values
 
-The tidyverse verb `separate` allows us to separate intermingled values.
+The `tidyr` verb `separate` allows us to separate intermingled values.
 
 ```{r separate table}
 color_mat <- matrix(c(
@@ -393,7 +394,7 @@ tibble(mingled = "80/100#1,6_3") %>%
 
 # 'Unite' values
 
-The tidyverse verb `unite` lets us concatenate values that are spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
+The `tidyr` verb `unite` lets us concatenate values that are spread over multiple columns. By default, without specifying 'sep', values are separated by an underscore, '_'. 
 
 ```{r unite table}
 color_mat <- matrix(c(
@@ -426,6 +427,6 @@ table5 %>%
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A3_TidyData_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A3_TidyData_exercises_solution.html)

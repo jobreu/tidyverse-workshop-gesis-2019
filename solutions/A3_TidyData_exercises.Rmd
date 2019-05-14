@@ -1,5 +1,6 @@
 ---
 title: 'Exercises Tidy Data - Solutions'
+# title: 'Exercises Tidy Data'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
@@ -24,7 +25,7 @@ In these exercises, you will use some of the functions from the `tidyr` package 
 
 In several of our exercises (incl. this one), we will use data on global life expectancy from [*Gapminder*](https://www.gapminder.org/) and the [*Titanic*](https://www.kaggle.com/c/titanic/overview) dataset from *Kaggle*. In addition, for one of the exercises on tidy data, we will use an excerpt from [*NationMaster*](https://www.nationmaster.com/) data on [murder](https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Murder-rate) and [intentional homicide](https://www.nationmaster.com/country-info/stats/Crime/Violent-crime/Intentional-homicide-rate) for 2010. 
 
-First, copy the following code into a new R script and run it to load/generate the datasets we will use in these exercises. For the moment, you do not have to understand all of the following code (but you should be able to at the end of this workshop). Please note that for the code to run, your working directory should be the *exercises* folder within the folder with the workshop materials (use `getwd()` to print your current working directory if you are unsure and `setwd()` to change it if necessary).  
+First of all, copy, paste, and rund the following code in(to) your `R` script to load/create the datasets we will use in these exercises.
 
 ```{r load data, message=FALSE}
 library(tidyverse)
