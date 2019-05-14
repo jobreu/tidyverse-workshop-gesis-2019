@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Importing Data</title>
+    <title>Data Wrangling &amp; Exploration with the Tidyverse in R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Jünger" />
     <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/remark-css/robot-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../footer-header.css" type="text/css" />
-    <link rel="stylesheet" href="../mycss.css" type="text/css" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="..\footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="..\mycss.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Importing Data
+# Data Wrangling &amp; Exploration with the Tidyverse in R
+## Importing Data
 ### Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger
 ### 2019-05-15
 
@@ -25,19 +26,19 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Thomas Ebel &amp; Stefan Jünger&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Thomas Ebel, Stefan Jünger&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Importing Data&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 
 ---
-# Getting data in `R`
+# Getting data into `R`
 
 .large[
 Thus far, we've already learned that data can be untidy.
 
-This course is also about making them tidy again.
+This course is also about making them tidy (as well as 'wrangling' and exploring them).
 
 There's one important prerequisite:
 
@@ -49,9 +50,9 @@ There's one important prerequisite:
 ---
 # Getting Data in the tidyverse
 
-Whether we want to use our own data or that from others, we need to get data into R.
+Whether we want to use our own data or data from others, we need to get data into R.
 
-tidyverse provides some nice tools to do exactly this:
+The `tidyverse` provides some nice tools to do exactly that:
 
 - `readr`  (for 'flat' files, such as CSV)
 - `readxl` (for excel spreadsheets)
@@ -59,7 +60,7 @@ tidyverse provides some nice tools to do exactly this:
 
 &lt;img src="./pics/hex_all_in_one.png" width="50%" style="display: block; margin: auto;" /&gt;
 
-The difference to other tool is that tidyverse import functions already prepare the data for being 'tidied': they are a `tibbles`
+A key difference between these packages and others is that `tidyverse` import functions already prepare the data for being 'tidied': they are a `tibbles`
 
 
 ---
@@ -87,10 +88,7 @@ titanic &lt;- read_csv("../../data/titanic/titanic.csv")
 ## )
 ```
 
-Please note the column specification.
-
-- `readr` 'guesses' them based on the first 1000 observations
-- We'll come back to this a little bit later
+Note the column specifications. `readr` 'guesses' them based on the first 1000 observations (we will come back to this later).
 
 
 ---
@@ -104,20 +102,21 @@ titanic
 ## # A tibble: 891 x 12
 ##    PassengerId Survived Pclass Name  Sex     Age SibSp Parch Ticket  Fare
 ##          &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-##  1           1        0      3 Brau… male     22     1     0 A/5 2…  7.25
-##  2           2        1      1 Cumi… fema…    38     1     0 PC 17… 71.3 
-##  3           3        1      3 Heik… fema…    26     0     0 STON/…  7.92
-##  4           4        1      1 Futr… fema…    35     1     0 113803 53.1 
-##  5           5        0      3 Alle… male     35     0     0 373450  8.05
-##  6           6        0      3 Mora… male     NA     0     0 330877  8.46
-##  7           7        0      1 McCa… male     54     0     0 17463  51.9 
-##  8           8        0      3 Pals… male      2     3     1 349909 21.1 
-##  9           9        1      3 John… fema…    27     0     2 347742 11.1 
-## 10          10        1      2 Nass… fema…    14     1     0 237736 30.1 
-## # … with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;, Embarked &lt;chr&gt;
+##  1           1        0      3 Brau~ male     22     1     0 A/5 2~  7.25
+##  2           2        1      1 Cumi~ fema~    38     1     0 PC 17~ 71.3 
+##  3           3        1      3 Heik~ fema~    26     0     0 STON/~  7.92
+##  4           4        1      1 Futr~ fema~    35     1     0 113803 53.1 
+##  5           5        0      3 Alle~ male     35     0     0 373450  8.05
+##  6           6        0      3 Mora~ male     NA     0     0 330877  8.46
+##  7           7        0      1 McCa~ male     54     0     0 17463  51.9 
+##  8           8        0      3 Pals~ male      2     3     1 349909 21.1 
+##  9           9        1      3 John~ fema~    27     0     2 347742 11.1 
+## 10          10        1      2 Nass~ fema~    14     1     0 237736 30.1 
+## # ... with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;,
+## #   Embarked &lt;chr&gt;
 ```
 
-It's that easy.
+It's that easy!
 
 ---
 # A readxl example: `read_excel()`
@@ -126,7 +125,7 @@ It's that easy.
 unicorns &lt;- read_xlsx("../../data/unicorns/observations.xlsx")
 ```
 
-No output :-(
+No output ☹️
 
 ---
 # A readxl example: `read_excel()`
@@ -149,7 +148,7 @@ unicorns
 ##  8 Austria      1680    80
 ##  9 France       1673    70
 ## 10 France       1674    79
-## # … with 32 more rows
+## # ... with 32 more rows
 ```
 
 ---
@@ -171,17 +170,17 @@ gesis_panel
 ## # A tibble: 1,222 x 1,192
 ##    z000001z z000002z z000003z z000005z a11c019a a11c020a a11c021a a11c022a
 ##       &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt; &lt;dbl+lb&gt;
-##  1   1.98e8 ZA5666   1-0-0 2… 10.4232… 1        1        1        2       
-##  2   4.36e8 ZA5666   1-0-0 2… 10.4232… 1        1        1        2       
-##  3   8.57e8 ZA5666   1-0-0 2… 10.4232… 2        2        2        2       
-##  4   1.17e8 ZA5666   1-0-0 2… 10.4232… 1        1        1        2       
-##  5   9.43e8 ZA5666   1-0-0 2… 10.4232… 1        1        4        2       
-##  6   2.66e8 ZA5666   1-0-0 2… 10.4232… 1        1        1        2       
-##  7   2.76e8 ZA5666   1-0-0 2… 10.4232… 1        1        3        2       
-##  8   6.78e8 ZA5666   1-0-0 2… 10.4232… 1        2        1        3       
-##  9   4.64e8 ZA5666   1-0-0 2… 10.4232… 2        2        1        3       
-## 10   4.79e8 ZA5666   1-0-0 2… 10.4232… 1        1        2        2       
-## # … with 1,212 more rows, and 1,184 more variables: a11c023a &lt;dbl+lbl&gt;,
+##  1   1.98e8 ZA5666   1-0-0 2~ 10.4232~ 1 [Sehr~ 1 [Sehr~ 1 [Sehr~ 2 [Stim~
+##  2   4.36e8 ZA5666   1-0-0 2~ 10.4232~ 1 [Sehr~ 1 [Sehr~ 1 [Sehr~ 2 [Stim~
+##  3   8.57e8 ZA5666   1-0-0 2~ 10.4232~ 2 [Eher~ 2 [Eher~ 2 [Eher~ 2 [Stim~
+##  4   1.17e8 ZA5666   1-0-0 2~ 10.4232~ 1 [Sehr~ 1 [Sehr~ 1 [Sehr~ 2 [Stim~
+##  5   9.43e8 ZA5666   1-0-0 2~ 10.4232~ 1 [Sehr~ 1 [Sehr~ 4 [Eher~ 2 [Stim~
+##  6   2.66e8 ZA5666   1-0-0 2~ 10.4232~ 1 [Sehr~ 1 [Sehr~ 1 [Sehr~ 2 [Stim~
+##  7   2.76e8 ZA5666   1-0-0 2~ 10.4232~ 1 [Sehr~ 1 [Sehr~ 3 [Wede~ 2 [Stim~
+##  8   6.78e8 ZA5666   1-0-0 2~ 10.4232~ 1 [Sehr~ 2 [Eher~ 1 [Sehr~ 3 [Stim~
+##  9   4.64e8 ZA5666   1-0-0 2~ 10.4232~ 2 [Eher~ 2 [Eher~ 1 [Sehr~ 3 [Stim~
+## 10   4.79e8 ZA5666   1-0-0 2~ 10.4232~ 1 [Sehr~ 1 [Sehr~ 2 [Eher~ 2 [Stim~
+## # ... with 1,212 more rows, and 1,184 more variables: a11c023a &lt;dbl+lbl&gt;,
 ## #   a11c024a &lt;dbl+lbl&gt;, a11c025a &lt;dbl+lbl&gt;, a11c026a &lt;dbl+lbl&gt;,
 ## #   a11c027a &lt;dbl+lbl&gt;, a11c028a &lt;dbl+lbl&gt;, a11c029a &lt;dbl+lbl&gt;,
 ## #   a11c030a &lt;dbl+lbl&gt;, a11c031a &lt;dbl+lbl&gt;, a11c032a &lt;dbl+lbl&gt;,
@@ -214,7 +213,7 @@ gesis_panel
 ## #   a12c013a &lt;dbl+lbl&gt;, a12c014a &lt;dbl+lbl&gt;, a12c015a &lt;dbl+lbl&gt;,
 ## #   a12c016a &lt;dbl+lbl&gt;, a12c017a &lt;dbl+lbl&gt;, a12c018a &lt;dbl+lbl&gt;,
 ## #   a12c019a &lt;dbl+lbl&gt;, a12c020a &lt;dbl+lbl&gt;, a12d021b &lt;dbl+lbl&gt;,
-## #   a12c022b &lt;dbl+lbl&gt;, a12c023a &lt;dbl+lbl&gt;, a12c025a &lt;dbl+lbl&gt;, …
+## #   a12c022b &lt;dbl+lbl&gt;, a12c023a &lt;dbl+lbl&gt;, a12c025a &lt;dbl+lbl&gt;, ...
 ```
 
 ---
@@ -233,7 +232,7 @@ These were just some very first examples of applying functions from each package
   - `read_spss()`
   - `read_stata()`
 
-Not to mention all the helper files and options. For example, we can define the cells to read from an excel file by applying the option `range = "C1:E4"` in
+Not to mention all the helper functions and options. For example, we can define the cells to read from an excel file by specifying the option `range = "C1:E4"` in
 `read_excel()`
 
 
@@ -255,18 +254,16 @@ Not to mention all the helper files and options. For example, we can define the 
   - indicated by `&lt;lgl&gt;`
   - specified by `col_logical()`
   
-.center[**There's more, but we'll leave it for now.**]
+.center[**There's more, but we'll leave it at that for now.**]
 
 ---
 # Changing Variable Types
-As mentioned, `read_csv` 'guesses' the variable types
+As mentioned before, `read_csv` 'guesses' the variable types by scanning the first 1000 observations. NB: **This can go wrong!**
 
-- it scans the first 1000 observations
-- **This can go wrong!**
+Luckily, we can change the variable type...
 
-Luckily, we can change the variable type.
+- before/while loading the data
 
-- Before resp. while loading the data
 - and after loading the data
 
 ---
@@ -304,17 +301,18 @@ titanic
 ## # A tibble: 891 x 12
 ##    PassengerId Survived Pclass Name  Sex     Age SibSp Parch Ticket  Fare
 ##          &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-##  1           1        0      3 Brau… male     22     1     0 A/5 2…  7.25
-##  2           2        1      1 Cumi… fema…    38     1     0 PC 17… 71.3 
-##  3           3        1      3 Heik… fema…    26     0     0 STON/…  7.92
-##  4           4        1      1 Futr… fema…    35     1     0 113803 53.1 
-##  5           5        0      3 Alle… male     35     0     0 373450  8.05
-##  6           6        0      3 Mora… male     NA     0     0 330877  8.46
-##  7           7        0      1 McCa… male     54     0     0 17463  51.9 
-##  8           8        0      3 Pals… male      2     3     1 349909 21.1 
-##  9           9        1      3 John… fema…    27     0     2 347742 11.1 
-## 10          10        1      2 Nass… fema…    14     1     0 237736 30.1 
-## # … with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;, Embarked &lt;chr&gt;
+##  1           1        0      3 Brau~ male     22     1     0 A/5 2~  7.25
+##  2           2        1      1 Cumi~ fema~    38     1     0 PC 17~ 71.3 
+##  3           3        1      3 Heik~ fema~    26     0     0 STON/~  7.92
+##  4           4        1      1 Futr~ fema~    35     1     0 113803 53.1 
+##  5           5        0      3 Alle~ male     35     0     0 373450  8.05
+##  6           6        0      3 Mora~ male     NA     0     0 330877  8.46
+##  7           7        0      1 McCa~ male     54     0     0 17463  51.9 
+##  8           8        0      3 Pals~ male      2     3     1 349909 21.1 
+##  9           9        1      3 John~ fema~    27     0     2 347742 11.1 
+## 10          10        1      2 Nass~ fema~    14     1     0 237736 30.1 
+## # ... with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;,
+## #   Embarked &lt;chr&gt;
 ```
 
 ---
@@ -329,7 +327,7 @@ titanic &lt;-
       Survived = col_double(),
       Pclass = col_double(),
       Name = col_character(),
-      Sex = col_factor(), # This one's now changed!
+      Sex = col_factor(), # This one changed!
       Age = col_double(),
       SibSp = col_double(),
       Parch = col_double(),
@@ -352,17 +350,18 @@ titanic
 ## # A tibble: 891 x 12
 ##    PassengerId Survived Pclass Name  Sex     Age SibSp Parch Ticket  Fare
 ##          &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-##  1           1        0      3 Brau… male     22     1     0 A/5 2…  7.25
-##  2           2        1      1 Cumi… fema…    38     1     0 PC 17… 71.3 
-##  3           3        1      3 Heik… fema…    26     0     0 STON/…  7.92
-##  4           4        1      1 Futr… fema…    35     1     0 113803 53.1 
-##  5           5        0      3 Alle… male     35     0     0 373450  8.05
-##  6           6        0      3 Mora… male     NA     0     0 330877  8.46
-##  7           7        0      1 McCa… male     54     0     0 17463  51.9 
-##  8           8        0      3 Pals… male      2     3     1 349909 21.1 
-##  9           9        1      3 John… fema…    27     0     2 347742 11.1 
-## 10          10        1      2 Nass… fema…    14     1     0 237736 30.1 
-## # … with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;, Embarked &lt;chr&gt;
+##  1           1        0      3 Brau~ male     22     1     0 A/5 2~  7.25
+##  2           2        1      1 Cumi~ fema~    38     1     0 PC 17~ 71.3 
+##  3           3        1      3 Heik~ fema~    26     0     0 STON/~  7.92
+##  4           4        1      1 Futr~ fema~    35     1     0 113803 53.1 
+##  5           5        0      3 Alle~ male     35     0     0 373450  8.05
+##  6           6        0      3 Mora~ male     NA     0     0 330877  8.46
+##  7           7        0      1 McCa~ male     54     0     0 17463  51.9 
+##  8           8        0      3 Pals~ male      2     3     1 349909 21.1 
+##  9           9        1      3 John~ fema~    27     0     2 347742 11.1 
+## 10          10        1      2 Nass~ fema~    14     1     0 237736 30.1 
+## # ... with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;,
+## #   Embarked &lt;chr&gt;
 ```
 
 ---
@@ -395,14 +394,14 @@ titanic &lt;- read_csv("../../data/titanic/titanic.csv")
 
 ```r
 titanic &lt;-
-  type_convert(
+* type_convert(
     titanic,
     col_types = cols(
       PassengerId = col_double(),
       Survived = col_double(),
       Pclass = col_double(),
       Name = col_character(),
-      Sex = col_factor(), # This one's now changed!
+      Sex = col_factor(),
       Age = col_double(),
       SibSp = col_double(),
       Parch = col_double(),
@@ -416,26 +415,25 @@ titanic &lt;-
 
 ---
 # Exporting Data
-Sometimes we also have to leave R and its tidy world.
+Sometimes our data have to leave the `tidyverse` (or even `R`), for example, if we....
 
-- If we share data with colleagues
-- If we aim to start where we left the next day
-  - Particularly, when data wrangling took a long time
+- share data with colleagues who do not use `R`
+- want to continue where we left off
+  - particularly, if data wrangling took a long time
   
-For these purposes, we also need a way to export our data.
+For such purposes we also need a way to export our data.
 
-All tools presented also have designated functions for that.
+All of the packages we have discussed in this session also have designated functions for that.
 
 &lt;img src="./pics/export_data.png" width="50%" style="display: block; margin: auto;" /&gt;
 
 ---
-# Example: CSV and Stata files
+# Examples: CSV and Stata files
 
 ```r
 write_csv(titanic, "titanic_own.csv")
 ```
 
-Maybe more relevant:
 
 ```r
 write_dta(titanic, "titanic_own.dta")
@@ -448,32 +446,36 @@ list.files()
 ```
 
 ```
-## [1] "A3_ImportingData.html" "A3_ImportingData.Rmd"  "libs"                 
+## [1] "A4_ImportingData.html" "A4_ImportingData.Rmd"  "libs"                 
 ## [4] "pics"                  "titanic_own.csv"       "titanic_own.dta"
 ```
 
 ---
 # Additional Packages
-The great benefit of tidyverse import functions is the import of the data as tibbles: the data are potentially tidier.
+The great benefit of `tidyverse` import functions is the import of the data as tibbles: the data are potentially tidier.
 
 Several other non-tidyverse packages provide similar benefits as they make use of this universal data format:
-- `sf` for geospatial data
-- `sjlabelled` to work with labelled data, e.g., from SPSS or Stata
+- [`sf`](https://github.com/r-spatial/sf) for geospatial data
+
+- [`sjlabelled`](https://cran.r-project.org/web/packages/sjlabelled/index.html) to work with labelled data, e.g., from SPSS or Stata
 
 ---
 # Alternative Packages
+
 - `base` R
-- the good old `foreign` package for spss and stata files 
-- `data.table` for large data tables
+
+- the [`foreign` package](https://cran.r-project.org/web/packages/foreign/index.html) for SPSS and Stata files
+
+- [`data.table`](https://cran.r-project.org/web/packages/data.table/index.html) for large datasets
 
 
 ---
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A3_ImportingData_exercises_question.html) time 🏋️‍♀️💪🏃🚴
+# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/A4_TidyData_exercises_question.html) time 🏋️‍♀️💪🏃🚴
 
-## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A3_ImportingData_exercises_solution.html)
+## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/A4_ImportingData_exercises_solution.html)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
