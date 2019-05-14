@@ -28,7 +28,7 @@ Read in the *Gapminder* population data and store it as a new object called *gap
 ```
 
 ```{block, opts.label = "clues"}
-The data we need is stored in a .csv file which you can find in the folder *data/gapminder*.
+The data we need are stored in a .csv file which you can find in the folder *./data/gapminder*.
 ```
 
 ```{r read gap_pop, solution = TRUE}
@@ -67,7 +67,7 @@ gap_pop %>%
   select(country, "1990":"1999")
 ```
 
-For the next data wrangling steps it is more convenient to have the data in long format.
+For the next data wrangling steps, it is more convenient to have the data in long format.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
 Transform the *gap_pop* dataset into a sensible long format. Name the variable representing the values for population *pop* and store the resulting dataframe in a name with the same object as before (*gap_pop*).
@@ -84,10 +84,14 @@ gap_pop <- gap_pop %>%
   gather(-country, key = "year", value = "pop")
 ```
 
-For some analyses it might help (or even be necessary) to only work with a specific subset of observations.
+For some analyses, it might help (or even be necessary) to only work with a specific subset of observations.
 
-```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
-Create two new dataframes that include different subets of the *gap_pop* data: 1. Data for all countries for the 19th century (name this one *gap_pop_19thcen*), 2. Data for Germany for the years from 2000 onwards (name this one *gap_gop_ger_21stcen*).
+```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
+Create two new dataframes that include different subets of the *gap_pop* data: 
+
+1. Data for all countries for the 19th century (name this one *gap_pop_19thcen*), 
+
+2. Data for Germany for the years from 2000 onwards (name this one *gap_gop_ger_21stcen*).
 ```
 
 ```{block, opts.label = "clues"}
@@ -172,7 +176,7 @@ Which 5 countries were the most and least populous ones in 2015?
 ```
 
 ```{block, opts.label = "clues"}
-To answer this question you need to filter and arrange the *gap_pop* dataset.
+To answer this question you need to `filter()` and `arrange()` the *gap_pop* dataset.
 ```
 
 ```{r arrange, solution = TRUE}
