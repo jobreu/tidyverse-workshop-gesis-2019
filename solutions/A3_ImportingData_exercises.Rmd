@@ -1,0 +1,108 @@
+---
+title: 'Exercises Importing Data - Solutions'
+# title: 'Exercises Importing Data'
+author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
+date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
+output:
+  # unilur::tutorial_html: default
+  unilur::tutorial_html_solution: default
+---
+
+```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
+# custom boxes
+knitr::opts_template$set(clues = list(box.title = "Clues",
+                                      box.body = list(fill = "#fff9dc", colour = "black"),
+                                      box.header = list(fill = "#ffec8b", colour = "black"),
+                                      box.icon = "fa-search",
+                                      box.collapse = TRUE))
+```
+
+```{r klippy, echo=FALSE, include=TRUE}
+klippy::klippy()
+```
+
+After successfully accomplishing the exercises on tidy data and listening to lengthy lectures on data formats as well as specifics of importing them, it's now your turn to get used to importing data in the `tidyverse`.
+
+We prepared some datasets, for example, the [*Titanic*](https://www.kaggle.com/c/titanic/overview) dataset from *Kaggle*, which you can use to play with some of the functions from `readr` and related packages. You can find them in the `../data` folder. However, importing data often implies firing up only one command, and that's it. For this reason, in these exercises, we prepared some individual tasks you can work on.
+
+This being said, let's start with some easy data importing.
+
+```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the titanic data.
+```
+
+```{block, opts.label = "clues"}
+The file format is CSV, accordingly you need the `readr` library and the function `read_...`
+```
+
+```{r load_titanic, solution = TRUE}
+library(readr)
+
+titanic <-
+  read_csv("../data/titanic/titanic.csv")
+```
+
+You may have noticed that the function you just used is importing factor variables as characters by default. For some analyses, this is not what we want. So let's pretend we're particularly interested in gender differences in a regression model or the like.
+
+```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
+Convert the variable `Sex` to a factor.
+```
+
+```{block, opts.label = "clues"}
+You can do that while importing the data or after loading them.
+```
+
+```{r convert_sex, solution = TRUE}
+titanic <-
+  read_csv(
+    "../data/titanic/titanic.csv",
+    col_types = cols(
+      Sex = col_factor()
+    )
+  )
+```
+
+After working on the `titanic` data, we got bored. Now we want to work on some longitudinal and cross-country level data. The gapminder GDP data comes to our mind!
+
+```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the gapminder GDP data.
+```
+
+```{block, opts.label = "clues"}
+Note that in the data folder actually two different gapminder datasets are stored.
+```
+
+```{r load_gapminder_gdp, solution = TRUE}
+library(readxl)
+
+gapminder_GDP <-
+  read_excel("../data/gapminder/GDPpercapitaconstant2000US.xlsx")
+```
+
+Although you had to apply two different importing functions, the outcome is no different: what you got are tibbles. However, especially the file format of the latter dataset is more complex. In the last exercise, we expand on that and apply some more options with the help of the `unicorns on unicycles` data. What we know about these data is this little story:
+
+> The documents were recently unearthed from a hidden chest in Delft and seem to be written by Rudolphus Hogervorstus, my great great great uncle, in 1681. These documents show that he was a scientist studying the then roaming herds of unicorns in the area around Delft. Unfortunately these animals are extinct now.
+> His work contains multiple tables, carefully written down, documenting the population of unicorns over time in multiple places and related to that the sales and numbers of unicycles in those countries.
+> According to Rudolphus the unicorn populations and unicycles are related "The presence of the cone on the unicorn hints at a very defined sense of equilibrium, it is therefore only natural to assume unicorns ride unicycles".
+> As part of the archival process these tables were copied, as Rudolphus himself would say: "with the black magic, so vile it could not be discussed for hell would come descent upon us" into satans own spawn: Microsoft Excel.
+> This 'raw' data gives us a nice example of typical dirty data you would find in the wild. The goal is to combine the sales data of unicycles and the populations of unicorns into a single 'tidy' dataframe.
+
+Source: https://github.com/RMHogervorst/unicorns_on_unicycles
+
+```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
+Load the unicorn sales data file. As we are not interested in the `total_turnover` variable only read in the cell range `A1:C43`
+```
+
+```{block, opts.label = "clues"}
+You can define ranges with the option `range = range_definition`.
+```
+
+```{r load_unicorn_sales, solution = TRUE}
+library(readxl)
+
+unicorn_sales <-
+  read_excel(
+    "../data/unicorns/sales.xlsx",
+    range = "A1:C43"
+      )
+```

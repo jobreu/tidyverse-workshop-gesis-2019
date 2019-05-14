@@ -158,3 +158,29 @@ gap_full %>%
 ```
 
 Another way to explore the differences between the datasets could be to look at some of the summary statistics for them. How to create summary statistics with the `tidyverse` will be the topic of the next session.
+
+As a final exercise, let's join another variable (*average number of children per woman*) to the dataset from the `gapminder` package. To load and prepare the data, copy and run the following code.
+
+```{r gap_fert prep, message = F}
+library(gapminder)
+
+gapminder <- gapminder %>% 
+  mutate(country = as.character(country))
+
+gap_fert <- read_csv("../data/gapminder/children_per_woman_total_fertility.csv") %>% 
+  gather(-country, key = "year", value = "fert") %>% 
+  mutate(year = as.integer(year))
+```
+
+```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
+Join the *fert* variable from *gap_fert* to the *gapminder* dataset.
+```
+
+```{block, opts.label = "clues"}
+The *gapminder* dataset should be the key/reference/master table for this join.
+```
+
+```{r left_join, solution = TRUE}
+gapminder %>% 
+  left_join(gap_fert, by = c("country", "year"))
+```

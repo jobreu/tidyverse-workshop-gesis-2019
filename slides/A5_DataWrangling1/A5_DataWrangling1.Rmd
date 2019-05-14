@@ -310,7 +310,7 @@ titanic %>%
 
 # Creating new variables
 
-In the process of preparing data for analyses we usually want to create new variables (often based on existing ones). For example, in the Titanic dataset, we might want to calculate the total number of relatives aboard the Titanic for each passenger.
+In the process of preparing data for analyses we usually want to create new variables (often based on existing ones). For example, in the Titanic dataset, we might want to calculate the total number of relatives aboard the Titanic for each passenger. You can do this with the `mutate()` function.
 
 ```{r Titanic mutate sum relatives, echo = T}
 titanic <- titanic %>% 
@@ -325,7 +325,7 @@ titanic %>%
 
 ---
 
-# Creating & transforming variables with `dplyr::mutate`
+# `dplyr::mutate`
 
 There are many operators and helper functions that you can use to create and transform variables with `mutate()`.
 
@@ -342,6 +342,8 @@ There are many operators and helper functions that you can use to create and tra
 * logical comparisons: <=, <, ==, !=, >, >=
 
 * ranks: min_rank, ntile(), ...
+
+Note: If you only want to keep the newly created variables, you should use `transmute()` instead of `mutate()`.
 
 ---
 
@@ -511,6 +513,6 @@ titanic %>%
 
 class: center, middle
 
-# [Exercise](https://jobreu.github.io/tidyverse-workshop-gesis-2019/exercises/tidy_data_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/exercises/A5_DataWrangling1_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
 
-## [Solutions](https://jobreu.github.io/tidyverse-workshop-gesis-2019/solutions/tidy_data_exercises_solution.html)
+## [Solutions](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/solutions/A5_DataWrangling1_exercises_solution.html)

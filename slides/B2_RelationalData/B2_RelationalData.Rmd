@@ -539,4 +539,6 @@ Animation by [Garrick Aden-Buie](https://github.com/gadenbuie/tidyexplain)
 
 class: center, middle
 
-# Exercise time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+# [Exercise](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/exercises/B2_RelationalData_exercises_question.html) time `r ji("weight_lifting_woman")``r ji("muscle")``r ji("running_man")``r ji("biking_man")`
+
+## [Solutions](https://github.com/jobreu/tidyverse-workshop-gesis-2019/blob/master/solutions/B2_RelationalData_exercises_solution.html)
