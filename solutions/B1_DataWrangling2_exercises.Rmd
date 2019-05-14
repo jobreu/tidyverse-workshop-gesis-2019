@@ -21,7 +21,7 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
 klippy::klippy()
 ```
 
-For the following exercises we will also data from [*Gapminder*](https://www.gapminder.org/); this time on life expectancy.
+For the following exercises, we will also use data from [*Gapminder*](https://www.gapminder.org/); this time on life expectancy.
 
 As per usual, we first need to read in the data. You can just copy, paste and run the following code in(to) your script.
 
@@ -48,7 +48,7 @@ gap_life %>%
   select(country, starts_with("19"))
 ```
 
-As you may have already noticed, the dataset some missing data points. Before we start analyzing the data we might want to know for how many countries we have complete data.
+As you may have already noticed, the dataset comprises some missing data points. Before we start analyzing the data, we might want to know for how many countries we have complete data.
 
 ```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
 Using the dataset in wide format, find out for how many countries we have complete data?
@@ -66,7 +66,7 @@ gap_life %>%
   nrow()
 ```
 
-As in the previous set of data wrangling exercises, we now want to transform the data into long format.
+As in the previous set of data wrangling exercises, we now want to transform the data into the long format.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Transform the *gap_life* dataset into a sensible long format. Name the variable representing the values for life expectancy *lifeExp* and store the resulting dataframe in a name with the same object as before (*gap_life*).
@@ -86,7 +86,13 @@ gap_life <- gap_life %>%
 Now let's apply some of the advanced filtering options we discussed in the *Data Wrangling - Part 2* session.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
-Create two new dataframes that include different subets of the *gap_life* data: 1. Data for all countries for 1990s (name this one *gap_life_1990s*), 2. Data for all years but only for Germany (name this one *gap_life_ger*). NB: There are different Germanies in the dataset: *West Germany*. *East Germany*, and *Germany*. Before we can create the first new dataset, we need to ensure that the *year* variable is of the right type. To achieve this you can just copy, paste, and execute the following lines of code.
+Create two new dataframes that include different subets of the *gap_life* data: 
+
+1. Data for all countries for 1990s (name this one *gap_life_1990s*), 
+
+2. Data for all years but only for Germany (name this one *gap_life_ger*). 
+
+NB: There are different Germanies in the dataset: *West Germany*. *East Germany*, and *Germany*. Before we can create the first new dataset, we need to ensure that the *year* variable is of the right type. To achieve this, you can just copy, paste, and execute the following lines of code.
 ```
 
 ```{r data for exercise file, include = F}
@@ -106,7 +112,7 @@ gap_life <- gap_life %>%
 
 
 ```{block, opts.label = "clues"}
-You need to use a helper function from `dplyr` to create the first new dataframe and a specific matching operator to create the second one. 
+You need to use a helper function from `dplyr` to create the first new data frame and a specific matching operator to create the second one. 
 ```
 
 ```{r gap_life filter advanced, solution = TRUE}
@@ -131,7 +137,7 @@ gap_life_subset <- gap_life %>%
 ```
 
 ```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
-Create a *cotinent* variable for the countries in *gap_life_subset*. The variable should be a factor and its values the following: *Africa*, *Americas*, *Asia*, *Europe*, *Oceania*.
+Create a *continent* variable for the countries in *gap_life_subset*. The variable should be a factor and its values the following: *Africa*, *Americas*, *Asia*, *Europe*, *Oceania*.
 ```
 
 ```{block, opts.label = "clues"}
