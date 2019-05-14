@@ -25,7 +25,7 @@ klippy::klippy()
 Imagine that we are some fancy data scientists exploring - once again - the [*Gapminder*](https://www.gapminder.org/) data. We are particularly interested in the development of the GDP across time *and* across countries. Some `R`-fanatics from *GESIS* suggested that we use this `tidyverse` thing to complete our tasks. They also told us that we do not always need to load all of its packages at once.
 
 ```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
-Load all packages from the `tidyverse` for importing Excel data and for data wrangling.
+Load all packages from the `tidyverse` that are needed for importing Excel data and data wrangling.
 ```
 
 ```{block, opts.label = "clues"}
@@ -41,7 +41,7 @@ library(tidyr)
 Ok, that wasn't too hard. But data science is about data, so we have to load the data we are interested in.
 
 ```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
-Import the GDP data from *Gapminder* as *gap_gdp*. Make sure to only import the Excel sheet named "Data".
+Import the GDP data from the Excel file with the *Gapminder* GDP data as *gap_gdp*. Make sure to only import the Excel sheet named "Data".
 ```
 
 ```{block, opts.label = "clues"}
@@ -55,7 +55,7 @@ gap_gdp <-
     sheet = "Data"
     )
 
-# OR: as csv for a cleaner version
+# OR: alternatively you could also import the Gapminder GDP data from the csv file
 # gap_gdp <-
 #   readr::read_csv("../data/gapminder/gdppercapita_us_inflation_adjusted.csv")
 ```
@@ -63,11 +63,11 @@ gap_gdp <-
 Have the data been successfully imported? They should be in a tibble with the dimensions 275 x 53. As a further check: The income per person for Algeria for the years 1960, 1961, and 1962 should be 1280, 1085, and 856.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
-Proof that the income per person for Algeria of the years 1960, 1961, and 1962 are 1280, 1085, and 856
+Check that the income per person for Algeria for the years 1960, 1961, and 1962 is 1280, 1085, and 856.
 ```
 
 ```{block, opts.label = "clues"}
-Algeria is in the 5th row of the dataset, and the relevant variables are in the first four columns. You can also subset datasets also by selecting columns by number with `select()` and filtering rows by number with `slice()`.
+Algeria is in the 5th row of the dataset, and the relevant variables are in the first four columns. You can also subset datasets by selecting columns by number with `select()` and filtering rows by number with `slice()`.
 ```
 
 ```{r find_algeria_solution, solution = TRUE, message = FALSE}
@@ -79,7 +79,7 @@ gap_gdp %>%
 Let's say that we are interested in the earliest 10 years as well as the most recent 10 years that appear in the dataset. If we want to aggregate the data per year, they should ideally be in long format.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
-Re-arrange the data such that they are in the long format.
+Rearrange the data such that they are in the long format.
 ```
 
 ```{block, opts.label = "clues"}
@@ -96,7 +96,7 @@ gap_gdp %>%
 There are still a lot of missing values we might want to get rid of, and the data are not arranged  in a way that is ideal to explore changes over time. For the next tasks, simply re-use the previous code and add the following commands with `%>%`. 
 
 ```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
-Remove all missing values and arrange the data in ascending order of years and GDP.
+Remove all missing values and arrange the data in ascending order of year and GDP.
 ```
 
 ```{block, opts.label = "clues"}
@@ -112,10 +112,10 @@ gap_gdp %>%
   arrange(year, GDP)
 ```
 
-Now we have a - more or less - clean dataset for our actual task: calculating the mean values across all countries for each of the first ten years and each of the last ten years. What's still a little bit distracting is that we have the values for all years between these two periods in the data. However, we might want to use some of these data points in future analyses. Hence, we will do all analyses 'on the fly' (i.e., without creating a new dataset). Let's start with the first period.
+Now we have a - more or less - clean dataset for our actual task: calculating the mean values across all countries for each of the first ten years and each of the last ten years. What's still a little bit distracting is that we have the values for all years between these two periods in the data. However, we might want to use some of these data points in future analyses. Hence, we will do the following analyses 'on the fly' (i.e., without creating a new dataset). Let's start with the first period.
 
 ```{block, box.title = "6", box.body = list(fill = "white"), box.icon = "fa-star"}
-Calculate the mean value of `GDP` across all countries for each of the first ten years in the dataset.
+Calculate the mean value of GDP across all countries for each of the first ten years in the dataset.
 ```
 
 ```{block, opts.label = "clues"}
@@ -137,7 +137,7 @@ gap_gdp %>%
 Now it should be easy do the same for the 10 most recent years in the dataset...
 
 ```{block, box.title = "7", box.body = list(fill = "white"), box.icon = "fa-star"}
-Calculate the mean value of `GDP` across all countries for each of the last ten years.
+Calculate the mean value of GDP across all countries for each of the last ten years.
 ```
 
 ```{block, opts.label = "clues"}
