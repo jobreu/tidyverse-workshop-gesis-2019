@@ -60,7 +60,7 @@ Why?
 
 --
 
-- structure of the dataset not in line with the **requirements of the methods/tools** we use
+- structure of the dataset is not in line with the **requirements of the methods/tools** we use
 
 --
 
@@ -122,7 +122,7 @@ color_table(head(table2, n = 3), body_bg = color_mat)
 **Details**
 1. The interpretation of 745 depends on the value of "type".
 
-2. R uses vectors internally. Most functions expect a column to represent one cohesive selection of values (e.g. a variable or an observation). Both, "type" and "count" are not.
+2. R uses vectors internally. Most functions expect a column to represent one cohesive selection of values (e.g., a variable or an observation). Both, "type" and "count" are not.
 
 3. "type" switches the meaning of "count". This is highly unintuitive and not what (most) people would expect.
 ]
@@ -247,7 +247,7 @@ color_table(head(table4a, n = 1), body_bg = color_mat)
 
 --
 
-The tidyverse verb `gather` converts the wide format into long format.
+The tidyverse verb `gather` converts the wide format into the long format.
 
 ```{r gather, echo = T, eval = F}
 table4a %>%
