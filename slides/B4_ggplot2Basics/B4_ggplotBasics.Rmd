@@ -73,6 +73,8 @@ hist(titanic$Age)
 
 `ggplot2` is another `R` package for creating plots and is part of the `tidyverse`.
 
+--
+
 It uses the *grammar of graphics*
 
 - well-suited for multi-dimensional data
@@ -108,7 +110,7 @@ knitr::include_graphics("./pics/21_ggplot2_ddensity_plot.png")
 ]
 
 
-<small><small>Source:</small></small>
+<small><small>Source: https://www.r-graph-gallery.com/wp-content/uploads/2016/05/143_radar_chart_multi_indiv_2.png and https://www.r-graph-gallery.com/wp-content/uploads/2015/09/21_ggplot2_ddensity_plot.png</small></small>
 
 ---
 # ggplot2 examples 
@@ -125,7 +127,7 @@ knitr::include_graphics("./pics/328_Hexbin_map_USA_4.png")
 ```
 ]
 
-<small><small>Source:</small></small>
+<small><small>Source: https://www.r-graph-gallery.com/wp-content/uploads/2015/11/51_scatterplot_linear_model_with_CI_ggplot2-300x300.png and https://www.r-graph-gallery.com/wp-content/uploads/2017/12/328_Hexbin_map_USA_4-300x200.png</small></small>
 
 ---
 # Histograms as in base `R`
@@ -181,7 +183,7 @@ You can use one single data frame to create a plot in `ggplot2`.
 knitr::include_graphics("./pics/data-science_man.png")
 ```
 
-<small><small>Source:</small></small>
+<small><small>Source: http://r4ds.had.co.nz</small></small>
 
 --
 
@@ -192,7 +194,6 @@ However, this makes it difficult to add extra features to your plot.
 ---
 
 # Why the long format?
-
 
 ggplot2 requires data to be in the long data format
 
@@ -212,10 +213,10 @@ We may want to get used to it as this format has some benefits:
 
 
 .pull-right[
-```{r long_pic, out.width = "50%"}
+```{r long_pic, out.width = "40%"}
 knitr::include_graphics("./pics/long.png")
 ```
-<small><small>Source:</small></small>
+<small><small>Source: https://github.com/gadenbuie/tidyexplain#tidy-data</small></small>
 ]
   
 ---
@@ -440,6 +441,34 @@ ggplot(
 ```
 ]
 
+---
+
+# Talking about colors and theming...
+
+The strength of ggplot2 lies in its theming capabilities.
+
+--
+
+This topic is rather complex and subject of a whole other course.
+
+--
+
+Yet, there are some built-in theming functions that makes theming of a plot really easy, e.g.,
+
+- `theme_bw()`
+- `theme_dark()`
+- `theme_void()`
+- etc.
+
+See: https://ggplot2.tidyverse.org/reference/ggtheme.html
+
+--
+
+We'd suggest to play with them in the exercise!
+
+
+
+
 
 ---
 # A note on manipulations
@@ -522,6 +551,22 @@ qplot(
 ```{r ref.label = "qplot_example_2", echo=FALSE}
 ```
 ]
+
+---
+
+# Additional resources
+
+- https://www.springer.com/gp/book/9783319242750
+
+- Chapter 3 in "R for Data Science": https://r4ds.had.co.nz/data-visualisation.html
+
+- "Fundamentals of Data Visualization": https://serialmentor.com/dataviz/
+
+- "Data Visualization": https://press.princeton.edu/titles/13826.html
+
+- R Graph Gallery: https://www.r-graph-gallery.com/
+
+- ggplot2 extenstions: http://www.ggplot2-exts.org/gallery/
 
 ---
 
