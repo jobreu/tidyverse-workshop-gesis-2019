@@ -55,14 +55,14 @@ include_graphics("./pics/import_data.png")
 
 ---
 
-# Getting Data in the tidyverse
+# Getting data into the `tidyverse`
 
 Whether we want to use our own data or data from others, we need to get data into R.
 
 The `tidyverse` provides some nice tools to do exactly that:
 
 - `readr`  (for 'flat' files, such as CSV)
-- `haven`  (for statistical software files, such as SPSS, Stata, and SAS; also works with labels!)
+- `haven`  (for statistical software files, such as SPSS, Stata, and SAS; can also handle labelled data)
 - `readxl` (for excel spreadsheets)
 
 ```{r, out.width = "50%"}
@@ -123,6 +123,7 @@ gesis_panel
 ---
 
 # There's more
+
 These were just some very first examples of applying functions from each package. They comprise even more functions for different data types.
 
 - readr
@@ -143,7 +144,8 @@ Not to mention all the helper functions and options. For example, we can define 
 
 ---
 
-# Data Specifics
+# Data specification
+
 - characters
   - indicated by `<chr>`
   - specified by `col_character()`
@@ -164,7 +166,8 @@ Not to mention all the helper functions and options. For example, we can define 
 
 ---
 
-# Changing Variable Types
+# Changing variable types
+
 As mentioned before, `read_csv` 'guesses' the variable types by scanning the first 1000 observations. NB: **This can go wrong!**
 
 Luckily, we can change the variable type...
@@ -175,7 +178,8 @@ Luckily, we can change the variable type...
 
 ---
 
-# While Loading the data in `read_csv`
+# While loading the data in `read_csv`
+
 ```{r readr_example_col_change, echo = TRUE}
 titanic <-
   read_csv(
@@ -199,14 +203,16 @@ titanic <-
 
 ---
 
-# While Loading the data in `read_csv`
+# While loading the data in `read_csv`
+
 ```{r readr_example_col_change_display, echo = TRUE}
 titanic
 ```
 
 ---
 
-# While Loading the data in `read_csv`
+# While loading the data in `read_csv`
+
 ```{r readr_example_col_changeD, echo = TRUE}
 titanic <-
   read_csv(
@@ -230,21 +236,24 @@ titanic <-
 
 ---
 
-# While Loading the data in `read_csv`
+# While loading the data in `read_csv`
+
 ```{r readr_example_col_changeD_display, echo = TRUE}
 titanic
 ```
 
 ---
 
-# After Loading the data
+# After loading the data
+
 ```{r readr_example_col_change_after, echo = TRUE}
 titanic <- read_csv("../../data/titanic/titanic.csv")
 ```
 
 ---
 
-# After Loading the data
+# After loading the data
+
 ```{r readr_example_col_changeD_after, echo = TRUE}
 titanic <-
   type_convert( #<<
@@ -268,7 +277,8 @@ titanic <-
 
 ---
 
-# Exporting Data
+# Exporting data
+
 Sometimes our data have to leave the `tidyverse` (or even `R`), for example, if we....
 
 - share data with colleagues who do not use `R`
@@ -286,6 +296,7 @@ include_graphics("./pics/export_data.png")
 ---
 
 # Examples: CSV and Stata files
+
 ```{r export_csv, echo = TRUE}
 write_csv(titanic, "titanic_own.csv")
 ```
@@ -301,7 +312,8 @@ list.files()
 
 ---
 
-# Additional Packages
+# Additional packages
+
 The great benefit of `tidyverse` import functions is the import of the data as tibbles: the data are potentially tidier.
 
 Several other non-tidyverse packages provide similar benefits as they make use of this universal data format:
@@ -311,7 +323,7 @@ Several other non-tidyverse packages provide similar benefits as they make use o
 
 ---
 
-# Alternative Packages
+# Alternative packages
 
 - `base` R
 
