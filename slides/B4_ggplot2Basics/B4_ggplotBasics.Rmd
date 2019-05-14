@@ -97,13 +97,13 @@ plot_call +
 
 .pull-left[
 ```{r radar fig}
-knitr::include_graphics("./143_radar_chart_multi_indiv_2.png")
+knitr::include_graphics("./pics/143_radar_chart_multi_indiv_2.png")
 ```
 ]
 
 .pull-right[
 ```{r density fig}
-knitr::include_graphics("./21_ggplot2_ddensity_plot.png")
+knitr::include_graphics("./pics/21_ggplot2_ddensity_plot.png")
 ```
 ]
 
@@ -115,13 +115,13 @@ knitr::include_graphics("./21_ggplot2_ddensity_plot.png")
 
 .pull-left[
 ```{r scatter fig}
-knitr::include_graphics("./51_scatterplot_linear_model_with_CI_ggplot2.png")
+knitr::include_graphics("./pics/51_scatterplot_linear_model_with_CI_ggplot2.png")
 ```
 ]
 
 .pull-right[
 ```{r map fig}
-knitr::include_graphics("./328_Hexbin_map_USA_4.png")
+knitr::include_graphics("./pics/328_Hexbin_map_USA_4.png")
 ```
 ]
 
