@@ -1,13 +1,13 @@
 ---
-title: "Terminology"
-# subtitle: "(according to Hadley Wickham/RStudio)"
+title: "Data Wrangling & Exploration with the Tidyverse in R"
+subtitle: "Tidyverse Terminology"
 author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
 date: "2019-05-15"
 location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -25,18 +25,16 @@ packages("knitr", "rmarkdown", "magrittr", "readr", "tibble", "hadley/emo",
 options(htmltools.dir.version = FALSE)
 
 opts_chunk$set(echo = FALSE, fig.align = "center")
-
-set.seed(12345)
 ```
 
 <div class="my-footer">
-  <div style="float: left;"><span>`r gsub("<br />", " & ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
+  <div style="float: left;"><span>`r gsub("<br />", ", ", gsub("<br /><br />|<a.+$", "", metadata$author))`</span></div>
   <div style="float: right;"><span>`r metadata$location`, `r metadata$date`</span></div>
-  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$title)`</span></div>
+  <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
 </div>
 
-
 ---
+
 # The Power of Terminology
 
 As you might know, in `R`, we use many different terms and concepts:
@@ -44,16 +42,22 @@ As you might know, in `R`, we use many different terms and concepts:
 .column-left-half[
 
 - object types, e.g.,
+
   - vectors
+  
   - matrices
+  
   - data frames
+  
   - lists
+  
 - variables types
+
 - etc.
 ]
 
 .column-right-half[
-```{r, out.width = "120%"}
+```{r, out.width = "140%"}
 include_graphics("./pics/9213.1526125966.png")
 ```
 ]
@@ -79,16 +83,18 @@ The good news is we're good with only three distinct concepts:
 1. pipes
 
 --
+
 2. tibbles
 
 --
+
 3. (tribbles)
 
 
 ---
 # What is a pipe?
 ```{r, out.width = "40%"}
-include_graphics("./pics/pipe office decoration.jpg")
+include_graphics("./pics/pipe_office_decoration.jpg")
 ```
 .center[<small><small>Source: Johannes' office </small></small>]
 
@@ -110,7 +116,7 @@ mtcars <- read_csv(readr_example("mtcars.csv"))
 
 --
 
-Say, if we aim to calculate the mean value of the variable `mpg`, as smart people we can fire up this command:
+Say, if we want to calculate the mean value of the variable `mpg`, as smart people we can use this command:
 
 --
 
@@ -125,7 +131,7 @@ Pretty, isn't it? Well...
 
 ---
 # Make it Prettier with Base R
-We can use indentions to workaround issues with readability:
+We can use indentions to alleviate issues with readability:
 
 --
 
@@ -139,12 +145,13 @@ mean(
 
 --
 
-This works. But it also has some serious flaws:
+This works. But it also has some flaws:
 
 --
 - Don't you dare to forget closing a bracket
 
 --
+
 - It's not easy to grasp which operation is the most important one
 
 --
@@ -173,7 +180,7 @@ mean(example_file_loaded$mpg)
 
 --
 
-Or, to prevent creating too many separate objects:
+Or, to prevent the creation of too many separate objects:
 
 --
 
@@ -187,7 +194,7 @@ mean(example_file_loaded$mpg)
 
 --
 
-Mix to your liking...
+Of course, you can mix these approaches to your liking...
 
 
 ---
@@ -236,7 +243,7 @@ Thus, the inner argument/object is placed before the actual function call.
 ---
 # Formal Definition of Pipes: First Argument
 
-In cases of multiple arguments `x` is always the first argument of the function.
+In cases of multiple arguments, `x` is always the first argument of the function.
 
 --
 
@@ -266,7 +273,7 @@ Previously, we learned that `x` always refers to the first argument. We can also
 x %>% f(., y)
 ```
 
-This is useful in case, where `x` does not refer to the first argument:
+This is useful in cases in which `x` does not refer to the first argument:
 
 ```{r echo = TRUE, eval = FALSE}
 x %>% f(y, z = .)
@@ -303,7 +310,7 @@ u %>%
 ---
 # Notes on Pipes' Styling: Nesting I
 
-As pipes are so convenient you may the tempted to nest operations within pipes and to merge separate processes, for example:
+As pipes are so convenient you may be tempted to nest operations within pipes and to merge separate processes. For example:
 
 --
 
@@ -339,22 +346,26 @@ z %>%
 While this is cool, it can get cumbersome to read.
 
 --
-- It may be better to keep the processes be split up in pipes with more than one `%>%` operator 
+- It may be better to keep the processes split up in pipes with more than one `%>%` operator 
 
 --
-- Hadley Wickham recommends never to use more than ten `%>%` anyway: https://r4ds.had.co.nz/pipes.html#when-not-to-use-the-pipe
+
+- Hadley Wickham recommends to never use more than ten `%>%` anyway: https://r4ds.had.co.nz/pipes.html#when-not-to-use-the-pipe
 
 
 ---
+
 # Don't Overthink Pipes
+
 .column-left-half[
 Pipes are so nice, you may be tempted to use them all the time.
 
 Some of you may even spend hours to create one single data preparation workflow in one single pipe.
 
-This is awesome. However, it's not very sufficient and also misses the whole purpose of applying pipes which are:
+This is awesome. However, it's not very efficient and also misses the whole purpose of applying pipes which are:
 
 - readability
+
 - reproducibility
 ]
 
@@ -369,8 +380,11 @@ include_graphics("./pics/crazy_pipes.png")
 # Alternative Pipe Operators and Related Tools from `magrittr`
 
 - t(ee)-pipes: `%T>%`
+
 - exploding-pipes: `%$%`
+
 - ...
+
 - \{\} brackets
 
 
@@ -396,6 +410,7 @@ Moreover, they stop the inheritance of the output of the current command.
 **t-Pipes can create intermediate results** such as
 
 - plots
+
 - tables
 
 ... and continue where we left the main pipe
@@ -432,7 +447,7 @@ include_graphics("./pics/exploding_pipes.png")
   cor(.$disp, .$mpg)
 ```
 
-This produces an error because piping always expects whole objects, such as data frames, and no single vectors.
+This produces an error because piping always expects complete objects, such as data frames, and not single vectors.
 
 ```{r echo = TRUE, message = FALSE, eval = TRUE, fig.height = 4}
 "mtcars.csv" %>% 
@@ -445,7 +460,7 @@ This produces an error because piping always expects whole objects, such as data
 ---
 # `{}` Brackets
 
-Another workaround for our problem is using curly brackets.
+Another workaround for this problem is the use of curly brackets.
 
 They prevent the first argument to be `.`
 
@@ -456,7 +471,7 @@ They prevent the first argument to be `.`
   { cor(.$disp, .$mpg) }
 ```
 
-They are what you may know from other languages being called lambda-functions.
+They are what you may know as *lambda-functions* from other languages.
 
 
 ---
@@ -465,9 +480,10 @@ tidyverse pipes are only one implementation of pipes in R.
 
 They are based on the implementation of the `magrittr` package.
 
-Other implementations, not discussed here, would be:
+Other implementations, not discussed here, include:
 
 - assignment pipes `%<>%` as an alternative to `<-`
+
 - `pipeR`'s `%>>%` pipes
 
 
@@ -477,8 +493,10 @@ Tibbles are the data format used in the `tidyverse`.
 
 They are basically standard `R data.frame()`s, enriched with some more features and metadata:
 
-- information about size (rows x columns) of data
+- information about size (rows x columns) of dataframes
+
 - information about variable types
+
 - better readability
   - they fit the screen automatically
 
@@ -492,6 +510,7 @@ example_tibble
 
 
 ---
+
 # How to use tibbles?
 
 .middle[
@@ -507,7 +526,8 @@ Luckily, we just can use `as.data.frame(your_tibble)` on them. Problem solved.
 
 ---
 # Creating tibbles
-Occasiaionly, we want to create `tibbles` from standard `data.frames`.
+
+Occasionally, we want to create `tibbles` from standard `data.frames`.
 
 This can be done with the `tibble()`-function from the `tibble`-package.
 
@@ -537,8 +557,6 @@ titanic_tibble <-
 titanic_tibble
 ```
 
-.center[Voilà!]
-
 
 ---
 # Creating tibbles from scratch
@@ -554,9 +572,10 @@ tibble(
 )
 ```
 
+
 ---
 # tribbles
-Using the `tribble`-approach, is a way to create `tibbles` for small tables as it resembles the final layout of the table.
+Using the `tribble`-approach, is a convenient way to create `tibbles` for small tables as it resembles the final layout of the dataframe.
 
 ```{r tribble, echo = TRUE, message = FALSE, eval = TRUE}
 tribble(
@@ -573,14 +592,17 @@ tribble(
 ---
 # Summary
 
-For now, we have to be familiar with two things when exploring the `tidyverse`:
+For now, we should be familiar with two concepts for out further exploration of the `tidyverse`:
 
 1. pipes
   - they disentangle the process of data wrangling in simple chunks
-  - denoted by the operator `%>%`, yet there are alternatives we should be aware of 
+  
+  - denoted by the operator `%>%` (yet there are alternatives we should be aware of)
+  
 2. tibbles
   - an easy to read and modern format for datasets in `R`
-  - the standard format of the `tidyverse`
+  
+  - the standard data format of the `tidyverse`
 
 
 
