@@ -1,10 +1,11 @@
 ---
 title: 'Exercises Data Wrangling 1 - Solutions'
+# title: 'Exercises Data Wrangling 1' 
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
   unilur::tutorial_html_solution: default
-  #unilur::tutorial_html: default
+  # unilur::tutorial_html: default
 ---
 
 ```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
@@ -31,7 +32,7 @@ Read in the *Gapminder* population data and store it as a new object called *gap
 The data we need are stored in a .csv file which you can find in the folder *./data/gapminder*.
 ```
 
-```{r read gap_pop, solution = TRUE}
+```{r read gap_pop, solution = TRUE, message = F}
 library(readr)
 
 gap_pop <- read_csv("../data/gapminder/population_total.csv")
@@ -43,7 +44,7 @@ As you may have noticed, the name of the first column in the dataset does not ma
 Rename the variable *Total population* to *country* and store the result in an object with the same name (*gap_pop*).
 ```
 
-```{r rename, solution = TRUE}
+```{r rename, solution = TRUE, message = F}
 library(dplyr)
 
 gap_pop <- gap_pop %>% 
