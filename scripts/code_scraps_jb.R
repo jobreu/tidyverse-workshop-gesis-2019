@@ -140,3 +140,14 @@ head(titanic)
 
 table(titanic$title)
          
+# ggplot2 gapminder example
+library(gapminder)
+library(tidyverse)
+
+gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap,
+             y = lifeExp,
+             size = pop,
+             color = continent)) +
+  geom_point()

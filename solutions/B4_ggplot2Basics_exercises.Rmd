@@ -1,11 +1,11 @@
 ---
-# title: 'Exercises ggplot2 Basics - Solutions'
-title: 'Exercises ggplot2 Basics'
+title: 'Exercises ggplot2 Basics - Solutions'
+# title: 'Exercises ggplot2 Basics'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
-  # unilur::tutorial_html_solution: default
-  unilur::tutorial_html: default
+  unilur::tutorial_html_solution: default
+  # unilur::tutorial_html: default
 ---
 
 ```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
@@ -23,14 +23,15 @@ library(tidyverse)
 klippy::klippy()
 ```
 
-Data exploration is not only about creating numbers and summary statistics. Sometimes a beautiful plot reveals more exciting insights into data. In this exercise, we exploit what we've just learned about plots in `R` and in particular in `ggplot2`. Now we're going to use all of the gapminder GDP data!
+Data exploration is not only about creating numbers and summary statistics. Sometimes a good plot can reveal more insights than a whole dataframe filled with numbers (especially to the human eye). In this exercise we make use of what we've just learned about plots with `ggplot2`. This time we are going to use all of the [*Gapminder*](https://www.gapminder.org/) GDP data.
 
 ```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
-Load the gapminder GDP data in the long format as in the Summary Statistics exercise. Make sure *not* to exclude the time period between 1970 and 2001.
+Load the gapminder GDP data from the Excel file and convert it to long format (as in the Summary Statistics exercise). You can simply reuse the code from the exercises on Summary statistics for this, but 
+make sure that you do *not* exclude data for the years 1970 to 2001.
 ```
 
 ```{block, opts.label = "clues"}
-Remember that we applied the `filter()`-function for choosing the individual time periods.
+Remember that we used the `filter()` function for choosing the individual time periods, so you need to exclude that line from the previous exercises here.
 ```
 
 ```{r data_file_solution, solution = TRUE}
@@ -47,14 +48,14 @@ gapminder_ggplot_input <-
   summarise(GDP_over_all_countries = mean(GDP))
 ```
 
-Previously, we only have analyzed how the period of 1960-1969 compares to the period of 2002-2011. The nice thing about plots is that we can make use of the whole range of years and still identify differences between various periods. Our plot of choice, therefore, is a line plot to create a nice time series.
+In the previous exercises we only analyzed how the period from 1960 to 1969 compares to the period from 2002 to 2011. The nice thing about plots is that we can make use of the whole range of years and still identify differences between various periods. Our plot of choice, therefore, is a line plot to create a nice time series.
 
 ```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
-Plot the gapminder data as a line plot to get a time series.
+Plot the gapminder data as a line plot to display a time series.
 ```
 
 ```{block, opts.label = "clues"}
-Instead of `geom_point` as in the slides, the `geom`'s name is `geom_line`. Moreover, in the aesthetics definition `aes()` you may want to define a grouping variable `group = 1`; otherwise, ggplot thinks you want to plot one line for each year.
+Instead of `geom_point` as in the slides, the name of the geom we need is `geom_line`. In addition, in the aesthetics definition `aes()` you should define a grouping variable `group = 1`. Otherwise, `ggplot` assumes that you want to plot one line for each year.
 ```
 
 ```{r line_plot_solution, solution = TRUE}
@@ -65,14 +66,14 @@ ggplot(
   geom_line()
 ```
 
-Admittedly, this may not be the best approach to identify differences between the periods directly. We don't know when our periods start and when they end. Luckily, this can be fixed using at least two approaches. Let's start with the first one: using colors for different periods. For this purpose, we need an indicator variable as a grouping variable that applies different colors to the line at each period.
+Admittedly, this may not be the best approach to identify differences between the periods directly. We don't know when our periods start and when they end. Luckily, this can be done at least two different ways. Let's start with the first one: using colors for different periods. For this purpose, we need an indicator variable as a grouping variable, so that we can use different colors for the line at each period.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create an indicator variable for the time periods 1960-1969, 2002-2011 and the time inbetween.
 ```
 
 ```{block, opts.label = "clues"}
-A combination between `mutate()` and the `if_else` lets you create new variables rather easily. Moreover, to get some sensible legend labels later define them as strings.
+A combination of `mutate()` and the `if_else` lets you create the new variables we need. To get some sensible legend labels later you should specify the indicator variables as strings.
 ```
 
 ```{r indicator_variable_solution, solution = TRUE}
@@ -91,10 +92,10 @@ gapminder_ggplot_input <-
   )
 ```
 
-After we're set up with our indicator variable, it's plotting time again. We can simply re-use our code from before and define a grouping color in the aesthetics definition. Try it out!
+After we're set up with our indicator variable, it's plotting time again. We can simply reuse our code from before and define a grouping color in the aesthetics definition.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
-Plot the line plot once again with different colors for the different time periods.
+Plot the line plot once again, but this time with different colors for the different time periods.
 ```
 
 ```{block, opts.label = "clues"}
@@ -114,7 +115,7 @@ ggplot(
   geom_line()
 ```
 
-Now we can see some visual differences between the different periods. One last thing, however, is that there are way too many labels on the x-axis. Maybe a more sensible labeling approach would be to create axis breaks for every ten years steps.
+Now we can see some visual differences between the different periods. One last thing, however, is that there are way too many labels on the x-axis. Maybe a more sensible axis labeling approach would be to create axis breaks for every ten years steps.
 
 ```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create some prettier, i.e., more sensible breaks for the x-axis.

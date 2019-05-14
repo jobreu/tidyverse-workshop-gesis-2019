@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>Data exploration: ggplot2 Basics</title>
+    <title>Data Wrangling &amp; Exploration with the Tidyverse in R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Johannes Breuer Stefan Jünger Thomas Ebel" />
     <meta name="date" content="2019-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/remark-css/robot-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../footer-header.css" type="text/css" />
-    <link rel="stylesheet" href="../mycss.css" type="text/css" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="..\workshop.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Data exploration: ggplot2 Basics
+# Data Wrangling &amp; Exploration with the Tidyverse in R
+## Data exploration: ggplot2 Basics
 ### Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel
 ### 2019-05-16
 
@@ -25,10 +25,10 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer &amp; Stefan Jünger &amp; Thomas Ebel&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Stefan Jünger, Thomas Ebel&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-16&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Data exploration: ggplot2 Basics&lt;/span&gt;&lt;/div&gt;
-  &lt;/div&gt;
+&lt;/div&gt;
   
   
 ---
@@ -39,7 +39,6 @@ Since its early days `R` has always been pretty helpful for creating graphics.
 A standard `R` installation doesn't require any additional packages to create graphics.
 
 --
-
 
 
 
@@ -56,16 +55,17 @@ hist(titanic$Age)
 &lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
-  
 ---
+
 # What is ggplot2?
-`ggplot2` is another R-package to create plots and part of the `tidyverse`.
 
-It uses the "grammar of graphics"
+`ggplot2` is another `R` package for creating plots and is part of the `tidyverse`.
 
-- language for multi-dimensional data
+It uses the *grammar of graphics*
 
-- accordingly, it expects (a) data (frame) as input
+- well-suited for multi-dimensional data
+
+- it expects data (frames) as input
 
 - components of the plot are added as layers
 
@@ -82,7 +82,7 @@ plot_call +
 
 
 ---
-# Plot examples 
+# ggplot2 examples 
 
 .pull-left[
 &lt;img src="./143_radar_chart_multi_indiv_2.png" width="640" style="display: block; margin: auto;" /&gt;
@@ -96,7 +96,7 @@ plot_call +
 &lt;small&gt;&lt;small&gt;Source:&lt;/small&gt;&lt;/small&gt;
 
 ---
-# Plot examples 
+# ggplot2 examples 
 
 .pull-left[
 &lt;img src="./51_scatterplot_linear_model_with_CI_ggplot2.png" width="640" style="display: block; margin: auto;" /&gt;
@@ -109,7 +109,7 @@ plot_call +
 &lt;small&gt;&lt;small&gt;Source:&lt;/small&gt;&lt;/small&gt;
 
 ---
-# Histograms as in standard `R`
+# Histograms as in base `R`
 
 &lt;img src="B4_ggplotBasics_files/figure-html/ggplot_histogram-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
@@ -117,21 +117,24 @@ plot_call +
 # Components of a plot
 According to Wickham (2010, 8)* a layered plot consists of the following components:
 
+&lt;span class="footnote"&gt;
+&lt;small&gt;&lt;small&gt;&lt;span class="red bold"&gt;*&lt;/span&gt; http://dx.doi.org/10.1198/jcgs.2009.07098&lt;/small&gt;&lt;/small&gt;
+&lt;/span&gt;
+
 --
 - data and aesthetic mappings,
 
 --
+
 - geometric objects,
 
 --
+
 - scales,
 
 --
-- and facet specification
 
-&lt;span class="footnote"&gt;
-&lt;small&gt;&lt;small&gt;&lt;span class="red bold"&gt;*&lt;/span&gt; http://dx.doi.org/10.1198/jcgs.2009.07098&lt;/small&gt;&lt;/small&gt;
-&lt;/span&gt;
+- and facet specification
 
 --
 
@@ -144,12 +147,13 @@ plot_call +
   facets
 ```
 
-
 ---
+
 # Data requirements
+
 You can use one single data frame to create a plot in `ggplot2`.
-- everything's on the plot is just data
-- creates a pleasant and smooth workflow from data wrangling to the final presentation of the results
+- everything on the plot is just data
+- creates a smooth workflow from data wrangling to the final presentation of the results
 
 
 &lt;img src="./pics/data-science_man.png" width="70%" style="display: block; margin: auto;" /&gt;
@@ -158,44 +162,46 @@ You can use one single data frame to create a plot in `ggplot2`.
 
 --
 
-But this makes it difficult to add extra features to your plot.
+However, this makes it difficult to add extra features to your plot.
   - There are ways of doing it anyway as we will see later
   - Yet, it requires thinking about what to plot
 
 ---
-# Why the long data format?
+
+# Why the long format?
 
 
 ggplot2 requires data to be in the long data format
 
-- in some scientific disciplines, this format is only used for specialized analyses 
-- e.g., time series analysis
+- in some scientific disciplines this format is only used for specialized analyses (e.g., time series analysis)
 
 
 .pull-left[
-We may want to get used to it as this format has some benefits
+We may want to get used to it as this format has some benefits:
 
 - every element we aim to plot is an observation
+
 - no thinking required how a specific variable relates to an observation
+
 - most importantly, the long format is more parsimonious
-- it requires less memory and less disk space
+    - it requires less memory and less disk space
 ]
 
 
 .pull-right[
 &lt;img src="./pics/long.png" width="50%" style="display: block; margin: auto;" /&gt;
-]
-
 &lt;small&gt;&lt;small&gt;Source:&lt;/small&gt;&lt;/small&gt;
-  
+]
   
 ---
+
 # Creating your own plot
 
-Theory on plots is boring.
+We do not want to give a lecture on the theory behind data visualization.
 
 - creating plots is all about practice
-- ...and stealing code from others
+
+- ...and 'borrowing' code from others
 
 
 .column-left-half[
@@ -235,7 +241,7 @@ ggplot()
 --
 
 .pull-right[
-&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -244,20 +250,17 @@ ggplot()
 
 
 ---
+
 # Data input
 
 .pull-left[
 As we've already learned `ggplot()` expects data as input
 
 
-```r
-titanic &lt;- 
-  read_csv(
-    "../../data/titanic/titanic.csv", 
-    col_types = cols()
-    ) %&gt;% 
-  na.omit()
 
+
+
+```r
 ggplot(data = titanic)
 ```
 ]
@@ -265,7 +268,7 @@ ggplot(data = titanic)
 --
 
 .pull-right[
-&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -274,6 +277,7 @@ ggplot(data = titanic)
 
 
 ---
+
 # Aesthetics! 
 
 .pull-left[
@@ -289,7 +293,7 @@ ggplot(data = titanic) +
 --
 
 .pull-right[
-&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -298,6 +302,7 @@ ggplot(data = titanic) +
 
 
 ---
+
 # `geoms`!
 
 .pull-left[
@@ -314,7 +319,7 @@ ggplot(data = titanic) +
 --
 
 .pull-right[
-&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -322,6 +327,7 @@ ggplot(data = titanic) +
 **A scatter plot!**
 
 ---
+
 # Add a line
 
 .pull-left[
@@ -344,18 +350,19 @@ ggplot(data = titanic) +
 ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 --
 
-**A regression line!**
+**A smoothed regression line!**
 
 ---
-# Going further: add group aesthetics
+
+# Going further: adding group aesthetics
 
 .pull-left[
-`ggplot()` is the most basic command to create a plot:
+We cann add different colors for different groups in our data
 
 
 ```r
@@ -374,14 +381,15 @@ ggplot(
 --
 
 .pull-right[
-&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
+
 # Manipulate group aesthetics
 
 .pull-left[
-`ggplot()` is the most basic command to create a plot:
+We can also change the colors that are used in the plot
 
 
 ```r
@@ -403,7 +411,7 @@ ggplot(
 --
 
 .pull-right[
-&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -413,13 +421,15 @@ ggplot(
 .pull-left[
 Working with combined aesthetics and different data inputs can become cumbersome.
 
-Particularly, plotting similar aesthetics which interfere the automatic procedures can create conflicts.
+Particularly, plotting similar aesthetics which interfere with the automatic procedures can create conflicts.
 
-My 'favorite' ones are:
+Some 'favorites' include:
 
 - Multiple legends
+
 - and various color scales for similar `geoms` 
-- there's more!
+
+- ... and there's more!
 ]
 
 .pull-right[
@@ -432,15 +442,19 @@ My 'favorite' ones are:
 
 
 ---
+
 # Shortcuts
 
-`ggplot2` is powerful.
+`ggplot2` is powerful...
 
-- yet, it's complicated
-- it has a steep learning curve
+- yet, it is admittedly somewhat complicated to use in the beginning
 
+- and it has a steep learning curve
+
+However, there are some conveniet shortcuts that you can use for creating simple plots.
 
 ---
+
 # `qplot()` or `quickplot()`
 
 .pull-left[
@@ -457,11 +471,11 @@ qplot(
 --
 
 .pull-right[
-&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
-
 ---
+
 # `qplot()` or `quickplot()`
 
 .pull-left[
@@ -483,7 +497,7 @@ qplot(
 ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="B4_ggplotBasics_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
