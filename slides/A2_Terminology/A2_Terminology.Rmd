@@ -35,7 +35,7 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 
 ---
 
-# The Power of Terminology
+# The power of terminology
 
 As you might know, in `R`, we use many different terms and concepts:
 
@@ -57,16 +57,15 @@ As you might know, in `R`, we use many different terms and concepts:
 ]
 
 .column-right-half[
-```{r, out.width = "140%"}
+```{r r_logic, out.width = "140%"}
 include_graphics("./pics/9213.1526125966.png")
 ```
 ]
 
 <small><small>Source: https://devopedia.org/r-data-structures </small></small>
 
-
-
 ---
+
 # Terminology of the tidyverse
 
 The classic concepts of `R` are not subject to this sessions.
@@ -90,10 +89,10 @@ The good news is we're good with only three distinct concepts:
 
 3. (tribbles)
 
-
 ---
+
 # What is a pipe?
-```{r, out.width = "40%"}
+```{r pipe_johannes, out.width = "40%"}
 include_graphics("./pics/pipe_office_decoration.jpg")
 ```
 .center[<small><small>Source: Johannes' office </small></small>]
@@ -103,14 +102,14 @@ include_graphics("./pics/pipe_office_decoration.jpg")
 You might know them from other scripting utilities 
 - e.g., `bash` where a `|` operator is used
 
-
 ---
-# Nested Functions in Base R
+
+# Nested functions in base `R`
 First, let's load some data:
 
 --
 
-```{r echo = TRUE, message = FALSE}
+```{r read_mtcars, echo = TRUE, message = FALSE}
 mtcars <- read_csv(readr_example("mtcars.csv"))
 ```
 
@@ -120,7 +119,7 @@ Say, if we want to calculate the mean value of the variable `mpg`, as smart peop
 
 --
 
-```{r echo = TRUE, message = FALSE}
+```{r read_mtcars_mpg, echo = TRUE, message = FALSE}
 mean(read_csv(readr_example("mtcars.csv"))$mpg)
 ```
 
@@ -128,14 +127,14 @@ mean(read_csv(readr_example("mtcars.csv"))$mpg)
 
 Pretty, isn't it? Well...
 
-
 ---
-# Make it Prettier with Base R
+
+# Make it prettier with base `R`
 We can use indentions to alleviate issues with readability:
 
 --
 
-```{r echo = TRUE, message = FALSE}
+```{r read_mtcars_mpg_intend, echo = TRUE, message = FALSE}
 mean(
   read_csv(
     readr_example("mtcars.csv")
@@ -163,14 +162,14 @@ This works. But it also has some flaws:
 --
   - Or the calculation of the mean value?
 
-
 ---
+
 # Disentangling commands
 An easy way would be:
 
 --
 
-```{r echo = TRUE, message = FALSE}
+```{r read_mtcars_mpg_disentangled_1, echo = TRUE, message = FALSE}
 
 file_string         <- "mtcars.csv"
 example_file        <- readr_example(file_string)
@@ -184,7 +183,7 @@ Or, to prevent the creation of too many separate objects:
 
 --
 
-```{r echo = TRUE, message = FALSE}
+```{r read_mtcars_mpg_disentangled_2, echo = TRUE, message = FALSE}
 
 tmp_object          <- "mtcars.csv"
 tmp_object          <- readr_example(tmp_object)
@@ -196,14 +195,14 @@ mean(example_file_loaded$mpg)
 
 Of course, you can mix these approaches to your liking...
 
-
 ---
+
 # Pipes as a solution?
 Pipes disentangle the whole process with an alternative approach by applying any involved function step by step:
 
 --
 
-```{r echo = TRUE, message = FALSE}
+```{r read_mtcars_mpg_pipe, echo = TRUE, message = FALSE}
 "mtcars.csv" %>% 
   readr_example() %>% 
   read_csv() %>% 
@@ -215,15 +214,13 @@ Pipes disentangle the whole process with an alternative approach by applying any
 
 Most importantly, the central dataset is now on top and the starting point of everything.
 
-
-
-
 ---
-# Formal Definition of Pipes: Basic Logic
+
+# Formal definition of pipes: basic logic
 
 Usually, in `R` we apply functions as follows:
 
-```{r echo = TRUE, eval = FALSE}
+```{r function_r, echo = TRUE, eval = FALSE}
 f(x)
 ```
 
@@ -231,7 +228,7 @@ f(x)
 
 In the logic of pipes this function is written as:
 
-```{r echo = TRUE, eval = FALSE}
+```{r function_pipe, echo = TRUE, eval = FALSE}
 x %>% f()
 ```
 
@@ -239,9 +236,9 @@ x %>% f()
 
 Thus, the inner argument/object is placed before the actual function call.
 
-
 ---
-# Formal Definition of Pipes: First Argument
+
+# Formal definition of pipes: first argument
 
 In cases of multiple arguments, `x` is always the first argument of the function.
 
@@ -249,7 +246,7 @@ In cases of multiple arguments, `x` is always the first argument of the function
 
 Base R:
 
-```{r echo = TRUE, eval = FALSE}
+```{r function_r_arguments, echo = TRUE, eval = FALSE}
 f(x, y)
 ```
 
@@ -259,35 +256,35 @@ f(x, y)
 
 Piping:
 
-```{r echo = TRUE, eval = FALSE}
+```{r function_pipe_arguments, echo = TRUE, eval = FALSE}
 x %>% f(y)
 ```
 
-
 ---
-# Formal Definition of Pipes: . as Placeholder
+
+# Formal definition of pipes: `.` as placeholder
 
 Previously, we learned that `x` always refers to the first argument. We can also make this explicit:
 
-```{r echo = TRUE, eval = FALSE}
+```{r formal_pipe, echo = TRUE, eval = FALSE}
 x %>% f(., y)
 ```
 
 This is useful in cases in which `x` does not refer to the first argument:
 
-```{r echo = TRUE, eval = FALSE}
+```{r formal_pipe_argument, echo = TRUE, eval = FALSE}
 x %>% f(y, z = .)
 ```
 
-
 ---
-# Notes on Pipes' Styling: Indentions
+
+# Notes on pipes' styling: indentions
 
 We can write pipes in one line:
 
 --
 
-```{r echo = TRUE, eval = FALSE}
+```{r pipe_row, echo = TRUE, eval = FALSE}
 u %>% v %>% w %>% x %>% y %>% z
 ```
 
@@ -297,7 +294,7 @@ Yet, this destroys the readability. At least for pipes with more than one `%>%` 
 
 --
 
-```{r echo = TRUE, eval = FALSE}
+```{r pipe_line, echo = TRUE, eval = FALSE}
 u %>% 
   v %>% 
   w %>% 
@@ -306,15 +303,15 @@ u %>%
   z
 ```
 
-
 ---
-# Notes on Pipes' Styling: Nesting I
+
+# Notes on pipes' styling: nesting I
 
 As pipes are so convenient you may be tempted to nest operations within pipes and to merge separate processes. For example:
 
 --
 
-```{r echo = TRUE, eval = FALSE}
+```{r pipe_nested, echo = TRUE, eval = FALSE}
 obj_1 <- 
   u %>% 
   v %>% 
@@ -325,12 +322,12 @@ z %>%
   y
 ```
 
-
 ---
-# Notes on Pipes' Styling: Nesting II
+
+# Notes on pipes' styling: nesting II
 To:
 
-```{r echo = TRUE, eval = FALSE}
+```{r pipe_nested_2, echo = TRUE, eval = FALSE}
 z %>% 
   f(
     u %>% 
@@ -355,7 +352,7 @@ While this is cool, it can get cumbersome to read.
 
 ---
 
-# Don't Overthink Pipes
+# Don't overthink pipes
 
 .column-left-half[
 Pipes are so nice, you may be tempted to use them all the time.
@@ -370,14 +367,14 @@ This is awesome. However, it's not very efficient and also misses the whole purp
 ]
 
 .column-right-half[
-```{r, out.width = "100%"}
+```{r crazy_pipes, out.width = "100%"}
 include_graphics("./pics/crazy_pipes.png")
 ```
 ]
 
-
 ---
-# Alternative Pipe Operators and Related Tools from `magrittr`
+
+# Alternative pipe operators and related tools from `magrittr`
 
 - t(ee)-pipes: `%T>%`
 
@@ -389,8 +386,9 @@ include_graphics("./pics/crazy_pipes.png")
 
 
 ---
-# t-Pipes
-```{r, out.width = "100%"}
+
+# t-pipes
+```{r mr_t_pipe, out.width = "100%"}
 include_graphics("./pics/mr_t_pipes.png")
 ```
 
@@ -399,7 +397,8 @@ include_graphics("./pics/mr_t_pipes.png")
 <!-- https://pixabay.com/photos/drainage-pipes-construction-site-2471293/ -->
 
 ---
-# t-Pipes
+
+# t-pipes
 
 t-Pipes create some kind of a loophole during a piping process.
 
@@ -417,8 +416,10 @@ Moreover, they stop the inheritance of the output of the current command.
 
 
 ---
-# t-Pipes
-```{r echo = TRUE, message = FALSE, fig.height = 4}
+
+# t-pipes
+
+```{r t_pipe_plot, echo = TRUE, message = FALSE, fig.height = 4}
 "mtcars.csv" %>% 
   readr_example() %>% 
   read_csv() %>% 
@@ -429,8 +430,10 @@ Moreover, they stop the inheritance of the output of the current command.
 
 
 ---
-# Exploding Pipes 
-```{r, out.width = "100%"}
+
+# Exploding pipes 
+
+```{r exploding_pic, out.width = "100%"}
 include_graphics("./pics/exploding_pipes.png")
 ``` 
 
@@ -439,8 +442,10 @@ include_graphics("./pics/exploding_pipes.png")
 
 
 ---
-# Exploding Pipes
-```{r echo = TRUE, message = FALSE, eval = FALSE, fig.height = 4}
+
+# Exploding pipes
+
+```{r exploding_1, echo = TRUE, message = FALSE, eval = FALSE, fig.height = 4}
 "mtcars.csv" %>% 
   readr_example() %>% 
   read_csv() %>%
@@ -449,22 +454,22 @@ include_graphics("./pics/exploding_pipes.png")
 
 This produces an error because piping always expects complete objects, such as data frames, and not single vectors.
 
-```{r echo = TRUE, message = FALSE, eval = TRUE, fig.height = 4}
+```{r exploding_2, echo = TRUE, message = FALSE, eval = TRUE, fig.height = 4}
 "mtcars.csv" %>% 
   readr_example() %>% 
   read_csv() %$% # 'exploding'
   cor(disp, mpg)
 ```
 
-
 ---
-# `{}` Brackets
+
+# `{}`-brackets
 
 Another workaround for this problem is the use of curly brackets.
 
 They prevent the first argument to be `.`
 
-```{r echo = TRUE, message = FALSE, eval = TRUE, fig.height = 4}
+```{r curly_brackets, echo = TRUE, message = FALSE, eval = TRUE, fig.height = 4}
 "mtcars.csv" %>% 
   readr_example() %>% 
   read_csv() %>% 
@@ -473,9 +478,10 @@ They prevent the first argument to be `.`
 
 They are what you may know as *lambda-functions* from other languages.
 
-
 ---
+
 # What's left?
+
 tidyverse pipes are only one implementation of pipes in R.
 
 They are based on the implementation of the `magrittr` package.
@@ -486,9 +492,10 @@ Other implementations, not discussed here, include:
 
 - `pipeR`'s `%>>%` pipes
 
-
 ---
+
 # tibbles
+
 Tibbles are the data format used in the `tidyverse`.
 
 They are basically standard `R data.frame()`s, enriched with some more features and metadata:
@@ -500,10 +507,11 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 - better readability
   - they fit the screen automatically
 
-
 ---
+
 # You've seen them already...
-```{r echo = FALSE, message = FALSE, eval = TRUE}
+
+```{r tibble_example, echo = FALSE, message = FALSE, eval = TRUE}
 example_tibble <- read_csv("../../data/titanic/titanic.csv")
 example_tibble
 ```
@@ -523,8 +531,8 @@ Yet, some old (or non-compliant) `R` functions may have some issues with tibbles
 Luckily, we just can use `as.data.frame(your_tibble)` on them. Problem solved.
 ]
 
-
 ---
+
 # Creating tibbles
 
 Occasionally, we want to create `tibbles` from standard `data.frames`.
@@ -538,15 +546,16 @@ include_graphics("./pics/tibble.png")
 .center[<small><small>Source: https://github.com/rstudio/hex-stickers/blob/master/PNG/tibble.png </small></small>]
 
 ---
-# Loading a standard data.frame
+
+# Loading a standard `data.frame`
 
 ```{r standard-data-frame, echo = TRUE, message = FALSE, eval = TRUE}
 titanic_df <- read.csv2("../../data/titanic/titanic.csv", sep = ",")
 titanic_df
 ```
 
-
 ---
+
 # Converting to a tibble
 
 ```{r convert-to-tibble, echo = TRUE, message = FALSE, eval = TRUE}
@@ -557,8 +566,8 @@ titanic_tibble <-
 titanic_tibble
 ```
 
-
 ---
+
 # Creating tibbles from scratch
 
 Similar to creating `base R data.frames`, we can also create `tibbles` without any previous data input.
@@ -572,9 +581,10 @@ tibble(
 )
 ```
 
-
 ---
+
 # tribbles
+
 Using the `tribble`-approach, is a convenient way to create `tibbles` for small tables as it resembles the final layout of the dataframe.
 
 ```{r tribble, echo = TRUE, message = FALSE, eval = TRUE}
@@ -588,8 +598,8 @@ tribble(
 )
 ```
 
-
 ---
+
 # Summary
 
 For now, we should be familiar with two concepts for out further exploration of the `tidyverse`:
@@ -603,11 +613,6 @@ For now, we should be familiar with two concepts for out further exploration of 
   - an easy to read and modern format for datasets in `R`
   
   - the standard data format of the `tidyverse`
-
-
-
-
-
 
 ---
 
