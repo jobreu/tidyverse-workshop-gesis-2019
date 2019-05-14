@@ -7,7 +7,7 @@
     <meta name="date" content="2019-05-16" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../workshop.css" type="text/css" />
+    <link rel="stylesheet" href="..\workshop.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -34,7 +34,7 @@ layout: true
 ---
 # Graphics in `R`
 
-Since its early days `R` has always been pretty helpful for creating graphics.
+Since its early days `R` has always had good capabilities for creating graphics.
 
 A standard `R` installation doesn't require any additional packages to create graphics.
 
@@ -95,7 +95,7 @@ plot_call +
 ]
 
 
-&lt;small&gt;&lt;small&gt;Source: https://www.r-graph-gallery.com/wp-content/uploads/2016/05/143_radar_chart_multi_indiv_2.png and https://www.r-graph-gallery.com/wp-content/uploads/2015/09/21_ggplot2_ddensity_plot.png&lt;/small&gt;&lt;/small&gt;
+&lt;small&gt;&lt;small&gt;Sources: https://www.r-graph-gallery.com/wp-content/uploads/2016/05/143_radar_chart_multi_indiv_2.png and https://www.r-graph-gallery.com/wp-content/uploads/2015/09/21_ggplot2_ddensity_plot.png&lt;/small&gt;&lt;/small&gt;
 
 ---
 # ggplot2 examples 
@@ -108,7 +108,7 @@ plot_call +
 &lt;img src="./pics/328_Hexbin_map_USA_4.png" width="800" style="display: block; margin: auto;" /&gt;
 ]
 
-&lt;small&gt;&lt;small&gt;Source: https://www.r-graph-gallery.com/wp-content/uploads/2015/11/51_scatterplot_linear_model_with_CI_ggplot2-300x300.png and https://www.r-graph-gallery.com/wp-content/uploads/2017/12/328_Hexbin_map_USA_4-300x200.png&lt;/small&gt;&lt;/small&gt;
+&lt;small&gt;&lt;small&gt;Sources: https://www.r-graph-gallery.com/wp-content/uploads/2015/11/51_scatterplot_linear_model_with_CI_ggplot2-300x300.png and https://www.r-graph-gallery.com/wp-content/uploads/2017/12/328_Hexbin_map_USA_4-300x200.png&lt;/small&gt;&lt;/small&gt;
 
 ---
 # Histograms as in base `R`
@@ -363,7 +363,7 @@ ggplot(data = titanic) +
 # Going further: adding group aesthetics
 
 .pull-left[
-We cann add different colors for different groups in our data
+We can add different colors for different groups in our data
 
 
 ```r
@@ -417,17 +417,17 @@ ggplot(
 
 ---
 
-# Talking about colors and theming...
+# Colors and themes
 
-The strength of ggplot2 lies in its theming capabilities.
-
---
-
-This topic is rather complex and subject of a whole other course.
+One particular strength of `ggplot2` lies in its theming capabilities.
 
 --
 
-Yet, there are some built-in theming functions that makes theming of a plot really easy, e.g.,
+This topic is rather complex and could easily be enough for a separate workshop.
+
+--
+
+However, `ggplot2` has some built-in theme functions that makes theming a plot fairly easy, e.g.,
 
 - `theme_bw()`
 - `theme_dark()`
@@ -438,13 +438,11 @@ See: https://ggplot2.tidyverse.org/reference/ggtheme.html
 
 --
 
-We'd suggest to play with them in the exercise!
-
-
-
+If you want to, you can play around with some of those themes in the exercises for this session.
 
 
 ---
+
 # A note on manipulations
 
 .pull-left[
@@ -531,13 +529,7 @@ qplot(
 
 ---
 
-# Theming
-
-
-
----
-
-# Additional resources
+# Some additional resources
 
 - https://www.springer.com/gp/book/9783319242750
 
