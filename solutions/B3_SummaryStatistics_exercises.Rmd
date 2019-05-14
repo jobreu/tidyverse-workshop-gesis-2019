@@ -1,11 +1,11 @@
 ---
-# title: 'Exercises Summary Statistics - Solutions'
-title: 'Exercises Summary Statistics'
+title: 'Exercises Summary Statistics - Solutions'
+# title: 'Exercises Summary Statistics'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
-  unilur::tutorial_html: default
-  # unilur::tutorial_html_solution: default
+  # unilur::tutorial_html: default
+  unilur::tutorial_html_solution: default
 ---
 
 ```{r knitr_init, echo=FALSE, cache=FALSE, include=FALSE}
@@ -16,28 +16,20 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
                                       box.icon = "fa-search",
                                       box.collapse = TRUE))
 
-library(readxl)
-library(dplyr)
-
-gapminder_example <- 
-  readxl::read_excel(
-    path = "../data/gapminder/GDPpercapitaconstant2000US.xlsx",
-    sheet = "Data"
-    )
 ```
 
 ```{r klippy, echo=FALSE, include=TRUE}
 klippy::klippy()
 ```
 
-Imagine we're some fancy data scientists exploring - once again - the gapminder data. We're particularly interested in the development of the GDP across time *and* across countries. Some `R`-fanatics from GESIS recommended using this `tidyverse` thing to complete our tasks. At the same time, they also hesitate to load all of its `R`-packages at once.
+Imagine that we are some fancy data scientists exploring - once again - the [*Gapminder*](https://www.gapminder.org/) data. We are particularly interested in the development of the GDP across time *and* across countries. Some `R`-fanatics from *GESIS* suggested that we use this `tidyverse` thing to complete our tasks. They also told us that we do not always need to load all of its packages at once.
 
 ```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
 Load all packages from the `tidyverse` for importing Excel data and for data wrangling.
 ```
 
 ```{block, opts.label = "clues"}
-You can find them in the slides from A3 and A5.
+You can find the names of the required packages in the slides and exercises for sessions A3, (Tidy Data), A4 (Importing Data), and A5 (Data Wrangling 1).
 ```
 
 ```{r load_packages_solution, solution = TRUE, message = FALSE}
@@ -46,60 +38,61 @@ library(dplyr)
 library(tidyr)
 ```
 
-Ok, that wasn't too hard. But data science is about data, so we have to load in the data.
+Ok, that wasn't too hard. But data science is about data, so we have to load the data we are interested in.
 
 ```{block, box.title = "2", box.body = list(fill = "white"), box.icon = "fa-star"}
-Import the GDP gapminder data. Make sure to only import the excel sheet named "Data".
+Import the GDP data from *Gapminder* as *gap_gdp*. Make sure to only import the Excel sheet named "Data".
 ```
 
 ```{block, opts.label = "clues"}
-Individual sheets can be chosen by applying the option `sheet = "name_of_your_sheet"`
+Individual sheets can be chosen by using the argument `sheet = "name_of_your_sheet"`
 ```
 
 ```{r load_gapminder_solution, solution = TRUE, message = FALSE}
-gapminder_example <- 
+gap_gdp <- 
   readxl::read_excel(
     path = "../data/gapminder/GDPpercapitaconstant2000US.xlsx",
     sheet = "Data"
     )
 ```
 
-Have the data been successfully imported? They should comprise a tibble of 275 x 53. Furthermore, the income per person for Algeria of the years 1960, 1961, and 1962 should be 1280, 1085, and 856.
+Have the data been successfully imported? They should be in a tibble with the dimensions 275 x 53. As a further check: The income per person for Algeria for the years 1960, 1961, and 1962 should be 1280, 1085, and 856.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Proof that the income per person for Algeria of the years 1960, 1961, and 1962 are 1280, 1085, and 856
 ```
 
 ```{block, opts.label = "clues"}
-Algeria is in the 5th row of the dataset, and the relevant variables are in the first four columns. You can subset datasets also by selecting rows by number with `select()` and by filtering by number with `slice()`.
+Algeria is in the 5th row of the dataset, and the relevant variables are in the first four columns. You can also subset datasets also by selecting columns by number with `select()` and filtering rows by number with `slice()`.
 ```
 
 ```{r find_algeria_solution, solution = TRUE, message = FALSE}
-gapminder_example %>% 
+gap_gdp %>% 
   select(1:4) %>% 
   slice(n = 5)
 ```
 
-Let's say we're interested in the earliest 10 years of development in all countries and in the most recent 10 years. The idea is that there might be some differences between the early days and the new days of GDP development. At first, we'd like to compute such statistics across all countries. Unfortunately, the data are in the wide format.
+Let's say that we are interested in the earliest 10 years as well as the most recent 10 years that appear in the dataset. If we want to aggregate the data per year, they should ideally be in long format.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
 Re-arrange the data such that they are in the long format.
 ```
 
 ```{block, opts.label = "clues"}
-Remember that the command for converting wide format data to long format is `gather()`. Additionally, you might want to create a more convenient column name for the variable `Income per person (fixed 2000 US$)` with `rename()` as its really messy.
+Remember that the command for converting wide format data to long format is `gather()`. Additionally, you might want to create a more convenient column name for the variable `Income per person (fixed 2000 US$)` with `rename()` (*GDP* might be a good choice here) and change the variable type for year to `integer`.
 ```
 
 ```{r long_format_solution, solution = TRUE}
-gapminder_example %>% 
+gap_gdp %>% 
   rename(country = `Income per person (fixed 2000 US$)`) %>%
-  gather(-country, key = "year", value = "GDP")
+  gather(-country, key = "year", value = "GDP") %>% 
+  mutate(year = as.integer(year))
 ```
 
-Ok, did it work out? There are still a lot of missing values we might get rid of, and the data are not arranged properly. They make the data untidy, distract us and are not part of any mean calculations anyway. For the next upcoming tasks, simply re-use your code and add the following commands with the `%>%`. 
+There are still a lot of missing values we might want to get rid of, and the data are not arranged  in a way that is ideal to explore changes over time. For the next tasks, simply re-use the previous code and add the following commands with `%>%`. 
 
 ```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
-Remove all missing values and arrange the data in ascending years and the GDP.
+Remove all missing values and arrange the data in ascending order of years and GDP.
 ```
 
 ```{block, opts.label = "clues"}
@@ -107,47 +100,54 @@ There are several ways to exclude missing values. The most convenient one is to 
 ```
 
 ```{r arrange_solution, solution = TRUE}
-gapminder_example %>% 
+gap_gdp %>% 
   rename(country = `Income per person (fixed 2000 US$)`) %>%
   gather(-country, key = "year", value = "GDP") %>% 
+  mutate(year = as.integer(year)) %>% 
   filter(!is.na(GDP)) %>% 
   arrange(year, GDP)
 ```
 
-Nice. Now we got a - more or less - clean dataset for our actual task: calculating the mean values across all countries for each of the first ten years and each of the last ten years. What's still a little bit distracting is that we got the values for all years between these two periods in the data. But we decided that we leave them there for some future analyses. As such, we do all analyses on the fly. Let's start with the first period.
+Now we have a - more or less - clean dataset for our actual task: calculating the mean values across all countries for each of the first ten years and each of the last ten years. What's still a little bit distracting is that we have the values for all years between these two periods in the data. However, we might want to use some of these data points in future analyses. Hence, we will do all analyses 'on the fly' (i.e., without creating a new dataset). Let's start with the first period.
 
 ```{block, box.title = "6", box.body = list(fill = "white"), box.icon = "fa-star"}
-Calculate the mean value of `GDP` across all countries for each of the first ten years.
+Calculate the mean value of `GDP` across all countries for each of the first ten years in the dataset.
 ```
 
 ```{block, opts.label = "clues"}
-As the year variable is a `double`, you can simply filter the range of years you are interested in.
+As the year variable is an `integer`, you can simply filter the range of years you are interested in. The first year in the dataset is 1960.
 ```
 
 ```{r mean_first_solution, solution = TRUE}
-gapminder_example %>% 
+gap_gdp %>% 
   rename(country = `Income per person (fixed 2000 US$)`) %>%
   gather(-country, key = "year", value = "GDP") %>% 
+  mutate(year = as.integer(year)) %>% 
   filter(!is.na(GDP)) %>% 
   arrange(year, GDP) %>% 
-  filter(year >= 1960 & year <= 1969) %>% 
+  filter(between(year, 1960, 1969)) %>% 
   group_by(year) %>% 
   summarise(GDP_over_all_countries = mean(GDP))
 ```
 
-After this was done, you might know how to do that for the 10 most recent years...
+Now it should be easy do the same for the 10 most recent years in the dataset...
 
 ```{block, box.title = "7", box.body = list(fill = "white"), box.icon = "fa-star"}
 Calculate the mean value of `GDP` across all countries for each of the last ten years.
 ```
 
+```{block, opts.label = "clues"}
+The most recent year in the dataset is 2011.
+```
+
 ```{r mean_last_solution, solution = TRUE}
-gapminder_example %>% 
+gap_gdp %>% 
   rename(country = `Income per person (fixed 2000 US$)`) %>%
   gather(-country, key = "year", value = "GDP") %>% 
+  mutate(year = as.integer(year)) %>% 
   filter(!is.na(GDP)) %>% 
   arrange(year, GDP) %>% 
-  filter(year >= 2002 & year <= 2011) %>% 
+  filter(year >= 2002) %>% 
   group_by(year) %>% 
   summarise(GDP_over_all_countries = mean(GDP))
 ```

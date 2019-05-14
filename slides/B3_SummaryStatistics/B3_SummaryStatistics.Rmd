@@ -1,13 +1,13 @@
 ---
-title: "Summary Statistics"
-subtitle: "First inspections - What can we tell about the data?"
+title: "Data Wrangling & Exploration with the Tidyverse in R"
+subtitle: "Summary Statistics"
 author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
 date: "2018-05-16"
 location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../footer-header.css", "../mycss.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -43,12 +43,14 @@ yellow <- "#f4e842"
 ---
 class: center, middle
 
-<h1>Demystifing unknown knowns</h1>
-<h2>What do we know, what don't we know and why do we care?</h2>
+# Demystifing unknown knowns
+## What do we know, what don't we know and why do we care?
 
 ---
+
 # Untangling data is hard 
-If we look at raw numbers, we might have a tough time understanding them.
+
+If we look at raw numbers, we might have a hard time understanding them.
 
 Interpreting single numbers is easy, but it's almost impossible, for example, to say which of the following two vectors has
 
@@ -81,36 +83,34 @@ tibble(
   )
 ```
 
-The underlying vectors of the tibble are short. In the real world, vectors are also too long to conveniently look at.
-
+The underlying vectors of this tibble are short. In the real world, vectors are also tend to be too long to be eyeballed conveniently.
 
 ---
-<h1> Making sense of data </h1>
+
+# Making sense of data
 
 To make sense of data we reduce their information to unique values.
 
 .center[
 ~ 
 
-**That's a simple definition of statistics**
+**That's a simple definition of summary statistics**
 
 ~]
 
 As such, we use summarizing functions of
 - location (e.g., the mean),
 - spread (e.g., standard deviation),
-- the shape of the distribution (e.g., skewness) and
+- the shape of the distribution (e.g., skewness), and
 - relations between variables (e.g., correlation coefficients)
 
-We assume everyone here knows the basics of summary statistics.  
-
-So instead of their monotonous repetition let's see corresponding code from the `tidyverse`.
-
+We assume everyone here knows the basics of summary statistics. So instead of their repeating them, let's see how to create them with tools from the `tidyverse`.
 
 ---
-# Used data
 
-Our data are from gapminder, and the focal variable is income per person (fixed 2000 US$) among 275 countries for the years 1960-2011:
+# Gapminder data
+
+As in many of the previous exercises we will use data from [*Gapminder*](https://www.gapminder.org/) in the following. Our focal variable is income per person (fixed 2000 US$) in 275 countries for the years 1960-2011:
 
 
 > "Gross Domestic Product per capita in constant 2000 US$. The inflation but not the differences in the cost of living between countries has been taken into account."
@@ -126,6 +126,7 @@ capita <-
 ```
 
 ---
+
 # A first glimpse at the data
 
 ```{r}
@@ -134,9 +135,9 @@ capita %>%
   glimpse()
 ```
 
-
 ---
-# Getting order in the data
+
+# Tidying & wrangling the data
 
 Let's start by reducing the data to 3 countries and converting them to the long format.
 
@@ -153,21 +154,20 @@ capita_long <-
   tail()
 ```
 
-
-
 ---
+
 # How does it look?
 
-We display only the tail because Germany, which is first in order, has missings up to and including the year 1969.
+We display only the tail (last 6 observations here) because Germany, which appears at the head of the new dataframe, has missings up to and including the year 1969.
 
 ```{r capita_long_subset_look, echo=FALSE}
 capita_long %>%  tail()
 ```
 
-In any case, information is reduced, and the data look much nicer now, doesn't them?
-
+In any case, information is reduced, and the data look much nicer now.
 
 ---
+
 # Time for some summary statistics
 
 ```{r echo=TRUE}
@@ -183,16 +183,17 @@ capita_long %>%
   )
 ```
 
+This code might be a bit difficult to understand for you now, but don't worry: We will discuss the individual functions included here in the following.
+
 <span class="footnote">
-  Note: `change` is the change of income in percent to the previous year.
+  Note: `change` is the change in income from the previous measurement in percent.
 </span>
 
-
-
-
 ---
+
 # Searching for extreme values
-We may ask in which years the change of income was higher than 2% as the maximum value was `2.1631`
+
+We may, for example, want to find years in which the change in income was higher than 2% (as the maximum value was `2.16`).
 
 ```{r echo=TRUE}
 capita_long %>%
@@ -200,11 +201,9 @@ capita_long %>%
   filter(change > 2) 
 ```
 
-It's been 2010.
-
-
 ---
-# Finding the year directly
+
+# Finding the year with the maximum value
 
 ```{r echo=TRUE}
 capita_long %>% 
@@ -213,9 +212,10 @@ capita_long %>%
 ```
 
 
-With this code, we see the year in which each country's GDP increased the strongest. Even if we do not care about (other) summary statistics at all.
+With this code, we see data for the year in the country's GDP showed the highest increase. This is helpful even if we do not care about (other) summary statistics at all.
 
 ---
+
 # But, beware: Summary statistics can also be misleading! 
 
 ```{r, out.width = "50%"}
@@ -224,14 +224,17 @@ include_graphics("./pics/pity_the_fool.jpg")
 
 
 ---
-<h1> Misleading correlation coefficients </h1>
+
+# Misleading correlation coefficients
 
 .column-left-half[
-For example, if we do correlation analysis and we encounter a (Pearson's) correlation of close to 0, we often think of relationships as on the right side.
+For example, if we do correlation analysis and we encounter a (Pearson's) correlation coefficient close to 0, we often think of relationships as pictured on the right side.
 
 - It's noisy
+
 - There's no observable pattern
-- ...it's just a mess, and we question our life decision of becoming statisticians
+
+- ...it's just a mess, and we question our life decision of working with data
 ]
 
 .column-right-half[
@@ -244,9 +247,9 @@ datasauRus::datasaurus_dozen %>%
 
 ---
 # Do not despair
-The `datasauRus`-package proves to us that various different relations with the same summary statistics are possible.
+The [`datasauRus` package](https://github.com/lockedata/datasauRus) proves to us that various different relations with the same summary statistics are possible.
 
-This one here has **the same correlation coefficient (-0.06, Pearson's)** as on the plot before:
+This dataset has **the same correlation coefficient (-0.06, Pearson's)** as the one in the previous plot:
 
 ```{r, out.width = "40%"}
 datasauRus::datasaurus_dozen %>% 
@@ -256,9 +259,10 @@ datasauRus::datasaurus_dozen %>%
   theme_void()
 ```
 
-.center[There's a trajectory, right? `r ji("dollar")`]
+.center[But there's a trajectory, right? `r ji("dollar")`]
 
 ---
+
 # What about this one? (r = -0.06)
 
 ```{r}
@@ -268,7 +272,8 @@ datasauRus::datasaurus_dozen %>%
 ```
 
 ---
-<h1> What about this one? (r = -0.06) </h1>
+
+# What about this one? (r = -0.06)
 
 .column-left-half[  
 ```{r, out.width = "60%"}
@@ -285,7 +290,7 @@ datasauRus::datasaurus_dozen %>%
 ]
 
 ---
-# And it goes on and on
+# And it goes on and on...
 
 All of these 13 datasets have the same means, standard deviations, and Pearson's correlation coefficients.
 
@@ -305,15 +310,17 @@ ggplot(
 ```
 
 ---
+
 # Let's prove that to ourselves!
 
-Here's how the data look like
+Here's what the data look like
 ```{r echo=TRUE}
 datasauRus::datasaurus_dozen %>% 
   glimpse()
 ```
 
 ---
+
 # Let's prove that to ourselves!
 Maybe, in this case, it's more convenient to count the data points in each dataset.
 
@@ -324,7 +331,7 @@ datasauRus::datasaurus_dozen %>%
 ```
 
 ---
-# Are the points only identical across the datasets?
+# Are the points identical across the datasets?
 
 Here's how it works:
 
@@ -336,7 +343,7 @@ identical(sort(x),sort(x2))
 
 
 ---
-# Are the points only identical across the datasets?
+# Are the points identical across the datasets?
 
 And for example, for the dataset `dino` and `away`:
 
@@ -354,11 +361,7 @@ identical(sort(dino$x), sort(away$x))
 
 
 ---
-# Let's compute the statistics
-
-<span class="footnote">
-  <span class="red bold">*</span> Important footnote
-</span>
+# Let's compute the summary statistics
 
 ```{r datasaurus_solution, eval = FALSE, echo=TRUE}
 datasaurus_dozen %>% 
@@ -374,7 +377,7 @@ datasaurus_dozen %>%
 ```
 
 ---
-# Let's compute the statistics
+# Let's compute the summary statistics
 
 ```{r ref.label = "datasaurus_solution", echo=FALSE}
 ```
