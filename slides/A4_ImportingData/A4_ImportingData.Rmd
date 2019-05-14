@@ -35,8 +35,8 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
   <div style="text-align: center;"><span>`r gsub(".+<br />", " ", metadata$subtitle)`</span></div>
 </div>
 
-
 ---
+
 # Getting data into `R`
 
 .large[
@@ -54,6 +54,7 @@ include_graphics("./pics/import_data.png")
 ```
 
 ---
+
 # Getting Data in the tidyverse
 
 Whether we want to use our own data or data from others, we need to get data into R.
@@ -61,8 +62,8 @@ Whether we want to use our own data or data from others, we need to get data int
 The `tidyverse` provides some nice tools to do exactly that:
 
 - `readr`  (for 'flat' files, such as CSV)
+- `haven`  (for statistical software files, such as SPSS, Stata, and SAS; also works with labels!)
 - `readxl` (for excel spreadsheets)
-- `haven`  (for statistical software files, such as SPSS, Stata, and SAS)
 
 ```{r, out.width = "50%"}
 include_graphics("./pics/hex_all_in_one.png")
@@ -70,8 +71,8 @@ include_graphics("./pics/hex_all_in_one.png")
 
 A key difference between these packages and others is that `tidyverse` import functions already prepare the data for being 'tidied': they are a `tibbles`
 
-
 ---
+
 # A readr example: `read_csv()`
 ```{r readr_example, echo = TRUE}
 titanic <- read_csv("../../data/titanic/titanic.csv")
@@ -79,8 +80,8 @@ titanic <- read_csv("../../data/titanic/titanic.csv")
 
 Note the column specifications. `readr` 'guesses' them based on the first 1000 observations (we will come back to this later).
 
-
 ---
+
 # A readr example: `read_csv()`
 ```{r readr_example:output, echo = TRUE}
 titanic
@@ -89,6 +90,7 @@ titanic
 It's that easy!
 
 ---
+
 # A readxl example: `read_excel()`
 ```{r readxl_example, echo = TRUE}
 unicorns <- read_xlsx("../../data/unicorns/observations.xlsx")
@@ -97,12 +99,14 @@ unicorns <- read_xlsx("../../data/unicorns/observations.xlsx")
 No output `r ji("frowning_face")`
 
 ---
+
 # A readxl example: `read_excel()`
 ```{r readxl_example_output, echo = TRUE}
 unicorns
 ```
 
 ---
+
 # A haven example: `read_stata()` 
 ```{r read_stata_example, echo = TRUE}
 gesis_panel <- 
@@ -110,12 +114,14 @@ gesis_panel <-
 ```
 
 ---
+
 # A haven example: `read_stata()` 
 ```{r read_stata_example_output, echo = TRUE}
 gesis_panel
 ```
 
 ---
+
 # There's more
 These were just some very first examples of applying functions from each package. They comprise even more functions for different data types.
 
@@ -136,6 +142,7 @@ Not to mention all the helper functions and options. For example, we can define 
 
 
 ---
+
 # Data Specifics
 - characters
   - indicated by `<chr>`
@@ -156,6 +163,7 @@ Not to mention all the helper functions and options. For example, we can define 
 .center[**There's more, but we'll leave it at that for now.**]
 
 ---
+
 # Changing Variable Types
 As mentioned before, `read_csv` 'guesses' the variable types by scanning the first 1000 observations. NB: **This can go wrong!**
 
@@ -166,6 +174,7 @@ Luckily, we can change the variable type...
 - and after loading the data
 
 ---
+
 # While Loading the data in `read_csv`
 ```{r readr_example_col_change, echo = TRUE}
 titanic <-
@@ -189,12 +198,14 @@ titanic <-
 ```
 
 ---
+
 # While Loading the data in `read_csv`
 ```{r readr_example_col_change_display, echo = TRUE}
 titanic
 ```
 
 ---
+
 # While Loading the data in `read_csv`
 ```{r readr_example_col_changeD, echo = TRUE}
 titanic <-
@@ -218,18 +229,21 @@ titanic <-
 ```
 
 ---
+
 # While Loading the data in `read_csv`
 ```{r readr_example_col_changeD_display, echo = TRUE}
 titanic
 ```
 
 ---
+
 # After Loading the data
 ```{r readr_example_col_change_after, echo = TRUE}
 titanic <- read_csv("../../data/titanic/titanic.csv")
 ```
 
 ---
+
 # After Loading the data
 ```{r readr_example_col_changeD_after, echo = TRUE}
 titanic <-
@@ -253,6 +267,7 @@ titanic <-
 ```
 
 ---
+
 # Exporting Data
 Sometimes our data have to leave the `tidyverse` (or even `R`), for example, if we....
 
@@ -269,6 +284,7 @@ include_graphics("./pics/export_data.png")
 ```
 
 ---
+
 # Examples: CSV and Stata files
 ```{r export_csv, echo = TRUE}
 write_csv(titanic, "titanic_own.csv")
@@ -284,6 +300,7 @@ list.files()
 ```
 
 ---
+
 # Additional Packages
 The great benefit of `tidyverse` import functions is the import of the data as tibbles: the data are potentially tidier.
 
@@ -293,6 +310,7 @@ Several other non-tidyverse packages provide similar benefits as they make use o
 - [`sjlabelled`](https://cran.r-project.org/web/packages/sjlabelled/index.html) to work with labelled data, e.g., from SPSS or Stata
 
 ---
+
 # Alternative Packages
 
 - `base` R
@@ -301,6 +319,7 @@ Several other non-tidyverse packages provide similar benefits as they make use o
 
 - [`data.table`](https://cran.r-project.org/web/packages/data.table/index.html) for large datasets
 
+- [`jsonlite`](https://cran.r-project.org/web/packages/jsonlite/index.html) for json files
 
 ---
 
