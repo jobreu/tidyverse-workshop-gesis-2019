@@ -68,15 +68,15 @@ include_graphics("./pics/9213.1526125966.png")
 
 # Terminology of the tidyverse
 
-The classic concepts of `R` are not subject to this sessions.
+The classic concepts of `R` are not the subject of this workshop.
 
 --
 
-But `tidyverse` adds to this a whole new set of terms and concepts that have to be clarified.
+But the `tidyverse` adds a whole new set of terms and concepts.
 
 --
 
-The good news is we're good with only three distinct concepts:
+The good news, however, is that we only need to get acquainted with only three important `tidyverse` concepts for now:
 
 --
 1. pipes
@@ -115,7 +115,7 @@ mtcars <- read_csv(readr_example("mtcars.csv"))
 
 --
 
-Say, if we want to calculate the mean value of the variable `mpg`, as smart people we can use this command:
+Say, if we wanted to calculate the mean value of the variable `mpg`, we could use this command:
 
 --
 
@@ -130,7 +130,7 @@ Pretty, isn't it? Well...
 ---
 
 # Make it prettier with base `R`
-We can use indentions to alleviate issues with readability:
+We can use indentation to alleviate issues with readability:
 
 --
 
@@ -165,6 +165,7 @@ This works. But it also has some flaws:
 ---
 
 # Disentangling commands
+
 An easy way would be:
 
 --
@@ -198,6 +199,7 @@ Of course, you can mix these approaches to your liking...
 ---
 
 # Pipes as a solution?
+
 Pipes disentangle the whole process with an alternative approach by applying any involved function step by step:
 
 --
@@ -284,7 +286,7 @@ x %>% f(y, z = .)
 
 ---
 
-# Notes on pipes' styling: indentions
+# Notes on the styling of pipes: indentation
 
 We can write pipes in one line:
 
@@ -311,7 +313,7 @@ u %>%
 
 ---
 
-# Notes on pipes' styling: nesting
+# Notes on the styling of pipes: nesting
 
 As pipes are so convenient you may be tempted to nest operations within pipes and to merge separate processes. For example:
 
@@ -330,7 +332,7 @@ z %>%
 
 ---
 
-# Notes on pipes' styling: nesting
+# Notes on the styling of pipes: nesting
 
 To:
 
@@ -544,7 +546,7 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 --
 
 - better readability
-  - they fit the screen automatically
+  - they are printed in a way that fits the screen/window
   
 --
   
@@ -552,7 +554,7 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 
 ---
 
-# This is how they look
+# This is what a tibble looks like
 
 ```{r tibble_example, echo = FALSE, message = FALSE, eval = TRUE}
 example_tibble <- read_csv("../../data/titanic/titanic.csv")
@@ -568,7 +570,7 @@ Usually, we don't have to do anything.
 
 --
 
-tibbles are the standard output format of all tidyverse applications.
+tibbles are the standard output format of most of the `tidyverse` functions we will encounter in this workshop.
 
 --
 
@@ -656,14 +658,14 @@ For now, we should be familiar with two concepts for out further exploration of 
 --
 
 1. pipes
-  - they disentangle the process of data wrangling in simple chunks
+  - they disentangle the process of data wrangling into simple chunks
   
-  - denoted by the operator `%>%` (yet there are alternatives we should be aware of)
+  - denoted by the operator `%>%` (yet there are alternatives you should be aware of)
   
 --
   
 2. tibbles
-  - an easy to read and modern format for datasets in `R`
+  - an easy-to-read and modern format for datasets in `R`
   
   - the standard data format of the `tidyverse`
 

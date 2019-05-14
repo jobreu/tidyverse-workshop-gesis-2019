@@ -7,7 +7,7 @@
     <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../workshop.css" type="text/css" />
+    <link rel="stylesheet" href="..\workshop.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -63,15 +63,15 @@ As you might know, in `R`, we use many different terms and concepts:
 
 # Terminology of the tidyverse
 
-The classic concepts of `R` are not subject to this sessions.
+The classic concepts of `R` are not the subject of this workshop.
 
 --
 
-But `tidyverse` adds to this a whole new set of terms and concepts that have to be clarified.
+But the `tidyverse` adds a whole new set of terms and concepts.
 
 --
 
-The good news is we're good with only three distinct concepts:
+The good news, however, is that we only need to get acquainted with only three important `tidyverse` concepts for now:
 
 --
 1. pipes
@@ -109,7 +109,7 @@ mtcars &lt;- read_csv(readr_example("mtcars.csv"))
 
 --
 
-Say, if we want to calculate the mean value of the variable `mpg`, as smart people we can use this command:
+Say, if we wanted to calculate the mean value of the variable `mpg`, we could use this command:
 
 --
 
@@ -129,7 +129,7 @@ Pretty, isn't it? Well...
 ---
 
 # Make it prettier with base `R`
-We can use indentions to alleviate issues with readability:
+We can use indentation to alleviate issues with readability:
 
 --
 
@@ -169,6 +169,7 @@ This works. But it also has some flaws:
 ---
 
 # Disentangling commands
+
 An easy way would be:
 
 --
@@ -210,6 +211,7 @@ Of course, you can mix these approaches to your liking...
 ---
 
 # Pipes as a solution?
+
 Pipes disentangle the whole process with an alternative approach by applying any involved function step by step:
 
 --
@@ -307,7 +309,7 @@ x %&gt;% f(y, z = .)
 
 ---
 
-# Notes on pipes' styling: indentions
+# Notes on the styling of pipes: indentation
 
 We can write pipes in one line:
 
@@ -336,7 +338,7 @@ u %&gt;%
 
 ---
 
-# Notes on pipes' styling: nesting
+# Notes on the styling of pipes: nesting
 
 As pipes are so convenient you may be tempted to nest operations within pipes and to merge separate processes. For example:
 
@@ -356,7 +358,7 @@ z %&gt;%
 
 ---
 
-# Notes on pipes' styling: nesting
+# Notes on the styling of pipes: nesting
 
 To:
 
@@ -583,7 +585,7 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 --
 
 - better readability
-  - they fit the screen automatically
+  - they are printed in a way that fits the screen/window
   
 --
   
@@ -591,24 +593,25 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 
 ---
 
-# This is how they look
+# This is what a tibble looks like
 
 
 ```
 ## # A tibble: 891 x 12
 ##    PassengerId Survived Pclass Name  Sex     Age SibSp Parch Ticket  Fare
 ##          &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-##  1           1        0      3 Brau… male     22     1     0 A/5 2…  7.25
-##  2           2        1      1 Cumi… fema…    38     1     0 PC 17… 71.3 
-##  3           3        1      3 Heik… fema…    26     0     0 STON/…  7.92
-##  4           4        1      1 Futr… fema…    35     1     0 113803 53.1 
-##  5           5        0      3 Alle… male     35     0     0 373450  8.05
-##  6           6        0      3 Mora… male     NA     0     0 330877  8.46
-##  7           7        0      1 McCa… male     54     0     0 17463  51.9 
-##  8           8        0      3 Pals… male      2     3     1 349909 21.1 
-##  9           9        1      3 John… fema…    27     0     2 347742 11.1 
-## 10          10        1      2 Nass… fema…    14     1     0 237736 30.1 
-## # … with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;, Embarked &lt;chr&gt;
+##  1           1        0      3 Brau~ male     22     1     0 A/5 2~  7.25
+##  2           2        1      1 Cumi~ fema~    38     1     0 PC 17~ 71.3 
+##  3           3        1      3 Heik~ fema~    26     0     0 STON/~  7.92
+##  4           4        1      1 Futr~ fema~    35     1     0 113803 53.1 
+##  5           5        0      3 Alle~ male     35     0     0 373450  8.05
+##  6           6        0      3 Mora~ male     NA     0     0 330877  8.46
+##  7           7        0      1 McCa~ male     54     0     0 17463  51.9 
+##  8           8        0      3 Pals~ male      2     3     1 349909 21.1 
+##  9           9        1      3 John~ fema~    27     0     2 347742 11.1 
+## 10          10        1      2 Nass~ fema~    14     1     0 237736 30.1 
+## # ... with 881 more rows, and 2 more variables: Cabin &lt;chr&gt;,
+## #   Embarked &lt;chr&gt;
 ```
 
 
@@ -620,7 +623,7 @@ Usually, we don't have to do anything.
 
 --
 
-tibbles are the standard output format of all tidyverse applications.
+tibbles are the standard output format of most of the `tidyverse` functions we will encounter in this workshop.
 
 --
 
@@ -4238,17 +4241,18 @@ titanic_tibble
 ## # A tibble: 891 x 12
 ##    PassengerId Survived Pclass Name  Sex   Age   SibSp Parch Ticket Fare 
 ##          &lt;int&gt;    &lt;int&gt;  &lt;int&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;fct&gt;
-##  1           1        0      3 Brau… male  22        1     0 A/5 2… 7.25 
-##  2           2        1      1 Cumi… fema… 38        1     0 PC 17… 71.2…
-##  3           3        1      3 Heik… fema… 26        0     0 STON/… 7.925
-##  4           4        1      1 Futr… fema… 35        1     0 113803 53.1 
-##  5           5        0      3 Alle… male  35        0     0 373450 8.05 
-##  6           6        0      3 Mora… male  ""        0     0 330877 8.45…
-##  7           7        0      1 McCa… male  54        0     0 17463  51.8…
-##  8           8        0      3 Pals… male  2         3     1 349909 21.0…
-##  9           9        1      3 John… fema… 27        0     2 347742 11.1…
-## 10          10        1      2 Nass… fema… 14        1     0 237736 30.0…
-## # … with 881 more rows, and 2 more variables: Cabin &lt;fct&gt;, Embarked &lt;fct&gt;
+##  1           1        0      3 Brau~ male  22        1     0 A/5 2~ 7.25 
+##  2           2        1      1 Cumi~ fema~ 38        1     0 PC 17~ 71.2~
+##  3           3        1      3 Heik~ fema~ 26        0     0 STON/~ 7.925
+##  4           4        1      1 Futr~ fema~ 35        1     0 113803 53.1 
+##  5           5        0      3 Alle~ male  35        0     0 373450 8.05 
+##  6           6        0      3 Mora~ male  ""        0     0 330877 8.45~
+##  7           7        0      1 McCa~ male  54        0     0 17463  51.8~
+##  8           8        0      3 Pals~ male  2         3     1 349909 21.0~
+##  9           9        1      3 John~ fema~ 27        0     2 347742 11.1~
+## 10          10        1      2 Nass~ fema~ 14        1     0 237736 30.0~
+## # ... with 881 more rows, and 2 more variables: Cabin &lt;fct&gt;,
+## #   Embarked &lt;fct&gt;
 ```
 
 ---
@@ -4273,11 +4277,11 @@ tibble(
 ## # A tibble: 5 x 3
 ##       a     b c    
 ##   &lt;int&gt; &lt;int&gt; &lt;chr&gt;
-## 1     1    20 g    
-## 2     2    19 j    
-## 3     3    18 b    
-## 4     4    17 c    
-## 5     5    16 e
+## 1     1    20 j    
+## 2     2    19 h    
+## 3     3    18 c    
+## 4     4    17 e    
+## 5     5    16 b
 ```
 
 ---
@@ -4320,14 +4324,14 @@ For now, we should be familiar with two concepts for out further exploration of 
 --
 
 1. pipes
-  - they disentangle the process of data wrangling in simple chunks
+  - they disentangle the process of data wrangling into simple chunks
   
-  - denoted by the operator `%&gt;%` (yet there are alternatives we should be aware of)
+  - denoted by the operator `%&gt;%` (yet there are alternatives you should be aware of)
   
 --
   
 2. tibbles
-  - an easy to read and modern format for datasets in `R`
+  - an easy-to-read and modern format for datasets in `R`
   
   - the standard data format of the `tidyverse`
 
