@@ -1,12 +1,13 @@
 ---
-title: "Outlook"
+title: "Data Wrangling & Exploration with the Tidyverse in R"
+subtitle: "Outlook"
 author: "Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel"
 date: "2019-05-16"
 location: "GESIS, Mannheim, Germany"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: ["default", "robot-fonts", "../footer-header.css", "../mycss.css"]
+    css: ["default", "default-fonts", "../workshop.css"]
     nature:
       highlightStyle: "github"
       highlightLines: true
@@ -39,18 +40,40 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 ```{r schedule Wed, echo = F}
 schedule <- data.frame(
   "Content" = c(
-    "Introduction", "Tidyverse terminology: tibbles & pipes", "Tidy data", 
-    "Importing data", "Data wrangling: Part 1", "Data wrangling: Part 2", 
-    "Relational data", "Data exploration I: Summary statistics", 
-    "Data exploration II: ggplot2 basics", "Outlook"
+    "Introduction", 
+    "Tidyverse terminology: tibbles & pipes", 
+    "Tidy data", 
+    "Importing data", 
+    "Data wrangling: Part 1", 
+    "Data wrangling: Part 2", 
+    "Relational data", 
+    "Data exploration I: Summary statistics", 
+    "Data exploration II: ggplot2 basics", 
+    "Outlook"
     ),
   "Highlights" = c(
-    "", "", "", "", "", "", 
-    "", "", "", ""
+    "", 
+    "%>% operator", 
+    "", 
+    "data are tibbles!", 
+    "", 
+    "", 
+    "", 
+    "group_by()", 
+    "flexible use of geom_*", 
+    "this presentation"
   ),
   "Missing/Next Steps" = c(
-    "", "", "", "", "foreign data, e.g., geospatial data", "", 
-    "", "multi-format tables", "multi-layer plots, maps, annotations", ""
+    "", 
+    "advanced use of {}", 
+    "", 
+    "foreign data, e.g., geospatial data", 
+    "", 
+    "", 
+    "", 
+    "multi-format tables", 
+    "multi-layer plots, maps, annotations", 
+    "you tell us"
   )
   , stringsAsFactors = FALSE
   , check.names = FALSE
@@ -65,11 +88,18 @@ kable(
 ```
 
 ---
-# What is missing?
 
----
-# Your next steps
+class: middle, center
 
----
 # Acknowledgements
+
+---
+
+class: center, middle
+
+Slides created via the `R` package [`xaringan`](https://github.com/yihui/xaringan)
+
+The chakra comes from [`remark.js`](https://remarkjs.com), [`knitr`](http://yihui.name/knitr), and [`R Markdown`](https://rmarkdown.rstudio.com)
+
+
 
