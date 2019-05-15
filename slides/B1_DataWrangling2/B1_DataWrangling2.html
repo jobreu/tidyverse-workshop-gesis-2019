@@ -46,7 +46,7 @@ layout: true
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; dplyr &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; rename &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; renames and existing variable (and keeps all others) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; renames an existing variable (and keeps all others) &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; dplyr &lt;/td&gt;
@@ -677,7 +677,7 @@ titanic %&gt;%
 - conditions are evaluated consecutively
 - to understand what `TRUE` means here, you can think of `case_when` as an `ifelse()` statement: What happens if the else-condition is true?
 - if you define missings for your outcome variable, you have to be explicit about the type of `NA` you need (`NA_character_`, `NA_integer_`, `NA_real_`)
-- if you wanted to create an ordered factor, you would need to specify this via the `levels` argument of the `factor()` function (see `?factor`)
+- if you want to create an ordered factor, you need to specify this via the `levels` argument of the `factor()` function (see `?factor`)
 
 ---
 
