@@ -347,19 +347,21 @@ titanic %>%
 
 There are many operators and helper functions that you can use to create and transform variables with `mutate()`.
 
-* arithmetic operators: +, -, /, *, ^, %% (modulo/remainder), %/% (integer devision)
+* change of variable types: `as.numeric()`, `as.factor()`, ...
 
-* aggregate functions: sum, mean, max, min, ...
+* arithmetic operators: `+`, `-`, `/`, `*`, `^`, `%%` (modulo), `%/%` (integer division)
 
-* logs: log(), log2(), log10()
+* aggregate functions: `sum()`, `mean()`, `max()`, `min()`, ...
 
-* offsets: lead(), lag()
+* logs: `log()`, `log2()`, `log10()`
 
-* cumulative aggregates: cumsum, cumprod, cummean, ...
+* offsets: `lead()`, `lag()`
 
-* logical comparisons: <=, <, ==, !=, >, >=
+* cumulative aggregates: `cumsum()`, `cumprod()`, `cummean()`, ...
 
-* ranks: min_rank, ntile(), ...
+* logical comparisons: `<=`, `<`, `==`, `!=`, `>`, `>=`
+
+* ranks: `min_rank()`, `ntile()`, ...
 
 Note: If you only want to keep the newly created variables, you should use `transmute()` instead of `mutate()`.
 
