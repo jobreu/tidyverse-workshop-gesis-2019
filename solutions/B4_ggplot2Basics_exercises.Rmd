@@ -82,7 +82,7 @@ Create an indicator variable for the time periods 1960-1969, 2002-2011 and the t
 ```
 
 ```{block, opts.label = "clues"}
-A combination of `mutate()` and the `if_else` lets you create the new variables we need. To get some sensible legend labels later you should specify the indicator variables as strings.
+A combination of `mutate()` and `if_else()` lets you create the new variables we need. To get some sensible legend labels later you should specify the indicator variables as strings.
 ```
 
 ```{r indicator_variable_solution, solution = TRUE}
