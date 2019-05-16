@@ -20,7 +20,7 @@ if (!require(easypackages)) install.packages("easypackages")
 library(easypackages)
 
 packages(
-  "knitr", "rmarkdown", "magrittr", "readr", "ggplot2", "hadley/emo",
+  "knitr", "rmarkdown", "tibble", "magrittr", "readr", "ggplot2", "hadley/emo",
   prompt = FALSE
 )
 
@@ -40,60 +40,38 @@ opts_chunk$set(echo = FALSE, fig.align = "center")
 # Course recap
 
 ```{r recap 1, echo = F}
-recap_1 <- data.frame(
-  "Session" = c(
-    "Introduction", 
-    "Tidyverse terminology: tibbles & pipes", 
-    "Tidy data", 
-    "Importing data", 
-    "Data wrangling: Part 1"
-    ),
-  "Example content" = c(
-    "What is the tidyverse and what is it good for?", 
-    "%>% operator & tibbles", 
-    "Gathering and spreading from wide to long and back, separating & uniting values", 
-    "Importing CSV, Excel, SPSS, and Stata files", 
-    "Renaming, filtering, selecting, new variables, recoding, missing values, arranging"
-  )
-  , stringsAsFactors = FALSE
-  , check.names = FALSE
-)
-
+tribble(
+  ~"Session", ~"Example content", 
+  "Introduction", "What is the tidyverse and what is it good for?",
+  "Tidyverse terminology: tibbles & pipes", "%>% operator & tibbles",
+  "Tidy data", "Gathering and spreading from wide to long and back, separating & uniting values",
+  "Importing data", "Importing CSV, Excel, SPSS, and Stata files", 
+  "Data wrangling: Part 1", "Renaming, filtering, selecting, new variables, recoding, missing values, arranging"
+) %>% 
 kable(
-  recap_1
-  , format = "html"
+    format = "html"
   , align = "ll"
   , escape = FALSE
 )
 ```
+
+
 
 ---
 
 # Course recap
 
 ```{r recap 2, echo = F}
-recap_2 <- data.frame(
-  "Session" = c(
-    "Data wrangling: Part 2", 
-    "Relational data", 
-    "Data exploration I: Summary statistics", 
-    "Data exploration II: ggplot2 basics", 
-    "Outlook"
-    ),
-  "Example content" = c(
-    "Advanced selecting, filtering, creation and transformation of variables, strings and factors", 
-    "Mutating joins, filtering joins, set operations", 
-    "Grouping and summarizing data", 
-    "Layers: Data, aesthetics, and geoms", 
-    "What we did and what we did not cover in this workshop"
-  )
-  , stringsAsFactors = FALSE
-  , check.names = FALSE
-)
-
+tribble(
+  ~"Session", ~"Example content", 
+  "Data wrangling: Part 2", "Advanced selecting, filtering, creation and transformation of variables, strings and factors",
+  "Relational data", "Mutating joins, filtering joins, set operations",
+  "Data exploration I: Summary statistics", "Grouping and summarizing data",
+  "Data exploration II: ggplot2 basics", "Layers: Data, aesthetics, and geoms",
+  "Outlook", "What we did and what we did not cover in this workshop"
+) %>% 
 kable(
-  recap_2
-  , format = "html"
+    format = "html"
   , align = "ll"
   , escape = FALSE
 )
