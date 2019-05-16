@@ -52,7 +52,7 @@ recap_1 <- data.frame(
     "What is the tidyverse and what is it good for?", 
     "%>% operator & tibbles", 
     "Gathering and spreading from wide to long and back, separating & uniting values", 
-    "Importing csv, Excel, SPSS, and Stata files", 
+    "Importing CSV, Excel, SPSS, and Stata files", 
     "Renaming, filtering, selecting, new variables, recoding, missing values, arranging"
   )
   , stringsAsFactors = FALSE
