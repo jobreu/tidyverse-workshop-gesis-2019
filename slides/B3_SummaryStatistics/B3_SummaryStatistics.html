@@ -49,11 +49,11 @@ just by looking at them:
 
 
 ```
-##  [1] 48 32 31 20 59 60 54 31 42 43
+##  [1] 31 55 37 60 63 20 43 60 44 39
 ```
 
 ```
-##  [1] 46 24 46 47 28 48 54 27 45 26
+##  [1] 59 38 47 43 24 56 30 21 33 59
 ```
 
 ---
@@ -126,7 +126,7 @@ tibble(
 ## # A tibble: 1 x 4
 ##   mean_x mean_y var_x var_y
 ##    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1   41.6   40.5  186.  152.
+## 1   47.1   41.6  143.  177.
 ```
 
 --
@@ -235,8 +235,7 @@ capita_long &lt;-
       c("Germany", "United Kingdom", "United States")
   ) %&gt;%
   gather(-1, key = "year", value = "income") %&gt;%
-  arrange(country, year) %&gt;%
-  tail()
+  arrange(country, year)
 ```
 
 ---
@@ -268,7 +267,7 @@ In any case, information is reduced, and the data look much nicer now.
 
 # The `group_by()` function
 
-With the `grouo_by()` function from the `dplyr` package we can perform operations 'by group'. This is especially helpful if you want to compute separate summary statistics with `summarize()` for different groups in your dataset.
+With the `group_by()` function from the `dplyr` package we can perform operations 'by group'. This is especially helpful if you want to compute separate summary statistics with `summarize()` for different groups in your dataset.
 
 Note: If you want to remove the grouping from your dataframe, you can use `ungroup()`.
 
@@ -291,10 +290,12 @@ capita_long %&gt;%
 ```
 
 ```
-## # A tibble: 1 x 7
-##   country           n min_inc max_inc  diff has_na max_change
-##   &lt;chr&gt;         &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
-## 1 United States     6  36539.  38711. 2172. FALSE        2.16
+## # A tibble: 3 x 7
+##   country            n min_inc max_inc   diff has_na max_change
+##   &lt;chr&gt;          &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;       &lt;dbl&gt;
+## 1 Germany           42  11895.  26207. 14311. TRUE         5.40
+## 2 United Kingdom    52  10025.  29771. 19746. FALSE        7.11
+## 3 United States     52  13723.  38711. 24988. FALSE        6.27
 ```
 
 &lt;span class="footnote"&gt;
@@ -305,7 +306,7 @@ capita_long %&gt;%
 
 # Searching for extreme values
 
-We may, for example, want to find years in which the change in income was higher than 2% (as the maximum value was `2.16`).
+We may, for example, want to find years in which the change in income was higher than 7% (as the maximum value was `7.11`).
 
 --
 
@@ -313,14 +314,14 @@ We may, for example, want to find years in which the change in income was higher
 ```r
 capita_long %&gt;%
   mutate(change = (income / lag(income) - 1) * 100) %&gt;%
-  filter(change &gt; 2) 
+  filter(change &gt; 7) 
 ```
 
 ```
 ## # A tibble: 1 x 4
-##   country       year  income change
-##   &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1 United States 2010  37330.   2.16
+##   country        year  income change
+##   &lt;chr&gt;          &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 United Kingdom 1973  14654.   7.11
 ```
 
 ---
@@ -336,9 +337,9 @@ capita_long %&gt;%
 
 ```
 ## # A tibble: 1 x 4
-##   country       year  income change
-##   &lt;chr&gt;         &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1 United States 2010  37330.   2.16
+##   country        year  income change
+##   &lt;chr&gt;          &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 United Kingdom 1973  14654.   7.11
 ```
 
 --
@@ -347,7 +348,7 @@ With this code, we see data for the year in which the GDP of the United States s
 
 ---
 
-# But, beware: Summary statistics can also be misleading! 
+# But, beware: summary statistics can also be misleading! 
 
 &lt;img src="./pics/pity_the_fool.jpg" width="50%" style="display: block; margin: auto;" /&gt;
 

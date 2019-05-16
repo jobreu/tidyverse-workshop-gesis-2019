@@ -177,8 +177,7 @@ capita_long <-
       c("Germany", "United Kingdom", "United States")
   ) %>%
   gather(-1, key = "year", value = "income") %>%
-  arrange(country, year) %>%
-  tail()
+  arrange(country, year)
 ```
 
 ---
@@ -230,14 +229,14 @@ capita_long %>%
 
 # Searching for extreme values
 
-We may, for example, want to find years in which the change in income was higher than 2% (as the maximum value was `2.16`).
+We may, for example, want to find years in which the change in income was higher than 7% (as the maximum value was `7.11`).
 
 --
 
 ```{r extreme values, echo = T}
 capita_long %>%
   mutate(change = (income / lag(income) - 1) * 100) %>%
-  filter(change > 2) 
+  filter(change > 7) 
 ```
 
 ---
@@ -256,7 +255,7 @@ With this code, we see data for the year in which the GDP of the United States s
 
 ---
 
-# But, beware: Summary statistics can also be misleading! 
+# But, beware: summary statistics can also be misleading! 
 
 ```{r fool, out.width = "50%"}
 include_graphics("./pics/pity_the_fool.jpg")
