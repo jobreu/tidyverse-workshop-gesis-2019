@@ -192,7 +192,7 @@ knitr::include_graphics("./pics/data-science_man.png")
 --
 
 However, this makes it difficult to add extra features to your plot.
-  - There are ways of doing it anyway as we will see later
+  - There are ways of doing it anyway
   - Yet, it requires thinking about what to plot
 
 ---
