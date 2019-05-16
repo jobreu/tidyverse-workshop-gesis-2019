@@ -201,7 +201,7 @@ In any case, information is reduced, and the data look much nicer now.
 
 # The `group_by()` function
 
-With the `grouo_by()` function from the `dplyr` package we can perform operations 'by group'. This is especially helpful if you want to compute separate summary statistics with `summarize()` for different groups in your dataset.
+With the `group_by()` function from the `dplyr` package we can perform operations 'by group'. This is especially helpful if you want to compute separate summary statistics with `summarize()` for different groups in your dataset.
 
 Note: If you want to remove the grouping from your dataframe, you can use `ungroup()`.
 
