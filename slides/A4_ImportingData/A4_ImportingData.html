@@ -3,7 +3,7 @@
   <head>
     <title>Data Wrangling &amp; Exploration with the Tidyverse in R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Johannes Breuer Thomas Ebel Stefan Jünger" />
+    <meta name="author" content="Johannes Breuer Stefan Jünger Thomas Ebel" />
     <meta name="date" content="2019-05-15" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
@@ -15,7 +15,7 @@ class: center, middle, inverse, title-slide
 
 # Data Wrangling &amp; Exploration with the Tidyverse in R
 ## Importing Data
-### Johannes Breuer<br />Thomas Ebel<br />Stefan Jünger
+### Johannes Breuer<br />Stefan Jünger<br />Thomas Ebel
 ### 2019-05-15
 
 ---
@@ -25,7 +25,7 @@ layout: true
 
 
 &lt;div class="my-footer"&gt;
-  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Thomas Ebel, Stefan Jünger&lt;/span&gt;&lt;/div&gt;
+  &lt;div style="float: left;"&gt;&lt;span&gt;Johannes Breuer, Stefan Jünger, Thomas Ebel&lt;/span&gt;&lt;/div&gt;
   &lt;div style="float: right;"&gt;&lt;span&gt;GESIS, Mannheim, Germany, 2019-05-15&lt;/span&gt;&lt;/div&gt;
   &lt;div style="text-align: center;"&gt;&lt;span&gt;Importing Data&lt;/span&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -56,7 +56,7 @@ The `tidyverse` provides some nice tools to do exactly that:
 
 - `readr`  (for 'flat' files, such as CSV)
 - `haven`  (for statistical software files, such as SPSS, Stata, and SAS; can also handle labelled data)
-- `readxl` (for excel spreadsheets)
+- `readxl` (for Excel spreadsheets)
 
 &lt;img src="./pics/hex_all_in_one.png" width="50%" style="display: block; margin: auto;" /&gt;
 
@@ -162,6 +162,8 @@ gesis_panel &lt;-
   read_stata("../../data/gesis_panel_campusfile/ZA5666_v1-0-0_Stata14.dta")
 ```
 
+Note: The [`gesis` package](https://github.com/expersso/gesis) allows direct access to the *GESIS* Data Catalogue (DBK) in `R`, given that you have a DBK account.
+
 ---
 
 # A haven example: `read_stata()` 
@@ -238,7 +240,7 @@ These were just some very first examples of applying functions from each package
   - `read_spss()`
   - `read_stata()`
 
-Not to mention all the helper functions and options. For example, we can define the cells to read from an excel file by specifying the option `range = "C1:E4"` in
+Not to mention all the helper functions and options. For example, we can define the cells to read from an Excel file by specifying the option `range = "C1:E4"` in
 `read_excel()`
 
 
@@ -489,15 +491,17 @@ Several other non-tidyverse packages provide similar benefits as they make use o
 
 ---
 
-# Alternative packages
+# Other packages for data import
 
 - `base` R
 
 - the [`foreign` package](https://cran.r-project.org/web/packages/foreign/index.html) for SPSS and Stata files
 
-- [`data.table`](https://cran.r-project.org/web/packages/data.table/index.html) for large datasets
+- [`data.table`](https://cran.r-project.org/web/packages/data.table/index.html) or [`fst`](https://www.fstpackage.org/) for large datasets
 
 - [`jsonlite`](https://cran.r-project.org/web/packages/jsonlite/index.html) for json files
+
+- [`datapasta`](https://github.com/MilesMcBain/datapasta) for copying and pasting data into tribbles (e.g., from websites, Excel or Word files)
 
 ---
 

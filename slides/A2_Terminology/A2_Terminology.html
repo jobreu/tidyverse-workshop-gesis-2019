@@ -71,7 +71,7 @@ But the `tidyverse` adds a whole new set of terms and concepts.
 
 --
 
-The good news, however, is that we only need to get acquainted with only three important `tidyverse` concepts for now:
+The good news, however, is that we only need to get acquainted with three important `tidyverse` concepts for now:
 
 --
 1. pipes
@@ -470,7 +470,7 @@ Moreover, they stop the inheritance of the output of the current command.
 "mtcars.csv" %&gt;% 
   readr_example() %&gt;% 
   read_csv() %&gt;% 
-  .$mpg %T&gt;% 
+* .$mpg %T&gt;%
   plot() %&gt;% # an intermediate plot
   mean()
 ```
@@ -537,7 +537,7 @@ They prevent the first argument to be `.`
 "mtcars.csv" %&gt;% 
   readr_example() %&gt;% 
   read_csv() %&gt;% 
-  { cor(.$disp, .$mpg) }
+* { cor(.$disp, .$mpg) }
 ```
 
 ```
@@ -550,11 +550,13 @@ They are what you may know as *lambda-functions* from other languages.
 
 ---
 
-# What's left?
+# Some further notes on pipes
 
-tidyverse pipes are only one implementation of pipes in R.
+`tidyverse` pipes are only one implementation of pipes in `R`.
 
 They are based on the implementation of the `magrittr` package.
+
+A helpful package for checking the results of your pipe steps is [`ViewPipeSteps`](https://github.com/daranzolin/ViewPipeSteps)
 
 --
 
@@ -576,7 +578,7 @@ They are basically standard `R data.frame()`s, enriched with some more features 
 
 --
 
-- information about size (rows x columns) of dataframes
+- information about dimensions (rows x columns) of dataframes
 
 --
 
@@ -639,7 +641,7 @@ Luckily, we just can use `as.data.frame(your_tibble)` on them. Problem solved.
 
 Occasionally, we want to create `tibbles` from standard `data.frames`.
 
-This can be done with the `tibble()`-function from the `tibble`-package.
+This can be done with the `tibble()` function from the `tibble` package.
 
 &lt;img src="./pics/tibble.png" width="35%" style="display: block; margin: auto;" /&gt;
 
@@ -4277,18 +4279,18 @@ tibble(
 ## # A tibble: 5 x 3
 ##       a     b c    
 ##   &lt;int&gt; &lt;int&gt; &lt;chr&gt;
-## 1     1    20 j    
-## 2     2    19 h    
-## 3     3    18 c    
-## 4     4    17 e    
-## 5     5    16 b
+## 1     1    20 f    
+## 2     2    19 i    
+## 3     3    18 j    
+## 4     4    17 a    
+## 5     5    16 c
 ```
 
 ---
 
 # tribbles
 
-Using the `tribble`-approach, is a convenient way to create `tibbles` for small tables as it resembles the final layout of the dataframe.
+Using the `tribble` approach is a convenient way to create `tibbles` for small tables as it resembles the final layout of the dataframe.
 
 --
 

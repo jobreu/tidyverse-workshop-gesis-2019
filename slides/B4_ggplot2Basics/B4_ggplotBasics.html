@@ -57,7 +57,7 @@ hist(titanic$Age)
 
 ---
 
-# What is ggplot2?
+# What is `ggplot2`?
 
 `ggplot2` is another `R` package for creating plots and is part of the `tidyverse`.
 
@@ -84,7 +84,7 @@ plot_call +
 
 
 ---
-# ggplot2 examples 
+# `ggplot2` examples 
 
 .pull-left[
 &lt;img src="./pics/143_radar_chart_multi_indiv_2.png" width="640" style="display: block; margin: auto;" /&gt;
@@ -98,7 +98,8 @@ plot_call +
 &lt;small&gt;&lt;small&gt;Sources: https://www.r-graph-gallery.com/wp-content/uploads/2016/05/143_radar_chart_multi_indiv_2.png and https://www.r-graph-gallery.com/wp-content/uploads/2015/09/21_ggplot2_ddensity_plot.png&lt;/small&gt;&lt;/small&gt;
 
 ---
-# ggplot2 examples 
+
+# `ggplot2` examples 
 
 .pull-left[
 &lt;img src="./pics/51_scatterplot_linear_model_with_CI_ggplot2.png" width="640" style="display: block; margin: auto;" /&gt;
@@ -111,12 +112,15 @@ plot_call +
 &lt;small&gt;&lt;small&gt;Sources: https://www.r-graph-gallery.com/wp-content/uploads/2015/11/51_scatterplot_linear_model_with_CI_ggplot2-300x300.png and https://www.r-graph-gallery.com/wp-content/uploads/2017/12/328_Hexbin_map_USA_4-300x200.png&lt;/small&gt;&lt;/small&gt;
 
 ---
+
 # Histograms as in base `R`
 
 &lt;img src="B4_ggplotBasics_files/figure-html/ggplot_histogram-1.png" width="65%" style="display: block; margin: auto;" /&gt;
 
 ---
+
 # Components of a plot
+
 According to Wickham (2010, 8)* a layered plot consists of the following components:
 
 &lt;span class="footnote"&gt;
@@ -172,7 +176,7 @@ However, this makes it difficult to add extra features to your plot.
 
 # Why the long format?
 
-ggplot2 requires data to be in the long data format
+`ggplot2` requires data to be in the long data format
 
 - in some scientific disciplines this format is only used for specialized analyses (e.g., time series analysis)
 
@@ -223,7 +227,7 @@ Three components are important:
 - Plot initiation
 - data input
 - aesthetics definition
-- so-called `geoms`
+- so-called geoms
 ]
 
 
@@ -279,7 +283,7 @@ ggplot(data = titanic)
 
 ---
 
-# Aesthetics! 
+# `aes`thetics! 
 
 .pull-left[
 `ggplot` requires information about the variables to plot
@@ -304,7 +308,7 @@ ggplot(data = titanic) +
 
 ---
 
-# `geoms`!
+# `geom`s!
 
 .pull-left[
 Finally, `ggplot` needs information *how* to plot the variables
@@ -360,7 +364,7 @@ ggplot(data = titanic) +
 
 ---
 
-# Going further: adding group aesthetics
+# Going further: adding group `aes`thetics
 
 .pull-left[
 We can add different colors for different groups in our data
@@ -387,7 +391,7 @@ ggplot(
 
 ---
 
-# Manipulate group aesthetics
+# Manipulating group `aes`thetics
 
 .pull-left[
 We can also change the colors that are used in the plot
@@ -417,7 +421,7 @@ ggplot(
 
 ---
 
-# Colors and themes
+# Colors and `theme`s
 
 One particular strength of `ggplot2` lies in its theming capabilities.
 
@@ -454,7 +458,7 @@ Some 'favorites' include:
 
 - Multiple legends
 
-- and various color scales for similar `geoms` 
+- and various color scales for similar geoms 
 
 - ... and there's more!
 ]
@@ -531,17 +535,19 @@ qplot(
 
 # Some additional resources
 
-- https://www.springer.com/gp/book/9783319242750
+- [ggplot2 - Elegant Graphics for Data Analysis](https://www.springer.com/gp/book/9783319242750) by Hadley Wickham
 
-- Chapter 3 in "R for Data Science": https://r4ds.had.co.nz/data-visualisation.html
+- [Chapter 3](https://r4ds.had.co.nz/data-visualisation.html) in *R for Data Science*
 
-- "Fundamentals of Data Visualization": https://serialmentor.com/dataviz/
+- [Fundamentals of Data Visualization](https://serialmentor.com/dataviz/) by Claus O. Wilke
 
-- "Data Visualization": https://press.princeton.edu/titles/13826.html
+- [Data Visualization - A Practical Introduction](https://press.princeton.edu/titles/13826.html) by Kieran Healy
 
-- R Graph Gallery: https://www.r-graph-gallery.com/
+- [R Graph Gallery](https://www.r-graph-gallery.com/)
 
-- ggplot2 extenstions: http://www.ggplot2-exts.org/gallery/
+- [BBC Visual and Data Journalism cookbook for R graphics](https://bbc.github.io/rcookbook/#how_to_create_bbc_style_graphics)
+
+- [ggplot2 extenstions](http://www.ggplot2-exts.org/gallery/)
 
 ---
 
