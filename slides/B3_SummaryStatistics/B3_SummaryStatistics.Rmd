@@ -251,7 +251,7 @@ capita_long %>%
 
 --
 
-With this code, we see data for the year in which the GDP of the United States showed the highest increase. This is helpful even if we do not care about (other) summary statistics at all.
+With this code, we see the data for the country and year in which the GDP showed the highest increase in our dataset. This can be helpful even if we do not care about (other) summary statistics at all.
 
 ---
 
