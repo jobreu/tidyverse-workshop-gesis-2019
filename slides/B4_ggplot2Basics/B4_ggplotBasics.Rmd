@@ -166,10 +166,10 @@ According to Wickham (2010, 8)* a layered plot consists of the following compone
 
 --
 ```{r plot call example, eval = FALSE, echo = TRUE}
-plot_call +
-  data +
-  aesthetics +
-  geometries +
+plot_call + #<<
+  data + #<<
+  aesthetics + #<<
+  geometries + #<<
   scales +
   facets
 ```
@@ -470,6 +470,10 @@ See: https://ggplot2.tidyverse.org/reference/ggtheme.html
 
 If you want to, you can play around with some of those themes in the exercises for this session.
 
+--
+
+Generally, for using color palettes in R, Emil Hvitfeldt's GitHub repository is a good resource: https://github.com/EmilHvitfeldt/r-color-palettes 
+
 
 ---
 
@@ -570,7 +574,9 @@ qplot(
 
 - [BBC Visual and Data Journalism cookbook for R graphics](https://bbc.github.io/rcookbook/#how_to_create_bbc_style_graphics)
 
-- [ggplot2 extenstions](http://www.ggplot2-exts.org/gallery/)
+- [ggplot2 extensions](http://www.ggplot2-exts.org/gallery/)
+
+- [data-to-viz](https://www.data-to-viz.com/) 
 
 ---
 
