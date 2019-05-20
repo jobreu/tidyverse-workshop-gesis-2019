@@ -79,7 +79,7 @@ gap_gdp %>%
 Let's say that we are interested in the earliest 10 years as well as the most recent 10 years that appear in the dataset. If we want to aggregate the data per year, they should ideally be in long format.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
-Rearrange the data such that they are in the long format.
+Rearrange the data so that they are in the long format.
 ```
 
 ```{block, opts.label = "clues"}
@@ -115,7 +115,7 @@ gap_gdp %>%
 Now we have a - more or less - clean dataset for our actual task: calculating the mean values across all countries for each of the first ten years and each of the last ten years. What's still a little bit distracting is that we have the values for all years between these two periods in the data. However, we might want to use some of these data points in future analyses. Hence, we will do the following analyses 'on the fly' (i.e., without creating a new dataset). Let's start with the first period.
 
 ```{block, box.title = "6", box.body = list(fill = "white"), box.icon = "fa-star"}
-Calculate the mean value of GDP across all countries for each of the first ten years in the dataset.
+Calculate the (grand) mean value of the GDP of all countries for each of the first ten years in the dataset.
 ```
 
 ```{block, opts.label = "clues"}
@@ -137,7 +137,7 @@ gap_gdp %>%
 Now it should be easy do the same for the 10 most recent years in the dataset...
 
 ```{block, box.title = "7", box.body = list(fill = "white"), box.icon = "fa-star"}
-Calculate the mean value of GDP across all countries for each of the last ten years.
+Calculate the (grand) mean value of the GDP of all countries for each of the last ten years.
 ```
 
 ```{block, opts.label = "clues"}
