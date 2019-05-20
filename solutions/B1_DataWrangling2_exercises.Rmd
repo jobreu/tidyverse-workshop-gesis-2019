@@ -22,20 +22,22 @@ knitr::opts_template$set(clues = list(box.title = "Clues",
 klippy::klippy()
 ```
 
-For the following exercises, we will also use data from [*Gapminder*](https://www.gapminder.org/); this time on life expectancy.
+For the following exercises, we will again use data on population from [*Gapminder*](https://www.gapminder.org/).
 
 As per usual, we first need to read in the data. You can just copy, paste and run the following code in(to) your script.
 
-```{r read gap_life, message = F}
+```{r read gap_pop, message = F}
 library(readr)
+library(dplyr)
 
-gap_life <- read_csv("../data/gapminder/life_expectancy_years.csv")
+gap_pop <- read_csv("../data/gapminder/population_total.csv") %>% 
+  rename(country = "Total population")
 ```
 
 Again, the data are currently in wide format.
 
 ```{block, box.title = "1", box.body = list(fill = "white"), box.icon = "fa-star"}
-Select only data for the 20th century, but this time use a helper function instead of specifying a range columns.
+Select only data for the 20th century, but this time use a helper function instead of specifying a range of columns.
 ```
 
 ```{block, opts.label = "clues"}
@@ -43,9 +45,7 @@ The helper function you should use here is `starts_with()`. We also want to keep
 ```
 
 ```{r starts with, solution = TRUE, message = F}
-library(dplyr)
-
-gap_life %>% 
+gap_pop %>% 
   select(country, starts_with("19"))
 ```
 
@@ -62,7 +62,7 @@ To answer this question you should use the `drop_na()` function from `tidyr`.
 ```{r drop_na gather, solution = TRUE}
 library(tidyr)
 
-gap_life %>% 
+gap_pop %>% 
   drop_na() %>% 
   nrow()
 ```
@@ -70,27 +70,27 @@ gap_life %>%
 As in the previous set of data wrangling exercises, we now want to transform the data into the long format.
 
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
-Transform the *gap_life* dataset into a sensible long format. Name the variable representing the values for life expectancy *lifeExp* and store the resulting dataframe in a name with the same object as before (*gap_life*). Also change the type of the *year* variable to `integer`.
+Transform the *gap_pop* dataset into a sensible long format. Name the variable representing the values for population *pop* and store the resulting dataframe in a name with the same object as before (*gap_pop*). Also change the type of the *year* variable to `integer`.
 ```
 
 ```{block, opts.label = "clues"}
-This is just a repetition from the Tidy Data exercises. What we want to do is to gather the columns with the years into a year variable. To change the variable type, you need to use `mutate()`.
+This is just a repetition from the *Tidy Data* exercises. What we want to do is to gather the columns with the years into a year variable. To change the variable type, you need to use `mutate()`.
 ```
 
-```{r gap_life gather, solution = TRUE}
-gap_life <- gap_life %>% 
-  gather(-country, key = "year", value = "lifeExp") %>% 
+```{r gap_pop gather, solution = TRUE}
+gap_pop <- gap_pop %>% 
+  gather(-country, key = "year", value = "pop") %>% 
   mutate(year = as.integer(year))
 ```
 
 Now let's apply some of the advanced filtering options we discussed in the *Data Wrangling - Part 2* session.
 
 ```{block, box.title = "4", box.body = list(fill = "white"), box.icon = "fa-star"}
-Create two new dataframes that include different subets of the *gap_life* data: 
+Create two new dataframes that include different subets of the *gap_pop* data: 
 
-1. Data for all countries for 1990s (name this one *gap_life_1990s*), 
+1. Data for all countries for the 1990s (name this one *gap_pop_1990s*), 
 
-2. Data for all years but only for Germany (name this one *gap_life_ger*). 
+2. Data for all years but only for Germany (name this one *gap_pop_ger*). 
 
 NB: There are different Germanies in the dataset: *West Germany*. *East Germany*, and *Germany*.
 ```
@@ -99,44 +99,51 @@ NB: There are different Germanies in the dataset: *West Germany*. *East Germany*
 You need to use a helper function from `dplyr` to create the first new data frame and a specific matching operator to create the second one. 
 ```
 
-```{r gap_life filter advanced, solution = TRUE}
-gap_life_1990s <- gap_life %>% 
+```{r gap_pop filter advanced, solution = TRUE}
+gap_pop_1990s <- gap_pop %>% 
   filter(between(year, 1990, 1999))
 
-gap_life_1990s
+gap_pop_1990s
 
-gap_life_ger <- gap_life %>% 
+gap_pop_ger <- gap_pop %>% 
   filter(country %in% 
            c("Germany", "West Germany", "East Germany"))
 
-gap_life_ger
+gap_pop_ger
 ```
 
 For some comparisons (especially via plots), it might help to know which continent the country is located on. For this purpose, we will create a new *continent* variable. As it would be quite tedious to create this variable manually for all of the countries in the dataset, we will do this only for a subset in this exercise. Just run the following code in your local script to create this subset.
 
-```{r gap_life countries subset, message = F}
-library(dplyr)
-
-gap_life_subset <- gap_life %>% 
+```{r gap_pop countries subset, message = F}
+gap_pop_subset <- gap_pop %>% 
   filter(country %in% 
            c("Netherlands", "Brazil", "China", "Algeria", "New Zealand"))
 ```
 
 ```{block, box.title = "5", box.body = list(fill = "white"), box.icon = "fa-star"}
-Create a *continent* variable for the countries in *gap_life_subset*. The variable should be a factor and its values the following: *Africa*, *Americas*, *Asia*, *Europe*, *Oceania*.
+Create a *continent* variable for the countries in *gap_pop_subset*. The variable should be a factor and its values the following: *Africa*, *Americas*, *Asia*, *Europe*, *Oceania*.
 ```
 
 ```{block, opts.label = "clues"}
-You should use the `case_when()` to create this new variable.
+You can use `recode_factor()` to create the new variable. Alternatively, you could also use `case_when()` here. However, the latter would require more typing which is something that we generally want to avoid.
 ```
 
-```{r gap_life case_when, solution = TRUE}
-gap_life_subset %>% 
-  mutate(continent = factor(case_when(
-    country == "Algeria" ~ "Africa",
-    country == "Brazil" ~ "Americas",
-    country == "China" ~ "Asia",
-    country == "Netherlands" ~ "Europe",
-    country == "New Zealand" ~ "Oceania")
-    ))
+```{r gap_pop recode_factor vs case_when, solution = TRUE}
+gap_pop_subset %>% 
+    mutate(continent = recode_factor(country,
+                                    "Algeria" = "Africa",
+                                    "Brazil" = "Americas",
+                                    "China" = "Asia",
+                                    "New Zealand" = "Oceania"
+                                     ))
+
+# alternative solution using case_when
+# gap_pop_subset %>% 
+#  mutate(continent = factor(case_when(
+#    country == "Algeria" ~ "Africa",
+#    country == "Brazil" ~ "Americas",
+#    country == "China" ~ "Asia",
+#    country == "Netherlands" ~ "Europe",
+#    country == "New Zealand" ~ "Oceania")
+#    ))
 ```

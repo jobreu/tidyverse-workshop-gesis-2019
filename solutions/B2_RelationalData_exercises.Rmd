@@ -1,5 +1,6 @@
 ---
 title: 'Exercises Relational Data - Solutions'
+#title: 'Exercises Relational Data'
 author: 'Johannes Breuer, Stefan Jünger, Thomas Ebel'
 date: 'Data Wrangling & Exploration with the Tidyverse in R, May 15-16, 2019'
 output:
@@ -27,7 +28,7 @@ There is an `R` package named [`gapminder`](https://cran.r-project.org/web/packa
 
 Our aim for the following exercises is to use the individual data files from *Gapminder* that we have used in some of the previous exercises to create combined datasets that resemble the one contained in the `gapminder` package.
 
-Before we can begin with these exercises, we need to load the datasets. To do this, you can simply use the following chunks (that repeats some parts of the previous exercises).
+Before we can begin with these exercises, we need to load the datasets. To do this, you can simply use the following code (that repeats some parts of the previous exercises).
 
 ```{r load gapminder datasets, message = F}
 library(readr)
@@ -116,7 +117,7 @@ As stated above, we want to create two different versions of the combined datase
 ```{block, box.title = "3", box.body = list(fill = "white"), box.icon = "fa-star"}
 Create the two versions of the combined dataset described above using one type of mutating join for each one.  
 
-For the one without missing data you should start with the dataset with the largest number of countries in it (*gap_pop*), and then join the other datasets in descending order of the number of countries they contain (*gap_life*, *gap_gdp*, *gap_cont*). This datasets also requires to additional (pipe) steps to ensure that a) it contains no NAs and b) its variables are in the same order as in the `gapminder` package dataset.  
+For the one without missing data you should start with the dataset with the largest number of countries in it (*gap_pop*), and then join the other datasets in descending order of the number of countries they contain (*gap_life*, *gap_gdp*, *gap_cont*). This datasets also requires two additional (pipe) steps to ensure that a) it contains no NAs and b) its variables are in the same order as in the `gapminder` package dataset.  
 
 For the dataset with the maximum amount of observations (rows), it does not matter which dataset you start from. Name the resulting datasets *gap_nomiss* and *gap_full*.
 ```
@@ -177,7 +178,7 @@ Join the *fert* variable from *gap_fert* to the *gapminder* dataset.
 ```
 
 ```{block, opts.label = "clues"}
-The *gapminder* dataset should be the key/reference/master table for this join.
+The *gapminder* dataset should be the reference/master table for this join.
 ```
 
 ```{r left_join, solution = TRUE}
